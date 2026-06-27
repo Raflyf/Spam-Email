@@ -12,7 +12,6 @@ Aplikasi Web berbasis **Machine Learning** untuk mengklasifikasikan email spam v
 
 ## 📸 Cuplikan Layar (Screenshots)
 
-*(Silakan tambahkan tangkapan layar web aplikasi Anda di sini. Anda dapat mengubah tulisan ini nanti).*
 <!-- Contoh: ![Demo Aplikasi Web](demo_halaman_web.png) -->
 
 ### Hasil Analisis Penelitian
