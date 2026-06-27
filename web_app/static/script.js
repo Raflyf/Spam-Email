@@ -587,7 +587,7 @@ function buildMethodCard(r, key) {
     <div class="method-divider"><span style="color:${color}">${r.metode}</span></div>
     <div style="margin-bottom:14px;">${infoChips}</div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="model-row">
       ${buildModelSection(nb, 'Naive Bayes', '#6366f1')}
       ${buildModelSection(xgb, 'XGBoost', '#0284c7')}
     </div>
@@ -880,7 +880,7 @@ function renderRealtimeResult(d, metode) {
       </div>` : ''}
 
       <!-- Model cards -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="model-row">
         ${[{ name: 'Naive Bayes', m: nb, note: 'Probabilistik' }, { name: 'XGBoost', m: xgb, note: 'Ensemble ★' }]
       .map(({ name, m, note }) => `
           <div class="compare-card">
