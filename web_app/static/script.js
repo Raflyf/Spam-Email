@@ -1709,12 +1709,23 @@ function updateDeleteBtn() {
 let _historyData = [];
 let _histChart = null;
 
-function togglePin(jobId) {
-  const pinned = JSON.parse(localStorage.getItem('pinnedRuns') || '[]');
-  const idx = pinned.indexOf(jobId);
-  if (idx === -1) pinned.push(jobId); else pinned.splice(idx, 1);
-  localStorage.setItem('pinnedRuns', JSON.stringify(pinned));
-  renderHistory();
+async function togglePin(jobId) {
+  const h = _historyData.find(x => x.job_id === jobId);
+  if (!h) return;
+  h.is_pinned = !h.is_pinned;
+  renderHistory(); // optimistic update
+
+  try {
+    await fetch('/history/pin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ job_id: jobId, is_pinned: h.is_pinned })
+    });
+  } catch (e) {
+    console.error(e);
+    h.is_pinned = !h.is_pinned; // revert on fail
+    renderHistory();
+  }
 }
 
 async function loadHistory() {
@@ -1765,7 +1776,6 @@ function renderHistory() {
   let dataToRender = _historyData;
   if (q) dataToRender = _historyData.filter(h => JSON.stringify(h).toLowerCase().includes(q));
   const withNo = [...dataToRender].reverse().map((h, i) => ({ ...h, _no: i + 1 }));
-  const pinned = JSON.parse(localStorage.getItem('pinnedRuns') || '[]');
 
   // Sort
   const sorted = withNo.sort((a, b) => {
@@ -1809,7 +1819,7 @@ function renderHistory() {
       : '<span style="color:var(--gray-300);">—</span>';
     const trainNS = (h.n_train_nonspam > 0) ? h.n_train_nonspam : 'all';
     const trainSp = (h.n_train_spam > 0) ? h.n_train_spam : 'all';
-    const isPinned = pinned.includes(h.job_id);
+    const isPinned = !!h.is_pinned;
     const nameAttr = h.label_name ? ` data-label="${h.label_name.replace(/"/g, '&quot;')}"` : '';
     const nameStyle = h.label_name ? ' style="white-space:nowrap;cursor:default;text-decoration:underline dotted var(--primary);"' : ' style="white-space:nowrap;"';
     return `<tr class="${isPinned ? 'pinned-row' : ''}" style="${isPinned ? 'background:#fffbeb;' : ''}${_selectMode ? 'cursor:pointer;' : ''}" onclick="toggleRowSelection(event, '${h.job_id}')">

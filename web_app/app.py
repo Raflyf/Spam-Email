@@ -567,6 +567,19 @@ def update_history_note():
         _save_history()
     return jsonify({'ok': True})
 
+@app.route('/history/pin', methods=['POST'])
+def update_history_pin():
+    """Toggle status pin eksperimen."""
+    data = request.get_json()
+    job_id = data.get('job_id', '')
+    is_pinned = bool(data.get('is_pinned', False))
+    with history_lock:
+        for h in experiment_history:
+            if h.get('job_id') == job_id:
+                h['is_pinned'] = is_pinned
+                break
+        _save_history()
+    return jsonify({'ok': True})
 
 # ---- Hasil CSV terakhir (persist) ----
 @app.route('/last_result')
