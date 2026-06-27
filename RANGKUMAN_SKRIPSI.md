@@ -569,3 +569,12 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 |---|-------|--------|------------|
 | 1 | **Auto-Run Script (Plug & Play)** | `Jalankan_Aplikasi.bat` | Skrip otomatis untuk menjalankan aplikasi di laptop Windows mana pun tanpa perlu setup manual. Skrip akan mendeteksi Python, membangun `.venv` baru, menginstal `requirements.txt`, dan menjalankan localhost dengan sekali klik ganda. |
 | 2 | **Integrasi GitHub Private** | Git / GitHub | Seluruh kode telah dicadangkan (*pushed*) ke repositori GitHub `Spam-Email` secara *Private*. Berkas skripsi PDF dan *dataset* `.csv` telah diamankan (*ignore*) agar tidak tersebar ke ranah daring. |
+
+### Penyempurnaan UX & Sinkronisasi (27 Juni 2026 - Lanjutan)
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Hapus Sekaligus (Batch Delete)** | `app.py` & `script.js` | Penambahan fitur kotak centang dan tombol "Hapus Terpilih" (termasuk seleksi langsung klik pada baris tabel) untuk mempermudah menghapus banyak riwayat eksperimen sekaligus. |
+| 2 | **Sinkronisasi Bintang (Pin) ke Server** | `app.py` & `script.js` | Status penyematan (Pin) eksperimen tidak lagi disimpan di `localStorage` peramban, melainkan tersinkronisasi di server (backend), sehingga riwayat Pin di laptop juga terbaca persis sama saat diakses lewat HP (Hotspot). |
+| 3 | **Optimalisasi Tampilan Mobile (HP)** | `index.html`, `style.css`, `script.js` | Menyesuaikan tampilan hasil matriks dan perbandingan akurasi, memberikan bungkus batas agar grafik riwayat dapat digeser (horizontal scroll), dan memperbaiki tata letak tombol Mode Gelap (hanya emotikon) agar bersih. |
+| 4 | **Bug-Fix Skrip Peluncuran Otomatis** | `Jalankan_Aplikasi.bat` | Memperbaiki *crash* instan pada terminal dengan memperbaiki sintaks kondisi `if` (masalah penanda kurung) dan menambahkan pengaman paksaan akses root direktori eksekusi `cd /d "%~dp0"`. |
