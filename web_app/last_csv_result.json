@@ -1,149 +1,149 @@
 {
   "metode1": {
     "metode": "Metode 1 — Tanpa Domain Adaptation",
-    "n_train": 18650,
+    "n_train": 5728,
     "n_test": 1000,
     "gpu": true,
     "preset": "full",
     "naive_bayes": {
       "model": "Naive Bayes",
-      "threshold": 36.0,
-      "accuracy": 45.0,
-      "precision": 42.19,
-      "recall": 45.0,
-      "f1": 39.56,
+      "threshold": 42.0,
+      "accuracy": 53.1,
+      "precision": 58.69,
+      "recall": 53.1,
+      "f1": 44.11,
       "cm": {
-        "tn": 75,
-        "fp": 425,
-        "fn": 125,
-        "tp": 375
+        "tn": 65,
+        "fp": 435,
+        "fn": 34,
+        "tp": 466
       },
       "per_class": {
         "non_spam": {
-          "precision": 37.5,
-          "recall": 15.0,
-          "f1": 21.43
+          "precision": 65.66,
+          "recall": 13.0,
+          "f1": 21.7
         },
         "spam": {
-          "precision": 46.88,
-          "recall": 75.0,
-          "f1": 57.69
+          "precision": 51.72,
+          "recall": 93.2,
+          "f1": 66.52
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 56.0,
-      "accuracy": 41.2,
-      "precision": 40.14,
-      "recall": 41.2,
-      "f1": 39.57,
+      "threshold": 68.0,
+      "accuracy": 49.5,
+      "precision": 49.47,
+      "recall": 49.5,
+      "f1": 48.72,
       "cm": {
-        "tn": 124,
-        "fp": 376,
-        "fn": 212,
-        "tp": 288
+        "tn": 186,
+        "fp": 314,
+        "fn": 191,
+        "tp": 309
       },
       "per_class": {
         "non_spam": {
-          "precision": 36.9,
-          "recall": 24.8,
-          "f1": 29.67
+          "precision": 49.34,
+          "recall": 37.2,
+          "f1": 42.42
         },
         "spam": {
-          "precision": 43.37,
-          "recall": 57.6,
-          "f1": 49.48
+          "precision": 49.6,
+          "recall": 61.8,
+          "f1": 55.03
         }
       }
     },
     "top20_chi2": [
       {
-        "feature": "click",
-        "score": 170.44
-      },
-      {
-        "feature": "enron",
-        "score": 126.98
-      },
-      {
-        "feature": "http",
-        "score": 93.29
-      },
-      {
         "feature": "save",
-        "score": 84.96
+        "score": 54.17
       },
       {
-        "feature": "online",
-        "score": 79.93
-      },
-      {
-        "feature": "money",
-        "score": 79.62
-      },
-      {
-        "feature": "ect",
-        "score": 79.27
+        "feature": "click",
+        "score": 51.89
       },
       {
         "feature": "viagra",
-        "score": 78.17
+        "score": 49.6
       },
       {
-        "feature": "free",
-        "score": 75.97
+        "feature": "money",
+        "score": 48.56
       },
       {
-        "feature": "remove",
-        "score": 71.04
-      },
-      {
-        "feature": "removed",
-        "score": 68.66
-      },
-      {
-        "feature": "urltoken date",
-        "score": 66.27
-      },
-      {
-        "feature": "pm",
-        "score": 64.23
-      },
-      {
-        "feature": "url urltoken",
-        "score": 64.22
-      },
-      {
-        "feature": "numtoken pm",
-        "score": 62.65
-      },
-      {
-        "feature": "wrote",
-        "score": 61.76
-      },
-      {
-        "feature": "date numtoken",
-        "score": 61.22
-      },
-      {
-        "feature": "prescription",
-        "score": 60.38
-      },
-      {
-        "feature": "urltoken",
-        "score": 58.83
+        "feature": "life",
+        "score": 41.16
       },
       {
         "feature": "vince",
-        "score": 57.88
+        "score": 37.86
+      },
+      {
+        "feature": "software",
+        "score": 36.92
+      },
+      {
+        "feature": "enron",
+        "score": 36.49
+      },
+      {
+        "feature": "online",
+        "score": 35.3
+      },
+      {
+        "feature": "andmanyother",
+        "score": 34.25
+      },
+      {
+        "feature": "ect",
+        "score": 33.19
+      },
+      {
+        "feature": "sex",
+        "score": 30.44
+      },
+      {
+        "feature": "logo",
+        "score": 29.01
+      },
+      {
+        "feature": "man",
+        "score": 28.4
+      },
+      {
+        "feature": "stationery",
+        "score": 26.14
+      },
+      {
+        "feature": "kaminski",
+        "score": 25.32
+      },
+      {
+        "feature": "website",
+        "score": 25.2
+      },
+      {
+        "feature": "removed",
+        "score": 24.94
+      },
+      {
+        "feature": "hou",
+        "score": 24.28
+      },
+      {
+        "feature": "oem",
+        "score": 24.25
       }
     ],
-    "xgb_best_iter": 1231
+    "xgb_best_iter": 1095
   },
   "metode2": {
     "metode": "Metode 2 — Domain Adaptation 30%",
-    "n_train": 18650,
+    "n_train": 5728,
     "n_adapt": 300,
     "n_test": 700,
     "adapt_frac": 0.3,
@@ -152,138 +152,138 @@
     "preset": "full",
     "naive_bayes": {
       "model": "Naive Bayes",
-      "threshold": 47.0,
-      "accuracy": 75.0,
-      "precision": 78.39,
-      "recall": 75.0,
-      "f1": 74.23,
+      "threshold": 50.0,
+      "accuracy": 72.0,
+      "precision": 78.19,
+      "recall": 72.0,
+      "f1": 70.37,
       "cm": {
-        "tn": 202,
-        "fp": 148,
-        "fn": 27,
-        "tp": 323
+        "tn": 170,
+        "fp": 180,
+        "fn": 16,
+        "tp": 334
       },
       "per_class": {
         "non_spam": {
-          "precision": 88.21,
-          "recall": 57.71,
-          "f1": 69.78
+          "precision": 91.4,
+          "recall": 48.57,
+          "f1": 63.43
         },
         "spam": {
-          "precision": 68.58,
-          "recall": 92.29,
-          "f1": 78.68
+          "precision": 64.98,
+          "recall": 95.43,
+          "f1": 77.31
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 61.0,
-      "accuracy": 90.43,
-      "precision": 90.5,
-      "recall": 90.43,
-      "f1": 90.42,
+      "threshold": 53.0,
+      "accuracy": 93.86,
+      "precision": 93.92,
+      "recall": 93.86,
+      "f1": 93.86,
       "cm": {
-        "tn": 309,
-        "fp": 41,
-        "fn": 26,
-        "tp": 324
+        "tn": 335,
+        "fp": 15,
+        "fn": 28,
+        "tp": 322
       },
       "per_class": {
         "non_spam": {
-          "precision": 92.24,
-          "recall": 88.29,
-          "f1": 90.22
+          "precision": 92.29,
+          "recall": 95.71,
+          "f1": 93.97
         },
         "spam": {
-          "precision": 88.77,
-          "recall": 92.57,
-          "f1": 90.63
+          "precision": 95.55,
+          "recall": 92.0,
+          "f1": 93.74
         }
       }
     },
     "top20_chi2": [
       {
-        "feature": "click",
-        "score": 171.45
-      },
-      {
-        "feature": "enron",
-        "score": 128.68
-      },
-      {
-        "feature": "http",
-        "score": 92.41
-      },
-      {
         "feature": "save",
-        "score": 85.9
+        "score": 48.57
       },
       {
-        "feature": "ect",
-        "score": 79.95
+        "feature": "click",
+        "score": 46.14
       },
       {
         "feature": "money",
-        "score": 78.99
+        "score": 45.05
       },
       {
         "feature": "viagra",
-        "score": 78.43
-      },
-      {
-        "feature": "online",
-        "score": 78.0
-      },
-      {
-        "feature": "free",
-        "score": 77.36
-      },
-      {
-        "feature": "removed",
-        "score": 69.07
-      },
-      {
-        "feature": "remove",
-        "score": 68.79
-      },
-      {
-        "feature": "urltoken date",
-        "score": 67.05
-      },
-      {
-        "feature": "pm",
-        "score": 64.93
-      },
-      {
-        "feature": "url urltoken",
-        "score": 64.86
-      },
-      {
-        "feature": "numtoken pm",
-        "score": 63.31
-      },
-      {
-        "feature": "wrote",
-        "score": 62.5
-      },
-      {
-        "feature": "date numtoken",
-        "score": 62.19
-      },
-      {
-        "feature": "prescription",
-        "score": 60.32
+        "score": 43.28
       },
       {
         "feature": "vince",
-        "score": 58.57
+        "score": 41.95
+      },
+      {
+        "feature": "enron",
+        "score": 40.33
+      },
+      {
+        "feature": "life",
+        "score": 39.49
+      },
+      {
+        "feature": "software",
+        "score": 37.73
+      },
+      {
+        "feature": "ect",
+        "score": 36.64
+      },
+      {
+        "feature": "online",
+        "score": 35.82
+      },
+      {
+        "feature": "andmanyother",
+        "score": 32.78
+      },
+      {
+        "feature": "unsubscribe",
+        "score": 28.27
+      },
+      {
+        "feature": "logo",
+        "score": 28.21
+      },
+      {
+        "feature": "kaminski",
+        "score": 27.9
+      },
+      {
+        "feature": "hou",
+        "score": 26.74
       },
       {
         "feature": "hou ect",
-        "score": 58.38
+        "score": 26.51
+      },
+      {
+        "feature": "stationery",
+        "score": 25.64
+      },
+      {
+        "feature": "vince kaminski",
+        "score": 25.48
+      },
+      {
+        "feature": "oem",
+        "score": 24.69
+      },
+      {
+        "feature": "ect ect",
+        "score": 24.54
       }
     ],
-    "xgb_best_iter": 2515
+    "xgb_best_iter": 2491
   }
 }
