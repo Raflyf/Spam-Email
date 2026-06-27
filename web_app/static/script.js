@@ -1871,7 +1871,7 @@ function renderHistoryChart() {
   const metric = document.getElementById('chartMetric')?.value || 'acc';
   const key = metric === 'acc' ? 'acc' : 'f1';
   const chronData = [..._historyData].reverse();   // urut lama→baru
-  const labels = chronData.map((h, i) => 'Eks #' + (i + 1) + '\n' + h.timestamp.slice(5, 16));
+  const labels = chronData.map((h, i) => ['Eks #' + (i + 1), h.timestamp.slice(5, 16)]);
 
   // Pakai bar chart — lebih jelas untuk data sedikit
   const barData = [
@@ -1888,6 +1888,7 @@ function renderHistoryChart() {
     data: { labels, datasets: barData },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: { position: 'top', labels: { font: { size: 11 } } },
         tooltip: {

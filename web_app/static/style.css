@@ -1142,6 +1142,12 @@ hr {
   gap: 14px;
 }
 
+@media(max-width: 768px) {
+  .model-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* tables */
 table {
   width: 100%;
