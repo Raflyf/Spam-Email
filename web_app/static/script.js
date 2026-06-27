@@ -1846,9 +1846,10 @@ function renderHistory() {
                 style="background:none;border:none;cursor:pointer;font-size:12px;
                        color:var(--gray-400);padding:0 2px;vertical-align:middle;" title="Edit catatan">&#9998;</button>
       </td>
-    </tr>`;
+      </tr>`;
   }).join('');
 
+  updateDeleteBtn();
   renderHistoryChart();
 }
 
