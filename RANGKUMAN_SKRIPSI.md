@@ -578,3 +578,9 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 | 2 | **Sinkronisasi Bintang (Pin) ke Server** | `app.py` & `script.js` | Status penyematan (Pin) eksperimen tidak lagi disimpan di `localStorage` peramban, melainkan tersinkronisasi di server (backend), sehingga riwayat Pin di laptop juga terbaca persis sama saat diakses lewat HP (Hotspot). |
 | 3 | **Optimalisasi Tampilan Mobile (HP)** | `index.html`, `style.css`, `script.js` | Menyesuaikan tampilan hasil matriks dan perbandingan akurasi, memberikan bungkus batas agar grafik riwayat dapat digeser (horizontal scroll), dan memperbaiki tata letak tombol Mode Gelap (hanya emotikon) agar bersih. |
 | 4 | **Bug-Fix Skrip Peluncuran Otomatis** | `Jalankan_Aplikasi.bat` | Memperbaiki *crash* instan pada terminal dengan memperbaiki sintaks kondisi `if` (masalah penanda kurung) dan menambahkan pengaman paksaan akses root direktori eksekusi `cd /d "%~dp0"`. |
+
+### Manajemen Pengetahuan & Dokumentasi (Knowledge Management)
+
+Seluruh dokumentasi proyek ini (termasuk file ini) dioptimalkan menggunakan format Markdown (`.md`).
+Untuk pengalaman membaca dan menulis yang lebih baik layaknya menyusun Wikipedia pribadi, **sangat disarankan menggunakan aplikasi Obsidian**. 
+Cukup instal [Obsidian](https://obsidian.md/), lalu pilih *"Open folder as vault"* dan arahkan ke folder utama skripsi (`Code_Spam_Email`). Obsidian akan secara otomatis membaca, merender struktur tabel, memberikan fitur pencarian yang cepat, serta memperlihatkan peta keterkaitan antar dokumen (*Graph View*).
