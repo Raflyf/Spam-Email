@@ -560,7 +560,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 
 | # | Fitur | Lokasi | Keterangan |
 |---|-------|--------|------------|
-| 1 | **VRAM Saver (max_bin=64)** | `evaluator.py` | Optimasi GPU otomatis saat dataset uji melebihi 10.000 baris (mencegah *Out of Memory* CUDA). Turut bertindak sebagai *Regularization* yang menghemat waktu tunggu hingga 5 menit dan sedikit meningkatkan akurasi. |
+| 1 | **VRAM Saver (max_bin=128)** | `evaluator.py` | Optimasi GPU otomatis saat dataset uji melebihi 10.000 baris. Nilai dikembalikan ke `128` (sebelumnya `64`) agar representasi histogram data tetap jelas dan rasional untuk dipertanggungjawabkan saat Sidang Skripsi (mencegah *regularization* yang berlebihan). |
 | 2 | **Perbaikan Dataset Fallback** | `script.js` | Memperbaiki masalah di mana nama dataset `Custom Train` tidak tersimpan dengan benar dan hanya memunculkan "bawaan". Sekarang, nama asli berkas CSV (seperti `enron_spam.csv` atau `Phishing.csv`) akan tertulis akurat di tabel riwayat. |
 
 ### Deployment & Portabilitas
@@ -578,6 +578,15 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 | 2 | **Sinkronisasi Bintang (Pin) ke Server** | `app.py` & `script.js` | Status penyematan (Pin) eksperimen tidak lagi disimpan di `localStorage` peramban, melainkan tersinkronisasi di server (backend), sehingga riwayat Pin di laptop juga terbaca persis sama saat diakses lewat HP (Hotspot). |
 | 3 | **Optimalisasi Tampilan Mobile (HP)** | `index.html`, `style.css`, `script.js` | Menyesuaikan tampilan hasil matriks dan perbandingan akurasi, memberikan bungkus batas agar grafik riwayat dapat digeser (horizontal scroll), dan memperbaiki tata letak tombol Mode Gelap (hanya emotikon) agar bersih. |
 | 4 | **Bug-Fix Skrip Peluncuran Otomatis** | `Jalankan_Aplikasi.bat` | Memperbaiki *crash* instan pada terminal dengan memperbaiki sintaks kondisi `if` (masalah penanda kurung) dan menambahkan pengaman paksaan akses root direktori eksekusi `cd /d "%~dp0"`. |
+| 5 | **Perbaikan Upload CSV di Android** | `index.html` | Mengubah ekstensi pada input file (`accept=".csv, text/csv, application/vnd.ms-excel"`) untuk mencegah blokir/filter ketat dari OS Android yang sering mengunci file murni berakhiran `.csv`. |
+| 6 | **Default Mode Training "Full"** | `index.html` | Mengubah *radio button* bawaan ke mode "Full" agar saat website dimuat ulang, eksperimen selalu berada pada mode terlengkap (identik dengan skrip skripsi asli). |
+
+### Manajemen AI & Token Saving (27 Juni 2026 - Malam)
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Integrasi CLAUDE.md** | `CLAUDE.md` | Menggabungkan *rules* proyek ke dalam satu file standar universal yang dikenali oleh berbagai IDE (Cursor, Cline, dll). |
+| 2 | **Ponytail & Headroom Rules** | `CLAUDE.md` | Menetapkan paksaan (*enforcement*) agar AI selalu menggunakan gaya koding paling efisien (Prinsip YAGNI) dan otomatis memadatkan keluaran (*output*) terminal agar menghemat ribuan token harian. |
 
 ### Manajemen Pengetahuan & Dokumentasi (Knowledge Management)
 
