@@ -8,9 +8,10 @@ __pycache__/
 env/
 venv/
 
-# Datasets
+# Datasets and Documents
 *.csv
 *.xlsx
+*.pdf
 
 # IDEs
 .vscode/
