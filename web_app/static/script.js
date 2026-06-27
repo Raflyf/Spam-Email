@@ -1198,7 +1198,7 @@ document.addEventListener('DOMContentLoaded', function initRestoreState() {
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark');
   document.querySelectorAll('.darkBtn').forEach(btn => {
-    btn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    btn.textContent = isDark ? '☀️' : '🌙';
   });
   localStorage.setItem('darkMode', isDark ? '1' : '0');
 }
@@ -1206,7 +1206,7 @@ function toggleDarkMode() {
 if (localStorage.getItem('darkMode') === '1') {
   document.body.classList.add('dark');
   document.querySelectorAll('.darkBtn').forEach(btn => {
-    btn.textContent = '☀️ Light Mode';
+    btn.textContent = '☀️';
   });
 }
 
@@ -2037,7 +2037,7 @@ async function startEval() {
 
 
 if (localStorage.getItem('darkMode') === '1') {
-  document.querySelectorAll('.darkBtn').forEach(btn => btn.textContent = '☀️ Light Mode');
+  document.querySelectorAll('.darkBtn').forEach(btn => btn.textContent = '☀️');
 }
 
 
