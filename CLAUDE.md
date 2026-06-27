@@ -44,3 +44,13 @@ Sesuai dengan konsep *Personal AI Jarvis*, AI diharapkan bisa dipanggil untuk me
 7. **Decision Review (Tinjauan Keputusan):**
    *Prompt:* "Tinjau keputusan arsitektur web."
    *Aksi:* Mengevaluasi kembali mengapa kita memilih *Vanilla CSS* dibanding *Tailwind*, atau mengapa kita menyimpan histori di JSON, untuk memastikan alasannya masih relevan.
+
+## 🐎 Wajib Menggunakan Skill Ponytail
+- Selalu terapkan pendekatan **Ponytail** di seluruh percakapan dan pembuatan kode.
+- Jangan bertele-tele. Buat semuanya sesingkat, sesederhana, dan seefisien mungkin.
+- Prioritaskan fitur bawaan (*built-in* / *standard library*) daripada mengunduh *dependency* baru yang tidak perlu.
+- Patuhi prinsip YAGNI (*You Aren't Gonna Need It*). Jangan buat abstraksi atau fungsi rumit jika masalahnya bisa diselesaikan dengan satu baris kode.
+
+## 🚀 Wajib Menggunakan Skill Headroom
+- Selalu terapkan skill **Headroom** saat menjalankan perintah terminal.
+- Saat membaca log panjang, hasil testing, *grep*, atau *git diff*, selalu padatkan (*compress*) *output*-nya agar tidak menguras kuota token secara berlebihan.
