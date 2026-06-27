@@ -2,7 +2,7 @@
 
 **Mahasiswa:** Rafly Firmansyah
 **Program Studi:** Informatika, Universitas Bina Sarana Informatika
-**Tanggal terakhir update:** 25 Juni 2026
+**Tanggal terakhir update:** 27 Juni 2026
 **Direktori proyek:** `D:\skripsi\skripsi_spam\Code_Spam_Email`
 
 ---
@@ -551,3 +551,21 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 |---|-------|--------|------------|
 | 1 | **Grid Confusion Matrix Perbandingan** | Tab Riwayat (Modal Bandingkan) | Menampilkan Confusion Matrix (TP, TN, FP, FN) dalam format grid UI modern di bawah grafik perbandingan, untuk visualisasi detail yang lebih baik (dibandingkan sekadar teks di tabel). |
 | 2 | **Refaktor Tata Letak Tabel Riwayat** | Tab Riwayat | Memisahkan kolom "Pin/Catatan" agar lebih rapi. Kolom "Pin" dipindahkan letaknya di awal (tepat setelah nomor urut) dan kolom "Catatan" dikembalikan ke bagian paling akhir tabel. |
+
+---
+
+## 21. Update Terbaru (27 Juni 2026)
+
+### Backend & Performa
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **VRAM Saver (max_bin=64)** | `evaluator.py` | Optimasi GPU otomatis saat dataset uji melebihi 10.000 baris (mencegah *Out of Memory* CUDA). Turut bertindak sebagai *Regularization* yang menghemat waktu tunggu hingga 5 menit dan sedikit meningkatkan akurasi. |
+| 2 | **Perbaikan Dataset Fallback** | `script.js` | Memperbaiki masalah di mana nama dataset `Custom Train` tidak tersimpan dengan benar dan hanya memunculkan "bawaan". Sekarang, nama asli berkas CSV (seperti `enron_spam.csv` atau `Phishing.csv`) akan tertulis akurat di tabel riwayat. |
+
+### Deployment & Portabilitas
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Auto-Run Script (Plug & Play)** | `Jalankan_Aplikasi.bat` | Skrip otomatis untuk menjalankan aplikasi di laptop Windows mana pun tanpa perlu setup manual. Skrip akan mendeteksi Python, membangun `.venv` baru, menginstal `requirements.txt`, dan menjalankan localhost dengan sekali klik ganda. |
+| 2 | **Integrasi GitHub Private** | Git / GitHub | Seluruh kode telah dicadangkan (*pushed*) ke repositori GitHub `Spam-Email` secara *Private*. Berkas skripsi PDF dan *dataset* `.csv` telah diamankan (*ignore*) agar tidak tersebar ke ranah daring. |
