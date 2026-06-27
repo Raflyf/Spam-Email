@@ -379,7 +379,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
 
     # ---- XGB ----
     cb(f'Metode 1 — melatih XGBoost ({XGB_DEVICE.upper()})...')
-    vram_saver_bin = 64 if X_tr.shape[0] > 10000 else 256
+    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
     xgb_model = XGBClassifier(
         n_estimators      = 2000 if preset == 'full' else cfg['xgb_n_estimators'],
         learning_rate     = 0.03 if preset == 'full' else cfg['xgb_learning_rate'],
@@ -553,7 +553,7 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
 
     # ---- XGB ----
     cb(f'Metode 2 — melatih XGBoost ({XGB_DEVICE.upper()})...')
-    vram_saver_bin = 64 if X_tr.shape[0] > 10000 else 256
+    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
     xgb_model = XGBClassifier(
         n_estimators      = cfg['xgb_n_estimators'],
         learning_rate     = cfg['xgb_learning_rate'],
