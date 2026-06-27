@@ -1,0 +1,532 @@
+[
+  {
+    "job_id": "77144d68-b8e5-4423-b72e-f43c25199e87",
+    "timestamp": "2026-06-26 22:23:07",
+    "elapsed_s": 255.6,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.1,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      }
+    },
+    "metode2": {
+      "nb_acc": 78.11,
+      "xgb_acc": 83.0,
+      "nb_f1": 77.77,
+      "xgb_f1": 82.95,
+      "nb_cm": {
+        "tn": 296,
+        "fp": 154,
+        "fn": 43,
+        "tp": 407
+      },
+      "xgb_cm": {
+        "tn": 350,
+        "fp": 100,
+        "fn": 53,
+        "tp": 397
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "22cd43c5-7d6c-4ea0-81fa-ee4f5f4b0a61",
+    "timestamp": "2026-06-26 22:28:46",
+    "elapsed_s": 265.5,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.2,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      }
+    },
+    "metode2": {
+      "nb_acc": 76.38,
+      "xgb_acc": 91.38,
+      "nb_f1": 75.55,
+      "xgb_f1": 91.37,
+      "nb_cm": {
+        "tn": 232,
+        "fp": 168,
+        "fn": 21,
+        "tp": 379
+      },
+      "xgb_cm": {
+        "tn": 375,
+        "fp": 25,
+        "fn": 44,
+        "tp": 356
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "0bbdcb98-7a8d-411a-9856-3d293ee79d03",
+    "timestamp": "2026-06-26 22:33:44",
+    "elapsed_s": 267.0,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      }
+    },
+    "metode2": {
+      "nb_acc": 77.0,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.17,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 204,
+        "fp": 146,
+        "fn": 15,
+        "tp": 335
+      },
+      "xgb_cm": {
+        "tn": 333,
+        "fp": 17,
+        "fn": 32,
+        "tp": 318
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "bb94f87c-abe2-422d-afdd-a0d9f67b8954",
+    "timestamp": "2026-06-26 22:40:40",
+    "elapsed_s": 279.5,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.4,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      }
+    },
+    "metode2": {
+      "nb_acc": 76.33,
+      "xgb_acc": 93.5,
+      "nb_f1": 75.31,
+      "xgb_f1": 93.5,
+      "nb_cm": {
+        "tn": 168,
+        "fp": 132,
+        "fn": 10,
+        "tp": 290
+      },
+      "xgb_cm": {
+        "tn": 280,
+        "fp": 20,
+        "fn": 19,
+        "tp": 281
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "5454f7bb-3238-4201-b97b-e9bb0eafe5dd",
+    "timestamp": "2026-06-26 22:45:35",
+    "elapsed_s": 241.3,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.5,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      }
+    },
+    "metode2": {
+      "nb_acc": 77.6,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.82,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 148,
+        "fp": 102,
+        "fn": 10,
+        "tp": 240
+      },
+      "xgb_cm": {
+        "tn": 232,
+        "fp": 18,
+        "fn": 17,
+        "tp": 233
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "c9253a8c-8ea6-4ea1-94fd-f6e5d4654b9f",
+    "timestamp": "2026-06-26 23:46:02",
+    "elapsed_s": 276.6,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "enron_spam_data.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 49.9,
+      "xgb_acc": 50.0,
+      "nb_f1": 33.29,
+      "xgb_f1": 33.33,
+      "nb_cm": {
+        "tn": 499,
+        "fp": 1,
+        "fn": 500,
+        "tp": 0
+      },
+      "xgb_cm": {
+        "tn": 500,
+        "fp": 0,
+        "fn": 500,
+        "tp": 0
+      }
+    },
+    "metode2": {
+      "nb_acc": 50.29,
+      "xgb_acc": 92.29,
+      "nb_f1": 34.21,
+      "xgb_f1": 92.29,
+      "nb_cm": {
+        "tn": 349,
+        "fp": 1,
+        "fn": 347,
+        "tp": 3
+      },
+      "xgb_cm": {
+        "tn": 325,
+        "fp": 25,
+        "fn": 29,
+        "tp": 321
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "1b25befe-3834-4672-9950-3b3b2fbc1083",
+    "timestamp": "2026-06-27 00:53:02",
+    "elapsed_s": 213.3,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "enron_spam_data.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 49.9,
+      "xgb_acc": 50.0,
+      "nb_f1": 33.29,
+      "xgb_f1": 33.33,
+      "nb_cm": {
+        "tn": 499,
+        "fp": 1,
+        "fn": 500,
+        "tp": 0
+      },
+      "xgb_cm": {
+        "tn": 500,
+        "fp": 0,
+        "fn": 500,
+        "tp": 0
+      }
+    },
+    "metode2": {
+      "nb_acc": 50.29,
+      "xgb_acc": 92.43,
+      "nb_f1": 34.21,
+      "xgb_f1": 92.43,
+      "nb_cm": {
+        "tn": 349,
+        "fp": 1,
+        "fn": 347,
+        "tp": 3
+      },
+      "xgb_cm": {
+        "tn": 330,
+        "fp": 20,
+        "fn": 33,
+        "tp": 317
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "669bc40a-cdf7-45c9-a44c-a6c1bebd23d2",
+    "timestamp": "2026-06-27 00:59:19",
+    "elapsed_s": 265.5,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      }
+    },
+    "metode2": {
+      "nb_acc": 77.0,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.17,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 204,
+        "fp": 146,
+        "fn": 15,
+        "tp": 335
+      },
+      "xgb_cm": {
+        "tn": 333,
+        "fp": 17,
+        "fn": 32,
+        "tp": 318
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "2bedbc2d-ad0a-452f-a475-ff1c0ab1a103",
+    "timestamp": "2026-06-27 01:09:15",
+    "elapsed_s": 552.9,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "Phishing_Email.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 45.0,
+      "xgb_acc": 40.5,
+      "nb_f1": 39.56,
+      "xgb_f1": 39.98,
+      "nb_cm": {
+        "tn": 75,
+        "fp": 425,
+        "fn": 125,
+        "tp": 375
+      },
+      "xgb_cm": {
+        "tn": 156,
+        "fp": 344,
+        "fn": 251,
+        "tp": 249
+      }
+    },
+    "metode2": {
+      "nb_acc": 75.0,
+      "xgb_acc": 91.43,
+      "nb_f1": 74.23,
+      "xgb_f1": 91.43,
+      "nb_cm": {
+        "tn": 202,
+        "fp": 148,
+        "fn": 27,
+        "tp": 323
+      },
+      "xgb_cm": {
+        "tn": 316,
+        "fp": 34,
+        "fn": 26,
+        "tp": 324
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "ae0e4334-60c4-4abb-9ea4-6c2a689d5732",
+    "timestamp": "2026-06-27 01:29:06",
+    "elapsed_s": 869.8,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "Phishing_Email.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 45.0,
+      "xgb_acc": 41.2,
+      "nb_f1": 39.56,
+      "xgb_f1": 39.57,
+      "nb_cm": {
+        "tn": 75,
+        "fp": 425,
+        "fn": 125,
+        "tp": 375
+      },
+      "xgb_cm": {
+        "tn": 124,
+        "fp": 376,
+        "fn": 212,
+        "tp": 288
+      }
+    },
+    "metode2": {
+      "nb_acc": 75.0,
+      "xgb_acc": 90.43,
+      "nb_f1": 74.23,
+      "xgb_f1": 90.42,
+      "nb_cm": {
+        "tn": 202,
+        "fp": 148,
+        "fn": 27,
+        "tp": 323
+      },
+      "xgb_cm": {
+        "tn": 309,
+        "fp": 41,
+        "fn": 26,
+        "tp": 324
+      }
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  }
+]

@@ -1,0 +1,289 @@
+{
+  "metode1": {
+    "metode": "Metode 1 — Tanpa Domain Adaptation",
+    "n_train": 18650,
+    "n_test": 1000,
+    "gpu": true,
+    "preset": "full",
+    "naive_bayes": {
+      "model": "Naive Bayes",
+      "threshold": 36.0,
+      "accuracy": 45.0,
+      "precision": 42.19,
+      "recall": 45.0,
+      "f1": 39.56,
+      "cm": {
+        "tn": 75,
+        "fp": 425,
+        "fn": 125,
+        "tp": 375
+      },
+      "per_class": {
+        "non_spam": {
+          "precision": 37.5,
+          "recall": 15.0,
+          "f1": 21.43
+        },
+        "spam": {
+          "precision": 46.88,
+          "recall": 75.0,
+          "f1": 57.69
+        }
+      }
+    },
+    "xgboost": {
+      "model": "XGBoost",
+      "threshold": 56.0,
+      "accuracy": 41.2,
+      "precision": 40.14,
+      "recall": 41.2,
+      "f1": 39.57,
+      "cm": {
+        "tn": 124,
+        "fp": 376,
+        "fn": 212,
+        "tp": 288
+      },
+      "per_class": {
+        "non_spam": {
+          "precision": 36.9,
+          "recall": 24.8,
+          "f1": 29.67
+        },
+        "spam": {
+          "precision": 43.37,
+          "recall": 57.6,
+          "f1": 49.48
+        }
+      }
+    },
+    "top20_chi2": [
+      {
+        "feature": "click",
+        "score": 170.44
+      },
+      {
+        "feature": "enron",
+        "score": 126.98
+      },
+      {
+        "feature": "http",
+        "score": 93.29
+      },
+      {
+        "feature": "save",
+        "score": 84.96
+      },
+      {
+        "feature": "online",
+        "score": 79.93
+      },
+      {
+        "feature": "money",
+        "score": 79.62
+      },
+      {
+        "feature": "ect",
+        "score": 79.27
+      },
+      {
+        "feature": "viagra",
+        "score": 78.17
+      },
+      {
+        "feature": "free",
+        "score": 75.97
+      },
+      {
+        "feature": "remove",
+        "score": 71.04
+      },
+      {
+        "feature": "removed",
+        "score": 68.66
+      },
+      {
+        "feature": "urltoken date",
+        "score": 66.27
+      },
+      {
+        "feature": "pm",
+        "score": 64.23
+      },
+      {
+        "feature": "url urltoken",
+        "score": 64.22
+      },
+      {
+        "feature": "numtoken pm",
+        "score": 62.65
+      },
+      {
+        "feature": "wrote",
+        "score": 61.76
+      },
+      {
+        "feature": "date numtoken",
+        "score": 61.22
+      },
+      {
+        "feature": "prescription",
+        "score": 60.38
+      },
+      {
+        "feature": "urltoken",
+        "score": 58.83
+      },
+      {
+        "feature": "vince",
+        "score": 57.88
+      }
+    ],
+    "xgb_best_iter": 1231
+  },
+  "metode2": {
+    "metode": "Metode 2 — Domain Adaptation 30%",
+    "n_train": 18650,
+    "n_adapt": 300,
+    "n_test": 700,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "gpu": true,
+    "preset": "full",
+    "naive_bayes": {
+      "model": "Naive Bayes",
+      "threshold": 47.0,
+      "accuracy": 75.0,
+      "precision": 78.39,
+      "recall": 75.0,
+      "f1": 74.23,
+      "cm": {
+        "tn": 202,
+        "fp": 148,
+        "fn": 27,
+        "tp": 323
+      },
+      "per_class": {
+        "non_spam": {
+          "precision": 88.21,
+          "recall": 57.71,
+          "f1": 69.78
+        },
+        "spam": {
+          "precision": 68.58,
+          "recall": 92.29,
+          "f1": 78.68
+        }
+      }
+    },
+    "xgboost": {
+      "model": "XGBoost",
+      "threshold": 61.0,
+      "accuracy": 90.43,
+      "precision": 90.5,
+      "recall": 90.43,
+      "f1": 90.42,
+      "cm": {
+        "tn": 309,
+        "fp": 41,
+        "fn": 26,
+        "tp": 324
+      },
+      "per_class": {
+        "non_spam": {
+          "precision": 92.24,
+          "recall": 88.29,
+          "f1": 90.22
+        },
+        "spam": {
+          "precision": 88.77,
+          "recall": 92.57,
+          "f1": 90.63
+        }
+      }
+    },
+    "top20_chi2": [
+      {
+        "feature": "click",
+        "score": 171.45
+      },
+      {
+        "feature": "enron",
+        "score": 128.68
+      },
+      {
+        "feature": "http",
+        "score": 92.41
+      },
+      {
+        "feature": "save",
+        "score": 85.9
+      },
+      {
+        "feature": "ect",
+        "score": 79.95
+      },
+      {
+        "feature": "money",
+        "score": 78.99
+      },
+      {
+        "feature": "viagra",
+        "score": 78.43
+      },
+      {
+        "feature": "online",
+        "score": 78.0
+      },
+      {
+        "feature": "free",
+        "score": 77.36
+      },
+      {
+        "feature": "removed",
+        "score": 69.07
+      },
+      {
+        "feature": "remove",
+        "score": 68.79
+      },
+      {
+        "feature": "urltoken date",
+        "score": 67.05
+      },
+      {
+        "feature": "pm",
+        "score": 64.93
+      },
+      {
+        "feature": "url urltoken",
+        "score": 64.86
+      },
+      {
+        "feature": "numtoken pm",
+        "score": 63.31
+      },
+      {
+        "feature": "wrote",
+        "score": 62.5
+      },
+      {
+        "feature": "date numtoken",
+        "score": 62.19
+      },
+      {
+        "feature": "prescription",
+        "score": 60.32
+      },
+      {
+        "feature": "vince",
+        "score": 58.57
+      },
+      {
+        "feature": "hou ect",
+        "score": 58.38
+      }
+    ],
+    "xgb_best_iter": 2515
+  }
+}

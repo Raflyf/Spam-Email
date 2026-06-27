@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+env/
+venv/
+
+# Datasets
+*.csv
+*.xlsx
+
+# IDEs
+.vscode/
+
+# Agent/Graphify outputs
+graphify-out/
+.agents/
+
+# Logs and temp files
+*.log
+temp/
+tmp/

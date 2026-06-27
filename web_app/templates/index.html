@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📩 Spam Email Classifier</title>
+  <script src="/static/chart.min.js" defer></script>
+  
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <header style="position:relative;">
+      <button onclick="toggleDarkMode()" class="darkBtn" style="position:absolute; top:0; right:0; background:var(--gray-100); border:1px solid var(--gray-200); border-radius:99px; padding:4px 12px; font-size:12px; cursor:pointer; color:var(--gray-600); font-weight:600; transition:0.2s;">
+        🌙 Dark Mode
+      </button>
+      <div class="badge">Skripsi Klasifikasi Spam Email</div>
+      <h1>🛡️ Spam Email Classifier</h1>
+      <p>Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</p>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('text')">✏️ Mode Teks</button>
+      <button class="tab-btn" onclick="switchTab('csv')">📂 Mode CSV</button>
+      <button class="tab-btn" onclick="switchTab('history')">📋 Riwayat</button>
+    </div>
+
+    <!-- ═══════════════ TAB: TEKS ═══════════════ -->
+    <div id="pane-text" class="tab-pane active">
+      <div class="card">
+        <h2>Masukkan Teks Email</h2>
+        <textarea id="emailText" placeholder="Paste isi email di sini..."></textarea>
+        <div
+          style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:8px;">
+          <span style="font-size:12px;color:var(--gray-400)" id="charCount">0 karakter</span>
+          <div class="btn-row" style="margin:0;">
+            <button class="btn-secondary" onclick="clearText()">Hapus</button>
+            <button class="btn-primary" id="analyzeBtn" onclick="analyzeText()">🔍 Analisis</button>
+          </div>
+        </div>
+        <div class="error-box" id="textError"></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Contoh cepat:</div>
+        <div class="examples" id="examplePills"></div>
+      </div>
+
+      <div class="loading" id="textLoading">
+        <div class="spinner"></div>
+        <div>Menganalisis...</div>
+      </div>
+
+      <!-- Mode Batch -->
+      <div class="card" id="batchCard" style="display:none;">
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+          <h2 style="margin:0;">📋 Hasil Batch Prediksi</h2>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span id="batchSummary" style="font-size:12px;color:var(--gray-400);"></span>
+            <button class="btn-secondary" onclick="exportBatchCSV()" style="font-size:12px;padding:6px 14px;">📊 Export
+              CSV</button>
+            <button class="btn-secondary" onclick="clearBatch()"
+              style="font-size:12px;padding:6px 14px;color:var(--danger);">✕ Tutup</button>
+          </div>
+        </div>
+        <div id="batchResults" style="max-height:350px;overflow-y:auto;"></div>
+      </div>
+
+      <div id="textResults" style="display:none;">
+        <div id="consensusBanner" class="card" style="margin-bottom:14px;"></div>
+        <!-- Rekomendasi & Indikator -->
+        <div id="rekomendasiBox" class="card" style="margin-bottom:14px;display:none;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="modelCards"></div>
+        <div id="agreementNote" style="text-align:center;font-size:12px;margin-top:10px;"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TAB: CSV ═══════════════ -->
+    <div id="pane-csv" class="tab-pane">
+      <div class="card">
+        <h2>Upload Dataset CSV</h2>
+
+        <!-- ── PILIH MODE UPLOAD ── -->
+        <div style="display:flex;gap:4px;background:var(--gray-100);border-radius:8px;padding:4px;margin-bottom:16px;">
+          <button class="tab-btn active" id="modeTestOnly" onclick="setUploadMode('test_only')"
+            style="font-size:13px;padding:8px 14px;">
+            📂 Hanya Upload Test
+          </button>
+          <button class="tab-btn" id="modeCustomTrain" onclick="setUploadMode('custom_train')"
+            style="font-size:13px;padding:8px 14px;">
+            📂📂 Upload Train + Test
+          </button>
+        </div>
+
+        <!-- Info mode aktif -->
+        <div id="modeInfo" style="font-size:12px;color:var(--gray-400);margin-bottom:14px;
+           padding:8px 12px;background:var(--gray-50);border-radius:6px;border-left:3px solid var(--primary);">
+          <b>Mode:</b> Data training menggunakan <b>emails.csv</b> bawaan (5.728 email Kaggle).
+          Anda hanya perlu upload CSV test.
+        </div>
+
+        <!-- ── DROP ZONE TRAIN (hanya tampil di mode custom) ── -->
+        <div id="trainUploadSection" style="display:none;margin-bottom:16px;">
+          <label class="field-label" style="font-size:13px;margin-bottom:6px;">
+            📗 CSV Training (data untuk melatih model)
+          </label>
+          <div class="file-drop" id="dropZoneTrain" onclick="document.getElementById('csvTrain').click()"
+            ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
+            ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvTrain=f;showFileLabel(f,'fileNameTrain','📗');checkCanEval();fetchDatasetStats(f,'trainDatasetStats');}})(event.dataTransfer.files[0])">
+            <div class="icon">📩</div>
+            <div>Klik atau seret CSV Training ke sini</div>
+            <div class="hint">Harus punya kolom teks dan label &bull; Contoh: emails.csv, enron_spam_data.csv</div>
+          </div>
+          <input type="file" id="csvTrain" accept=".csv"
+            onchange="csvTrain=this.files[0];showFileLabel(this.files[0],'fileNameTrain','📗');checkCanEval();if(this.files[0]) fetchDatasetStats(this.files[0], 'trainDatasetStats');">
+          <div class="file-name" id="fileNameTrain"></div>
+          <div id="trainDatasetStats" class="dataset-stats"></div>
+        </div>
+
+        <!-- ── DROP ZONE TEST ── -->
+        <label class="field-label" style="font-size:13px;margin-bottom:6px;" id="testLabel">
+          📘 CSV Test (data untuk mengevaluasi model)
+        </label>
+        <div class="file-drop" id="dropZone" onclick="document.getElementById('csvFile').click()"
+          ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
+          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
+          <div class="icon">📘</div>
+          <div>Klik atau seret CSV Test ke sini</div>
+          <div class="hint">CSV harus punya kolom teks (text/body/message) dan label (label/spam/class) &bull; Max 100
+            MB</div>
+        </div>
+        <input type="file" id="csvFile" accept=".csv"
+          onchange="csvFile=this.files[0];showFileLabel(this.files[0],'fileName','📘');checkCanEval();fetchDatasetStats(this.files[0],'testDatasetStats')">
+        <div class="file-name" id="fileName"></div>
+        <!-- Statistik dataset test -->
+        <div id="testDatasetStats" style="display:none;margin-top:8px;"></div>
+
+        <!-- Pilih Metode -->
+        <div class="toggle-row" style="margin-top:16px;">
+          <label class="toggle-item">
+            <input type="checkbox" id="chkM1" checked>
+            Metode 1 — Tanpa Domain Adaptation
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" id="chkM2" checked>
+            Metode 2 — Domain Adaptation
+          </label>
+        </div>
+
+        <!-- Pengaturan Metode 2 -->
+        <div class="settings-row" id="m2Settings" style="margin-top:12px;">
+          <div>
+            <label class="field-label">Rasio Adaptasi: <span class="range-val" id="fracVal">30%</span></label>
+            <input type="range" id="adaptFrac" min="10" max="50" step="5" value="30" autocomplete="off"
+              oninput="document.getElementById('fracVal').textContent=this.value+'%'">
+          </div>
+          <div>
+            <label class="field-label">Bobot Instance: <span class="range-val" id="weightVal">8×</span></label>
+            <input type="range" id="adaptWeight" min="2" max="20" step="1" value="8" autocomplete="off"
+              oninput="document.getElementById('weightVal').textContent=this.value+'×'">
+          </div>
+        </div>
+
+        <!-- Balancing Dataset Training -->
+        <div
+          style="margin-top:14px;padding:14px 16px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;">
+          <div style="font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
+            ⚖️ Balancing Dataset Training
+            <span style="font-size:11px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data
+              training</span>
+          </div>
+          <div class="settings-row">
+            <div>
+              <label class="field-label">Jumlah Non-Spam Training</label>
+              <input type="number" id="nTrainNonSpam" min="0" max="100000" value="0" step="100"
+                oninput="updateTrainBalancePreview()"
+                style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+            </div>
+            <div>
+              <label class="field-label">Jumlah Spam Training</label>
+              <input type="number" id="nTrainSpam" min="0" max="100000" value="0" step="100"
+                oninput="updateTrainBalancePreview()"
+                style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--gray-400);">
+            <span id="trainBalanceNote">Menggunakan semua data training yang tersedia</span>
+          </div>
+        </div>
+
+        <!-- Balancing Dataset Test -->
+        <div
+          style="margin-top:10px;padding:14px 16px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;">
+          <div style="font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
+            ⚖️ Balancing Dataset Test
+            <span style="font-size:11px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data
+              yang tersedia</span>
+          </div>
+          <div class="settings-row">
+            <div>
+              <label class="field-label">Jumlah Non-Spam</label>
+              <input type="number" id="nNonSpam" min="0" max="50000" value="500" step="50"
+                oninput="updateBalancePreview()"
+                style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+            </div>
+            <div>
+              <label class="field-label">Jumlah Spam</label>
+              <input type="number" id="nSpam" min="0" max="50000" value="500" step="50" oninput="updateBalancePreview()"
+                style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--gray-400);">
+            Total sampel uji: <b id="totalSample">1.000</b> email
+            <span id="balanceNote" style="margin-left:8px;color:var(--success);font-weight:600;"></span>
+          </div>
+        </div>
+
+        <!-- Preset Kecepatan -->
+        <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:12px;font-weight:700;color:var(--gray-600);">⚡ Mode Training:</span>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;">
+            <input type="radio" name="preset" value="fast" checked style="accent-color:var(--primary);">
+            <span style="color:var(--success);">Fast</span>
+            <span style="font-size:11px;font-weight:400;color:var(--gray-400);">(~1-2 menit, fitur lebih sedikit)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;">
+            <input type="radio" name="preset" value="full" style="accent-color:var(--primary);">
+            <span style="color:var(--warning);">Full</span>
+            <span style="font-size:11px;font-weight:400;color:var(--gray-400);">(~10-30 menit, identik skrip
+              skripsi)</span>
+          </label>
+        </div>
+
+        <!-- Nama Eksperimen -->
+        <div style="margin-top:14px;">
+          <label class="field-label">📝 Nama Eksperimen (opsional)</label>
+          <input type="text" id="evalLabel" maxlength="100" placeholder="Contoh: Uji Enron Dataset, Tes Adaptasi 30%..."
+            style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;transition:.2s;"
+            onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--gray-200)'">
+        </div>
+        <div class="btn-row" style="margin-top:14px;">
+          <button class="btn-secondary" onclick="resetCsv()">Reset</button>
+          <button class="btn-primary" id="evalBtn" onclick="startEval()" disabled>▶ Mulai Evaluasi</button>
+        </div>
+        <div class="error-box" id="csvError"></div>
+      </div>
+
+      <!-- Progress -->
+      <div class="loading" id="csvLoading">
+        <div class="spinner"></div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span id="csvLoadingMsg">Memproses...</span>
+          <button id="cancelJobBtn" onclick="cancelCurrentJob()" style="background:#fee2e2;border:1px solid #fca5a5;color:var(--danger);
+                       border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;
+                       cursor:pointer;display:none;">
+            ✕ Batalkan
+          </button>
+        </div>
+
+        <!-- Progress bar tahapan -->
+        <div id="progressBarWrap" style="width:100%;max-width:500px;margin:10px auto 0;">
+          <div style="display:flex;justify-content:space-between;font-size:11px;
+             color:var(--gray-400);margin-bottom:4px;">
+            <span id="progressLabel">Menunggu...</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div style="background:var(--gray-200);border-radius:99px;height:8px;overflow:hidden;">
+            <div id="progressBarFill" style="height:100%;width:0%;border-radius:99px;
+                      background:linear-gradient(90deg,var(--primary),#0284c7);
+                      transition:width .5s ease;"></div>
+          </div>
+        </div>
+
+        <div class="progress-log active" id="progressLog"></div>
+      </div>
+
+      <!-- Hasil CSV -->
+      <div id="csvResults" style="display:none;"></div>
+
+      <!-- Prediksi Realtime dari Model Job -->
+      <div id="realtimeSection" style="display:none;">
+        <div class="card" style="border-top:4px solid var(--success);">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+            <span style="font-size:1.3rem;">⚡</span>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--gray-800);">
+                Uji Email Langsung dengan Model Ini
+              </div>
+              <div style="font-size:12px;color:var(--gray-400);">
+                Model yang baru dilatih — prediksi email baru secara realtime
+              </div>
+            </div>
+            <div id="realtimeModelBadges" style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;"></div>
+          </div>
+
+          <!-- Toggle metode -->
+          <div id="realtimeMetodePicker" style="display:none;margin-bottom:12px;">
+            <label class="field-label">Gunakan model dari:</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;">
+                <input type="radio" name="realtimeMetode" value="metode1" style="accent-color:var(--primary);"> Metode 1
+                (Tanpa Adaptasi)
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;">
+                <input type="radio" name="realtimeMetode" value="metode2" checked style="accent-color:var(--primary);">
+                Metode 2 (Domain Adaptation)
+              </label>
+            </div>
+          </div>
+
+          <textarea id="realtimeText" rows="5"
+            placeholder="Paste isi email di sini untuk diuji dengan model yang baru dilatih..." style="width:100%;border:2px solid var(--gray-200);border-radius:8px;
+                         padding:12px 14px;font-size:14px;resize:vertical;outline:none;
+                         transition:.2s;" onfocus="this.style.borderColor='var(--primary)'"
+            onblur="this.style.borderColor='var(--gray-200)'"></textarea>
+
+          <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;">
+            <button class="btn-secondary" onclick="clearRealtime()">Hapus</button>
+            <button class="btn-primary" id="realtimeBtn" onclick="analyzeRealtime()">
+              ⚡ Analisis dengan Model Ini
+            </button>
+          </div>
+          <div class="error-box" id="realtimeError"></div>
+        </div>
+
+        <!-- Hasil realtime -->
+        <div id="realtimeResult" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TAB: RIWAYAT ═══════════════ -->
+    <div id="pane-history" class="tab-pane">
+      <div class="card">
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <h2 style="margin:0;">📋 Riwayat Eksperimen</h2>
+            <input type="text" id="historySearch" placeholder="Cari riwayat..."
+              style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--gray-300); font-size: 13px; outline: none; transition: .2s;"
+              oninput="filterHistory()">
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-secondary btn-sm" onclick="exportHistoryCSV()" id="exportHistBtn" disabled>
+              📊 Export CSV
+            </button>
+            <button class="btn-secondary btn-sm" onclick="toggleSelectMode()" id="toggleSelectModeBtn">
+              Pilih Data
+            </button>
+            <button class="btn-secondary btn-sm" onclick="deleteSelectedHistory()" id="deleteSelectedBtn"
+              style="color:var(--warning);display:none;">
+              🗑 Hapus Terpilih (<span id="selectedCount">0</span>)
+            </button>
+            <button class="btn-secondary btn-sm" onclick="compareSelectedRuns()" id="compareRunsBtn"
+              style="color:#0284c7;display:none;">
+              🔄 Bandingkan
+            </button>
+            <button class="btn-secondary btn-sm" onclick="clearHistory()" id="clearHistBtn"
+              style="color:var(--danger);display:none;">
+              🗑 Hapus Semua
+            </button>
+          </div>
+        </div>
+        <div id="historyEmpty" style="text-align:center;padding:32px;color:var(--gray-400);">
+          Belum ada eksperimen. Jalankan Mode CSV terlebih dahulu.
+        </div>
+        <div id="historyTableWrap" style="display:none;overflow-x:auto;">
+          <table class="cm-table" id="historyTable" style="font-size:12px;min-width:700px;">
+            <thead>
+              <tr>
+                <th style="width:30px; display:none;" class="select-col">
+                  <input type="checkbox" id="checkAll" onchange="toggleCheckAll(this)"
+                    style="accent-color:var(--primary);cursor:pointer;">
+                </th>
+                  <th onclick="sortHistory('no')" style="cursor:pointer;white-space:nowrap;">No <span
+                      id="sort_no"></span>
+                  </th>
+                  <th style="width:30px;" title="Pin eksperimen">Pin</th>
+                  <th onclick="sortHistory('time')" style="cursor:pointer;white-space:nowrap;">Waktu <span
+                      id="sort_time"></span></th>
+                <th onclick="sortHistory('preset')" style="cursor:pointer;white-space:nowrap;">Preset <span
+                    id="sort_preset"></span></th>
+                <th title="Nama Dataset yang digunakan">Dataset (Train / Test)</th>
+                <th title="Jumlah data Non-Spam / Spam pada training">Train (NS/Sp)</th>
+                <th title="Jumlah data Non-Spam / Spam pada test">Test (NS/Sp)</th>
+                <th onclick="sortHistory('adapt')" style="cursor:pointer;white-space:nowrap;"
+                  title="Persentase data target yang dipakai untuk adaptasi domain">Adapt % <span
+                    id="sort_adapt"></span></th>
+                <th style="white-space:nowrap;" title="Bobot instance data target saat adaptasi (Domain Adaptation)">
+                  Weight ×</th>
+                <th onclick="sortHistory('nb_m1')" style="cursor:pointer;white-space:nowrap;"
+                  title="Naive Bayes — Metode 1 (Tanpa Domain Adaptation) — Akurasi">NB M1 Acc <span
+                    id="sort_nb_m1"></span></th>
+                <th onclick="sortHistory('xgb_m1')" style="cursor:pointer;white-space:nowrap;"
+                  title="XGBoost — Metode 1 (Tanpa Domain Adaptation) — Akurasi">XGB M1 Acc <span
+                    id="sort_xgb_m1"></span></th>
+                <th onclick="sortHistory('nb_m2')" style="cursor:pointer;white-space:nowrap;"
+                  title="Naive Bayes — Metode 2 (Domain Adaptation) — Akurasi">NB M2 Acc <span id="sort_nb_m2"></span>
+                </th>
+                <th onclick="sortHistory('xgb_m2')" style="cursor:pointer;white-space:nowrap;"
+                  title="XGBoost — Metode 2 (Domain Adaptation) — Akurasi">XGB M2 Acc <span id="sort_xgb_m2"></span>
+                </th>
+                <th onclick="sortHistory('elapsed')" style="cursor:pointer;white-space:nowrap;"
+                  title="Total waktu eksekusi evaluasi (detik)">Waktu (s) <span id="sort_elapsed"></span></th>
+                  <th title="Status akhir job evaluasi">Status</th>
+                  <th title="Catatan eksperimen">Catatan</th>
+                </tr>
+            </thead>
+            <tbody id="historyTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Grafik Perbandingan Antar Run -->
+      <div class="card" id="historyChartCard" style="display:none;">
+        <h2>📈 Grafik Akurasi Antar Eksperimen</h2>
+        <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap;">
+          <label style="font-size:12px;font-weight:600;">Tampilkan:&nbsp;
+            <select id="chartMetric" onchange="renderHistoryChart()"
+              style="font-size:12px;border:1px solid var(--gray-200);border-radius:4px;padding:3px 6px;">
+              <option value="acc">Akurasi (%)</option>
+              <option value="f1">F1-Score (%)</option>
+            </select>
+          </label>
+        </div>
+        <canvas id="historyChart" height="90"></canvas>
+      </div>
+    </div>
+
+  </div><!-- end container -->
+
+  
+
+  
+
+  
+
+  
+
+  <footer
+    style="text-align:center;font-size:12px;color:var(--gray-400);margin-top:32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;flex-direction:column;">
+    <span>Spam Email Classifier &mdash; Implementasi Web Skripsi &mdash; Metode 1: NB_XGB_PURE | Metode 2:
+      NB_XGB_MIX_IMPROVED</span>
+    <button onclick="toggleDarkMode()" class="darkBtn" style="background:var(--gray-100); border:1px solid var(--gray-200); border-radius:99px; padding:4px 12px; font-size:12px; cursor:pointer; color:var(--gray-600); font-weight:600; transition:0.2s;">
+      🌙 Dark Mode
+    </button>
+  </footer>
+  
+
+  <dialog id="toastDialog"
+    style="border:none; border-radius:8px; padding:16px 24px; background:#333; color:#fff; margin:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2); transition:opacity 0.3s; opacity:0;">
+    <span id="toastMsg"></span>
+  </dialog>
+  
+
+  <!-- Instant tooltip untuk nama eksperimen di tabel riwayat -->
+  <div id="histTooltip" style="position:fixed;background:#1f2937;color:#fff;padding:5px 12px;
+    border-radius:7px;font-size:12px;font-weight:600;pointer-events:none;z-index:9999;
+    display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);
+    border:1px solid rgba(255,255,255,0.1);"></div>
+  
+  <script src="/static/script.js" defer></script>
+</body>
+
+</html>
