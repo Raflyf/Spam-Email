@@ -1653,15 +1653,29 @@ function toggleSelectMode() {
     btn.classList.add('active');
     clearBtn.style.display = 'inline-flex';
     document.querySelectorAll('.select-col').forEach(el => el.style.display = 'table-cell');
+    document.querySelectorAll('#historyTbody tr').forEach(tr => tr.style.cursor = 'pointer');
   } else {
     btn.innerHTML = 'Pilih Data';
     btn.classList.remove('active');
     clearBtn.style.display = 'none';
     document.querySelectorAll('.select-col').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('#historyTbody tr').forEach(tr => tr.style.cursor = '');
     // Uncheck all when leaving select mode
     const all = document.getElementById('checkAll');
     if (all) all.checked = false;
     toggleCheckAll(all || { checked: false });
+  }
+}
+
+function toggleRowSelection(e, jobId) {
+  if (typeof _selectMode === 'undefined' || !_selectMode) return;
+  const tag = e.target.tagName.toLowerCase();
+  if (tag === 'input' || tag === 'button') return;
+  
+  const chk = document.querySelector(`.hist-check[data-jobid="${jobId}"]`);
+  if (chk) {
+    chk.checked = !chk.checked;
+    updateDeleteBtn();
   }
 }
 
@@ -1798,7 +1812,7 @@ function renderHistory() {
     const isPinned = pinned.includes(h.job_id);
     const nameAttr = h.label_name ? ` data-label="${h.label_name.replace(/"/g, '&quot;')}"` : '';
     const nameStyle = h.label_name ? ' style="white-space:nowrap;cursor:default;text-decoration:underline dotted var(--primary);"' : ' style="white-space:nowrap;"';
-    return `<tr class="${isPinned ? 'pinned-row' : ''}" style="${isPinned ? 'background:#fffbeb;' : ''}">
+    return `<tr class="${isPinned ? 'pinned-row' : ''}" style="${isPinned ? 'background:#fffbeb;' : ''}${_selectMode ? 'cursor:pointer;' : ''}" onclick="toggleRowSelection(event, '${h.job_id}')">
       <td class="select-col" style="display:${_selectMode ? 'table-cell' : 'none'};">
         <input type="checkbox" class="hist-check" data-jobid="${h.job_id}"
                onchange="updateDeleteBtn()"
