@@ -13,13 +13,13 @@
 <body>
   <div class="container">
 
+    <div style="text-align: right; margin-bottom: 5px;">
+      <button onclick="toggleDarkMode()" class="darkBtn" style="background:var(--gray-100); border:1px solid var(--gray-200); border-radius:99px; padding:4px 12px; font-size:12px; cursor:pointer; color:var(--gray-600); font-weight:600; transition:0.2s;">
+        🌙 Dark Mode
+      </button>
+    </div>
     <header>
-      <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-        <div class="badge" style="margin-bottom:0;">Skripsi Klasifikasi Spam Email</div>
-        <button onclick="toggleDarkMode()" class="darkBtn" style="background:var(--gray-100); border:1px solid var(--gray-200); border-radius:99px; padding:4px 12px; font-size:12px; cursor:pointer; color:var(--gray-600); font-weight:600; transition:0.2s;">
-          🌙 Dark Mode
-        </button>
-      </div>
+      <div class="badge">Skripsi Klasifikasi Spam Email</div>
       <h1 style="margin-top:0;">🛡️ Spam Email Classifier</h1>
       <p>Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</p>
     </header>
