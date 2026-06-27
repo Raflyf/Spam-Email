@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0"
 echo ========================================================
 echo   Memulai Aplikasi Klasifikasi Spam Email (Skripsi)
 echo ========================================================
@@ -16,20 +17,20 @@ if %errorlevel% neq 0 (
 
 echo [OK] Python terdeteksi.
 
-:: Pindah ke folder web_app
-cd web_app
-
 :: Cek apakah virtual environment sudah ada
 if not exist ".venv\Scripts\activate.bat" (
     echo [INFO] Membangun Virtual Environment baru untuk laptop ini...
     python -m venv .venv
     echo [INFO] Menginstal library pendukung (butuh koneksi internet)...
     call .venv\Scripts\activate
-    pip install -r requirements.txt
+    pip install -r web_app\requirements.txt
 ) else (
     echo [OK] Virtual Environment sudah tersedia.
     call .venv\Scripts\activate
 )
+
+:: Pindah ke folder web_app dan jalankan server
+cd web_app
 
 echo.
 echo [INFO] Menjalankan Server Localhost...
