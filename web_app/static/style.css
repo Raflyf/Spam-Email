@@ -288,6 +288,18 @@ header p {
 
 .tab-pane.active {
   display: block;
+  animation: fadeInPane 0.25s ease-out forwards;
+}
+
+@keyframes fadeInPane {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── FORM ELEMENTS ── */
@@ -1288,4 +1300,38 @@ th {
   top: 0;
   background: inherit;
   z-index: 10;
+}
+
+/* ── MODAL ANIMATIONS ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: modalFadeIn 0.2s ease-out forwards;
+}
+
+.modal-content {
+  background: var(--gray-50);
+  border-radius: 12px;
+  max-width: 95vw;
+  width: 800px;
+  padding: 24px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalScaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalScaleUp {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

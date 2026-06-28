@@ -1622,11 +1622,9 @@ function showCompareModal(runs) {
 
   const modal = document.createElement('div');
   modal.id = 'compareModal';
-  modal.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;
-    display:flex;align-items:center;justify-content:center;padding:20px;`;
+  modal.className = 'modal-overlay';
   modal.innerHTML = `
-    <div style="background:var(--gray-50);border-radius:12px;max-width:95vw;width:800px;
-                padding:24px;max-height:90vh;overflow-y:auto;">
+    <div class="modal-content">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <h3 style="font-size:16px;font-weight:800;">&#128260; Perbandingan ${runs.length} Eksperimen</h3>
         <button onclick="document.getElementById('compareModal').remove()"
