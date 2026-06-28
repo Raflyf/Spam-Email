@@ -1,6 +1,19 @@
 
 // ═══════════════════════════════════════════
-// TAB SWITCHING (original — akan di-override di bawah)
+// UTILITY: Escape HTML untuk XSS prevention
+// ═══════════════════════════════════════════
+function escapeHtml(unsafe) {
+  if (!unsafe) return '';
+  return String(unsafe)
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/'/g, '&#039;');
+}
+
+// ═══════════════════════════════════════════
+// TAB SWITCHING + Persistence via URL hash
 // ═══════════════════════════════════════════
 function switchTab(t) {
   document.querySelectorAll('.tabs > .tab-btn').forEach((b, i) =>
@@ -10,7 +23,22 @@ function switchTab(t) {
   const ph = document.getElementById('pane-history');
   if (ph) ph.classList.toggle('active', t === 'history');
   if (t === 'history') loadHistory();
+  // Simpan state ke URL hash
+  window.location.hash = t;
 }
+
+// Restore tab state saat halaman dimuat
+window.addEventListener('hashchange', () => {
+  const tab = window.location.hash.substring(1) || 'text';
+  if (['text', 'csv', 'history'].includes(tab)) switchTab(tab);
+});
+
+document.addEventListener('DOMContentLoaded', function initTabState() {
+  const hash = window.location.hash.substring(1) || 'text';
+  if (['text', 'csv', 'history'].includes(hash)) {
+    switchTab(hash);
+  }
+});
 
 // ═══════════════════════════════════════════
 // MODE TEKS
@@ -56,8 +84,19 @@ function updateCharCount() {
 function clearText() {
   document.getElementById('emailText').value = '';
   updateCharCount();
-  document.getElementById('textResults').style.display = 'none';
   hide('textError');
+  
+  // Smooth fade-out animation before hiding
+  const resultsEl = document.getElementById('textResults');
+  if (resultsEl.style.display !== 'none') {
+    resultsEl.style.transition = 'opacity 0.3s ease-out';
+    resultsEl.style.opacity = '0';
+    setTimeout(() => {
+      resultsEl.style.display = 'none';
+      resultsEl.style.opacity = '1';
+      resultsEl.style.transition = '';
+    }, 300);
+  }
 }
 async function analyzeText() {
   const text = document.getElementById('emailText').value.trim();
@@ -365,8 +404,22 @@ function pollJob(jobId) {
   const logEl = document.getElementById('progressLog');
   let elapsed = 0;
   let interval = 1200;
+  const MAX_POLL_TIME = 30 * 60 * 1000; // 30 menit timeout
 
   function doPoll() {
+    // Check timeout
+    if (elapsed >= MAX_POLL_TIME) {
+      if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+      sessionStorage.removeItem('lastRunningJobId');
+      const cancelBtn = document.getElementById('cancelJobBtn');
+      if (cancelBtn) cancelBtn.style.display = 'none';
+      setLoading('csvLoading', false);
+      document.getElementById('evalBtn').disabled = false;
+      setProgressBar(0, '');
+      showError('csvError', '⏱ Training timeout (melebihi 30 menit). Coba gunakan mode Fast atau dataset lebih kecil.');
+      return;
+    }
+
     fetch('/job/' + jobId)
       .then(r => r.json())
       .then(data => {
@@ -790,9 +843,20 @@ function initRealtimeSection(jobId, availableModels) {
 
 function clearRealtime() {
   document.getElementById('realtimeText').value = '';
-  document.getElementById('realtimeResult').style.display = 'none';
-  document.getElementById('realtimeResult').innerHTML = '';
   hide('realtimeError');
+  
+  // Smooth fade-out animation before hiding
+  const resultEl = document.getElementById('realtimeResult');
+  if (resultEl.style.display !== 'none') {
+    resultEl.style.transition = 'opacity 0.3s ease-out';
+    resultEl.style.opacity = '0';
+    setTimeout(() => {
+      resultEl.style.display = 'none';
+      resultEl.innerHTML = '';
+      resultEl.style.opacity = '1';
+      resultEl.style.transition = '';
+    }, 300);
+  }
 }
 
 async function analyzeRealtime() {
@@ -1897,11 +1961,11 @@ function renderHistory() {
         </span>
       </td>
       <td>
-        <div style="font-size:10px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)')}">
-          <span style="opacity:0.6; font-weight:bold;">Tr:</span> ${h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)')}
+        <div style="font-size:10px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)'))}">
+          <span style="opacity:0.6; font-weight:bold;">Tr:</span> ${escapeHtml(h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)'))}
         </div>
-        <div style="font-size:10px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:2px;" title="${h.test_dataset_name || 'data_test_berlabel_awal.csv'}">
-          <span style="opacity:0.6; font-weight:bold;">Ts:</span> ${h.test_dataset_name || 'data_test_berlabel_awal.csv'}
+        <div style="font-size:10px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:2px;" title="${escapeHtml(h.test_dataset_name || 'data_test_berlabel_awal.csv')}">
+          <span style="opacity:0.6; font-weight:bold;">Ts:</span> ${escapeHtml(h.test_dataset_name || 'data_test_berlabel_awal.csv')}
         </div>
       </td>
       <td>${trainNS}/${trainSp}</td>

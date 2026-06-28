@@ -18,6 +18,7 @@ import threading
 import pandas as pd
 from flask import Flask, render_template, request, jsonify
 from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.utils import secure_filename
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -459,8 +460,8 @@ def evaluate():
             shutil.rmtree(job_dir, ignore_errors=True)
             return jsonify({'error': 'File CSV training tidak valid.'}), 400
 
-    train_dataset_name = f_train.filename if f_train and f_train.filename else "emails.csv (bawaan)"
-    test_dataset_name  = f_test.filename if f_test and f_test.filename else ""
+    train_dataset_name = secure_filename(f_train.filename) if f_train and f_train.filename else "emails.csv (bawaan)"
+    test_dataset_name  = secure_filename(f_test.filename) if f_test and f_test.filename else ""
 
     # Tulis input.json untuk worker
     inp = {
