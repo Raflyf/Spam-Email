@@ -590,6 +590,13 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 
 ## 22. Update Terbaru (28 Juni 2026)
 
+### Visual Feedback Baris Terpilih pada Riwayat
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Row Highlight CSS** | `web_app/static/style.css` | Menambahkan class `.selected-row` dengan background ungu lembut (`#eef2ff`) + border kiri 3px ungu. Varian khusus untuk baris pinned + selected (gradient kuning → ungu). |
+| 2 | **Row Highlight JS Sync** | `web_app/static/script.js` | Fungsi `updateDeleteBtn()` sekarang toggle class `selected-row` pada `<tr>`. Event listener `change` global menangkap toggle dari event delegation (select-all, deselect-all, atau klik baris individual). |
+
 ### Anti-Flicker Tab State Sync
 
 | # | Fitur | Lokasi | Keterangan |

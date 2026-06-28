@@ -7,7 +7,7 @@ Aplikasi Web berbasis **Machine Learning** untuk mengklasifikasikan email spam v
 - **Mode Teks Langsung:** Prediksi langsung apakah sebuah teks email atau pesan terindikasi sebagai spam atau normal.
 - **Mode Evaluasi Batch (CSV):** Menguji model secara massal menggunakan dataset pengujian (`.csv`) untuk mendapatkan metrik performa (Akurasi, F1-Score, Waktu Eksekusi) dalam hitungan detik.
 - **Perbandingan Model (Naive Bayes vs XGBoost):** Membandingkan performa dua algoritma secara *real-time* lengkap dengan grafik bar interaktif dan tabel *Confusion Matrix*.
-- **Riwayat Eksperimen:** Semua hasil eksperimen tersimpan secara otomatis, dan dapat dilihat, disematkan (Pin), diberi catatan khusus, maupun dihapus sekaligus (*Batch Delete*).
+- **Riwayat Eksperimen:** Semua hasil eksperimen tersimpan secara otomatis, dan dapat dilihat, disematkan (Pin), diberi catatan khusus, maupun dihapus sekaligus (*Batch Delete*). Terdapat **visual feedback** — baris yang dipilih akan disorot dengan warna ungu + garis aksen di sisi kiri untuk memudahkan identifikasi data terpilih.
 - **Mode Gelap (Dark Mode):** Antarmuka yang sangat responsif, mendukung HP/Mobile, dan memiliki transisi Mode Terang/Gelap.
 
 ## 📸 Cuplikan Layar (Screenshots)
