@@ -54,3 +54,28 @@ Sesuai dengan konsep *Personal AI Jarvis*, AI diharapkan bisa dipanggil untuk me
 ## 🚀 Wajib Menggunakan Skill Headroom
 - Selalu terapkan skill **Headroom** saat menjalankan perintah terminal.
 - Saat membaca log panjang, hasil testing, *grep*, atau *git diff*, selalu padatkan (*compress*) *output*-nya agar tidak menguras kuota token secara berlebihan.
+
+## 📖 Wajib Baca Saat Sesi Baru
+- Saat memulai sesi baru atau konteks sebelumnya sudah terpotong (*truncated*), **WAJIB** baca file `RANGKUMAN_SKRIPSI.md` terlebih dahulu sebelum menjawab pertanyaan apa pun.
+- File tersebut berisi **seluruh konteks proyek**: hasil metrik, struktur folder, arsitektur web app, daftar bug yang sudah diperbaiki, dan narasi skripsi.
+- Jangan pernah menebak atau berasumsi tentang struktur proyek — **selalu baca file dulu**.
+
+## 🔒 File yang TIDAK BOLEH Diubah
+- `NB_XGB_PURE.py` — Skrip Metode 1 Final (sudah dikunci untuk BAB 4 Skripsi).
+- `NB_XGB_MIX_IMPROVED.py` — Skrip Metode 2 Final (sudah dikunci untuk BAB 4 Skripsi).
+- `data/*.csv` — Dataset penelitian (jangan hapus, rename, atau modifikasi).
+- `grafik_skripsi/*.png` — 9 grafik output untuk lampiran skripsi.
+- `models/webapp_models/*.joblib` — Model tersimpan untuk Mode Teks.
+
+## 📂 Lokasi Penting
+- **Web app:** `web_app/` (Flask, jalankan via `.venv\Scripts\python.exe web_app/app.py`)
+- **Frontend:** `web_app/static/script.js`, `web_app/static/style.css`, `web_app/templates/index.html`
+- **Backend:** `web_app/app.py` (server), `web_app/evaluator.py` (ML pipeline), `web_app/run_eval_worker.py` (CUDA subprocess)
+- **Riwayat:** `web_app/experiment_history.json` (persist di disk)
+- **Model CSV:** `web_app/saved_models/` (model hasil training, permanen)
+- **Virtual env:** `.venv/` — selalu gunakan `.venv\Scripts\python.exe`
+
+## 🚢 Git Workflow
+- Setelah selesai mengubah kode, **selalu commit dan push** ke GitHub kecuali diminta sebaliknya.
+- Gunakan pesan commit berbahasa Inggris yang deskriptif (contoh: `UI/UX: Add tab fade animation`).
+- Jangan commit file `.csv`, `.pdf`, atau `.venv/` (sudah di-`.gitignore`).
