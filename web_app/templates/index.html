@@ -6,7 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📩 Spam Email Classifier</title>
   <script src="/static/chart.min.js" defer></script>
-  
+  <script>
+    // Anti-flicker: update tab classes via MutationObserver before first paint
+    (function() {
+      const h = window.location.hash.substring(1);
+      if (['csv', 'history'].includes(h)) {
+        const observer = new MutationObserver(function(mutations, obs) {
+          const mainTabs = document.getElementById('mainTabs');
+          const paneText = document.getElementById('pane-text');
+          const targetPane = document.getElementById('pane-' + h);
+          
+          if (mainTabs) {
+            const btns = mainTabs.querySelectorAll('.tab-btn');
+            if (btns.length === 3) {
+              btns.forEach(function(b) {
+                b.classList.toggle('active', b.getAttribute('data-tab') === h);
+              });
+            }
+          }
+          if (paneText && targetPane) {
+            paneText.classList.remove('active');
+            targetPane.classList.add('active');
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -25,10 +52,10 @@
     </header>
 
     <!-- TABS -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('text')">✏️ Mode Teks</button>
-      <button class="tab-btn" onclick="switchTab('csv')">📂 Mode CSV</button>
-      <button class="tab-btn" onclick="switchTab('history')">📋 Riwayat</button>
+    <div class="tabs" id="mainTabs">
+      <button class="tab-btn active" data-tab="text" onclick="switchTab('text')">✏️ Mode Teks</button>
+      <button class="tab-btn" data-tab="csv" onclick="switchTab('csv')">📂 Mode CSV</button>
+      <button class="tab-btn" data-tab="history" onclick="switchTab('history')">📋 Riwayat</button>
     </div>
 
     <!-- ═══════════════ TAB: TEKS ═══════════════ -->

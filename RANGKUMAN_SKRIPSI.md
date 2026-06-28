@@ -588,6 +588,14 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 | 1 | **Integrasi CLAUDE.md** | `CLAUDE.md` | Menggabungkan *rules* proyek ke dalam satu file standar universal yang dikenali oleh berbagai IDE (Cursor, Cline, dll). |
 | 2 | **Ponytail & Headroom Rules** | `CLAUDE.md` | Menetapkan paksaan (*enforcement*) agar AI selalu menggunakan gaya koding paling efisien (Prinsip YAGNI) dan otomatis memadatkan keluaran (*output*) terminal agar menghemat ribuan token harian. |
 
+## 22. Update Terbaru (28 Juni 2026)
+
+### Anti-Flicker Tab State Sync
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **MutationObserver Tab Sync** | `web_app/templates/index.html` | Menambahkan inline script di `<head>` yang menggunakan MutationObserver untuk sinkronisasi state tab button dan pane SEBELUM first paint. Mencegah visual flicker saat refresh halaman dengan URL hash (`#csv`, `#history`). Script mengamati DOM mutations, toggle class `.active` pada elemen yang tepat, lalu disconnect — tidak ada CSS `!important` atau race condition dengan deferred `script.js`. |
+
 ### Manajemen Pengetahuan & Dokumentasi (Knowledge Management)
 
 Seluruh dokumentasi proyek ini (termasuk file ini) dioptimalkan menggunakan format Markdown (`.md`).
