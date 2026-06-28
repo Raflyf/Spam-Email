@@ -5,10 +5,10 @@
 function escapeHtml(unsafe) {
   if (!unsafe) return '';
   return String(unsafe)
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
 
@@ -290,6 +290,51 @@ document.getElementById('emailText').addEventListener('keydown', e => {
 let csvFile = null;
 let csvTrain = null;
 let uploadMode = 'test_only';
+
+// Fungsi untuk disable/enable CSV inputs saat job running
+function disableCsvInputs() {
+  const csvFileInput = document.getElementById('csvFile');
+  const csvTrainInput = document.getElementById('csvTrain');
+  const dropZone = document.querySelector('[onclick*="csvFile"]');
+  const dropZoneTrain = document.querySelector('[onclick*="csvTrain"]');
+  const modeTestOnly = document.getElementById('modeTestOnly');
+  const modeCustomTrain = document.getElementById('modeCustomTrain');
+  
+  if (csvFileInput) csvFileInput.disabled = true;
+  if (csvTrainInput) csvTrainInput.disabled = true;
+  if (dropZone) {
+    dropZone.style.opacity = '0.5';
+    dropZone.style.pointerEvents = 'none';
+  }
+  if (dropZoneTrain) {
+    dropZoneTrain.style.opacity = '0.5';
+    dropZoneTrain.style.pointerEvents = 'none';
+  }
+  if (modeTestOnly) modeTestOnly.disabled = true;
+  if (modeCustomTrain) modeCustomTrain.disabled = true;
+}
+
+function enableCsvInputs() {
+  const csvFileInput = document.getElementById('csvFile');
+  const csvTrainInput = document.getElementById('csvTrain');
+  const dropZone = document.querySelector('[onclick*="csvFile"]');
+  const dropZoneTrain = document.querySelector('[onclick*="csvTrain"]');
+  const modeTestOnly = document.getElementById('modeTestOnly');
+  const modeCustomTrain = document.getElementById('modeCustomTrain');
+  
+  if (csvFileInput) csvFileInput.disabled = false;
+  if (csvTrainInput) csvTrainInput.disabled = false;
+  if (dropZone) {
+    dropZone.style.opacity = '1';
+    dropZone.style.pointerEvents = 'auto';
+  }
+  if (dropZoneTrain) {
+    dropZoneTrain.style.opacity = '1';
+    dropZoneTrain.style.pointerEvents = 'auto';
+  }
+  if (modeTestOnly) modeTestOnly.disabled = false;
+  if (modeCustomTrain) modeCustomTrain.disabled = false;
+}
 let pollTimer = null;
 
 // Implementasi lengkap fungsi file handler (override stub di head)
@@ -304,28 +349,58 @@ function dropFile(e, target) {
   e.preventDefault();
   dragLeave(e, target === 'train' ? 'dropZoneTrain' : 'dropZone');
   const f = e.dataTransfer.files[0];
-  if (!f || !f.name.endsWith('.csv')) {
-    showError('csvError', 'Hanya file .csv yang didukung.'); return;
-  }
+  if (!f || !validateFile(f, target === 'train' ? 'training' : 'test')) return;
   if (target === 'train') {
     csvTrain = f; showFileLabel(f, 'fileNameTrain', '📗');
+    fetchDatasetStats(f, 'trainDatasetStats');
   } else {
     csvFile = f; showFileLabel(f, 'fileName', '📘');
     fetchDatasetStats(f, 'testDatasetStats');
   }
   checkCanEval();
 }
+// Client-side file validation
+function validateFile(file, targetName) {
+  const maxSize = 100 * 1024 * 1024; // 100MB
+  if (file.size > maxSize) {
+    showError('csvError', `File ${targetName} terlalu besar (${(file.size / 1024 / 1024).toFixed(1)}MB). Maksimal 100MB.`);
+    return false;
+  }
+  if (!file.name.toLowerCase().endsWith('.csv')) {
+    showError('csvError', `File ${targetName} harus berformat CSV.`);
+    return false;
+  }
+  return true;
+}
+
 function fileSelected(input) {
-  csvFile = input.files[0];
+  const file = input.files[0];
+  if (!file) return;
+  
+  if (!validateFile(file, 'test')) {
+    input.value = '';
+    return;
+  }
+  
+  csvFile = file;
   showFileLabel(csvFile, 'fileName', '📘');
   checkCanEval();
-  if (input.files[0]) fetchDatasetStats(input.files[0], 'testDatasetStats');
+  fetchDatasetStats(file, 'testDatasetStats');
 }
+
 function fileSelectedTrain(input) {
-  csvTrain = input.files[0];
+  const file = input.files[0];
+  if (!file) return;
+  
+  if (!validateFile(file, 'training')) {
+    input.value = '';
+    return;
+  }
+  
+  csvTrain = file;
   showFileLabel(csvTrain, 'fileNameTrain', '📗');
   checkCanEval();
-  if (input.files[0]) fetchDatasetStats(input.files[0], 'trainDatasetStats');
+  fetchDatasetStats(file, 'trainDatasetStats');
 }
 
 function setUploadMode(mode) {
@@ -380,6 +455,7 @@ function resetCsv() {
   document.getElementById('fileName').style.display = 'none';
   document.getElementById('fileNameTrain').style.display = 'none';
   document.getElementById('evalBtn').disabled = true;
+  enableCsvInputs();
   document.getElementById('csvResults').style.display = 'none';
   document.getElementById('csvResults').innerHTML = '';
   document.getElementById('realtimeSection').style.display = 'none';
@@ -439,6 +515,7 @@ function pollJob(jobId) {
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
           document.getElementById('evalBtn').disabled = false;
+          enableCsvInputs(); // Enable CSV inputs saat job selesai
           setProgressBar(100, 'Selesai');
           try {
             renderCsvResults(data.result);
@@ -453,6 +530,7 @@ function pollJob(jobId) {
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
           document.getElementById('evalBtn').disabled = false;
+          enableCsvInputs(); // Enable CSV inputs saat job error
           setProgressBar(0, '');
           showError('csvError', data.error || 'Terjadi kesalahan saat evaluasi.');
         } else if (data.status === 'cancelled') {
@@ -462,6 +540,7 @@ function pollJob(jobId) {
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
           document.getElementById('evalBtn').disabled = false;
+          enableCsvInputs(); // Enable CSV inputs saat job dibatalkan
           setProgressBar(0, '');
           // Pesan cancel yang bersih — bukan error merah
           const errEl = document.getElementById('csvError');
@@ -477,10 +556,11 @@ function pollJob(jobId) {
             errEl.style.color = '';
           }, 100);
         } else {
-          // Masih running — adaptive interval
+          // Masih running — exponential backoff
           elapsed += interval;
-          if (elapsed > 60000) interval = 3000;       // setelah 1 menit: poll tiap 3 detik
-          else if (elapsed > 30000) interval = 2000;  // setelah 30 detik: tiap 2 detik
+          if (elapsed > 120000) interval = Math.min(interval + 1500, 8000);  // naik bertahap max 8s
+          else if (elapsed > 60000) interval = Math.min(interval + 500, 5000); // naik bertahap max 5s
+          else if (elapsed > 30000) interval = 2000;
           pollTimer = setTimeout(doPoll, interval);
         }
       })
@@ -513,6 +593,7 @@ async function cancelCurrentJob() {
   if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
   setLoading('csvLoading', false);
   document.getElementById('evalBtn').disabled = false;
+  enableCsvInputs();
   if (btn) btn.style.display = 'none';
   sessionStorage.removeItem('lastRunningJobId');
   showError('csvError', 'Training dibatalkan.');
@@ -1408,7 +1489,7 @@ function exportBatchCSV() {
 // ═══════════════════════════════════════════
 // PROGRESS BAR (poin 7)
 // ═══════════════════════════════════════════
-const _progressStages = [
+const _progressStagesM1 = [
   { key: 'Memuat data', pct: 8 },
   { key: 'Memvalidasi', pct: 15 },
   { key: 'balancing', pct: 20 },
@@ -1417,15 +1498,28 @@ const _progressStages = [
   { key: 'TF-IDF', pct: 45 },
   { key: 'Naive Bayes', pct: 60 },
   { key: 'XGBoost', pct: 75 },
-  { key: 'Metode 2', pct: 50 },
+  { key: 'selesai', pct: 100 },
+];
+
+const _progressStagesM2 = [
+  { key: 'Memuat data', pct: 8 },
+  { key: 'Memvalidasi', pct: 15 },
+  { key: 'balancing', pct: 20 },
+  { key: 'Metode 2', pct: 78 },
+  { key: 'preprocessing', pct: 82 },
+  { key: 'TF-IDF', pct: 85 },
+  { key: 'Naive Bayes', pct: 90 },
+  { key: 'XGBoost', pct: 95 },
   { key: 'selesai', pct: 100 },
 ];
 
 function updateProgressBar(progressLines) {
   if (!progressLines || !progressLines.length) return;
   const last = progressLines[progressLines.length - 1].toLowerCase();
+  const isM2 = last.includes('metode 2');
+  const stages = isM2 ? _progressStagesM2 : _progressStagesM1;
   let bestPct = 5, bestLabel = 'Memulai...';
-  for (const s of _progressStages) {
+  for (const s of stages) {
     if (last.includes(s.key.toLowerCase())) {
       if (s.pct > bestPct) { bestPct = s.pct; bestLabel = s.key + '...'; }
     }
@@ -1795,11 +1889,25 @@ function toggleRowSelection(e, jobId) {
   }
 }
 
-function filterHistory() {
+// Debounce utility
+function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+// Debounced search untuk history (300ms delay)
+const debouncedFilterHistory = debounce(function() {
   const q = document.getElementById('historySearch').value.toLowerCase();
   document.querySelectorAll('#historyTbody tr').forEach(tr => {
     tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
+}, 300);
+
+function filterHistory() {
+  debouncedFilterHistory();
 }
 
 function updateDeleteBtn() {
@@ -2124,15 +2232,18 @@ async function startEval() {
   if (labelName) fd.append('label_name', labelName);
 
   document.getElementById('evalBtn').disabled = true;
+  disableCsvInputs(); // Disable CSV inputs saat job running
   // Reset hasil sebelumnya — hapus juga dari server agar tidak muncul kembali saat refresh
   fetch('/last_result/clear', { method: 'POST' }).catch(() => { });
   document.getElementById('csvResults').style.display = 'none';
   document.getElementById('csvResults').innerHTML = '';
-  document.getElementById('realtimeSection').style.display = 'none';
-  document.getElementById('realtimeResult').innerHTML = '';
-  document.getElementById('realtimeText').value = '';
-  currentJobId = null;
-  hide('realtimeError');
+   document.getElementById('realtimeSection').style.display = 'none';
+   document.getElementById('realtimeResult').innerHTML = '';
+   document.getElementById('realtimeText').value = '';
+   currentJobId = null;
+   sessionStorage.removeItem('lastJobId');
+   localStorage.removeItem('lastJobId');
+   hide('realtimeError');
   document.getElementById('progressLog').textContent = '';
   setProgressBar(0, 'Menunggu...');
   setLoading('csvLoading', true);
@@ -2147,6 +2258,7 @@ async function startEval() {
   } catch (e) {
     setLoading('csvLoading', false);
     document.getElementById('evalBtn').disabled = false;
+    enableCsvInputs();
     showError('csvError', e.message);
   }
 }
@@ -2166,6 +2278,11 @@ function showToast(msg) {
 }
 // Override native alert
 window.alert = showToast;
+
+window.addEventListener('beforeunload', () => {
+  if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+  if (_histChart) { _histChart.destroy(); _histChart = null; }
+});
 
 
 (function () {
