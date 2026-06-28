@@ -240,31 +240,9 @@ function copyResultToClipboard() {
   }
 }
 
-// ═══════════════════════════════════════════
-// PERFORMANCE & UX UTILITIES
-// ═══════════════════════════════════════════
-
-// Debounce function untuk reduce event frequency
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
-  };
-}
-
-// Smooth scroll to element
-function smoothScrollTo(element, offset = 100) {
-  if (!element) return;
-  setTimeout(() => {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    window.scrollBy(0, -offset);
-  }, 100);
-}
-
-// ═══════════════════════════════════════════
-// TAB SWITCHING (original — akan di-override di bawah)
-// ═══════════════════════════════════════════
+document.getElementById('emailText').addEventListener('keydown', e => {
+  if (e.ctrlKey && e.key === 'Enter') analyzeText();
+});
 
 
 // ═══════════════════════════════════════════

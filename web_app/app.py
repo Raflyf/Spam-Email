@@ -17,12 +17,21 @@ import subprocess
 import threading
 import pandas as pd
 from flask import Flask, render_template, request, jsonify
+from werkzeug.exceptions import RequestEntityTooLarge
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__, static_folder='static')
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024   # 100 MB
+
+
+@app.errorhandler(RequestEntityTooLarge)
+def handle_file_too_large(_error):
+    return jsonify({
+        "ok": False,
+        "error": "Ukuran file melebihi batas 100 MB."
+    }), 413
 
 PYTHON_EXE = sys.executable
 WORKER     = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'run_eval_worker.py')
