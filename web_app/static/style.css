@@ -1055,6 +1055,28 @@ body.dark tr.pinned-row {
   background: #292619 !important;
 }
 
+/* ── SELECTED ROW (highlight saat checkbox dipilih) ── */
+tr.selected-row {
+  background: #eef2ff !important;
+  border-left: 3px solid var(--primary);
+}
+tr.selected-row:hover {
+  background: #e0e7ff !important;
+}
+body.dark tr.selected-row {
+  background: #2a2a4a !important;
+  border-left: 3px solid var(--primary);
+}
+body.dark tr.selected-row:hover {
+  background: #353560 !important;
+}
+tr.selected-row.pinned-row {
+  background: linear-gradient(to right, #fffbeb 70%, #eef2ff 100%) !important;
+}
+body.dark tr.selected-row.pinned-row {
+  background: linear-gradient(to right, #292619 70%, #2a2a4a 100%) !important;
+}
+
 
 * {
   box-sizing: border-box;

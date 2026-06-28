@@ -1929,7 +1929,21 @@ function updateDeleteBtn() {
     all.checked = checked.length === total && total > 0;
     all.indeterminate = checked.length > 0 && checked.length < total;
   }
+
+  // Sync visual highlight pada row parent
+  document.querySelectorAll('.hist-check').forEach(c => {
+    const tr = c.closest('tr');
+    if (tr) tr.classList.toggle('selected-row', c.checked);
+  });
 }
+
+// Sync highlight via event delegation (untuk toggle saat baris diklik)
+document.addEventListener('change', e => {
+  if (e.target && e.target.classList && e.target.classList.contains('hist-check')) {
+    const tr = e.target.closest('tr');
+    if (tr) tr.classList.toggle('selected-row', e.target.checked);
+  }
+});
 let _historyData = [];
 let _histChart = null;
 
