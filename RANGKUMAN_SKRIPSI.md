@@ -608,3 +608,14 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 Seluruh dokumentasi proyek ini (termasuk file ini) dioptimalkan menggunakan format Markdown (`.md`).
 Untuk pengalaman membaca dan menulis yang lebih baik layaknya menyusun Wikipedia pribadi, **sangat disarankan menggunakan aplikasi Obsidian**. 
 Cukup instal [Obsidian](https://obsidian.md/), lalu pilih *"Open folder as vault"* dan arahkan ke folder utama skripsi (`Code_Spam_Email`). Obsidian akan secara otomatis membaca, merender struktur tabel, memberikan fitur pencarian yang cepat, serta memperlihatkan peta keterkaitan antar dokumen (*Graph View*).
+
+### Keamanan, Performa & Validasi (28 Juni 2026 - Tambahan)
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Validasi Ekstensi & XSS Prevention** | `script.js` | Menambahkan pengecekan sisi peramban (*client-side*) agar formulir hanya menerima ekstensi `.csv`, serta menerapkan `escapeHtml()` pada render nama file guna menghindari kerentanan *Cross-Site Scripting* (XSS). |
+| 2 | **Exponential Backoff Polling** | `script.js` | Polling status *training* (`/job/<id>`) kini tidak mem-ping server terus-menerus setiap 2 detik. Interval akan secara cerdas merenggang (bertahap naik menjadi 5-8 detik) jika durasi pelatihannya cukup lama, sehingga secara signifikan menghemat *resource* CPU server. |
+| 3 | **Debounced History Search** | `script.js` | Menerapkan fungsi *debounce* (jeda 300ms) pada kolom pencarian Riwayat Eksperimen. Hal ini mencegah peramban *lag* atau macet saat pengguna mengetik dengan sangat cepat di kotak pencarian. |
+| 4 | **Pemisahan Progress Bar M1 & M2** | `script.js` | Memisahkan alur indikator *loading* menjadi `_progressStagesM1` dan `_progressStagesM2` agar taksiran persentase pelacakan lebih sinkron dan realistis sesuai dengan metode yang sedang berjalan. |
+| 5 | **Memory Leak Prevention** | `script.js` | Menambahkan *event listener* `beforeunload` untuk menetralkan / mematikan objek grafik *Chart.js* dan timer *polling* sebelum halaman ditutup (mencegah kebocoran memori RAM peramban). |
+| 6 | **Modernisasi Tombol Dark Mode** | `index.html` & `style.css` | Merombak tombol *Dark Mode* bulat lama menjadi tombol kapsul (*pill button*) modern yang dilengkapi teks dinamis dan diletakkan strategis berdampingan dengan sub-judul halaman web. |

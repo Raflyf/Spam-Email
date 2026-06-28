@@ -155,8 +155,41 @@ body.dark .error-box {
   border-color: rgba(248, 113, 113, .3);
 }
 
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 99px;
+  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.theme-toggle-btn:hover {
+  background: #fff;
+  border-color: var(--gray-300);
+  color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+body.dark .theme-toggle-btn {
+  background: rgba(124, 117, 240, 0.1);
+  border-color: rgba(124, 117, 240, 0.2);
+  color: var(--primary);
+  box-shadow: none;
+}
+body.dark .theme-toggle-btn:hover {
+  background: rgba(124, 117, 240, 0.2);
+}
+
 /* Footer & dark btn */
-body.dark footer button {
+body.dark footer button:not(.theme-toggle-btn) {
   background: var(--gray-200);
   border-color: var(--border);
   color: var(--gray-600);

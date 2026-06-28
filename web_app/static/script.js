@@ -1338,16 +1338,22 @@ document.addEventListener('DOMContentLoaded', function initRestoreState() {
 // ═══════════════════════════════════════════
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark');
-  document.querySelectorAll('.darkBtn').forEach(btn => {
-    btn.textContent = isDark ? '☀️' : '🌙';
+  document.querySelectorAll('.theme-toggle-btn .theme-icon').forEach(icon => {
+    icon.textContent = isDark ? '☀️' : '🌙';
+  });
+  document.querySelectorAll('.theme-toggle-btn .theme-text').forEach(txt => {
+    txt.textContent = isDark ? 'Light Mode' : 'Dark Mode';
   });
   localStorage.setItem('darkMode', isDark ? '1' : '0');
 }
 // Apply saved preference
 if (localStorage.getItem('darkMode') === '1') {
   document.body.classList.add('dark');
-  document.querySelectorAll('.darkBtn').forEach(btn => {
-    btn.textContent = '☀️';
+  document.querySelectorAll('.theme-toggle-btn .theme-icon').forEach(icon => {
+    icon.textContent = '☀️';
+  });
+  document.querySelectorAll('.theme-toggle-btn .theme-text').forEach(txt => {
+    txt.textContent = 'Light Mode';
   });
 }
 
@@ -2278,9 +2284,7 @@ async function startEval() {
 }
 
 
-if (localStorage.getItem('darkMode') === '1') {
-  document.querySelectorAll('.darkBtn').forEach(btn => btn.textContent = '☀️');
-}
+// Duplicate darkMode init removed
 
 
 function showToast(msg) {
