@@ -594,7 +594,7 @@ function buildMethodCard(r, key) {
 
     <div class="result-section" style="margin-top:18px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-        <h3 style="margin:0;">📊 Top 20 Fitur Chi-Square</h3>
+        <h3 style="margin:0;">📊 Top 20 Fitur Chi-Square (Naive Bayes)</h3>
         <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${r.metode?.replace(/\s/g, '_')}.png')"
                 class="btn-secondary" style="font-size:11px;padding:4px 10px;">
           🖼 Simpan PNG
@@ -835,13 +835,9 @@ function renderRealtimeResult(d, metode) {
     ? 'Metode 1 (Tanpa Domain Adaptation)' : 'Metode 2 (Domain Adaptation)';
 
   const spamTags = (rek?.indikator_spam || []).map(r =>
-    `<span style="background:#fee2e2;color:var(--danger);border-radius:99px;
-      padding:3px 10px;font-size:12px;font-weight:600;margin:2px 2px 2px 0;
-      display:inline-block;">🚩 ${r}</span>`).join('');
+    `<span class="indicator-spam">🚩 ${r}</span>`).join('');
   const hamTags = (rek?.indikator_ham || []).map(r =>
-    `<span style="background:#dcfce7;color:var(--success);border-radius:99px;
-      padding:3px 10px;font-size:12px;font-weight:600;margin:2px 2px 2px 0;
-      display:inline-block;">✓ ${r}</span>`).join('');
+    `<span class="indicator-ham">✓ ${r}</span>`).join('');
 
   el.innerHTML = `
     <div class="card" style="border-top:4px solid ${finalIsSpam ? 'var(--danger)' : 'var(--success)'};">
@@ -1486,6 +1482,34 @@ function compareSelectedRuns() {
   showCompareModal(runs);
 }
 
+function buildTop10(features) {
+  if (!features || features.length === 0) return '<div style="color:var(--gray-400);font-size:11px;padding:4px 0;">Tidak ada data.</div>';
+  const validFeatures = features.slice(0, 10).filter(f => f.score !== null && f.score !== undefined);
+  if (validFeatures.length === 0) return '<div style="color:var(--gray-400);font-size:11px;padding:4px 0;">Tidak ada data.</div>';
+  const max = validFeatures[0].score;
+
+  const rows = validFeatures.map((f, i) => `
+    <tr style="border-bottom:1px solid var(--gray-200);height:24px;">
+      <td style="width:20px;text-align:center;color:var(--gray-400);font-size:10px;padding:2px 0;">${i + 1}</td>
+      <td style="font-weight:600;font-size:11px;max-width:85px;white-space:nowrap;
+                 overflow:hidden;text-overflow:ellipsis;padding:2px 0;" title="${f.feature}">${f.feature}</td>
+      <td style="width:70px;padding:0 4px;">
+        <div style="background:var(--gray-100);border-radius:99px;height:5px;overflow:hidden;">
+          <div style="background:var(--primary);height:100%;border-radius:99px;
+                      width:${max > 0 ? Math.round(f.score / max * 100) : 0}%;"></div>
+        </div>
+      </td>
+      <td style="font-size:10px;color:var(--gray-500);text-align:right;white-space:nowrap;padding:2px 0;">
+        ${Math.round(f.score).toLocaleString()}
+      </td>
+    </tr>`).join('');
+
+  return `
+    <table style="width:100%;border-collapse:collapse;line-height:1.2;">
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
 function showCompareModal(runs) {
   const existing = document.getElementById('compareModal');
   if (existing) existing.remove();
@@ -1568,6 +1592,32 @@ function showCompareModal(runs) {
     `;
   }).join('');
 
+  const chiGridsHtml = runs.map((r, i) => {
+    let grids = '';
+    ['metode1', 'metode2'].forEach(mk => {
+      if (!r[mk]) return;
+      const top10 = r[mk].top10_chi2;
+      if (top10 && top10.length > 0) {
+        grids += `
+          <div style="flex: 1 1 0; min-width: 170px; max-width: 250px;">
+            <div style="font-size:11px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1 (Pure)' : 'M2 (Adapt)'} - Chi-Square (Naive Bayes)</div>
+            <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:6px;padding:6px;background:var(--card-bg);">
+              ${buildTop10(top10)}
+            </div>
+          </div>`;
+      }
+    });
+    if (!grids) return '';
+    return `
+      <div style="margin-bottom:12px;background:var(--gray-100);border-radius:8px;padding:10px;border-left:3px solid ${colors[i % colors.length]};">
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
+        <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;flex-wrap:wrap;">
+          ${grids}
+        </div>
+      </div>
+    `;
+  }).join('');
+
   const chartId = 'compareBarChart_' + Date.now();
 
   const modal = document.createElement('div');
@@ -1599,6 +1649,10 @@ function showCompareModal(runs) {
       <div style="margin-top:20px;">
         <div style="font-size:13px;font-weight:700;margin-bottom:12px;">🟦 Confusion Matrix</div>
         ${cmGridsHtml || '<div style="font-size:11px;color:var(--gray-400)">Tidak ada data Confusion Matrix di histori yang dipilih.</div>'}
+      </div>
+      <div style="margin-top:20px;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;">📊 Top 10 Fitur Chi-Square</div>
+        ${chiGridsHtml || '<div style="font-size:11px;color:var(--gray-400)">Tidak ada data Fitur Chi-Square di histori yang dipilih.</div>'}
       </div>
     </div>`;
   document.body.appendChild(modal);

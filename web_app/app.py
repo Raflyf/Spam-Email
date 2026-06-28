@@ -54,6 +54,33 @@ def _load_history():
             with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
                 experiment_history = json.load(f)
             print(f"  [OK] Riwayat dimuat: {len(experiment_history)} entri")
+            
+            # Migration/enrichment for top10_chi2 if missing
+            import tempfile
+            jobs_temp_dir = os.path.join(tempfile.gettempdir(), 'spam_eval_jobs')
+            updated = False
+            for h in experiment_history:
+                job_id = h.get('job_id')
+                if not job_id: continue
+                for mk in ['metode1', 'metode2']:
+                    if h.get(mk) and 'top10_chi2' not in h[mk]:
+                        result_path = os.path.join(jobs_temp_dir, job_id, 'result.json')
+                        if os.path.exists(result_path):
+                            try:
+                                with open(result_path, 'r', encoding='utf-8') as rf:
+                                    import re as _re
+                                    raw = rf.read()
+                                    raw = _re.sub(r':\s*NaN', ': null', raw)
+                                    raw = _re.sub(r':\s*Infinity', ': null', raw)
+                                    res_data = json.loads(raw)
+                                    r_mk = res_data.get('result', {}).get(mk, {})
+                                    if r_mk:
+                                        h[mk]['top10_chi2'] = r_mk.get('top20_chi2', [])[:10]
+                                        updated = True
+                            except Exception:
+                                pass
+            if updated:
+                _save_history()
         except Exception as e:
             print(f"  [ERROR] Gagal load history: {e}")
             experiment_history = []
@@ -302,6 +329,7 @@ def _monitor_job(job_id: str):
                         'xgb_f1' : r.get('xgboost',     {}).get('f1'),
                         'nb_cm'  : r.get('naive_bayes', {}).get('cm'),
                         'xgb_cm' : r.get('xgboost',     {}).get('cm'),
+                        'top10_chi2': r.get('top20_chi2', [])[:10],
                     }
             with history_lock:
                 experiment_history.append(summary)
