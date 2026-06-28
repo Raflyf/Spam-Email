@@ -27,7 +27,49 @@
         "fp": 316,
         "fn": 202,
         "tp": 298
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 78.11,
@@ -45,7 +87,49 @@
         "fp": 100,
         "fn": 53,
         "tp": 397
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 53.15
+        },
+        {
+          "feature": "click",
+          "score": 49.28
+        },
+        {
+          "feature": "money",
+          "score": 47.65
+        },
+        {
+          "feature": "viagra",
+          "score": 46.75
+        },
+        {
+          "feature": "vince",
+          "score": 39.25
+        },
+        {
+          "feature": "life",
+          "score": 38.88
+        },
+        {
+          "feature": "enron",
+          "score": 37.83
+        },
+        {
+          "feature": "software",
+          "score": 37.81
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.54
+        },
+        {
+          "feature": "ect",
+          "score": 34.3
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -79,7 +163,49 @@
         "fp": 316,
         "fn": 202,
         "tp": 298
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 76.38,
@@ -97,7 +223,49 @@
         "fp": 25,
         "fn": 44,
         "tp": 356
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 51.17
+        },
+        {
+          "feature": "save",
+          "score": 48.01
+        },
+        {
+          "feature": "money",
+          "score": 46.85
+        },
+        {
+          "feature": "viagra",
+          "score": 43.75
+        },
+        {
+          "feature": "vince",
+          "score": 40.67
+        },
+        {
+          "feature": "enron",
+          "score": 39.29
+        },
+        {
+          "feature": "life",
+          "score": 38.03
+        },
+        {
+          "feature": "software",
+          "score": 36.78
+        },
+        {
+          "feature": "ect",
+          "score": 35.42
+        },
+        {
+          "feature": "online",
+          "score": 34.11
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -131,7 +299,49 @@
         "fp": 316,
         "fn": 202,
         "tp": 298
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 77.0,
@@ -149,7 +359,49 @@
         "fp": 17,
         "fn": 32,
         "tp": 318
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 48.6
+        },
+        {
+          "feature": "save",
+          "score": 47.08
+        },
+        {
+          "feature": "money",
+          "score": 45.45
+        },
+        {
+          "feature": "viagra",
+          "score": 43.14
+        },
+        {
+          "feature": "vince",
+          "score": 41.93
+        },
+        {
+          "feature": "enron",
+          "score": 40.3
+        },
+        {
+          "feature": "life",
+          "score": 39.63
+        },
+        {
+          "feature": "software",
+          "score": 37.42
+        },
+        {
+          "feature": "ect",
+          "score": 36.61
+        },
+        {
+          "feature": "online",
+          "score": 36.0
+        }
+      ]
     },
     "status": "done",
     "note": "Main",
@@ -184,7 +436,49 @@
         "fp": 316,
         "fn": 202,
         "tp": 298
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 76.33,
@@ -202,7 +496,49 @@
         "fp": 20,
         "fn": 19,
         "tp": 281
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 47.84
+        },
+        {
+          "feature": "save",
+          "score": 46.13
+        },
+        {
+          "feature": "vince",
+          "score": 43.32
+        },
+        {
+          "feature": "money",
+          "score": 43.2
+        },
+        {
+          "feature": "enron",
+          "score": 41.72
+        },
+        {
+          "feature": "life",
+          "score": 40.65
+        },
+        {
+          "feature": "viagra",
+          "score": 40.53
+        },
+        {
+          "feature": "ect",
+          "score": 37.49
+        },
+        {
+          "feature": "software",
+          "score": 34.8
+        },
+        {
+          "feature": "online",
+          "score": 34.12
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -236,7 +572,49 @@
         "fp": 316,
         "fn": 202,
         "tp": 298
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 77.6,
@@ -254,7 +632,49 @@
         "fp": 18,
         "fn": 17,
         "tp": 233
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 48.0
+        },
+        {
+          "feature": "save",
+          "score": 46.07
+        },
+        {
+          "feature": "money",
+          "score": 45.02
+        },
+        {
+          "feature": "vince",
+          "score": 44.62
+        },
+        {
+          "feature": "enron",
+          "score": 42.92
+        },
+        {
+          "feature": "viagra",
+          "score": 41.69
+        },
+        {
+          "feature": "life",
+          "score": 39.85
+        },
+        {
+          "feature": "ect",
+          "score": 38.68
+        },
+        {
+          "feature": "unsubscribe",
+          "score": 35.65
+        },
+        {
+          "feature": "online",
+          "score": 34.35
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -290,7 +710,49 @@
         "fp": 344,
         "fn": 251,
         "tp": 249
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 170.44
+        },
+        {
+          "feature": "enron",
+          "score": 126.98
+        },
+        {
+          "feature": "http",
+          "score": 93.29
+        },
+        {
+          "feature": "save",
+          "score": 84.96
+        },
+        {
+          "feature": "online",
+          "score": 79.93
+        },
+        {
+          "feature": "money",
+          "score": 79.62
+        },
+        {
+          "feature": "ect",
+          "score": 79.27
+        },
+        {
+          "feature": "viagra",
+          "score": 78.17
+        },
+        {
+          "feature": "free",
+          "score": 75.97
+        },
+        {
+          "feature": "remove",
+          "score": 71.04
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 75.0,
@@ -308,7 +770,49 @@
         "fp": 34,
         "fn": 26,
         "tp": 324
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 171.45
+        },
+        {
+          "feature": "enron",
+          "score": 128.68
+        },
+        {
+          "feature": "http",
+          "score": 92.41
+        },
+        {
+          "feature": "save",
+          "score": 85.9
+        },
+        {
+          "feature": "ect",
+          "score": 79.95
+        },
+        {
+          "feature": "money",
+          "score": 78.99
+        },
+        {
+          "feature": "viagra",
+          "score": 78.43
+        },
+        {
+          "feature": "online",
+          "score": 78.0
+        },
+        {
+          "feature": "free",
+          "score": 77.36
+        },
+        {
+          "feature": "removed",
+          "score": 69.07
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -344,7 +848,49 @@
         "fp": 0,
         "fn": 500,
         "tp": 0
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "ivanhoe",
+          "score": 786.92
+        },
+        {
+          "feature": "fred",
+          "score": 635.46
+        },
+        {
+          "feature": "cost",
+          "score": 608.53
+        },
+        {
+          "feature": "subject ivanhoe",
+          "score": 591.84
+        },
+        {
+          "feature": "jordan",
+          "score": 565.0
+        },
+        {
+          "feature": "type",
+          "score": 552.68
+        },
+        {
+          "feature": "trans",
+          "score": 509.68
+        },
+        {
+          "feature": "point",
+          "score": 487.77
+        },
+        {
+          "feature": "jordan et",
+          "score": 477.4
+        },
+        {
+          "feature": "fred jordan",
+          "score": 477.4
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 50.29,
@@ -362,7 +908,49 @@
         "fp": 20,
         "fn": 33,
         "tp": 317
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "ivanhoe",
+          "score": 787.67
+        },
+        {
+          "feature": "fred",
+          "score": 636.29
+        },
+        {
+          "feature": "cost",
+          "score": 609.1
+        },
+        {
+          "feature": "subject ivanhoe",
+          "score": 592.43
+        },
+        {
+          "feature": "jordan",
+          "score": 566.0
+        },
+        {
+          "feature": "type",
+          "score": 555.2
+        },
+        {
+          "feature": "trans",
+          "score": 512.99
+        },
+        {
+          "feature": "point",
+          "score": 488.59
+        },
+        {
+          "feature": "jordan et",
+          "score": 477.85
+        },
+        {
+          "feature": "fred jordan",
+          "score": 477.85
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -398,7 +986,49 @@
         "fp": 0,
         "fn": 500,
         "tp": 0
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "ivanhoe",
+          "score": 786.92
+        },
+        {
+          "feature": "fred",
+          "score": 635.46
+        },
+        {
+          "feature": "cost",
+          "score": 608.53
+        },
+        {
+          "feature": "subject ivanhoe",
+          "score": 591.84
+        },
+        {
+          "feature": "jordan",
+          "score": 565.0
+        },
+        {
+          "feature": "type",
+          "score": 552.68
+        },
+        {
+          "feature": "trans",
+          "score": 509.68
+        },
+        {
+          "feature": "point",
+          "score": 487.77
+        },
+        {
+          "feature": "jordan et",
+          "score": 477.4
+        },
+        {
+          "feature": "fred jordan",
+          "score": 477.4
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 50.29,
@@ -416,7 +1046,49 @@
         "fp": 25,
         "fn": 30,
         "tp": 320
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "ivanhoe",
+          "score": 787.67
+        },
+        {
+          "feature": "fred",
+          "score": 636.29
+        },
+        {
+          "feature": "cost",
+          "score": 609.1
+        },
+        {
+          "feature": "subject ivanhoe",
+          "score": 592.43
+        },
+        {
+          "feature": "jordan",
+          "score": 566.0
+        },
+        {
+          "feature": "type",
+          "score": 555.2
+        },
+        {
+          "feature": "trans",
+          "score": 512.99
+        },
+        {
+          "feature": "point",
+          "score": 488.59
+        },
+        {
+          "feature": "jordan et",
+          "score": 477.85
+        },
+        {
+          "feature": "fred jordan",
+          "score": 477.85
+        }
+      ]
     },
     "status": "done",
     "note": "",
@@ -452,7 +1124,49 @@
         "fp": 376,
         "fn": 212,
         "tp": 288
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 170.44
+        },
+        {
+          "feature": "enron",
+          "score": 126.98
+        },
+        {
+          "feature": "http",
+          "score": 93.29
+        },
+        {
+          "feature": "save",
+          "score": 84.96
+        },
+        {
+          "feature": "online",
+          "score": 79.93
+        },
+        {
+          "feature": "money",
+          "score": 79.62
+        },
+        {
+          "feature": "ect",
+          "score": 79.27
+        },
+        {
+          "feature": "viagra",
+          "score": 78.17
+        },
+        {
+          "feature": "free",
+          "score": 75.97
+        },
+        {
+          "feature": "remove",
+          "score": 71.04
+        }
+      ]
     },
     "metode2": {
       "nb_acc": 75.0,
@@ -470,7 +1184,49 @@
         "fp": 41,
         "fn": 26,
         "tp": 324
-      }
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 171.45
+        },
+        {
+          "feature": "enron",
+          "score": 128.68
+        },
+        {
+          "feature": "http",
+          "score": 92.41
+        },
+        {
+          "feature": "save",
+          "score": 85.9
+        },
+        {
+          "feature": "ect",
+          "score": 79.95
+        },
+        {
+          "feature": "money",
+          "score": 78.99
+        },
+        {
+          "feature": "viagra",
+          "score": 78.43
+        },
+        {
+          "feature": "online",
+          "score": 78.0
+        },
+        {
+          "feature": "free",
+          "score": 77.36
+        },
+        {
+          "feature": "removed",
+          "score": 69.07
+        }
+      ]
     },
     "status": "done",
     "note": "",
