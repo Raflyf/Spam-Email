@@ -270,6 +270,7 @@ header h1 {
   margin-bottom: 6px;
   background: linear-gradient(to right, var(--primary), var(--gray-400));
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   display: inline-flex;
 }
@@ -1635,6 +1636,201 @@ body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[ty
   background: rgba(16, 185, 129, 0.1) !important;
   color: #10b981 !important;
   border-color: rgba(16, 185, 129, 0.2) !important;
+  to { transform: scale(1); opacity: 1; }
+}
+/* Fix hover on selected rows */
+tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body.dark tr.selected-row:hover td { background: transparent !important; }
+
+/* ── TOOLTIP ── */
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: var(--gray-200);
+  color: var(--gray-600);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: help;
+  position: relative;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.tooltip-icon:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+
+/* ── TOAST NOTIFICATIONS ── */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--gray-800);
+  padding: 12px 18px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: toastFadeIn 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.toast.hide {
+  animation: toastFadeOut 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.toast.success { border-left: 4px solid var(--success); }
+.toast.error { border-left: 4px solid var(--danger); }
+.toast.info { border-left: 4px solid var(--primary); }
+@keyframes toastFadeIn {
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes toastFadeOut {
+  to { transform: translateY(-20px); opacity: 0; }
+}
+
+/* ── ANIMATED PROB BAR ── */
+@keyframes fillGauge {
+  from { width: 0%; }
+}
+.prob-bar-fill {
+  animation: fillGauge 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ═══════════════════════════════
+       SHADCN UI OVERRIDES
+    ═══════════════════════════════ */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.btn-primary, .btn-secondary, button {
+  font-family: 'Inter', system-ui, sans-serif;
+  border-radius: var(--radius) !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  color: var(--primary-fg) !important;
+  border: none !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+.btn-primary:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent !important;
+  color: var(--primary) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+.btn-secondary:hover {
+  background-color: var(--gray-100) !important;
+  color: var(--primary) !important;
+}
+
+.card {
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+  background: var(--card-bg) !important;
+  border-radius: var(--radius) !important;
+}
+
+textarea, input[type="text"], input[type="number"] {
+  border: 1px solid var(--border) !important;
+  background: transparent !important;
+  border-radius: var(--radius) !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+textarea:focus, input[type="text"]:focus, input[type="number"]:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px var(--gray-200) !important;
+  outline: none !important;
+}
+
+body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[type="number"]:focus {
+  box-shadow: 0 0 0 2px var(--gray-800) !important;
+}
+
+.badge {
+  border-radius: 9999px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--primary) !important;
+  color: var(--primary-fg) !important;
+}
+
+.pill, .stat-chip, .indicator-spam, .indicator-ham {
+  border: 1px solid var(--border) !important;
+  background: transparent !important;
+  color: var(--primary) !important;
+  border-radius: 9999px !important;
+  font-weight: 500 !important;
+}
+
+.file-drop {
+  border: 1px dashed var(--border) !important;
+  background: transparent !important;
+}
+.file-drop:hover {
+  background: var(--gray-50) !important;
+}
+
+.tabs {
+  background: var(--gray-50) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 4px !important;
+}
+.tab-btn {
+  border-radius: calc(var(--radius) - 2px) !important;
+  color: var(--gray-600) !important;
+}
+.tab-btn.active {
+  background: var(--card-bg) !important;
+  color: var(--primary) !important;
+  border-bottom: none !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+.progress-log {
+  background: #09090b !important;
+  color: #a1a1aa !important;
+  border: 1px solid var(--border) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  border-radius: var(--radius) !important;
+}
+
+/* Fix Shadcn Red/Green */
+.indicator-spam, .stat-chip.spam {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444 !important;
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+.indicator-ham, .stat-chip.nonspam {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #10b981 !important;
+  border-color: rgba(16, 185, 129, 0.2) !important;
 }
 
 /* ═══════════════════════════════
@@ -1669,18 +1865,27 @@ body.dark .card:hover {
 }
 
 /* ── Premium Tables & Highlights (Minimalist) ── */
-.cm-table, .per-class-table, table.history-table {
+table.history-table, .cm-table, .per-class-table {
   width: 100%;
-  border-collapse: collapse;
-  border: none !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  overflow: hidden;
 }
+table.history-table th, table.history-table td,
 .cm-table th, .cm-table td, 
-.per-class-table th, .per-class-table td,
-table.history-table th, table.history-table td {
+.per-class-table th, .per-class-table td {
   border: none !important;
   border-bottom: 1px solid var(--border) !important;
+  border-right: 1px solid var(--border) !important;
   padding: 12px 14px;
   text-align: center;
+}
+table.history-table th:last-child, table.history-table td:last-child,
+.cm-table th:last-child, .cm-table td:last-child,
+.per-class-table th:last-child, .per-class-table td:last-child {
+  border-right: none !important;
 }
 table.history-table tr:last-child td,
 .cm-table tr:last-child td, 
@@ -1688,10 +1893,13 @@ table.history-table tr:last-child td,
   border-bottom: none !important;
 }
 .cm-table th, .per-class-table th, table.history-table th {
-  background: transparent !important;
+  background: rgba(0,0,0,0.02) !important;
   font-weight: 600;
   color: var(--gray-400);
   font-size: 12px;
+}
+body.dark .cm-table th, body.dark .per-class-table th, body.dark table.history-table th {
+  background: rgba(255,255,255,0.02) !important;
 }
 .cm-table td, .per-class-table td, table.history-table td {
   font-size: 13px;
@@ -1700,11 +1908,11 @@ table.history-table tr:last-child td,
 /* Softer colors for TN, FP, FN, TP */
 .tn, .tp {
   color: var(--success) !important;
-  background: rgba(16, 185, 129, 0.05) !important;
+  background: rgba(16, 185, 129, 0.1) !important;
 }
 .fp, .fn {
   color: var(--danger) !important;
-  background: rgba(239, 68, 68, 0.05) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
 }
 /* Softer text highlight */
 .highlight-spam {
