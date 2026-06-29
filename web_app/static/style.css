@@ -1847,13 +1847,33 @@ body.dark {
 }
 
 body {
-  background: var(--body-bg) !important;
-  background-image: radial-gradient(oklch(50% 0.1 285 / 0.05) 1px, transparent 1px) !important;
-  background-size: 24px 24px !important;
+  background-color: transparent !important;
 }
 
 .bg-grid {
-  display: none !important; /* Digantikan oleh background body di atas agar lebih rapi */
+  display: block !important;
+  position: fixed !important;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1 !important;
+  pointer-events: none !important;
+}
+
+body.dark .bg-grid {
+  background-color: var(--body-bg) !important;
+  background-image: 
+    radial-gradient(circle at 10% 0%, oklch(45% 0.18 280 / 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 90% 100%, oklch(50% 0.15 190 / 0.25) 0%, transparent 50%),
+    radial-gradient(oklch(80% 0.1 280 / 0.05) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 100% 100%, 24px 24px !important;
+}
+
+body:not(.dark) .bg-grid {
+  background-color: var(--body-bg) !important;
+  background-image: 
+    radial-gradient(circle at 10% 0%, oklch(85% 0.15 280 / 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 90% 100%, oklch(85% 0.15 190 / 0.6) 0%, transparent 50%),
+    radial-gradient(oklch(50% 0.1 280 / 0.05) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 100% 100%, 24px 24px !important;
 }
 
 .card {
