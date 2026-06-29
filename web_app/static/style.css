@@ -1561,14 +1561,14 @@ body {
 .card {
   border: 1px solid var(--border) !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  background: rgba(255, 255, 255, 0.7) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border-radius: var(--radius) !important;
 }
 
 body.dark .card {
-  background: rgba(9, 9, 11, 0.6) !important;
+  background: rgba(9, 9, 11, 0.85) !important;
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
@@ -1751,8 +1751,8 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
 body.dark .bg-grid {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.10) 1px, transparent 1px);
 }
 
 .card {
