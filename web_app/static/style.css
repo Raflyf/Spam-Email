@@ -1984,4 +1984,19 @@ input[type="checkbox"]:focus-visible {
     height: 13px !important;
     margin-right: 1px !important;
   }
+  .per-class-table-main td {
+    font-size: 13px !important;
+    padding: 8px 6px !important;
+  }
+  .per-class-table-main th {
+    font-size: 13px !important;
+    padding: 8px 6px !important;
+  }
+  .per-class-table-main .badge-spam,
+  .per-class-table-main .badge-nonspam {
+    font-size: 11px !important;
+    padding: 2px 6px !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+  }
 }
