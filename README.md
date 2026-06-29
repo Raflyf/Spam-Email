@@ -36,7 +36,7 @@ Tidak perlu konfigurasi *server* yang rumit! Cukup ikuti langkah berikut untuk m
 
 ## 📚 Dokumentasi Ekstra
 
-Untuk membaca ringkasan utuh penelitian, *changelog*, pemecahan masalah algoritma (mengapa Akurasi Metode 2 turun), dan alur logika aplikasi, silakan buka file **`RANGKUMAN_SKRIPSI.md`** di repositori ini. 
+Untuk membaca ringkasan utuh penelitian, *changelog*, pemecahan masalah algoritma (mengapa Akurasi Metode 2 turun), dan alur logika aplikasi, silakan buka file **`DOKUMENTASI.md`** di repositori ini. 
 *(Sangat disarankan membukanya menggunakan aplikasi **Obsidian** untuk mendapatkan pengalaman visualisasi jaring laba-laba / Graph View antar catatan).*
 
 ## 🛠 Teknologi

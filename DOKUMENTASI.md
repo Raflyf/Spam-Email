@@ -1,4 +1,4 @@
-# Rangkuman Lengkap — Skripsi & Web App Spam Email Classifier
+# Dokumentasi Lengkap — Skripsi & Web App Spam Email Classifier
 
 **Mahasiswa:** Rafly Firmansyah
 **Program Studi:** Informatika, Universitas Bina Sarana Informatika
@@ -134,7 +134,7 @@ Code_Spam_Email/
 ├── NB_XGB_PURE.py              ← Metode 1 FINAL (tidak diubah)
 ├── NB_XGB_MIX_IMPROVED.py      ← Metode 2 FINAL
 ├── NB_XGB_ADAPT_RATIO_EXPERIMENT.py ← Skrip uji rasio adaptasi
-├── RANGKUMAN_SKRIPSI.md        ← File ini
+├── DOKUMENTASI.md              ← File ini
 │
 ├── data/                       ← Folder seluruh dataset
 │   ├── emails.csv              ← Dataset training utama (5.728 email)
@@ -172,7 +172,12 @@ Code_Spam_Email/
 │   ├── static/
 │   │   ├── chart.min.js        ← Chart.js lokal (tidak butuh internet)
 │   │   ├── style.css           ← File CSS UI, Dark Mode, & Styling (Refactored)
-│   │   └── script.js           ← File JS Logika, State, & Fetch (Refactored)
+│   │   ├── script.js.backup    ← Backup JS monolitik lama
+│   │   └── js/
+│   │       ├── utils.js        ← Fungsi bantuan & UI global
+│   │       ├── mode_text.js    ← Logika UI Mode Teks tunggal & batch
+│   │       ├── mode_csv.js     ← Logika UI Evaluasi CSV & Rendering Chart
+│   │       └── history.js      ← Sistem Riwayat & Side-by-side Comparison
 │   └── templates/
 │       └── index.html          ← Kerangka UI Web App (Sangat Rapi)
 │
@@ -640,3 +645,22 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih *"Open folder as vault
 | 1 | **Fix Tata Letak Input Mobile** | `style.css` | Memperbaiki masalah kotak input "Jumlah Spam Training" yang tidak sejajar horizontal pada layar HP akibat teks label di atasnya terpotong/turun baris. Diselesaikan dengan menerapkan `align-items: end;` pada *CSS Grid*. |
 | 2 | **Fix Bug Ikon Toggle Tema Hilang** | `index.html` | Tombol *Dark Mode* atas sempat kehilangan emotikonnya saat diklik karena JavaScript me-reset struktur SVG `lucide`. Diperbaiki dengan menyeragamkan penggunaan elemen `<span class="theme-icon">🌙</span>` murni untuk kedua tombol toggle atas dan bawah. |
 | 3 | **Pemulihan Aksen Warna Card** | `style.css` | Memperbaiki garis aksen warna di bagian atas *card* (seperti merah/hijau/biru) yang sebelumnya hilang karena tertimpa deklarasi `border !important` global. |
+
+---
+
+## 24. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
+
+### Stabilitas Backend & Keamanan Memori
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Zombie Job Cleanup** | `app.py` | Menambahkan pembersihan otomatis saat server dijalankan (boot). Jika server Flask mati mendadak saat evaluasi CSV berjalan, *worker* yang terputus akan ditandai dengan error `result.json` agar *frontend* tidak terjebak dalam siklus *polling* abadi. |
+| 2 | **Fallback Job Status Sinkron** | `app.py` | Memaksa penulisan `result.json` ke dalam *disk* secara sinkron apabila *worker* gagal atau dihentikan paksa (cancelled), sehingga antarmuka UI menerima umpan balik seketika. |
+| 3 | **Memory Leak Prevention (Jobs)** | `app.py` | Menghapus referensi memori pekerjaan (`del jobs[job_id]`) secara proaktif segera setelah *worker* selesai dan data disimpan ke cakram. Ini memastikan RAM server tidak membengkak walau ratusan pengguna melakukan eksperimen berturut-turut. |
+
+### Pemisahan & Modularisasi Frontend (Skala Besar)
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Pemecahan Monolitik JS** | `web_app/static/js/` | Berkas `script.js` raksasa (2.400 baris) telah dipecah secara sistematis menjadi 4 berkas mandiri (`utils.js`, `mode_text.js`, `mode_csv.js`, dan `history.js`) untuk mempermudah perawatan kode jangka panjang. |
+| 2 | **Pemuatan Skrip Berurutan** | `index.html` | Mengganti pemuatan `script.js` tunggal dengan pemanggilan 4 modul JS baru secara berurutan, mempertahankan ruang lingkup *Global Variable* tetap utuh dan stabil tanpa memecah dependensi bawaan. |

@@ -154,6 +154,23 @@ jobs_lock       = threading.Lock()
 JOBS_TEMP_DIR   = os.path.join(tempfile.gettempdir(), 'spam_eval_jobs')
 os.makedirs(JOBS_TEMP_DIR, exist_ok=True)
 
+# ── CLEANUP ZOMBIE JOBS DARI SESI SERVER SEBELUMNYA ──
+try:
+    for dname in os.listdir(JOBS_TEMP_DIR):
+        dpath = os.path.join(JOBS_TEMP_DIR, dname)
+        if os.path.isdir(dpath):
+            rpath = os.path.join(dpath, 'result.json')
+            if not os.path.exists(rpath):
+                # Job terputus karena server mati
+                with open(rpath, 'w', encoding='utf-8') as f:
+                    json.dump({
+                        'status': 'error',
+                        'error': 'Training terputus karena server dimatikan/direstart.',
+                        'result': None
+                    }, f)
+except Exception:
+    pass
+
 
 def _monitor_job(job_id: str):
     """
@@ -293,6 +310,21 @@ def _monitor_job(job_id: str):
                             + (stderr_out or 'Tidak ada output error.')
                         )
 
+                # --- ZOMBIE AVOIDANCE FIX ---
+                # Tulis result.json paksa agar status sinkron dengan disk saat di-fallback
+                try:
+                    with jobs_lock:
+                        final_st = jobs[job_id].get('status', 'error')
+                        final_er = jobs[job_id].get('error', 'Unknown error')
+                    with open(result_path, 'w', encoding='utf-8') as f:
+                        json.dump({
+                            'status': final_st,
+                            'error': final_er,
+                            'result': None
+                        }, f)
+                except Exception:
+                    pass
+
             # Cleanup temp dir — TIDAK DIHAPUS, semua file disimpan permanen untuk audit/riwayat
             # (result.json, progress.jsonl, models_*.joblib semuanya disimpan)
 
@@ -346,6 +378,12 @@ def _monitor_job(job_id: str):
                 if len(experiment_history) > 50:
                     experiment_history.pop(0)
                 _save_history()
+
+            # --- MEMORY LEAK FIX ---
+            # Hapus referensi memory, data sudah persisten di disk (result.json / history)
+            with jobs_lock:
+                if job_id in jobs:
+                    del jobs[job_id]
 
             break
 
