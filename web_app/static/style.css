@@ -1667,3 +1667,51 @@ body.dark .bg-grid {
 body.dark .card:hover {
   box-shadow: 0 4px 20px -2px rgba(255,255,255,0.03) !important;
 }
+
+/* ── Premium Tables & Highlights (Minimalist) ── */
+.cm-table, .per-class-table, table.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+}
+.cm-table th, .cm-table td, 
+.per-class-table th, .per-class-table td,
+table.history-table th, table.history-table td {
+  border: none !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 12px 14px;
+  text-align: center;
+}
+table.history-table tr:last-child td,
+.cm-table tr:last-child td, 
+.per-class-table tr:last-child td {
+  border-bottom: none !important;
+}
+.cm-table th, .per-class-table th, table.history-table th {
+  background: transparent !important;
+  font-weight: 600;
+  color: var(--gray-400);
+  font-size: 12px;
+}
+.cm-table td, .per-class-table td, table.history-table td {
+  font-size: 13px;
+  background: transparent !important;
+}
+/* Softer colors for TN, FP, FN, TP */
+.tn, .tp {
+  color: var(--success) !important;
+  background: rgba(16, 185, 129, 0.05) !important;
+}
+.fp, .fn {
+  color: var(--danger) !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+}
+/* Softer text highlight */
+.highlight-spam {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: var(--danger) !important;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-weight: 600;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}

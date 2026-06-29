@@ -139,7 +139,7 @@ const SPAM_KEYWORDS = [
 function highlightSpamWords(text) {
   const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
   const pattern = new RegExp('\\b(' + SPAM_KEYWORDS.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'gi');
-  return escaped.replace(pattern, '<mark style="background:#fee2e2;color:#dc2626;border-radius:3px;padding:0 2px;font-weight:700;">$1</mark>');
+  return escaped.replace(pattern, '<mark class="highlight-spam">$1</mark>');
 }
 
 function renderTextResult(d, rawText) {
