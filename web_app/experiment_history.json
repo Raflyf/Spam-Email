@@ -1645,5 +1645,143 @@
     "status": "done",
     "note": "",
     "label_name": ""
+  },
+  {
+    "job_id": "b5b9df55-c89e-4cc2-9ea9-9cb45c15ed87",
+    "timestamp": "2026-06-29 15:23:03",
+    "elapsed_s": 145.8,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 1350,
+    "n_train_spam": 1350,
+    "adapt_frac": 0.3,
+    "adapt_weight": 15.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 53.4,
+      "xgb_acc": 49.1,
+      "nb_f1": 47.31,
+      "xgb_f1": 47.71,
+      "nb_cm": {
+        "tn": 97,
+        "fp": 403,
+        "fn": 63,
+        "tp": 437
+      },
+      "xgb_cm": {
+        "tn": 164,
+        "fp": 336,
+        "fn": 173,
+        "tp": 327
+      },
+      "top10_chi2": [
+        {
+          "feature": "vince",
+          "score": 47.48
+        },
+        {
+          "feature": "enron",
+          "score": 44.55
+        },
+        {
+          "feature": "ect",
+          "score": 39.49
+        },
+        {
+          "feature": "kaminski",
+          "score": 32.09
+        },
+        {
+          "feature": "vince kaminski",
+          "score": 28.65
+        },
+        {
+          "feature": "hou",
+          "score": 28.51
+        },
+        {
+          "feature": "hou ect",
+          "score": 28.31
+        },
+        {
+          "feature": "ect ect",
+          "score": 26.37
+        },
+        {
+          "feature": "cc",
+          "score": 26.3
+        },
+        {
+          "feature": "numtoken pm",
+          "score": 23.21
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 88.29,
+      "xgb_acc": 94.86,
+      "nb_f1": 88.26,
+      "xgb_f1": 94.84,
+      "nb_cm": {
+        "tn": 293,
+        "fp": 57,
+        "fn": 25,
+        "tp": 325
+      },
+      "xgb_cm": {
+        "tn": 349,
+        "fp": 1,
+        "fn": 35,
+        "tp": 315
+      },
+      "top10_chi2": [
+        {
+          "feature": "vince",
+          "score": 50.0
+        },
+        {
+          "feature": "enron",
+          "score": 46.46
+        },
+        {
+          "feature": "ect",
+          "score": 40.63
+        },
+        {
+          "feature": "kaminski",
+          "score": 33.36
+        },
+        {
+          "feature": "vince kaminski",
+          "score": 29.77
+        },
+        {
+          "feature": "hou",
+          "score": 29.34
+        },
+        {
+          "feature": "hou ect",
+          "score": 29.11
+        },
+        {
+          "feature": "cc",
+          "score": 27.37
+        },
+        {
+          "feature": "ect ect",
+          "score": 26.99
+        },
+        {
+          "feature": "pm",
+          "score": 24.01
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
   }
 ]

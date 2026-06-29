@@ -1,289 +1,289 @@
 {
   "metode1": {
     "metode": "Metode 1 — Tanpa Domain Adaptation",
-    "n_train": 5728,
+    "n_train": 2700,
     "n_test": 1000,
     "gpu": true,
     "preset": "full",
     "naive_bayes": {
       "model": "Naive Bayes",
-      "threshold": 42.0,
-      "accuracy": 51.5,
-      "precision": 53.58,
-      "recall": 51.5,
-      "f1": 43.26,
+      "threshold": 70.0,
+      "accuracy": 53.4,
+      "precision": 56.32,
+      "recall": 53.4,
+      "f1": 47.31,
       "cm": {
-        "tn": 67,
-        "fp": 433,
-        "fn": 52,
-        "tp": 448
+        "tn": 97,
+        "fp": 403,
+        "fn": 63,
+        "tp": 437
       },
       "per_class": {
         "non_spam": {
-          "precision": 56.3,
-          "recall": 13.4,
-          "f1": 21.65
+          "precision": 60.62,
+          "recall": 19.4,
+          "f1": 29.39
         },
         "spam": {
-          "precision": 50.85,
-          "recall": 89.6,
-          "f1": 64.88
+          "precision": 52.02,
+          "recall": 87.4,
+          "f1": 65.22
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 68.0,
-      "accuracy": 48.2,
-      "precision": 48.1,
-      "recall": 48.2,
-      "f1": 47.52,
+      "threshold": 86.0,
+      "accuracy": 49.1,
+      "precision": 48.99,
+      "recall": 49.1,
+      "f1": 47.71,
       "cm": {
-        "tn": 184,
-        "fp": 316,
-        "fn": 202,
-        "tp": 298
+        "tn": 164,
+        "fp": 336,
+        "fn": 173,
+        "tp": 327
       },
       "per_class": {
         "non_spam": {
-          "precision": 47.67,
-          "recall": 36.8,
-          "f1": 41.53
+          "precision": 48.66,
+          "recall": 32.8,
+          "f1": 39.19
         },
         "spam": {
-          "precision": 48.53,
-          "recall": 59.6,
-          "f1": 53.5
+          "precision": 49.32,
+          "recall": 65.4,
+          "f1": 56.23
         }
       }
     },
     "top20_chi2": [
       {
-        "feature": "save",
-        "score": 54.17
-      },
-      {
-        "feature": "click",
-        "score": 51.89
-      },
-      {
-        "feature": "viagra",
-        "score": 49.6
-      },
-      {
-        "feature": "money",
-        "score": 48.56
-      },
-      {
-        "feature": "life",
-        "score": 41.16
-      },
-      {
         "feature": "vince",
-        "score": 37.86
-      },
-      {
-        "feature": "software",
-        "score": 36.92
+        "score": 47.48
       },
       {
         "feature": "enron",
-        "score": 36.49
-      },
-      {
-        "feature": "online",
-        "score": 35.3
-      },
-      {
-        "feature": "andmanyother",
-        "score": 34.25
+        "score": 44.55
       },
       {
         "feature": "ect",
-        "score": 33.19
-      },
-      {
-        "feature": "sex",
-        "score": 30.44
-      },
-      {
-        "feature": "logo",
-        "score": 29.01
-      },
-      {
-        "feature": "man",
-        "score": 28.4
-      },
-      {
-        "feature": "stationery",
-        "score": 26.14
+        "score": 39.49
       },
       {
         "feature": "kaminski",
-        "score": 25.32
+        "score": 32.09
       },
       {
-        "feature": "website",
-        "score": 25.2
-      },
-      {
-        "feature": "removed",
-        "score": 24.94
+        "feature": "vince kaminski",
+        "score": 28.65
       },
       {
         "feature": "hou",
-        "score": 24.28
+        "score": 28.51
       },
       {
-        "feature": "oem",
-        "score": 24.25
+        "feature": "hou ect",
+        "score": 28.31
+      },
+      {
+        "feature": "ect ect",
+        "score": 26.37
+      },
+      {
+        "feature": "cc",
+        "score": 26.3
+      },
+      {
+        "feature": "numtoken pm",
+        "score": 23.21
+      },
+      {
+        "feature": "pm",
+        "score": 23.21
+      },
+      {
+        "feature": "cc subject",
+        "score": 19.94
+      },
+      {
+        "feature": "thanks",
+        "score": 19.4
+      },
+      {
+        "feature": "research",
+        "score": 18.47
+      },
+      {
+        "feature": "enron com",
+        "score": 17.89
+      },
+      {
+        "feature": "kaminski hou",
+        "score": 17.19
+      },
+      {
+        "feature": "ect cc",
+        "score": 17.06
+      },
+      {
+        "feature": "shirley",
+        "score": 16.37
+      },
+      {
+        "feature": "click",
+        "score": 15.83
+      },
+      {
+        "feature": "meeting",
+        "score": 15.06
       }
     ],
-    "xgb_best_iter": 1095
+    "xgb_best_iter": 902
   },
   "metode2": {
     "metode": "Metode 2 — Domain Adaptation 30%",
-    "n_train": 5728,
+    "n_train": 2700,
     "n_adapt": 300,
     "n_test": 700,
     "adapt_frac": 0.3,
-    "adapt_weight": 8.0,
+    "adapt_weight": 15.0,
     "gpu": true,
     "preset": "full",
     "naive_bayes": {
       "model": "Naive Bayes",
-      "threshold": 51.0,
-      "accuracy": 77.0,
-      "precision": 81.4,
-      "recall": 77.0,
-      "f1": 76.17,
+      "threshold": 42.0,
+      "accuracy": 88.29,
+      "precision": 88.61,
+      "recall": 88.29,
+      "f1": 88.26,
       "cm": {
-        "tn": 204,
-        "fp": 146,
-        "fn": 15,
-        "tp": 335
+        "tn": 293,
+        "fp": 57,
+        "fn": 25,
+        "tp": 325
       },
       "per_class": {
         "non_spam": {
-          "precision": 93.15,
-          "recall": 58.29,
-          "f1": 71.7
+          "precision": 92.14,
+          "recall": 83.71,
+          "f1": 87.72
         },
         "spam": {
-          "precision": 69.65,
-          "recall": 95.71,
-          "f1": 80.63
+          "precision": 85.08,
+          "recall": 92.86,
+          "f1": 88.8
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 64.0,
-      "accuracy": 93.0,
-      "precision": 93.08,
-      "recall": 93.0,
-      "f1": 93.0,
+      "threshold": 77.0,
+      "accuracy": 94.86,
+      "precision": 95.28,
+      "recall": 94.86,
+      "f1": 94.84,
       "cm": {
-        "tn": 333,
-        "fp": 17,
-        "fn": 32,
-        "tp": 318
+        "tn": 349,
+        "fp": 1,
+        "fn": 35,
+        "tp": 315
       },
       "per_class": {
         "non_spam": {
-          "precision": 91.23,
-          "recall": 95.14,
-          "f1": 93.15
+          "precision": 90.89,
+          "recall": 99.71,
+          "f1": 95.1
         },
         "spam": {
-          "precision": 94.93,
-          "recall": 90.86,
-          "f1": 92.85
+          "precision": 99.68,
+          "recall": 90.0,
+          "f1": 94.59
         }
       }
     },
     "top20_chi2": [
       {
-        "feature": "click",
-        "score": 48.6
-      },
-      {
-        "feature": "save",
-        "score": 47.08
-      },
-      {
-        "feature": "money",
-        "score": 45.45
-      },
-      {
-        "feature": "viagra",
-        "score": 43.14
-      },
-      {
         "feature": "vince",
-        "score": 41.93
+        "score": 50.0
       },
       {
         "feature": "enron",
-        "score": 40.3
-      },
-      {
-        "feature": "life",
-        "score": 39.63
-      },
-      {
-        "feature": "software",
-        "score": 37.42
+        "score": 46.46
       },
       {
         "feature": "ect",
-        "score": 36.61
-      },
-      {
-        "feature": "online",
-        "score": 36.0
-      },
-      {
-        "feature": "andmanyother",
-        "score": 32.87
-      },
-      {
-        "feature": "logo",
-        "score": 29.7
+        "score": 40.63
       },
       {
         "feature": "kaminski",
-        "score": 27.88
-      },
-      {
-        "feature": "unsubscribe",
-        "score": 27.69
-      },
-      {
-        "feature": "hou",
-        "score": 26.72
-      },
-      {
-        "feature": "hou ect",
-        "score": 26.49
-      },
-      {
-        "feature": "stationery",
-        "score": 25.64
+        "score": 33.36
       },
       {
         "feature": "vince kaminski",
-        "score": 25.46
+        "score": 29.77
       },
       {
-        "feature": "oem",
-        "score": 24.83
+        "feature": "hou",
+        "score": 29.34
+      },
+      {
+        "feature": "hou ect",
+        "score": 29.11
+      },
+      {
+        "feature": "cc",
+        "score": 27.37
       },
       {
         "feature": "ect ect",
-        "score": 24.52
+        "score": 26.99
+      },
+      {
+        "feature": "pm",
+        "score": 24.01
+      },
+      {
+        "feature": "numtoken pm",
+        "score": 23.9
+      },
+      {
+        "feature": "cc subject",
+        "score": 20.5
+      },
+      {
+        "feature": "thanks",
+        "score": 19.66
+      },
+      {
+        "feature": "enron com",
+        "score": 18.23
+      },
+      {
+        "feature": "research",
+        "score": 17.74
+      },
+      {
+        "feature": "kaminski hou",
+        "score": 17.62
+      },
+      {
+        "feature": "shirley",
+        "score": 17.43
+      },
+      {
+        "feature": "ect cc",
+        "score": 17.37
+      },
+      {
+        "feature": "click",
+        "score": 15.15
+      },
+      {
+        "feature": "let know",
+        "score": 15.06
       }
     ],
-    "xgb_best_iter": 1708
+    "xgb_best_iter": 1239
   }
 }
