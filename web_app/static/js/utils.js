@@ -21,8 +21,11 @@ function escapeHtml(unsafe) {
 // ═══════════════════════════════════════════
 
 function switchTab(t) {
-  document.querySelectorAll('.tabs > .tab-btn').forEach((b, i) =>
-    b.classList.toggle('active', (i === 0 && t === 'text') || (i === 1 && t === 'csv') || (i === 2 && t === 'history')));
+  document.querySelectorAll('.tabs > .tab-btn').forEach((b, i) => {
+    const isActive = (i === 0 && t === 'text') || (i === 1 && t === 'csv') || (i === 2 && t === 'history');
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
   document.getElementById('pane-text').classList.toggle('active', t === 'text');
   document.getElementById('pane-csv').classList.toggle('active', t === 'csv');
   const ph = document.getElementById('pane-history');

@@ -27,7 +27,11 @@
   --card-bg: #ffffff;
   --body-bg: #ffffff;
   --border: #e4e4e7;
-  --radius: 0.5rem;
+  --radius-sm: 4px;
+  --radius-md: 0.5rem;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  --radius: var(--radius-md);
   --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
@@ -268,10 +272,7 @@ header h1 {
   font-size: clamp(1.4rem, 4vw, 2rem);
   font-weight: 800;
   margin-bottom: 6px;
-  background: linear-gradient(to right, var(--primary), var(--gray-400));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--primary);
   display: inline-flex;
 }
 
@@ -1153,17 +1154,15 @@ body.dark tr.pinned-row {
 /* ── SELECTED ROW (highlight saat checkbox dipilih) ── */
 tr.selected-row {
   background: #eef2ff !important;
-  border-left: 3px solid var(--primary);
 }
 tr.selected-row:hover {
   background: #e0e7ff !important;
 }
 body.dark tr.selected-row {
-  background: #2a2a4a !important;
-  border-left: 3px solid var(--primary);
+  background: #1e1b4b !important;
 }
 body.dark tr.selected-row:hover {
-  background: #353560 !important;
+  background: #2e2a75 !important;
 }
 
 
@@ -1490,7 +1489,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   border: 1px solid var(--border);
   color: var(--gray-800);
   padding: 12px 18px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
@@ -1504,9 +1503,9 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
 .toast.hide {
   animation: toastFadeOut 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.toast.success { border-left: 4px solid var(--success); }
-.toast.error { border-left: 4px solid var(--danger); }
-.toast.info { border-left: 4px solid var(--primary); }
+.toast.success { border-color: var(--success) !important; }
+.toast.error { border-color: var(--danger) !important; }
+.toast.info { border-color: var(--primary) !important; }
 @keyframes toastFadeIn {
   to { transform: translateY(0); opacity: 1; }
 }
@@ -1692,7 +1691,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   border: 1px solid var(--border);
   color: var(--gray-800);
   padding: 12px 18px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
@@ -1706,9 +1705,9 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
 .toast.hide {
   animation: toastFadeOut 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.toast.success { border-left: 4px solid var(--success); }
-.toast.error { border-left: 4px solid var(--danger); }
-.toast.info { border-left: 4px solid var(--primary); }
+.toast.success { border-color: var(--success) !important; }
+.toast.error { border-color: var(--danger) !important; }
+.toast.info { border-color: var(--primary) !important; }
 @keyframes toastFadeIn {
   to { transform: translateY(0); opacity: 1; }
 }
@@ -1846,8 +1845,8 @@ body.dark {
   --shadow-premium: 0 20px 40px -10px oklch(0% 0 0 / 0.5), inset 0 1px 0 0 oklch(100% 0 0 / 0.05);
 }
 
-body {
-  background-color: transparent !important;
+html, body {
+  background-color: var(--body-bg) !important;
 }
 
 .bg-grid {
@@ -1859,21 +1858,15 @@ body {
 }
 
 body.dark .bg-grid {
-  background-color: var(--body-bg) !important;
   background-image: 
-    radial-gradient(circle at 10% 0%, oklch(45% 0.18 280 / 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 90% 100%, oklch(50% 0.15 190 / 0.25) 0%, transparent 50%),
-    radial-gradient(oklch(80% 0.1 280 / 0.05) 1px, transparent 1px) !important;
-  background-size: 100% 100%, 100% 100%, 24px 24px !important;
+    radial-gradient(oklch(80% 0.1 280 / 0.07) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
 }
 
 body:not(.dark) .bg-grid {
-  background-color: var(--body-bg) !important;
   background-image: 
-    radial-gradient(circle at 10% 0%, oklch(85% 0.15 280 / 0.6) 0%, transparent 50%),
-    radial-gradient(circle at 90% 100%, oklch(85% 0.15 190 / 0.6) 0%, transparent 50%),
-    radial-gradient(oklch(50% 0.1 280 / 0.05) 1px, transparent 1px) !important;
-  background-size: 100% 100%, 100% 100%, 24px 24px !important;
+    radial-gradient(oklch(50% 0.1 280 / 0.07) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
 }
 
 .card {
@@ -1912,4 +1905,17 @@ header .badge {
   border: 1px solid oklch(35% 0.05 285 / 0.6);
   color: oklch(85% 0.05 285);
   box-shadow: 0 4px 12px oklch(0% 0 0 / 0.2);
+}
+
+/* ── FOCUS ACCESSIBILITY OVERRIDES ── */
+button:focus-visible,
+.tab-btn:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid oklch(65% 0.2 250) !important;
+  outline-offset: 2px !important;
+}
+input[type="checkbox"]:focus-visible {
+  outline-offset: 0px !important;
 }

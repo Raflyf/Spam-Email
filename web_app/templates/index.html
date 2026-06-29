@@ -53,21 +53,21 @@
       </h1>
       <div style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
         <div style="margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</div>
-        <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema">
+        <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Ganti Tema Gelap/Terang">
           <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
         </button>
       </div>
     </header>
 
     <!-- TABS -->
-    <div class="tabs" id="mainTabs">
-      <button class="tab-btn active" data-tab="text" onclick="switchTab('text')"><i data-lucide="pen-line" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode Teks</button>
-      <button class="tab-btn" data-tab="csv" onclick="switchTab('csv')"><i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode CSV</button>
-      <button class="tab-btn" data-tab="history" onclick="switchTab('history')"><i data-lucide="history" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> <span id="histTabText">Riwayat</span></button>
+    <div class="tabs" id="mainTabs" role="tablist" aria-label="Navigasi Menu Utama">
+      <button id="tab-text" class="tab-btn active" data-tab="text" onclick="switchTab('text')" role="tab" aria-selected="true" aria-controls="pane-text"><i data-lucide="pen-line" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode Teks</button>
+      <button id="tab-csv" class="tab-btn" data-tab="csv" onclick="switchTab('csv')" role="tab" aria-selected="false" aria-controls="pane-csv"><i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode CSV</button>
+      <button id="tab-history" class="tab-btn" data-tab="history" onclick="switchTab('history')" role="tab" aria-selected="false" aria-controls="pane-history"><i data-lucide="history" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> <span id="histTabText">Riwayat</span></button>
     </div>
 
     <!-- ═══════════════ TAB: TEKS ═══════════════ -->
-    <div id="pane-text" class="tab-pane active">
+    <div id="pane-text" class="tab-pane active" role="tabpanel" aria-labelledby="tab-text">
       <div class="card" style="border-top:4px solid var(--primary);">
         <h2>Masukkan Teks Email</h2>
         <textarea id="emailText" placeholder="Paste isi email di sini..."></textarea>
@@ -120,7 +120,7 @@
     </div>
 
     <!-- ═══════════════ TAB: CSV ═══════════════ -->
-    <div id="pane-csv" class="tab-pane">
+    <div id="pane-csv" class="tab-pane" role="tabpanel" aria-labelledby="tab-csv">
       <div class="card" style="border-top:4px solid var(--primary);">
         <h2>Upload Dataset CSV</h2>
 
@@ -403,7 +403,7 @@
     </div>
 
     <!-- ═══════════════ TAB: RIWAYAT ═══════════════ -->
-    <div id="pane-history" class="tab-pane">
+    <div id="pane-history" class="tab-pane" role="tabpanel" aria-labelledby="tab-history">
       <div class="card" style="border-top:4px solid var(--primary);">
         <div
           style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
