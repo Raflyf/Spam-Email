@@ -1834,9 +1834,9 @@ function showCompareModal(runs) {
     });
     if (!grids) return '';
     return `
-      <div style="margin-bottom:12px;background:var(--gray-100);border-radius:8px;padding:10px;border-left:3px solid ${colors[i % colors.length]};">
-        <div style="font-size:12px;font-weight:700;margin-bottom:8px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
-        <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;">
+      <div style="margin-bottom:16px;background:transparent;border:1px solid var(--border);border-radius:8px;padding:14px;border-left:4px solid ${colors[i % colors.length]};box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
+        <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:6px;">
           ${grids}
         </div>
       </div>
@@ -1860,9 +1860,9 @@ function showCompareModal(runs) {
     });
     if (!grids) return '';
     return `
-      <div style="margin-bottom:12px;background:var(--gray-100);border-radius:8px;padding:10px;border-left:3px solid ${colors[i % colors.length]};">
-        <div style="font-size:12px;font-weight:700;margin-bottom:8px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
-        <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;flex-wrap:wrap;">
+      <div style="margin-bottom:16px;background:transparent;border:1px solid var(--border);border-radius:8px;padding:14px;border-left:4px solid ${colors[i % colors.length]};box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
+        <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:6px;flex-wrap:wrap;">
           ${grids}
         </div>
       </div>
