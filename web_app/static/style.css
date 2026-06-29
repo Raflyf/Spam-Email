@@ -55,6 +55,7 @@ body.dark {
 body.dark {
   background: var(--body-bg);
   color: var(--gray-800);
+  color-scheme: dark;
 }
 
 /* Card */
