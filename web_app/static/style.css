@@ -884,10 +884,11 @@ body.dark .cm-table .fn:hover {
 }
 
 .compare-card {
-  background: var(--gray-50);
+  background: transparent;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
 .compare-model-title {
@@ -1559,9 +1560,16 @@ body {
 
 .card {
   border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
-  background: var(--card-bg) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-radius: var(--radius) !important;
+}
+
+body.dark .card {
+  background: rgba(9, 9, 11, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
 textarea, input[type="text"], input[type="number"] {
@@ -1715,114 +1723,6 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   animation: fillGauge 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ═══════════════════════════════
-       SHADCN UI OVERRIDES
-    ═══════════════════════════════ */
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  letter-spacing: -0.01em;
-}
-
-.btn-primary, .btn-secondary, button {
-  font-family: 'Inter', system-ui, sans-serif;
-  border-radius: var(--radius) !important;
-  font-weight: 500 !important;
-  transition: all 0.2s ease !important;
-}
-
-.btn-primary {
-  background-color: var(--primary) !important;
-  color: var(--primary-fg) !important;
-  border: none !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
-}
-.btn-primary:hover {
-  opacity: 0.9 !important;
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background-color: transparent !important;
-  color: var(--primary) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
-}
-.btn-secondary:hover {
-  background-color: var(--gray-100) !important;
-  color: var(--primary) !important;
-}
-
-.card {
-  border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
-  background: var(--card-bg) !important;
-  border-radius: var(--radius) !important;
-}
-
-textarea, input[type="text"], input[type="number"] {
-  border: 1px solid var(--border) !important;
-  background: transparent !important;
-  border-radius: var(--radius) !important;
-  font-size: 0.875rem !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-}
-textarea:focus, input[type="text"]:focus, input[type="number"]:focus {
-  border-color: var(--primary) !important;
-  box-shadow: 0 0 0 2px var(--gray-200) !important;
-  outline: none !important;
-}
-
-body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[type="number"]:focus {
-  box-shadow: 0 0 0 2px var(--gray-800) !important;
-}
-
-.badge {
-  border-radius: 9999px !important;
-  border: 1px solid var(--border) !important;
-  background: var(--primary) !important;
-  color: var(--primary-fg) !important;
-}
-
-.pill, .stat-chip, .indicator-spam, .indicator-ham {
-  border: 1px solid var(--border) !important;
-  background: transparent !important;
-  color: var(--primary) !important;
-  border-radius: 9999px !important;
-  font-weight: 500 !important;
-}
-
-.file-drop {
-  border: 1px dashed var(--border) !important;
-  background: transparent !important;
-}
-.file-drop:hover {
-  background: var(--gray-50) !important;
-}
-
-.tabs {
-  background: var(--gray-50) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  padding: 4px !important;
-}
-.tab-btn {
-  border-radius: calc(var(--radius) - 2px) !important;
-  color: var(--gray-600) !important;
-}
-.tab-btn.active {
-  background: var(--card-bg) !important;
-  color: var(--primary) !important;
-  border-bottom: none !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
-}
-
-.progress-log {
-  background: #09090b !important;
-  color: #a1a1aa !important;
-  border: 1px solid var(--border) !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  border-radius: var(--radius) !important;
-}
 
 /* Fix Shadcn Red/Green */
 .indicator-spam, .stat-chip.spam {

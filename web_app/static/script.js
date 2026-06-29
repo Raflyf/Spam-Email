@@ -169,7 +169,7 @@ function renderTextResult(d, rawText) {
       </div>
       ${copyBtn}
     </div>
-    ${rawText ? `<div style="margin-top:12px;padding:14px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;font-size:13px;line-height:1.7;color:var(--gray-800);">
+    ${rawText ? `<div style="margin-top:12px;padding:14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.7;color:var(--gray-800);">
       <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Analisis Teks — Kata merah = indikator spam</div>
       ${highlightSpamWords(rawText)}
     </div>` : ''}`;
