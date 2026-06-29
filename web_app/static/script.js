@@ -1740,7 +1740,7 @@ function buildTop10(features) {
   const max = validFeatures[0].score;
 
   const rows = validFeatures.map((f, i) => `
-    <tr style="border-bottom:1px solid var(--gray-200);height:24px;">
+    <tr style="border-bottom:1px solid var(--border);height:24px;">
       <td style="width:20px;text-align:center;color:var(--gray-400);font-size:10px;padding:2px 0;">${i + 1}</td>
       <td style="font-weight:600;font-size:11px;max-width:85px;white-space:nowrap;
                  overflow:hidden;text-overflow:ellipsis;padding:2px 0;" title="${f.feature}">${f.feature}</td>
@@ -1852,7 +1852,7 @@ function showCompareModal(runs) {
         grids += `
           <div style="flex: 1 1 0; min-width: 170px; max-width: 250px;">
             <div style="font-size:11px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1 (Pure)' : 'M2 (Adapt)'} - Chi-Square (Naive Bayes)</div>
-            <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:6px;padding:6px;background:var(--card-bg);">
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:6px;">
               ${buildTop10(top10)}
             </div>
           </div>`;
