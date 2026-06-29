@@ -1636,22 +1636,11 @@ body.dark .bg-grid {
 .card {
   position: relative;
   z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
 }
-.card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: calc(var(--radius) + 1px);
-  background: conic-gradient(from 90deg at 50% 50%, transparent 0%, var(--primary) 50%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
+.card:hover {
+  box-shadow: 0 4px 20px -2px rgba(0,0,0,0.08) !important;
 }
-.card:focus-within::before, .card:hover::before {
-  opacity: 0.15;
-  animation: spinGlow 4s linear infinite;
-}
-@keyframes spinGlow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+body.dark .card:hover {
+  box-shadow: 0 4px 20px -2px rgba(255,255,255,0.03) !important;
 }
