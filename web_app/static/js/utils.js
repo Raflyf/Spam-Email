@@ -64,14 +64,14 @@ function toggleDarkMode() {
   });
   localStorage.setItem('darkMode', isDark ? '1' : '0');
 }
-// Apply saved preference
-if (localStorage.getItem('darkMode') === '1') {
-  document.body.classList.add('dark');
+// Apply saved preference (Default is Dark Mode)
+if (localStorage.getItem('darkMode') === '0') {
+  document.body.classList.remove('dark');
   document.querySelectorAll('.theme-toggle-btn .theme-icon').forEach(icon => {
-    icon.textContent = '☀️';
+    icon.textContent = '🌙';
   });
   document.querySelectorAll('.theme-toggle-btn .theme-text').forEach(txt => {
-    txt.textContent = 'Light Mode';
+    txt.textContent = 'Dark Mode';
   });
 }
 
