@@ -1751,8 +1751,8 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
 body.dark .bg-grid {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
 }
 
 .card {
