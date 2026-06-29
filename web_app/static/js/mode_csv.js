@@ -474,7 +474,7 @@ function buildModelSection(m, name, color) {
       <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">
         Confusion Matrix &nbsp;<span style="font-weight:400;color:var(--gray-400)">threshold ${m.threshold}%</span>
       </div>
-      <table class="cm-table">
+      <table class="cm-table cm-table-main">
         <tr><th></th><th>Pred Non-Spam</th><th>Pred Spam</th></tr>
         <tr><th>Aktual Non-Spam</th><td class="tn">${cm.tn}<br><small>TN</small></td>
             <td class="fp">${cm.fp}<br><small>FP</small></td></tr>
@@ -483,7 +483,7 @@ function buildModelSection(m, name, color) {
       </table>
       <div style="margin-top:10px;">
         <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Per Kelas</div>
-        <table class="per-class-table">
+        <table class="per-class-table per-class-table-main">
           <tr><th>Kelas</th><th>Presisi</th><th>Recall</th><th>F1</th></tr>
           <tr><td><span class="badge-nonspam">Non-Spam</span></td>
               <td>${m.per_class.non_spam.precision}%</td>

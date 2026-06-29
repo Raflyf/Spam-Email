@@ -1921,12 +1921,12 @@ input[type="checkbox"]:focus-visible {
 }
 
 /* ── CONFUSION MATRIX SIZING OVERRIDES ── */
-.cm-table td {
+.cm-table-main td {
   font-size: 22px !important;
   font-weight: 800 !important;
   padding: 16px 20px !important;
 }
-.cm-table td small {
+.cm-table-main td small {
   font-size: 12px !important;
   display: block;
   margin-top: 4px;
@@ -1936,18 +1936,18 @@ input[type="checkbox"]:focus-visible {
 }
 
 /* ── PER-CLASS TABLE SIZING OVERRIDES ── */
-.per-class-table td {
+.per-class-table-main td {
   font-size: 16px !important;
   font-weight: 500 !important;
   padding: 12px 14px !important;
 }
-.per-class-table th {
+.per-class-table-main th {
   font-size: 15px !important;
   font-weight: 600 !important;
   padding: 12px 14px !important;
 }
-.per-class-table .badge-spam,
-.per-class-table .badge-nonspam {
+.per-class-table-main .badge-spam,
+.per-class-table-main .badge-nonspam {
   font-size: 14px !important;
   padding: 2px 10px !important;
 }
