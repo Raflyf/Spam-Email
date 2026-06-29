@@ -514,17 +514,17 @@ function buildTop20(features) {
 
   const renderRows = (list, offset) => list.map((f, i) => `
     <tr>
-      <td style="width:28px;text-align:center;color:var(--gray-400);font-size:13px;">${i + offset + 1}</td>
-      <td style="width:95px;font-weight:600;font-size:14px;white-space:nowrap;
+      <td style="width:24px;text-align:center;color:var(--gray-400);font-size:13px;">${i + offset + 1}</td>
+      <td style="width:125px;font-weight:600;font-size:14px;white-space:nowrap;
                  overflow:hidden;text-overflow:ellipsis;" title="${f.feature}">${f.feature}</td>
-      <td style="width:auto;padding:0 8px;">
+      <td style="width:auto;padding:0 4px 0 8px;">
         <div style="background:var(--gray-100);border-radius:99px;height:10px;overflow:hidden;">
           <div style="background:var(--primary);height:100%;border-radius:99px;
                       width:${max > 0 ? Math.round(f.score / max * 100) : 0}%;
                       print-color-adjust:exact;-webkit-print-color-adjust:exact;"></div>
         </div>
       </td>
-      <td style="width:55px;font-size:13px;color:var(--gray-500);text-align:right;white-space:nowrap;">
+      <td style="width:42px;font-size:13px;color:var(--gray-500);text-align:right;white-space:nowrap;">
         ${f.score.toLocaleString()}
       </td>
     </tr>`).join('');
