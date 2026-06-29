@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=22">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=23">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -107,12 +107,15 @@
         <div id="batchResults" style="max-height:350px;overflow-y:auto;"></div>
       </div>
 
-      <div id="textResults" style="display:none;">
-        <div id="consensusBanner" class="card" style="margin-bottom:14px;"></div>
+      <div id="textResults" class="card" style="display:none; border-top:4px solid var(--primary);">
+        <div id="consensusBanner" style="margin-bottom:14px;"></div>
         <!-- Rekomendasi & Indikator -->
-        <div id="rekomendasiBox" class="card" style="margin-bottom:14px;display:none;"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="modelCards"></div>
-        <div id="agreementNote" style="text-align:center;font-size:12px;margin-top:10px;"></div>
+        <div id="rekomendasiBox" style="margin-bottom:14px;padding:16px;background:var(--gray-50);border-radius:12px;border:1px solid var(--border);display:none;"></div>
+        
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;" id="modelCards"></div>
+          <div id="agreementNote" style="text-align:center;font-size:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border);"></div>
+        </div>
       </div>
     </div>
 

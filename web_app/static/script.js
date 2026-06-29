@@ -228,10 +228,10 @@ function renderTextResult(d, rawText) {
   cards.innerHTML = [
     { name: 'Naive Bayes', m: nb, note: 'Akurasi 77% — lebih sensitif terhadap kata kunci' },
     { name: 'XGBoost', m: xgb, note: 'Akurasi 93% — lebih handal untuk email modern' },
-  ].map(({ name, m, note }) => `
-    <div class="compare-card">
+  ].map(({ name, m, note }, i) => `
+    <div style="${i === 0 ? 'border-right: 1px dashed var(--border); padding-right: 20px;' : 'padding-left: 20px;'}">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <span class="compare-model-title">${name}</span>
+        <span style="font-weight:700;font-size:14px;letter-spacing:.5px;text-transform:uppercase;">${name}</span>
         <span class="label-badge ${m.is_spam ? 'spam' : 'ham'}">${m.label}</span>
       </div>
       <div style="font-size:11px;color:var(--gray-400);margin-bottom:10px;">${note}</div>

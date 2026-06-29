@@ -50,9 +50,9 @@ body.dark {
   --gray-400: #a1a1aa;
   --gray-600: #d4d4d8;
   --gray-800: #fafafa;
-  --card-bg: rgba(255, 255, 255, 0.06);
-  --body-bg: #121215;
-  --border: #2a2a2e;
+  --card-bg: #111113;
+  --body-bg: #111113;
+  --border: #27272a;
   --shadow: none;
 }
 
@@ -1568,11 +1568,8 @@ body {
 }
 
 body.dark .card {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: rgba(24, 24, 27, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 textarea, input[type="text"], input[type="number"] {
@@ -1754,7 +1751,8 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
 body.dark .bg-grid {
-  display: none;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.10) 1px, transparent 1px);
 }
 
 .card {
