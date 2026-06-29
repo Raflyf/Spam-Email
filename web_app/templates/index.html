@@ -268,7 +268,7 @@
             <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 70, 30)">70:30</button>
             <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 80, 20)">80:20</button>
             <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 90, 10)">90:10</button>
-            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;background:var(--danger);color:#fff;border:none;" onclick="applyBalanceRatio('test', 50, 50)">Reset (50:50)</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;background:var(--danger);color:#fff;border:none;" onclick="document.getElementById('nNonSpam').value=0; document.getElementById('nSpam').value=0; updateBalancePreview();">Reset (Semua)</button>
           </div>
           <div style="margin-top:8px;font-size:12px;color:var(--gray-400);">
             Total sampel uji: <b id="totalSample">1.000</b> email
