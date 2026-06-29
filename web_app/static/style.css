@@ -9,46 +9,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
 :root {
-  --primary: #4f46e5;
-  --primary-dk: #3730a3;
-  --success: #2A9D8F;
-  --danger: #dc2626;
-  --warning: #F4A261;
-  --info: #457B9D;
-  --gray-50: #FFFFFF;
-  --gray-100: #F1F1ED;
-  --gray-200: #E0E0DB;
-  --gray-300: #D1D1CB;
-  --gray-400: #A0A09B;
-  --gray-600: #5C5C59;
-  --gray-800: #121212;
-  --card-bg: #FFFFFF;
-  --body-bg: #F9F9F6;
-  --border: #E0E0DB;
-  --radius: 12px;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Minimalist shadow */
+  /* Shadcn UI Zinc Palette (Light) */
+  --primary: #09090b;
+  --primary-dk: #27272a;
+  --primary-fg: #fafafa;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --gray-50: #f4f4f5;
+  --gray-100: #e4e4e7;
+  --gray-200: #d4d4d8;
+  --gray-300: #a1a1aa;
+  --gray-400: #71717a;
+  --gray-600: #52525b;
+  --gray-800: #09090b;
+  --card-bg: #ffffff;
+  --body-bg: #ffffff;
+  --border: #e4e4e7;
+  --radius: 0.5rem;
+  --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
 /* ═══════════════════════════════
-       DARK MODE — Swiss Analytics
+       DARK MODE — Shadcn UI
     ═══════════════════════════════ */
 body.dark {
-  --primary: #7c75f0;
-  --primary-dk: #6860e8;
-  --success: #2A9D8F;
-  --danger: #f87171;
-  --warning: #F4A261;
-  --info: #457B9D;
-  --gray-50: #0A0A0A;
-  --gray-100: #141414;
-  --gray-200: #1F1F1F;
-  --gray-300: #2A2A2A;
-  --gray-400: #666666;
-  --gray-600: #999999;
-  --gray-800: #F3F3F3;
-  --card-bg: #111111;
-  --body-bg: #0A0A0A;
-  --border: #2A2A2A;
+  /* Shadcn UI Zinc Palette (Dark) */
+  --primary: #fafafa;
+  --primary-dk: #d4d4d8;
+  --primary-fg: #09090b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --gray-50: #18181b;
+  --gray-100: #27272a;
+  --gray-200: #3f3f46;
+  --gray-300: #52525b;
+  --gray-400: #a1a1aa;
+  --gray-600: #d4d4d8;
+  --gray-800: #fafafa;
+  --card-bg: #09090b;
+  --body-bg: #09090b;
+  --border: #27272a;
   --shadow: none;
 }
 
@@ -1487,4 +1491,125 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
 }
 .prob-bar-fill {
   animation: fillGauge 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ═══════════════════════════════
+       SHADCN UI OVERRIDES
+    ═══════════════════════════════ */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.btn-primary, .btn-secondary, button {
+  font-family: 'Inter', system-ui, sans-serif;
+  border-radius: var(--radius) !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  color: var(--primary-fg) !important;
+  border: none !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+.btn-primary:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent !important;
+  color: var(--primary) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+.btn-secondary:hover {
+  background-color: var(--gray-100) !important;
+  color: var(--primary) !important;
+}
+
+.card {
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+  background: var(--card-bg) !important;
+  border-radius: var(--radius) !important;
+}
+
+textarea, input[type="text"], input[type="number"] {
+  border: 1px solid var(--border) !important;
+  background: transparent !important;
+  border-radius: var(--radius) !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+textarea:focus, input[type="text"]:focus, input[type="number"]:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px var(--gray-200) !important;
+  outline: none !important;
+}
+
+body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[type="number"]:focus {
+  box-shadow: 0 0 0 2px var(--gray-800) !important;
+}
+
+.badge {
+  border-radius: 9999px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--primary) !important;
+  color: var(--primary-fg) !important;
+}
+
+.pill, .stat-chip, .indicator-spam, .indicator-ham {
+  border: 1px solid var(--border) !important;
+  background: transparent !important;
+  color: var(--primary) !important;
+  border-radius: 9999px !important;
+  font-weight: 500 !important;
+}
+
+.file-drop {
+  border: 1px dashed var(--border) !important;
+  background: transparent !important;
+}
+.file-drop:hover {
+  background: var(--gray-50) !important;
+}
+
+.tabs {
+  background: var(--gray-50) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 4px !important;
+}
+.tab-btn {
+  border-radius: calc(var(--radius) - 2px) !important;
+  color: var(--gray-600) !important;
+}
+.tab-btn.active {
+  background: var(--card-bg) !important;
+  color: var(--primary) !important;
+  border-bottom: none !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+.progress-log {
+  background: #09090b !important;
+  color: #a1a1aa !important;
+  border: 1px solid var(--border) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  border-radius: var(--radius) !important;
+}
+
+/* Fix Shadcn Red/Green */
+.indicator-spam, .stat-chip.spam {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444 !important;
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+.indicator-ham, .stat-chip.nonspam {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #10b981 !important;
+  border-color: rgba(16, 185, 129, 0.2) !important;
 }

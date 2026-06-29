@@ -147,58 +147,58 @@
     "n_adapt": 300,
     "n_test": 700,
     "adapt_frac": 0.3,
-    "adapt_weight": 15.0,
+    "adapt_weight": 8.0,
     "gpu": true,
     "preset": "full",
     "naive_bayes": {
       "model": "Naive Bayes",
-      "threshold": 42.0,
-      "accuracy": 88.29,
-      "precision": 88.61,
-      "recall": 88.29,
-      "f1": 88.26,
+      "threshold": 45.0,
+      "accuracy": 87.86,
+      "precision": 88.24,
+      "recall": 87.86,
+      "f1": 87.83,
       "cm": {
-        "tn": 293,
-        "fp": 57,
+        "tn": 290,
+        "fp": 60,
         "fn": 25,
         "tp": 325
       },
       "per_class": {
         "non_spam": {
-          "precision": 92.14,
-          "recall": 83.71,
-          "f1": 87.72
+          "precision": 92.06,
+          "recall": 82.86,
+          "f1": 87.22
         },
         "spam": {
-          "precision": 85.08,
+          "precision": 84.42,
           "recall": 92.86,
-          "f1": 88.8
+          "f1": 88.44
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 77.0,
-      "accuracy": 94.86,
-      "precision": 95.28,
-      "recall": 94.86,
-      "f1": 94.84,
+      "threshold": 69.0,
+      "accuracy": 94.57,
+      "precision": 94.9,
+      "recall": 94.57,
+      "f1": 94.56,
       "cm": {
-        "tn": 349,
-        "fp": 1,
-        "fn": 35,
-        "tp": 315
+        "tn": 346,
+        "fp": 4,
+        "fn": 34,
+        "tp": 316
       },
       "per_class": {
         "non_spam": {
-          "precision": 90.89,
-          "recall": 99.71,
-          "f1": 95.1
+          "precision": 91.05,
+          "recall": 98.86,
+          "f1": 94.79
         },
         "spam": {
-          "precision": 99.68,
-          "recall": 90.0,
-          "f1": 94.59
+          "precision": 98.75,
+          "recall": 90.29,
+          "f1": 94.33
         }
       }
     },
