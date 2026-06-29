@@ -31,6 +31,12 @@ function switchTab(t) {
   const ph = document.getElementById('pane-history');
   if (ph) ph.classList.toggle('active', t === 'history');
   if (t === 'history') loadHistory();
+  else {
+    // Tutup mode pilih data otomatis jika pindah ke tab lain
+    if (typeof toggleSelectMode === 'function' && typeof _selectMode !== 'undefined' && _selectMode) {
+      toggleSelectMode();
+    }
+  }
   // Simpan state ke URL hash
   window.location.hash = t;
 }

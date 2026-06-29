@@ -382,6 +382,7 @@ Deteksi kolom otomatis. Label yang dikenali:
 | Tab menu "Riwayat" terpotong di HP | Menu tab menggunakan `width: max-content` yang melebihi viewport HP | Ubah `.tabs` menjadi `width: 100%` di media query HP & kecilkan padding tombol |
 | Kolom Top 20 Chi-Square tidak sejajar | Ukuran kolom dinamis berbeda saat tabel menumpuk vertikal di HP | Terapkan `table-layout: fixed` & lebar piksel absolut pada kolom tabel |
 | Badge `NON-SPAM` terpotong di HP | Padding lebar & teks panjang memicu pembungkusan baris baru | Set `white-space: nowrap !important` & kecilkan ukuran badge ke `11px` di HP |
+| Pilihan data riwayat tetap terbuka saat pindah tab | Status `_selectMode` tidak di-reset saat berganti halaman/tab | Tutup mode pilih data otomatis di `switchTab()` jika tab tujuan bukan riwayat |
 
 ---
 
