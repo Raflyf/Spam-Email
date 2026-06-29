@@ -56,9 +56,9 @@ Sesuai dengan konsep *Personal AI Jarvis*, AI diharapkan bisa dipanggil untuk me
 - Saat membaca log panjang, hasil testing, *grep*, atau *git diff*, selalu padatkan (*compress*) *output*-nya agar tidak menguras kuota token secara berlebihan.
 
 ## 📖 Wajib Baca Saat Sesi Baru
-- Saat memulai sesi baru atau konteks sebelumnya sudah terpotong (*truncated*), **WAJIB** baca file `RANGKUMAN_SKRIPSI.md` terlebih dahulu sebelum menjawab pertanyaan apa pun.
+- Saat memulai sesi baru atau konteks sebelumnya sudah terpotong (*truncated*), **WAJIB** baca file `claude.md` terlebih dahulu sebelum menjawab pertanyaan apa pun.
 - Selain itu, Anda juga **WAJIB** mengecek folder `.agents/skills/` dan membaca panduan *skill* di dalamnya untuk memahami perintah kustom proyek ini (seperti `ponytail`, `headroom`, dsb.) dan memulihkan kembali konteks atau *skill* yang sudah terlupakan.
-- File `RANGKUMAN_SKRIPSI.md` berisi **seluruh konteks proyek**: hasil metrik, struktur folder, arsitektur web app, daftar bug yang sudah diperbaiki, dan narasi skripsi.
+- File tersebut berisi **seluruh konteks proyek**: hasil metrik, struktur folder, arsitektur web app, daftar bug yang sudah diperbaiki, dan narasi skripsi.
 - Jangan pernah menebak atau berasumsi tentang struktur proyek — **selalu baca file dan skill lokal dulu**.
 
 ## 🔒 File yang TIDAK BOLEH Diubah
