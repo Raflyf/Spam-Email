@@ -1632,7 +1632,7 @@ body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[ty
 
 .progress-log {
   background: #09090b !important;
-  color: #a1a1aa !important;
+  color: #86efac !important;
   border: 1px solid var(--border) !important;
   font-family: 'JetBrains Mono', monospace !important;
   border-radius: var(--radius) !important;
