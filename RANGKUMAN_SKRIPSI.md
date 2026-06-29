@@ -619,3 +619,24 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih *"Open folder as vault
 | 4 | **Pemisahan Progress Bar M1 & M2** | `script.js` | Memisahkan alur indikator *loading* menjadi `_progressStagesM1` dan `_progressStagesM2` agar taksiran persentase pelacakan lebih sinkron dan realistis sesuai dengan metode yang sedang berjalan. |
 | 5 | **Memory Leak Prevention** | `script.js` | Menambahkan *event listener* `beforeunload` untuk menetralkan / mematikan objek grafik *Chart.js* dan timer *polling* sebelum halaman ditutup (mencegah kebocoran memori RAM peramban). |
 | 6 | **Modernisasi Tombol Dark Mode** | `index.html` & `style.css` | Merombak tombol *Dark Mode* bulat lama menjadi tombol kapsul (*pill button*) modern yang dilengkapi teks dinamis dan diletakkan strategis berdampingan dengan sub-judul halaman web. |
+
+---
+
+## 23. Update Terbaru (29 Juni 2026)
+
+### Perombakan UI/UX (Linear / Cult UI Aesthetic)
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Glassmorphism & Opacity Adjustments** | `style.css` | Merombak desain kartu (.card) dengan efek kaca (*backdrop-filter blur*) transparan. Opasitas dioptimalkan (95% solid `rgba(24, 24, 27, 0.95)`) agar teks tetap sangat jelas terbaca meski pada tingkat kecerahan layar HP yang rendah. |
+| 2 | **Penyempurnaan Warna Background (Soft Dark)** | `style.css` | Mengubah warna *background* utama mode gelap dari hitam pekat (`#09090b`) menjadi *slate black* abu-abu super gelap (`#111113`) agar lebih ramah di mata dan terasa premium. |
+| 3 | **Penyatuan Card Mode Teks** | `index.html`, `script.js` | Menggabungkan hasil akurasi model Naive Bayes dan XGBoost pada Mode Teks ke dalam **satu card besar** terpadu (dipisah dengan garis putus-putus), menggantikan desain lama yang terpisah-pisah. |
+| 4 | **Peningkatan Skala Huruf (Readability)** | `style.css` | Menaikkan ukuran *font* secara spesifik pada tabel *Confusion Matrix* (dari 13px ke 15px) dan tabel Metrik Per Kelas (dari 13px ke 14px) agar angka-angka krusial jauh lebih mudah dibaca. |
+
+### Bug Fixes & Tata Letak Mobile
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Fix Tata Letak Input Mobile** | `style.css` | Memperbaiki masalah kotak input "Jumlah Spam Training" yang tidak sejajar horizontal pada layar HP akibat teks label di atasnya terpotong/turun baris. Diselesaikan dengan menerapkan `align-items: end;` pada *CSS Grid*. |
+| 2 | **Fix Bug Ikon Toggle Tema Hilang** | `index.html` | Tombol *Dark Mode* atas sempat kehilangan emotikonnya saat diklik karena JavaScript me-reset struktur SVG `lucide`. Diperbaiki dengan menyeragamkan penggunaan elemen `<span class="theme-icon">🌙</span>` murni untuk kedua tombol toggle atas dan bawah. |
+| 3 | **Pemulihan Aksen Warna Card** | `style.css` | Memperbaiki garis aksen warna di bagian atas *card* (seperti merah/hijau/biru) yang sebelumnya hilang karena tertimpa deklarasi `border !important` global. |
