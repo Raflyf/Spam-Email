@@ -37,29 +37,33 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=6">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=8">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
+  <div class="bg-grid"></div>
   <div id="toast-container"></div>
   <div class="container">
 
     <header style="position: relative;">
       <div class="badge">Skripsi Klasifikasi Spam Email</div>
-      <h1 style="margin-top:0;">🛡️ Spam Email Classifier</h1>
+      <h1 style="margin-top:0; display:flex; align-items:center; justify-content:center; gap:8px;">
+        <i data-lucide="shield-check" style="width: 32px; height: 32px;"></i> Spam Email Classifier
+      </h1>
       <div style="display:flex; align-items:center; justify-content:center; gap: 12px; flex-wrap:wrap; margin-top:6px; color:var(--gray-600); font-size:14px;">
         <span>Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</span>
         <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema">
-          <span class="theme-icon">🌙</span> <span class="theme-text">Dark Mode</span>
+          <i data-lucide="moon" class="theme-icon" style="width: 14px; height: 14px;"></i> <span class="theme-text">Dark Mode</span>
         </button>
       </div>
     </header>
 
     <!-- TABS -->
     <div class="tabs" id="mainTabs">
-      <button class="tab-btn active" data-tab="text" onclick="switchTab('text')">✏️ Mode Teks</button>
-      <button class="tab-btn" data-tab="csv" onclick="switchTab('csv')">📂 Mode CSV</button>
-      <button class="tab-btn" data-tab="history" onclick="switchTab('history')">📋 Riwayat</button>
+      <button class="tab-btn active" data-tab="text" onclick="switchTab('text')"><i data-lucide="pen-line" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode Teks</button>
+      <button class="tab-btn" data-tab="csv" onclick="switchTab('csv')"><i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode CSV</button>
+      <button class="tab-btn" data-tab="history" onclick="switchTab('history')"><i data-lucide="history" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Riwayat</button>
     </div>
 
     <!-- ═══════════════ TAB: TEKS ═══════════════ -->
@@ -92,13 +96,13 @@
       <div class="card" id="batchCard" style="display:none;">
         <div
           style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
-          <h2 style="margin:0;">📋 Hasil Batch Prediksi</h2>
+          <h2 style="margin:0;"><i data-lucide="list-checks" style="width:20px;height:20px;vertical-align:text-bottom;margin-right:6px;"></i> Hasil Batch Prediksi</h2>
           <div style="display:flex;gap:8px;align-items:center;">
             <span id="batchSummary" style="font-size:12px;color:var(--gray-400);"></span>
-            <button class="btn-secondary" onclick="exportBatchCSV()" style="font-size:12px;padding:6px 14px;">📊 Export
+            <button class="btn-secondary" onclick="exportBatchCSV()" style="font-size:12px;padding:6px 14px;"><i data-lucide="download" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i> Export
               CSV</button>
             <button class="btn-secondary" onclick="clearBatch()"
-              style="font-size:12px;padding:6px 14px;color:var(--danger);">✕ Tutup</button>
+              style="font-size:12px;padding:6px 14px;color:var(--danger);"><i data-lucide="x" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i> Tutup</button>
           </div>
         </div>
         <div id="batchResults" style="max-height:350px;overflow-y:auto;"></div>
@@ -122,11 +126,11 @@
         <div style="display:flex;gap:4px;background:var(--gray-100);border-radius:8px;padding:4px;margin-bottom:16px;">
           <button class="tab-btn active" id="modeTestOnly" onclick="setUploadMode('test_only')"
             style="font-size:13px;padding:8px 14px;">
-            📂 Hanya Upload Test
+            <i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Hanya Upload Test
           </button>
           <button class="tab-btn" id="modeCustomTrain" onclick="setUploadMode('custom_train')"
             style="font-size:13px;padding:8px 14px;">
-            📂📂 Upload Train + Test
+            <i data-lucide="files" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Upload Train + Test
           </button>
         </div>
 
@@ -140,12 +144,12 @@
         <!-- ── DROP ZONE TRAIN (hanya tampil di mode custom) ── -->
         <div id="trainUploadSection" style="display:none;margin-bottom:16px;">
           <label class="field-label" style="font-size:13px;margin-bottom:6px;">
-            📗 CSV Training (data untuk melatih model)
+            <i data-lucide="book-open" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i> CSV Training (data untuk melatih model)
           </label>
           <div class="file-drop" id="dropZoneTrain" onclick="document.getElementById('csvTrain').click()"
             ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
             ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvTrain=f;showFileLabel(f,'fileNameTrain','📗');checkCanEval();fetchDatasetStats(f,'trainDatasetStats');}})(event.dataTransfer.files[0])">
-            <div class="icon">📩</div>
+            <div class="icon"><i data-lucide="inbox" style="width:32px;height:32px;color:var(--gray-400);margin:0 auto;"></i></div>
             <div>Klik atau seret CSV Training ke sini</div>
             <div class="hint">Harus punya kolom teks dan label &bull; Contoh: emails.csv, enron_spam_data.csv</div>
           </div>
@@ -157,12 +161,12 @@
 
         <!-- ── DROP ZONE TEST ── -->
         <label class="field-label" style="font-size:13px;margin-bottom:6px;" id="testLabel">
-          📘 CSV Test (data untuk mengevaluasi model)
+          <i data-lucide="book-marked" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i> CSV Test (data untuk mengevaluasi model)
         </label>
         <div class="file-drop" id="dropZone" onclick="document.getElementById('csvFile').click()"
           ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
           ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
-          <div class="icon">📘</div>
+          <div class="icon"><i data-lucide="file-check-2" style="width:32px;height:32px;color:var(--gray-400);margin:0 auto;"></i></div>
           <div>Klik atau seret CSV Test ke sini</div>
           <div class="hint">CSV harus punya kolom teks (text/body/message) dan label (label/spam/class) &bull; Max 100
             MB</div>
@@ -519,7 +523,12 @@
     display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);
     border:1px solid rgba(255,255,255,0.1);"></div>
   
-  <script src="/static/script.js?v=3"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=3"></script>
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
 </body>
 
 </html>

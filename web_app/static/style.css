@@ -1613,3 +1613,45 @@ body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[ty
   color: #10b981 !important;
   border-color: rgba(16, 185, 129, 0.2) !important;
 }
+
+/* ═══════════════════════════════
+       CULT-UI ASSETS & ANIMATIONS
+    ═══════════════════════════════ */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+body.dark .bg-grid {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: calc(var(--radius) + 1px);
+  background: conic-gradient(from 90deg at 50% 50%, transparent 0%, var(--primary) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.card:focus-within::before, .card:hover::before {
+  opacity: 0.15;
+  animation: spinGlow 4s linear infinite;
+}
+@keyframes spinGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
