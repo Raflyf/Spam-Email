@@ -1919,3 +1919,18 @@ select:focus-visible {
 input[type="checkbox"]:focus-visible {
   outline-offset: 0px !important;
 }
+
+/* ── CONFUSION MATRIX SIZING OVERRIDES ── */
+.cm-table td {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  padding: 16px 20px !important;
+}
+.cm-table td small {
+  font-size: 12px !important;
+  display: block;
+  margin-top: 4px;
+  opacity: 0.8;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+}
