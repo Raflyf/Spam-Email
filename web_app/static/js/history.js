@@ -464,12 +464,13 @@ function updateDeleteBtn() {
   const checked = document.querySelectorAll('.hist-check:checked');
   const delBtn = document.getElementById('deleteSelectedBtn');
   const cmpBtn = document.getElementById('compareRunsBtn');
-  const countEl = document.getElementById('selectedCount');
   const all = document.getElementById('checkAll');
   const total = document.querySelectorAll('.hist-check').length;
 
-  countEl.textContent = checked.length;
-  delBtn.style.display = checked.length > 0 ? 'inline-flex' : 'none';
+  if (delBtn) {
+    delBtn.style.display = checked.length > 0 ? 'inline-flex' : 'none';
+    delBtn.innerHTML = `🗑 Hapus ${checked.length} Terpilih`;
+  }
   if (cmpBtn) {
     cmpBtn.style.display = checked.length >= 2 ? 'inline-flex' : 'none';
     cmpBtn.innerHTML = `🔄 Bandingkan ${checked.length} Run`;
