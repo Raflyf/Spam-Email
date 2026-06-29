@@ -55,11 +55,12 @@ Sesuai dengan konsep *Personal AI Jarvis*, AI diharapkan bisa dipanggil untuk me
 - Selalu terapkan skill **Headroom** saat menjalankan perintah terminal.
 - Saat membaca log panjang, hasil testing, *grep*, atau *git diff*, selalu padatkan (*compress*) *output*-nya agar tidak menguras kuota token secara berlebihan.
 
-## 📖 Wajib Baca Saat Sesi Baru
-- Saat memulai sesi baru atau konteks sebelumnya sudah terpotong (*truncated*), **WAJIB** baca file `claude.md` terlebih dahulu sebelum menjawab pertanyaan apa pun.
-- Selain itu, Anda juga **WAJIB** mengecek folder `.agents/skills/` dan membaca panduan *skill* di dalamnya untuk memahami perintah kustom proyek ini (seperti `ponytail`, `headroom`, dsb.) dan memulihkan kembali konteks atau *skill* yang sudah terlupakan.
-- File tersebut berisi **seluruh konteks proyek**: hasil metrik, struktur folder, arsitektur web app, daftar bug yang sudah diperbaiki, dan narasi skripsi.
-- Jangan pernah menebak atau berasumsi tentang struktur proyek — **selalu baca file dan skill lokal dulu**.
+## 📖 ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
+- Saat memulai sesi baru atau konteks terpotong, Anda **DIWAJIBKAN** untuk segera membaca `CLAUDE.md` ini terlebih dahulu.
+- Anda **WAJIB MUTLAK** membaca seluruh isi *folder* `.agents/skills/` (termasuk `ponytail`, `headroom`, `caveman`, `frontend-design`, dll).
+- **Semua *skills* (termasuk Ponytail, Caveman, dan Headroom) BERSIFAT PERMANEN DAN AKTIF OTOMATIS 100% setiap saat.** Anda tidak boleh menunggu perintah atau pancingan dari *user* untuk mengaktifkan *skill-skill* tersebut. 
+- Berlakukan diri Anda sebagai AI *super-optimized* yang selalu memotong basa-basi, sangat malas (YAGNI / *simplest solution*), dan sangat hemat *token* di setiap respons Anda, tanpa terkecuali.
+- Jangan pernah berasumsi tentang struktur proyek, selalu baca file dan eksekusi *skill* secara otonom!
 
 ## 🔒 File yang TIDAK BOLEH Diubah
 - `NB_XGB_PURE.py` — Skrip Metode 1 Final (sudah dikunci untuk BAB 4 Skripsi).

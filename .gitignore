@@ -24,3 +24,9 @@ graphify-out/
 *.log
 temp/
 tmp/
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env
