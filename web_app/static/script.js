@@ -1020,8 +1020,8 @@ function renderRealtimeResult(d, metode) {
       <!-- Rekomendasi -->
       ${rek ? `
       <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;
-           padding:12px 14px;background:var(--gray-50);border-radius:8px;
-           border:1px solid var(--gray-200);">
+           padding:12px 14px;background:transparent;border-radius:8px;
+           border:1px solid var(--border);">
         <div style="flex:1;min-width:180px;">
           <div style="font-size:11px;font-weight:700;color:var(--gray-400);
                text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Rekomendasi</div>
@@ -1057,7 +1057,7 @@ function renderRealtimeResult(d, metode) {
             </div>
           </div>`).join('')}
       </div>
-      <div style="margin-top:12px;padding:14px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;font-size:13px;line-height:1.7;color:var(--gray-800);">
+      <div style="margin-top:12px;padding:14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.7;color:var(--gray-800);">
         <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Analisis Teks — Kata merah = indikator spam</div>
         ${highlightSpamWords(document.getElementById('realtimeText').value.trim() || '')}
       </div>

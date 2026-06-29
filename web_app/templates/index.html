@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=12">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=13">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -135,8 +135,8 @@
         </div>
 
         <!-- Info mode aktif -->
-        <div id="modeInfo" style="font-size:12px;color:var(--gray-400);margin-bottom:14px;
-           padding:8px 12px;background:var(--gray-50);border-radius:6px;border-left:3px solid var(--primary);">
+        <div id="modeInfo" style="font-size:12px;color:var(--gray-600);margin-bottom:14px;
+           padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:6px;border-left:3px solid var(--primary);">
           <b>Mode:</b> Data training menggunakan <b>emails.csv</b> bawaan (5.728 email Kaggle).
           Anda hanya perlu upload CSV test.
         </div>
@@ -204,7 +204,7 @@
         </div>
 
         <!-- Balancing Dataset Training -->
-        <div style="margin-top:14px;padding:14px 16px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;">
+        <div style="margin-top:14px;padding:14px 16px;background:transparent;border:1px solid var(--border);border-radius:10px;">
           <div style="font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
             ⚖️ Balancing Dataset Training
             <span style="font-size:11px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data training</span>
@@ -243,8 +243,8 @@
         </div>
 
         <!-- Balancing Dataset Test -->
-        <div
-          style="margin-top:10px;padding:14px 16px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;">
+        <div id="testBalancingSection"
+          style="margin-top:10px;padding:14px 16px;background:transparent;border:1px solid var(--border);border-radius:10px;">
           <div style="font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
             ⚖️ Balancing Dataset Test
             <span style="font-size:11px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data
@@ -524,7 +524,7 @@
     border:1px solid rgba(255,255,255,0.1);"></div>
   
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="{{ url_for('static', filename='script.js') }}?v=5"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=6"></script>
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
