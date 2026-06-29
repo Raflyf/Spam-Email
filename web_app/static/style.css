@@ -1951,3 +1951,14 @@ input[type="checkbox"]:focus-visible {
   font-size: 14px !important;
   padding: 2px 10px !important;
 }
+
+/* ── MODAL OVERLAYS & TRANSPARENCY FIX ── */
+.modal-overlay {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+.modal-content {
+  background-color: var(--body-bg) !important;
+  box-shadow: var(--shadow-premium), 0 20px 25px -5px rgba(0,0,0,0.3) !important;
+}
