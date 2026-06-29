@@ -420,6 +420,7 @@ input[type=file] {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-top: 14px;
+  align-items: end;
 }
 
 label.field-label {
