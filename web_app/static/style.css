@@ -569,6 +569,7 @@ button:disabled {
   margin-top: 12px;
   white-space: pre-wrap;
   display: none;
+  color-scheme: dark;
 }
 
 body.dark .progress-log {
