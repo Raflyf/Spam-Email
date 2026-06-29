@@ -1559,7 +1559,7 @@ body {
 }
 
 .card {
-  border: 1px solid var(--border) !important;
+  border: 1px solid var(--border);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
   background: rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(12px) !important;
@@ -1569,7 +1569,7 @@ body {
 
 body.dark .card {
   background: rgba(9, 9, 11, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 textarea, input[type="text"], input[type="number"] {
