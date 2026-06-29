@@ -383,8 +383,8 @@ function renderCsvResults(results) {
   setTimeout(() => {
     fetch('/history').then(r => r.json()).then(d => {
       _historyData = d;
-      const histTab = document.querySelectorAll('.tab-btn')[2];
-      if (histTab && d.length) histTab.textContent = '📋 Riwayat (' + d.length + ')';
+      const histTabText = document.getElementById('histTabText');
+      if (histTabText && d.length) histTabText.textContent = 'Riwayat (' + d.length + ')';
     }).catch(() => { });
   }, 600);
 

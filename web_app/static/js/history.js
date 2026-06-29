@@ -521,6 +521,13 @@ async function loadHistory() {
   try {
     const res = await fetch('/history');
     _historyData = await res.json();
+    
+    // Update badge di tab riwayat jika elemen tersedia
+    const histTabText = document.getElementById('histTabText');
+    if (histTabText && _historyData.length > 0) {
+      histTabText.textContent = 'Riwayat (' + _historyData.length + ')';
+    }
+
     renderHistory();
   } catch (e) { console.warn('Gagal load history:', e); }
 }
@@ -735,7 +742,12 @@ async function clearHistory() {
   if (!confirm('Hapus semua riwayat eksperimen?')) return;
   await fetch('/history/clear', { method: 'POST' });
   _historyData = [];
+  
+  const histTabText = document.getElementById('histTabText');
+  if (histTabText) histTabText.textContent = 'Riwayat';
+  
   renderHistory();
+  showToast('Semua riwayat berhasil dihapus.');
 }
 
 function toggleCheckAll(cb) {

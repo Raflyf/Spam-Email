@@ -1231,5 +1231,25 @@
     "status": "done",
     "note": "",
     "label_name": ""
+  },
+  {
+    "job_id": "57fb6094-68ef-4394-9004-1c43f645d89c",
+    "timestamp": "2026-06-29 19:35:08",
+    "elapsed_s": 24.0,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": null,
+    "metode2": null,
+    "status": "cancelled",
+    "note": "",
+    "label_name": ""
   }
 ]
