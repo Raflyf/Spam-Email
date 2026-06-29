@@ -504,14 +504,16 @@ button:disabled {
   gap: 8px;
   flex-wrap: wrap;
   margin-top: 6px;
+  padding-bottom: 6px;
 }
+
 
 .pill {
   background: var(--gray-100);
   border: 1px solid var(--border);
   border-radius: 99px;
-  padding: 5px 14px;
-  font-size: 12px;
+  padding: 4px 10px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--gray-600);
@@ -599,6 +601,9 @@ th {
   top: 0;
   background: inherit;
   z-index: 10;
+}
+th:hover {
+  z-index: 20;
 }
 
 
@@ -1432,38 +1437,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   background: var(--primary);
   color: #fff;
 }
-.tooltip-icon::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1f2937;
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  white-space: normal;
-  width: max-content;
-  max-width: 250px;
-  text-align: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: .2s;
-  pointer-events: none;
-  z-index: 100;
-  font-weight: 500;
-  box-shadow: 0 4px 6px rgba(0,0,0,.1);
-  line-height: 1.4;
-}
-body.dark .tooltip-icon::after {
-  background: #f1f1ed;
-  color: #121212;
-}
-.tooltip-icon:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
+
 
 /* ── TOAST NOTIFICATIONS ── */
 #toast-container {
@@ -1510,5 +1484,5 @@ body.dark .tooltip-icon::after {
   from { width: 0%; }
 }
 .prob-bar-fill {
-  animation: fillGauge 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fillGauge 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

@@ -1,3 +1,4 @@
+window.dsStats = { trainNS: 4360, trainSp: 1368, testNS: 0, testSp: 0 };
 
 // ═══════════════════════════════════════════
 // UTILITY: Escape HTML untuk XSS prevention
@@ -69,12 +70,21 @@ const examples = [
     text: 'Hi,\n\nYour instructor has posted a new announcement in "Skripsi dan Tugas Akhir".\n\n"Please submit your draft document by next Friday so we can review the progress. If you have any questions regarding the formatting, check the syllabus guidelines attached in the portal."\n\nTo view this announcement, please log in to the student academic portal.\n\nBest regards,\nUniversity Academic System'
   },
 ];
-const pillsEl = document.getElementById('examplePills');
-examples.forEach(ex => {
-  const p = document.createElement('button');
-  p.className = 'pill'; p.textContent = ex.label;
-  p.onclick = () => { document.getElementById('emailText').value = ex.text; updateCharCount(); };
-  pillsEl.appendChild(p);
+document.querySelectorAll('.example-pills').forEach(pillsEl => {
+  const isRealtime = !pillsEl.closest('#pane-text');
+  examples.forEach(ex => {
+    const p = document.createElement('button');
+    p.className = 'pill'; p.textContent = ex.label;
+    p.onclick = () => {
+      if (isRealtime) {
+        document.getElementById('realtimeText').value = ex.text;
+      } else {
+        document.getElementById('emailText').value = ex.text;
+        updateCharCount();
+      }
+    };
+    pillsEl.appendChild(p);
+  });
 });
 document.getElementById('emailText').addEventListener('input', updateCharCount);
 function updateCharCount() {
@@ -1231,6 +1241,20 @@ function updateBalancePreview() {
   const tot = (ns > 0 || sp > 0) ? (ns + sp) : null;
   const totalEl = document.getElementById('totalSample');
   const noteEl = document.getElementById('balanceNote');
+  
+  let warnNS = '', warnSp = '';
+  const tNS = window.dsStats.testNS;
+  const tSp = window.dsStats.testSp;
+  if (tNS > 0 && ns > 0 && ns > tNS) warnNS = 'Max ' + tNS.toLocaleString('id');
+  if (tSp > 0 && sp > 0 && sp > tSp) warnSp = 'Max ' + tSp.toLocaleString('id');
+  
+  const wN = document.getElementById('warnTestNS');
+  const wS = document.getElementById('warnTestSpam');
+  if(wN) { wN.textContent = warnNS; wN.style.display = warnNS ? 'block' : 'none'; }
+  if(wS) { wS.textContent = warnSp; wS.style.display = warnSp ? 'block' : 'none'; }
+  document.getElementById('nNonSpam').style.borderColor = warnNS ? 'var(--danger)' : 'var(--gray-200)';
+  document.getElementById('nSpam').style.borderColor = warnSp ? 'var(--danger)' : 'var(--gray-200)';
+
   if (tot === null) {
     totalEl.textContent = 'semua';
     noteEl.textContent = '(pakai semua data)';
@@ -1254,6 +1278,22 @@ function updateTrainBalancePreview() {
   const ns = parseInt(document.getElementById('nTrainNonSpam').value) || 0;
   const sp = parseInt(document.getElementById('nTrainSpam').value) || 0;
   const noteEl = document.getElementById('trainBalanceNote');
+  
+  let warnNS = '', warnSp = '';
+  const isCustomTrain = document.getElementById('modeCustomTrain') && document.getElementById('modeCustomTrain').classList.contains('active');
+  const tNS = isCustomTrain ? window.dsStats.trainNS : 4360;
+  const tSp = isCustomTrain ? window.dsStats.trainSp : 1368;
+  
+  if (ns > 0 && ns > tNS) warnNS = 'Max ' + tNS.toLocaleString('id');
+  if (sp > 0 && sp > tSp) warnSp = 'Max ' + tSp.toLocaleString('id');
+  
+  const wN = document.getElementById('warnTrainNS');
+  const wS = document.getElementById('warnTrainSpam');
+  if(wN) { wN.textContent = warnNS; wN.style.display = warnNS ? 'block' : 'none'; }
+  if(wS) { wS.textContent = warnSp; wS.style.display = warnSp ? 'block' : 'none'; }
+  document.getElementById('nTrainNonSpam').style.borderColor = warnNS ? 'var(--danger)' : 'var(--gray-200)';
+  document.getElementById('nTrainSpam').style.borderColor = warnSp ? 'var(--danger)' : 'var(--gray-200)';
+
   if (ns === 0 && sp === 0) {
     noteEl.textContent = 'Menggunakan semua data training yang tersedia';
     noteEl.style.color = 'var(--gray-400)';
@@ -1273,6 +1313,38 @@ function updateTrainBalancePreview() {
       noteEl.style.color = 'var(--gray-600)';
     }
     noteEl.textContent = note;
+  }
+}
+
+function applyBalanceRatio(target, rNS, rSpam) {
+  const isTrain = target === 'train';
+  const isCustomTrain = document.getElementById('modeCustomTrain') && document.getElementById('modeCustomTrain').classList.contains('active');
+  
+  const maxNS = isTrain ? (isCustomTrain ? window.dsStats.trainNS : 4360) : window.dsStats.testNS;
+  const maxSp = isTrain ? (isCustomTrain ? window.dsStats.trainSp : 1368) : window.dsStats.testSp;
+  
+  if (maxNS === 0 || maxSp === 0) {
+    alert('Harap upload/pilih dataset terlebih dahulu!');
+    return;
+  }
+  
+  const maxMultiplier = Math.floor(Math.min(maxNS / rNS, maxSp / rSpam));
+  if (maxMultiplier < 1) {
+    alert('Dataset tidak cukup untuk rasio ini.');
+    return;
+  }
+  
+  const valNS = maxMultiplier * rNS;
+  const valSp = maxMultiplier * rSpam;
+  
+  if (isTrain) {
+    document.getElementById('nTrainNonSpam').value = valNS;
+    document.getElementById('nTrainSpam').value = valSp;
+    updateTrainBalancePreview();
+  } else {
+    document.getElementById('nNonSpam').value = valNS;
+    document.getElementById('nSpam').value = valSp;
+    updateBalancePreview();
   }
 }
 // Init on load
@@ -1375,6 +1447,15 @@ async function fetchDatasetStats(file, targetElId) {
     const el = document.getElementById(targetElId);
     if (!res.ok || data.error) {
       el.style.display = 'none'; return;
+    }
+    if (targetElId === 'trainDatasetStats') {
+      window.dsStats.trainNS = data.n_nonspam;
+      window.dsStats.trainSp = data.n_spam;
+      updateTrainBalancePreview();
+    } else {
+      window.dsStats.testNS = data.n_nonspam;
+      window.dsStats.testSp = data.n_spam;
+      updateBalancePreview();
     }
     const ratio = data.n_nonspam > 0 && data.n_spam > 0
       ? Math.max(data.n_nonspam, data.n_spam) / Math.min(data.n_nonspam, data.n_spam)

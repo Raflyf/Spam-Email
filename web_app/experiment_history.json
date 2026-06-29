@@ -1093,5 +1093,419 @@
     "status": "done",
     "note": "",
     "label_name": ""
+  },
+  {
+    "job_id": "df613aa8-3463-4bdd-b14c-29d23f7ec6f5",
+    "timestamp": "2026-06-29 12:06:05",
+    "elapsed_s": 158.4,
+    "preset": "full",
+    "test_dataset_name": "emails.csv",
+    "train_dataset_name": "full_data_test_berlabel_awal.csv",
+    "n_nonspam": 1368,
+    "n_spam": 1368,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 49.78,
+      "xgb_acc": 54.06,
+      "nb_f1": 33.24,
+      "xgb_f1": 49.56,
+      "nb_cm": {
+        "tn": 0,
+        "fp": 1368,
+        "fn": 6,
+        "tp": 1362
+      },
+      "xgb_cm": {
+        "tn": 331,
+        "fp": 1037,
+        "fn": 220,
+        "tp": 1148
+      },
+      "top10_chi2": [
+        {
+          "feature": "verification",
+          "score": 60.53
+        },
+        {
+          "feature": "verification code",
+          "score": 42.03
+        },
+        {
+          "feature": "password",
+          "score": 37.99
+        },
+        {
+          "feature": "games social",
+          "score": 30.97
+        },
+        {
+          "feature": "social club",
+          "score": 29.66
+        },
+        {
+          "feature": "mb work",
+          "score": 25.27
+        },
+        {
+          "feature": "work text",
+          "score": 25.27
+        },
+        {
+          "feature": "mb",
+          "score": 24.8
+        },
+        {
+          "feature": "text mb",
+          "score": 24.58
+        },
+        {
+          "feature": "club",
+          "score": 23.95
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 95.3,
+      "xgb_acc": 95.46,
+      "nb_f1": 95.29,
+      "xgb_f1": 95.45,
+      "nb_cm": {
+        "tn": 955,
+        "fp": 3,
+        "fn": 87,
+        "tp": 871
+      },
+      "xgb_cm": {
+        "tn": 879,
+        "fp": 79,
+        "fn": 8,
+        "tp": 950
+      },
+      "top10_chi2": [
+        {
+          "feature": "enron",
+          "score": 86.51
+        },
+        {
+          "feature": "vince",
+          "score": 84.47
+        },
+        {
+          "feature": "numtoken numtoken",
+          "score": 76.3
+        },
+        {
+          "feature": "ect",
+          "score": 63.07
+        },
+        {
+          "feature": "numtoken",
+          "score": 59.33
+        },
+        {
+          "feature": "kaminski",
+          "score": 56.95
+        },
+        {
+          "feature": "vince kaminski",
+          "score": 50.85
+        },
+        {
+          "feature": "hou ect",
+          "score": 46.35
+        },
+        {
+          "feature": "hou",
+          "score": 44.8
+        },
+        {
+          "feature": "cc",
+          "score": 42.4
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "2aa6dcc7-9940-4189-baa2-c04e300a5dc5",
+    "timestamp": "2026-06-29 12:11:14",
+    "elapsed_s": 180.8,
+    "preset": "full",
+    "test_dataset_name": "emails.csv",
+    "train_dataset_name": "full_data_test_berlabel_awal.csv",
+    "n_nonspam": 1368,
+    "n_spam": 1368,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.5,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 49.78,
+      "xgb_acc": 54.06,
+      "nb_f1": 33.24,
+      "xgb_f1": 49.56,
+      "nb_cm": {
+        "tn": 0,
+        "fp": 1368,
+        "fn": 6,
+        "tp": 1362
+      },
+      "xgb_cm": {
+        "tn": 331,
+        "fp": 1037,
+        "fn": 220,
+        "tp": 1148
+      },
+      "top10_chi2": [
+        {
+          "feature": "verification",
+          "score": 60.53
+        },
+        {
+          "feature": "verification code",
+          "score": 42.03
+        },
+        {
+          "feature": "password",
+          "score": 37.99
+        },
+        {
+          "feature": "games social",
+          "score": 30.97
+        },
+        {
+          "feature": "social club",
+          "score": 29.66
+        },
+        {
+          "feature": "mb work",
+          "score": 25.27
+        },
+        {
+          "feature": "work text",
+          "score": 25.27
+        },
+        {
+          "feature": "mb",
+          "score": 24.8
+        },
+        {
+          "feature": "text mb",
+          "score": 24.58
+        },
+        {
+          "feature": "club",
+          "score": 23.95
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 99.12,
+      "xgb_acc": 96.64,
+      "nb_f1": 99.12,
+      "xgb_f1": 96.63,
+      "nb_cm": {
+        "tn": 681,
+        "fp": 3,
+        "fn": 9,
+        "tp": 675
+      },
+      "xgb_cm": {
+        "tn": 642,
+        "fp": 42,
+        "fn": 4,
+        "tp": 680
+      },
+      "top10_chi2": [
+        {
+          "feature": "vince",
+          "score": 106.89
+        },
+        {
+          "feature": "enron",
+          "score": 104.23
+        },
+        {
+          "feature": "ect",
+          "score": 79.82
+        },
+        {
+          "feature": "numtoken numtoken",
+          "score": 74.24
+        },
+        {
+          "feature": "kaminski",
+          "score": 68.35
+        },
+        {
+          "feature": "vince kaminski",
+          "score": 61.01
+        },
+        {
+          "feature": "hou ect",
+          "score": 58.27
+        },
+        {
+          "feature": "hou",
+          "score": 56.81
+        },
+        {
+          "feature": "numtoken",
+          "score": 56.0
+        },
+        {
+          "feature": "cc",
+          "score": 53.33
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "d81664bf-1b59-44ef-83a9-118c1aeede7b",
+    "timestamp": "2026-06-29 12:23:14",
+    "elapsed_s": 275.5,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 77.0,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.17,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 204,
+        "fp": 146,
+        "fn": 15,
+        "tp": 335
+      },
+      "xgb_cm": {
+        "tn": 333,
+        "fp": 17,
+        "fn": 32,
+        "tp": 318
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 48.6
+        },
+        {
+          "feature": "save",
+          "score": 47.08
+        },
+        {
+          "feature": "money",
+          "score": 45.45
+        },
+        {
+          "feature": "viagra",
+          "score": 43.14
+        },
+        {
+          "feature": "vince",
+          "score": 41.93
+        },
+        {
+          "feature": "enron",
+          "score": 40.3
+        },
+        {
+          "feature": "life",
+          "score": 39.63
+        },
+        {
+          "feature": "software",
+          "score": 37.42
+        },
+        {
+          "feature": "ect",
+          "score": 36.61
+        },
+        {
+          "feature": "online",
+          "score": 36.0
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
   }
 ]

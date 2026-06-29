@@ -75,9 +75,9 @@
         <div class="error-box" id="textError"></div>
       </div>
 
-      <div class="card">
+      <div style="background:transparent;border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:20px;">
         <div style="font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Contoh cepat:</div>
-        <div class="examples" id="examplePills"></div>
+        <div class="examples example-pills"></div>
       </div>
 
       <div class="loading" id="textLoading">
@@ -197,12 +197,10 @@
         </div>
 
         <!-- Balancing Dataset Training -->
-        <div
-          style="margin-top:14px;padding:14px 16px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;">
+        <div style="margin-top:14px;padding:14px 16px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;">
           <div style="font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
             ⚖️ Balancing Dataset Training
-            <span style="font-size:11px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data
-              training</span>
+            <span style="font-size:11px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data training</span>
           </div>
           <div class="settings-row">
             <div>
@@ -210,13 +208,26 @@
               <input type="number" id="nTrainNonSpam" min="0" max="100000" value="0" step="100"
                 oninput="updateTrainBalancePreview()"
                 style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+              <div id="warnTrainNS" style="font-size:11px;color:var(--danger);margin-top:4px;display:none;"></div>
             </div>
             <div>
               <label class="field-label">Jumlah Spam Training</label>
               <input type="number" id="nTrainSpam" min="0" max="100000" value="0" step="100"
                 oninput="updateTrainBalancePreview()"
                 style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+              <div id="warnTrainSpam" style="font-size:11px;color:var(--danger);margin-top:4px;display:none;"></div>
             </div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 10, 90)">10:90</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 20, 80)">20:80</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 30, 70)">30:70</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 40, 60)">40:60</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 50, 50)">50:50</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 60, 40)">60:40</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 70, 30)">70:30</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 80, 20)">80:20</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('train', 90, 10)">90:10</button>
           </div>
           <div style="margin-top:8px;font-size:12px;color:var(--gray-400);">
             <span id="trainBalanceNote">Menggunakan semua data training yang tersedia</span>
@@ -237,12 +248,25 @@
               <input type="number" id="nNonSpam" min="0" max="50000" value="500" step="50"
                 oninput="updateBalancePreview()"
                 style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+              <div id="warnTestNS" style="font-size:11px;color:var(--danger);margin-top:4px;display:none;"></div>
             </div>
             <div>
               <label class="field-label">Jumlah Spam</label>
               <input type="number" id="nSpam" min="0" max="50000" value="500" step="50" oninput="updateBalancePreview()"
                 style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:13px;outline:none;">
+              <div id="warnTestSpam" style="font-size:11px;color:var(--danger);margin-top:4px;display:none;"></div>
             </div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 10, 90)">10:90</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 20, 80)">20:80</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 30, 70)">30:70</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 40, 60)">40:60</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 50, 50)">50:50</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 60, 40)">60:40</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 70, 30)">70:30</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 80, 20)">80:20</button>
+            <button type="button" class="btn-secondary" style="padding:4px 8px;font-size:11px;" onclick="applyBalanceRatio('test', 90, 10)">90:10</button>
           </div>
           <div style="margin-top:8px;font-size:12px;color:var(--gray-400);">
             Total sampel uji: <b id="totalSample">1.000</b> email
@@ -346,9 +370,13 @@
           <textarea id="realtimeText" rows="5"
             placeholder="Paste isi email di sini untuk diuji dengan model yang baru dilatih..." style="width:100%;border:2px solid var(--gray-200);border-radius:8px;
                          padding:12px 14px;font-size:14px;resize:vertical;outline:none;
-                         transition:.2s;" onfocus="this.style.borderColor='var(--primary)'"
+                         transition:.2s;margin-bottom:12px;" onfocus="this.style.borderColor='var(--primary)'"
             onblur="this.style.borderColor='var(--gray-200)'"></textarea>
 
+          <div style="background:transparent;border:1px solid var(--border);border-radius:12px;padding:10px 14px;">
+            <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Contoh cepat:</div>
+            <div class="examples example-pills"></div>
+          </div>
           <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;">
             <button class="btn-secondary" onclick="clearRealtime()">Hapus</button>
             <button class="btn-primary" id="realtimeBtn" onclick="analyzeRealtime()">
@@ -382,8 +410,8 @@
               Pilih Data
             </button>
             <button class="btn-secondary btn-sm" onclick="deleteSelectedHistory()" id="deleteSelectedBtn"
-              style="color:var(--warning);display:none;">
-              🗑 Hapus Terpilih (<span id="selectedCount">0</span>)
+              style="color:var(--warning);display:none;align-items:center;">
+              🗑 Hapus Terpilih <span id="selectedCount" style="background:var(--warning);color:#121212;padding:2px 6px;border-radius:12px;margin-left:6px;font-weight:800;font-size:10px;line-height:1;">0</span>
             </button>
             <button class="btn-secondary btn-sm" onclick="compareSelectedRuns()" id="compareRunsBtn"
               style="color:#0284c7;display:none;">
@@ -417,12 +445,12 @@
                 <th title="Nama Dataset yang digunakan">Dataset (Train / Test)</th>
                 <th title="Jumlah data Non-Spam / Spam pada training">Train (NS/Sp)</th>
                 <th title="Jumlah data Non-Spam / Spam pada test">Test (NS/Sp)</th>
-                <th onclick="sortHistory('adapt')" style="cursor:pointer;white-space:nowrap;">Adapt % <span class="tooltip-icon" data-tooltip="Persentase data target test yang disuntikkan ke dalam data training untuk proses Domain Adaptation.">?</span> <span id="sort_adapt"></span></th>
-                <th style="white-space:nowrap;">Weight × <span class="tooltip-icon" data-tooltip="Faktor perkalian bobot (Sample Weight) untuk data adaptasi agar model lebih fokus mempelajarinya.">?</span></th>
-                <th onclick="sortHistory('nb_m1')" style="cursor:pointer;white-space:nowrap;">NB M1 <span class="tooltip-icon" data-tooltip="Akurasi model Naive Bayes (M1 = Tanpa Adaptasi / Baseline)">?</span> <span id="sort_nb_m1"></span></th>
-                <th onclick="sortHistory('xgb_m1')" style="cursor:pointer;white-space:nowrap;">XGB M1 <span class="tooltip-icon" data-tooltip="Akurasi model XGBoost (M1 = Tanpa Adaptasi / Baseline)">?</span> <span id="sort_xgb_m1"></span></th>
-                <th onclick="sortHistory('nb_m2')" style="cursor:pointer;white-space:nowrap;">NB M2 <span class="tooltip-icon" data-tooltip="Akurasi model Naive Bayes (M2 = Menggunakan Domain Adaptation)">?</span> <span id="sort_nb_m2"></span></th>
-                <th onclick="sortHistory('xgb_m2')" style="cursor:pointer;white-space:nowrap;">XGB M2 <span class="tooltip-icon" data-tooltip="Akurasi model XGBoost (M2 = Menggunakan Domain Adaptation)">?</span> <span id="sort_xgb_m2"></span></th>
+                <th onclick="sortHistory('adapt')" style="cursor:pointer;white-space:nowrap;" title="Persentase data target test yang disuntikkan ke dalam data training untuk proses Domain Adaptation.">Adapt % <span id="sort_adapt"></span></th>
+                <th style="white-space:nowrap;" title="Faktor perkalian bobot (Sample Weight) untuk data adaptasi agar model lebih fokus mempelajarinya.">Weight ×</th>
+                <th onclick="sortHistory('nb_m1')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model Naive Bayes (M1 = Tanpa Adaptasi / Baseline)">NB M1 <span id="sort_nb_m1"></span></th>
+                <th onclick="sortHistory('xgb_m1')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model XGBoost (M1 = Tanpa Adaptasi / Baseline)">XGB M1 <span id="sort_xgb_m1"></span></th>
+                <th onclick="sortHistory('nb_m2')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model Naive Bayes (M2 = Menggunakan Domain Adaptation)">NB M2 <span id="sort_nb_m2"></span></th>
+                <th onclick="sortHistory('xgb_m2')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model XGBoost (M2 = Menggunakan Domain Adaptation)">XGB M2 <span id="sort_xgb_m2"></span></th>
                 <th onclick="sortHistory('elapsed')" style="cursor:pointer;white-space:nowrap;"
                   title="Total waktu eksekusi evaluasi (detik)">Waktu (s) <span id="sort_elapsed"></span></th>
                   <th title="Status akhir job evaluasi">Status</th>
@@ -486,7 +514,7 @@
     display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);
     border:1px solid rgba(255,255,255,0.1);"></div>
   
-  <script src="/static/script.js" defer></script>
+  <script src="/static/script.js?v=3"></script>
 </body>
 
 </html>
