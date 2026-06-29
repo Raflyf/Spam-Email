@@ -162,7 +162,7 @@ body.dark .error-box {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   color: var(--gray-600);
@@ -253,7 +253,7 @@ header .badge {
   gap: 6px;
   background: var(--card-bg);
   color: var(--primary);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: .6px;
   text-transform: uppercase;
@@ -277,7 +277,7 @@ header h1 {
 
 header p {
   color: var(--gray-600);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .card {
@@ -312,7 +312,7 @@ header p {
   padding: 8px 18px;
   border: none;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   background: transparent;
@@ -361,7 +361,7 @@ textarea {
   border-radius: 8px;
   padding: 12px 14px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   resize: vertical;
   background: var(--card-bg);
@@ -402,14 +402,14 @@ input[type=file] {
 }
 
 .file-drop .hint {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gray-400);
   margin-top: 4px;
 }
 
 .file-name {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--success);
   display: none;
@@ -424,7 +424,7 @@ input[type=file] {
 }
 
 label.field-label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--gray-600);
   display: block;
@@ -442,7 +442,7 @@ label.field-label {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--gray-800);
   cursor: pointer;
@@ -465,7 +465,7 @@ input[type=range] {
 }
 
 .range-val {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--primary);
 }
@@ -484,7 +484,7 @@ button {
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   padding: 10px 22px;
   display: inline-flex;
@@ -503,7 +503,7 @@ button:disabled {
 }
 
 .btn-sm {
-  font-size: 12px;
+  font-size: 14px;
   padding: 6px 14px;
 }
 
@@ -543,7 +543,7 @@ button:disabled {
   border: 1px solid var(--border);
   border-radius: 99px;
   padding: 4px 10px;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--gray-600);
@@ -592,7 +592,7 @@ button:disabled {
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px 16px;
-  font-size: 12px;
+  font-size: 14px;
   font-family: 'JetBrains Mono', monospace;
   max-height: 160px;
   overflow-y: auto;
@@ -618,7 +618,7 @@ body.dark .progress-log {
   border: 1px solid var(--danger);
   border-radius: 8px;
   padding: 12px 14px;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--danger);
   margin-top: 12px;
 }
@@ -644,7 +644,7 @@ th:hover {
 }
 
 .result-section h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--gray-800);
   margin-bottom: 10px;
@@ -681,7 +681,7 @@ th:hover {
 }
 
 .metric-box .lbl {
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--gray-600);
@@ -762,7 +762,7 @@ body.dark .cm-table .fn:hover {
 .per-class-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .per-class-table th,
@@ -783,7 +783,7 @@ body.dark .cm-table .fn:hover {
   color: var(--danger);
   border-radius: 99px;
   padding: 2px 8px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -794,7 +794,7 @@ body.dark .cm-table .fn:hover {
   color: var(--success);
   border-radius: 99px;
   padding: 2px 8px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -805,7 +805,7 @@ body.dark .cm-table .fn:hover {
   color: var(--danger);
   border-radius: 99px;
   padding: 3px 8px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   margin: 2px 2px 2px 0;
@@ -818,7 +818,7 @@ body.dark .cm-table .fn:hover {
   color: var(--success);
   border-radius: 99px;
   padding: 3px 8px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   margin: 2px 2px 2px 0;
@@ -854,7 +854,7 @@ body.dark .cm-table .fn:hover {
 }
 
 .chi2-label {
-  font-size: 12px;
+  font-size: 14px;
   width: 120px;
   text-align: right;
   color: var(--gray-800);
@@ -879,7 +879,7 @@ body.dark .cm-table .fn:hover {
 }
 
 .chi2-score {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--gray-400);
   width: 60px;
 }
@@ -893,7 +893,7 @@ body.dark .cm-table .fn:hover {
 }
 
 .compare-model-title {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .4px;
@@ -908,7 +908,7 @@ body.dark .cm-table .fn:hover {
 .prob-bar-label {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gray-600);
   margin-bottom: 3px;
 }
@@ -935,7 +935,7 @@ body.dark .cm-table .fn:hover {
 }
 
 .label-badge {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 99px;
@@ -999,7 +999,7 @@ body.dark .consensus-banner.ham {
 }
 
 .consensus-text p {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--gray-600);
 }
 
@@ -1007,7 +1007,7 @@ body.dark .consensus-banner.ham {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   background: var(--gray-100);
@@ -1048,7 +1048,7 @@ body.dark .info-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: 13px;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
   text-transform: uppercase;
@@ -1087,7 +1087,7 @@ body.dark .info-chip {
   gap: 8px;
   padding: 6px 0;
   border-bottom: 1px solid var(--gray-100);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .batch-row:last-child {
@@ -1096,7 +1096,7 @@ body.dark .info-chip {
 
 .batch-num {
   color: var(--gray-400);
-  font-size: 11px;
+  font-size: 13px;
   width: 22px;
   flex-shrink: 0;
 }
@@ -1112,13 +1112,13 @@ body.dark .info-chip {
 .batch-spam {
   color: var(--danger);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .batch-ham {
   color: var(--success);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 th {
@@ -1182,7 +1182,7 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   padding: 20px 28px;
   color: #1f2937;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 h1 {
@@ -1193,7 +1193,7 @@ h1 {
 
 p.sub {
   color: #6b7280;
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 14px;
 }
 
@@ -1209,7 +1209,7 @@ hr {
   align-items: center;
   gap: 10px;
   margin: 16px 0 10px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
 }
 
@@ -1228,7 +1228,7 @@ hr {
   border: 1px solid #e5e7eb;
   border-radius: 99px;
   padding: 2px 8px;
-  font-size: 10px;
+  font-size: 13px;
   color: #4b5563;
   margin: 1px;
 }
@@ -1257,7 +1257,7 @@ hr {
 }
 
 .metric-box .lbl {
-  font-size: 10px;
+  font-size: 13px;
   color: #9ca3af;
 }
 
@@ -1278,7 +1278,7 @@ hr {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11px;
+  font-size: 13px;
   margin: 6px 0;
   page-break-inside: avoid;
 }
@@ -1344,7 +1344,7 @@ th {
 .cmp-tbl {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .cmp-tbl th,
@@ -1361,7 +1361,7 @@ td {
 
 /* section headers */
 .section-title {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #4b5563;
   margin: 8px 0 4px;
@@ -1375,7 +1375,7 @@ td {
   color: #dc2626;
   border-radius: 99px;
   padding: 1px 7px;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -1384,7 +1384,7 @@ td {
   color: #16a34a;
   border-radius: 99px;
   padding: 1px 7px;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -1461,7 +1461,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   background: var(--gray-200);
   color: var(--gray-600);
   border-radius: 50%;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 800;
   cursor: help;
   position: relative;
@@ -1491,7 +1491,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   color: var(--gray-800);
   padding: 12px 18px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
   display: flex;
@@ -1663,7 +1663,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   background: var(--gray-200);
   color: var(--gray-600);
   border-radius: 50%;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 800;
   cursor: help;
   position: relative;
@@ -1693,7 +1693,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   color: var(--gray-800);
   padding: 12px 18px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
   display: flex;
@@ -1800,13 +1800,13 @@ table.history-table tr:last-child td,
   background: rgba(0,0,0,0.02) !important;
   font-weight: 600;
   color: var(--gray-400);
-  font-size: 12px;
+  font-size: 14px;
 }
 body.dark .cm-table th, body.dark .per-class-table th, body.dark table.history-table th {
   background: rgba(255,255,255,0.02) !important;
 }
 .cm-table td, .per-class-table td, table.history-table td {
-  font-size: 13px;
+  font-size: 14px;
   background: transparent !important;
 }
 /* Softer colors for TN, FP, FN, TP */

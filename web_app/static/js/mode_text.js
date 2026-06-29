@@ -116,7 +116,7 @@ function renderTextResult(d, rawText) {
   const banner = document.getElementById('consensusBanner');
 
   // Copy to clipboard button
-  const copyBtn = `<button onclick="copyResultToClipboard()" style="margin-left:auto;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:inherit;cursor:pointer;" title="Salin hasil ke clipboard">📋 Salin Hasil</button>`;
+  const copyBtn = `<button onclick="copyResultToClipboard()" style="margin-left:auto;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:6px;padding:5px 12px;font-size:14px;font-weight:600;color:inherit;cursor:pointer;" title="Salin hasil ke clipboard">📋 Salin Hasil</button>`;
 
   banner.innerHTML = `
     <div class="consensus-banner ${finalIsSpam ? 'spam' : 'ham'}">
@@ -127,8 +127,8 @@ function renderTextResult(d, rawText) {
       </div>
       ${copyBtn}
     </div>
-    ${rawText ? `<div style="margin-top:12px;padding:14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.7;color:var(--gray-800);">
-      <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Analisis Teks — Kata merah = indikator spam</div>
+    ${rawText ? `<div style="margin-top:12px;padding:14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:14px;line-height:1.7;color:var(--gray-800);">
+      <div style="font-size:13px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Analisis Teks — Kata merah = indikator spam</div>
       ${highlightSpamWords(rawText)}
     </div>` : ''}`;
 
@@ -151,7 +151,7 @@ function renderTextResult(d, rawText) {
     rekBox.innerHTML = `
       <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:200px;">
-          <div style="font-size:12px;font-weight:700;color:var(--gray-400);
+          <div style="font-size:14px;font-weight:700;color:var(--gray-400);
                text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">
             Rekomendasi Final (XGBoost)
           </div>
@@ -159,22 +159,22 @@ function renderTextResult(d, rawText) {
             <span style="font-size:1.6rem;">${isSpam ? '🚨' : '✅'}</span>
             <span style="font-size:1.1rem;font-weight:800;
               color:${isSpam ? 'var(--danger)' : 'var(--success)'};">${rek.label}</span>
-            <span style="font-size:12px;color:${levelColor};font-weight:600;">
+            <span style="font-size:14px;color:${levelColor};font-weight:600;">
               ${levelIcon} Keyakinan ${rek.level}
             </span>
           </div>
-          <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">
+          <div style="font-size:14px;color:var(--gray-600);line-height:1.5;">
             ${rek.alasan}
           </div>
         </div>
         <div style="flex:1;min-width:200px;">
-          <div style="font-size:12px;font-weight:700;color:var(--gray-400);
+          <div style="font-size:14px;font-weight:700;color:var(--gray-400);
                text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">
             Indikator Ditemukan
           </div>
           ${spamTags || hamTags
         ? `<div>${spamTags}${hamTags}</div>`
-        : `<div style="font-size:12px;color:var(--gray-400);">Tidak ada indikator khusus</div>`}
+        : `<div style="font-size:14px;color:var(--gray-400);">Tidak ada indikator khusus</div>`}
         </div>
       </div>`;
   } else {
@@ -189,17 +189,17 @@ function renderTextResult(d, rawText) {
   ].map(({ name, m, note }, i) => `
     <div style="${i === 0 ? 'border-right: 1px dashed var(--border); padding-right: 20px;' : 'padding-left: 20px;'}">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <span style="font-weight:700;font-size:14px;letter-spacing:.5px;text-transform:uppercase;">${name}</span>
+        <span style="font-weight:700;font-size:15px;letter-spacing:.5px;text-transform:uppercase;">${name}</span>
         <span class="label-badge ${m.is_spam ? 'spam' : 'ham'}">${m.label}</span>
       </div>
-      <div style="font-size:11px;color:var(--gray-400);margin-bottom:10px;">${note}</div>
+      <div style="font-size:13px;color:var(--gray-400);margin-bottom:10px;">${note}</div>
       <div class="prob-bar-wrap">
         <div class="prob-bar-label"><span>Probabilitas Spam</span><span>${m.probability}%</span></div>
         <div class="prob-bar-track">
           <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:${m.probability}%"></div>
         </div>
       </div>
-      <div style="font-size:12px;color:var(--gray-400);margin-top:6px;">
+      <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">
         Threshold: <b>${m.threshold}%</b> &nbsp;|&nbsp; Confidence: <b>${m.confidence}</b>
       </div>
     </div>`).join('');
@@ -318,7 +318,7 @@ async function analyzeBatch() {
         <div class="batch-row">
           <span class="batch-num">${i + 1}</span>
           <span class="batch-text" title="${emails[i].replace(/"/g, '&quot;')}">${preview}</span>
-          <span style="font-size:11px;color:var(--gray-400);white-space:nowrap;margin:0 6px;">
+          <span style="font-size:13px;color:var(--gray-400);white-space:nowrap;margin:0 6px;">
             NB ${d.naive_bayes?.probability}% | XGB ${d.xgboost?.probability}%
           </span>
           <span class="${isSpam ? 'batch-spam' : 'batch-ham'}">${isSpam ? '🚨 SPAM' : '✅ NON-SPAM'}</span>

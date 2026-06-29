@@ -107,7 +107,7 @@ function renderRealtimeResult(d, metode) {
 
   el.innerHTML = `
     <div class="card" style="border-top:4px solid ${finalIsSpam ? 'var(--danger)' : 'var(--success)'};">
-      <div style="font-size:11px;font-weight:700;color:var(--gray-400);
+      <div style="font-size:13px;font-weight:700;color:var(--gray-400);
            text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">
         Hasil Prediksi — ${metodeLabel}
       </div>
@@ -128,16 +128,16 @@ function renderRealtimeResult(d, metode) {
            padding:12px 14px;background:transparent;border-radius:8px;
            border:1px solid var(--border);">
         <div style="flex:1;min-width:180px;">
-          <div style="font-size:11px;font-weight:700;color:var(--gray-400);
+          <div style="font-size:13px;font-weight:700;color:var(--gray-400);
                text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Rekomendasi</div>
           <div style="font-weight:800;color:${rek.is_spam ? 'var(--danger)' : 'var(--success)'};
                font-size:1rem;">${rek.is_spam ? '🚨' : '✅'} ${rek.label}</div>
-          <div style="font-size:12px;color:var(--gray-600);margin-top:4px;">${rek.alasan}</div>
+          <div style="font-size:14px;color:var(--gray-600);margin-top:4px;">${rek.alasan}</div>
         </div>
         <div style="flex:1;min-width:180px;">
-          <div style="font-size:11px;font-weight:700;color:var(--gray-400);
+          <div style="font-size:13px;font-weight:700;color:var(--gray-400);
                text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Indikator</div>
-          <div>${spamTags}${hamTags || '<span style="font-size:12px;color:var(--gray-400);">-</span>'}</div>
+          <div>${spamTags}${hamTags || '<span style="font-size:14px;color:var(--gray-400);">-</span>'}</div>
         </div>
       </div>` : ''}
 
@@ -150,20 +150,20 @@ function renderRealtimeResult(d, metode) {
               <span class="compare-model-title">${name}</span>
               <span class="label-badge ${m.is_spam ? 'spam' : 'ham'}">${m.label}</span>
             </div>
-            <div style="font-size:11px;color:var(--gray-400);margin-bottom:8px;">${note}</div>
+            <div style="font-size:13px;color:var(--gray-400);margin-bottom:8px;">${note}</div>
             <div class="prob-bar-wrap">
               <div class="prob-bar-label"><span>Prob. Spam</span><span>${m.probability}%</span></div>
               <div class="prob-bar-track">
                 <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:${m.probability}%"></div>
               </div>
             </div>
-            <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">
+            <div style="font-size:13px;color:var(--gray-400);margin-top:4px;">
               Threshold: <b>${m.threshold}%</b> | Conf: <b>${m.confidence}</b>
             </div>
           </div>`).join('')}
       </div>
-      <div style="margin-top:12px;padding:14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.7;color:var(--gray-800);">
-        <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Analisis Teks — Kata merah = indikator spam</div>
+      <div style="margin-top:12px;padding:14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:14px;line-height:1.7;color:var(--gray-800);">
+        <div style="font-size:13px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Analisis Teks — Kata merah = indikator spam</div>
         ${highlightSpamWords(document.getElementById('realtimeText').value.trim() || '')}
       </div>
     </div>`;
@@ -188,15 +188,15 @@ function compareSelectedRuns() {
 }
 
 function buildTop10(features) {
-  if (!features || features.length === 0) return '<div style="color:var(--gray-400);font-size:11px;padding:4px 0;">Tidak ada data.</div>';
+  if (!features || features.length === 0) return '<div style="color:var(--gray-400);font-size:13px;padding:4px 0;">Tidak ada data.</div>';
   const validFeatures = features.slice(0, 10).filter(f => f.score !== null && f.score !== undefined);
-  if (validFeatures.length === 0) return '<div style="color:var(--gray-400);font-size:11px;padding:4px 0;">Tidak ada data.</div>';
+  if (validFeatures.length === 0) return '<div style="color:var(--gray-400);font-size:13px;padding:4px 0;">Tidak ada data.</div>';
   const max = validFeatures[0].score;
 
   const rows = validFeatures.map((f, i) => `
     <tr style="border-bottom:1px solid var(--border);height:24px;">
-      <td style="width:20px;text-align:center;color:var(--gray-400);font-size:10px;padding:2px 0;">${i + 1}</td>
-      <td style="font-weight:600;font-size:11px;max-width:85px;white-space:nowrap;
+      <td style="width:20px;text-align:center;color:var(--gray-400);font-size:12px;padding:2px 0;">${i + 1}</td>
+      <td style="font-weight:600;font-size:13px;max-width:85px;white-space:nowrap;
                  overflow:hidden;text-overflow:ellipsis;padding:2px 0;" title="${f.feature}">${f.feature}</td>
       <td style="width:70px;padding:0 4px;">
         <div style="background:var(--gray-100);border-radius:99px;height:5px;overflow:hidden;">
@@ -204,7 +204,7 @@ function buildTop10(features) {
                       width:${max > 0 ? Math.round(f.score / max * 100) : 0}%;"></div>
         </div>
       </td>
-      <td style="font-size:10px;color:var(--gray-500);text-align:right;white-space:nowrap;padding:2px 0;">
+      <td style="font-size:12px;color:var(--gray-500);text-align:right;white-space:nowrap;padding:2px 0;">
         ${Math.round(f.score).toLocaleString()}
       </td>
     </tr>`).join('');
@@ -245,9 +245,9 @@ function showCompareModal(runs) {
   const infoCards = runs.map((r, i) => `
     <div style="padding:10px;background:var(--gray-100);border-radius:8px;border-left:3px solid ${colors[i % colors.length]};">
       <b style="color:${colors[i % colors.length]};">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</b><br>
-      <span style="font-size:11px;color:var(--gray-600);">${r.timestamp}</span><br>
+      <span style="font-size:13px;color:var(--gray-600);">${r.timestamp}</span><br>
       Adapt: ${Math.round((r.adapt_frac ?? 0) * 100)}% | Test: ${r.n_nonspam ?? 'all'}/${r.n_spam ?? 'all'} | ${r.preset?.toUpperCase()}
-      ${r.note ? `<br><i style="color:var(--gray-400);font-size:11px;">"${r.note}"</i>` : ''}
+      ${r.note ? `<br><i style="color:var(--gray-400);font-size:13px;">"${r.note}"</i>` : ''}
     </div>`).join('');
 
   // Build chart datasets: one dataset per eksperimen, across 4 metrics
@@ -276,8 +276,8 @@ function showCompareModal(runs) {
         if (cm) {
           grids += `
             <div style="flex: 0 0 auto; width: 220px;">
-              <div style="font-size:11px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1' : 'M2'} - ${alg.toUpperCase()}</div>
-              <table class="cm-table" style="font-size:10px;margin-bottom:0;width:100%;">
+              <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1' : 'M2'} - ${alg.toUpperCase()}</div>
+              <table class="cm-table" style="font-size:12px;margin-bottom:0;width:100%;">
                 <tr><th></th><th>P. Non-Spam</th><th>P. Spam</th></tr>
                 <tr><th>A. Non-Spam</th><td class="tn">${cm.tn}<br><small>TN</small></td><td class="fp">${cm.fp}<br><small>FP</small></td></tr>
                 <tr><th>A. Spam</th><td class="fn">${cm.fn}<br><small>FN</small></td><td class="tp">${cm.tp}<br><small>TP</small></td></tr>
@@ -289,7 +289,7 @@ function showCompareModal(runs) {
     if (!grids) return '';
     return `
       <div style="margin-bottom:16px;background:transparent;border:1px solid var(--border);border-radius:8px;padding:14px;border-left:4px solid ${colors[i % colors.length]};box-shadow:0 1px 3px rgba(0,0,0,0.02);">
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
         <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:6px;">
           ${grids}
         </div>
@@ -305,7 +305,7 @@ function showCompareModal(runs) {
       if (top10 && top10.length > 0) {
         grids += `
           <div style="flex: 1 1 0; min-width: 170px; max-width: 250px;">
-            <div style="font-size:11px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1 (Pure)' : 'M2 (Adapt)'} - Chi-Square (Naive Bayes)</div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1 (Pure)' : 'M2 (Adapt)'} - Chi-Square (Naive Bayes)</div>
             <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:6px;">
               ${buildTop10(top10)}
             </div>
@@ -315,7 +315,7 @@ function showCompareModal(runs) {
     if (!grids) return '';
     return `
       <div style="margin-bottom:16px;background:transparent;border:1px solid var(--border);border-radius:8px;padding:14px;border-left:4px solid ${colors[i % colors.length]};box-shadow:0 1px 3px rgba(0,0,0,0.02);">
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;color:${colors[i % colors.length]}">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</div>
         <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:6px;flex-wrap:wrap;">
           ${grids}
         </div>
@@ -335,27 +335,27 @@ function showCompareModal(runs) {
         <button onclick="document.getElementById('compareModal').remove()"
                 style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--gray-400);">&#10005;</button>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px;margin-bottom:16px;font-size:13px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px;margin-bottom:16px;font-size:14px;">
         ${infoCards}
       </div>
       <div style="overflow-x:auto;margin-bottom:18px;">
-        <table class="cm-table" style="font-size:12px;min-width:600px;">
+        <table class="cm-table" style="font-size:14px;min-width:600px;">
           <thead><tr><th>Model</th>${headersHtml}</tr></thead>
           <tbody>${rowsHtml}</tbody>
         </table>
-        <div style="font-size:11px;color:var(--success);margin-top:4px;">&#9654; Nilai tertinggi ditampilkan tebal hijau</div>
+        <div style="font-size:13px;color:var(--success);margin-top:4px;">&#9654; Nilai tertinggi ditampilkan tebal hijau</div>
       </div>
       <div style="margin-top:4px;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:8px;">&#128202; Grafik Perbandingan Akurasi &amp; F1</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px;">&#128202; Grafik Perbandingan Akurasi &amp; F1</div>
         <canvas id="${chartId}" height="120"></canvas>
       </div>
       <div style="margin-top:20px;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;">🟦 Confusion Matrix</div>
-        ${cmGridsHtml || '<div style="font-size:11px;color:var(--gray-400)">Tidak ada data Confusion Matrix di histori yang dipilih.</div>'}
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">🟦 Confusion Matrix</div>
+        ${cmGridsHtml || '<div style="font-size:13px;color:var(--gray-400)">Tidak ada data Confusion Matrix di histori yang dipilih.</div>'}
       </div>
       <div style="margin-top:20px;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;">📊 Top 10 Fitur Chi-Square</div>
-        ${chiGridsHtml || '<div style="font-size:11px;color:var(--gray-400)">Tidak ada data Fitur Chi-Square di histori yang dipilih.</div>'}
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">📊 Top 10 Fitur Chi-Square</div>
+        ${chiGridsHtml || '<div style="font-size:13px;color:var(--gray-400)">Tidak ada data Fitur Chi-Square di histori yang dipilih.</div>'}
       </div>
     </div>`;
   document.body.appendChild(modal);
@@ -606,10 +606,10 @@ function renderHistory() {
     const m1 = h.metode1, m2 = h.metode2;
     const acc = v => v != null ? `<b>${v}%</b>` : '<span style="color:var(--gray-300);">—</span>';
     const statusBadge = h.status === 'done'
-      ? '<span style="color:var(--success);font-size:11px;">✓ Selesai</span>'
+      ? '<span style="color:var(--success);font-size:13px;">✓ Selesai</span>'
       : h.status === 'cancelled'
-        ? '<span style="color:var(--warning);font-size:11px;">⏹ Dibatalkan</span>'
-        : '<span style="color:var(--danger);font-size:11px;">✗ Error</span>';
+        ? '<span style="color:var(--warning);font-size:13px;">⏹ Dibatalkan</span>'
+        : '<span style="color:var(--danger);font-size:13px;">✗ Error</span>';
     const adaptPct = h.adapt_frac != null
       ? `<span style="font-weight:700;color:#0284c7;">${Math.round(h.adapt_frac * 100)}%</span>`
       : '<span style="color:var(--gray-300);">—</span>';
@@ -633,18 +633,18 @@ function renderHistory() {
       </td>
       <td${nameAttr}${nameStyle}>${h.timestamp}</td>
       <td>
-        <span style="text-transform:uppercase;font-size:11px;font-weight:700;
+        <span style="text-transform:uppercase;font-size:13px;font-weight:700;
           color:${h.preset === 'full' ? 'var(--warning)' : 'var(--success)'};">${h.preset}</span>
         <br>
-        <span style="font-size:9px;background:var(--gray-700);color:#fff;padding:2px 4px;border-radius:4px;white-space:nowrap;display:inline-block;margin-top:2px;">
+        <span style="font-size:12px;background:var(--gray-700);color:#fff;padding:2px 4px;border-radius:4px;white-space:nowrap;display:inline-block;margin-top:2px;">
           ${h.custom_train ? 'Train+Test' : 'Hanya Test'}
         </span>
       </td>
       <td>
-        <div style="font-size:10px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)'))}">
+        <div style="font-size:12px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)'))}">
           <span style="opacity:0.6; font-weight:bold;">Tr:</span> ${escapeHtml(h.train_dataset_name || (h.custom_train ? 'Custom Train' : 'emails.csv (bawaan)'))}
         </div>
-        <div style="font-size:10px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:2px;" title="${escapeHtml(h.test_dataset_name || 'data_test_berlabel_awal.csv')}">
+        <div style="font-size:12px; opacity:0.9; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:2px;" title="${escapeHtml(h.test_dataset_name || 'data_test_berlabel_awal.csv')}">
           <span style="opacity:0.6; font-weight:bold;">Ts:</span> ${escapeHtml(h.test_dataset_name || 'data_test_berlabel_awal.csv')}
         </div>
       </td>
@@ -659,11 +659,11 @@ function renderHistory() {
       <td>${h.elapsed_s}s</td>
       <td>${statusBadge}</td>
       <td style="white-space:nowrap;">
-        <span style="font-size:11px;color:var(--gray-600);max-width:90px;display:inline-block;
+        <span style="font-size:13px;color:var(--gray-600);max-width:90px;display:inline-block;
               overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;"
               title="${h.note || ''}">${h.note || ''}</span>
         <button onclick="editNote('${h.job_id}','${(h.note || '').replace(/'/g, '\\\'')}')"
-                style="background:none;border:none;cursor:pointer;font-size:12px;
+                style="background:none;border:none;cursor:pointer;font-size:14px;
                        color:var(--gray-400);padding:0 2px;vertical-align:middle;" title="Edit catatan">&#9998;</button>
       </td>
       </tr>`;

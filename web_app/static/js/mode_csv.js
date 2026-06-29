@@ -451,7 +451,7 @@ function buildMethodCard(r, key) {
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <h3 style="margin:0;">📊 Top 20 Fitur Chi-Square (Naive Bayes)</h3>
         <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${r.metode?.replace(/\s/g, '_')}.png')"
-                class="btn-secondary" style="font-size:11px;padding:4px 10px;">
+                class="btn-secondary" style="font-size:13px;padding:4px 10px;">
           🖼 Simpan PNG
         </button>
       </div>
@@ -464,14 +464,14 @@ function buildModelSection(m, name, color) {
   const cm = m.cm;
   return `
     <div>
-      <div style="font-size:13px;font-weight:700;color:${color};margin-bottom:10px;">${name}</div>
+      <div style="font-size:14px;font-weight:700;color:${color};margin-bottom:10px;">${name}</div>
       <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:12px;">
         ${metricBox(m.accuracy, 'Akurasi', color)}
         ${metricBox(m.f1, 'F1-Score', color)}
         ${metricBox(m.precision, 'Presisi', color)}
         ${metricBox(m.recall, 'Recall', color)}
       </div>
-      <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">
+      <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">
         Confusion Matrix &nbsp;<span style="font-weight:400;color:var(--gray-400)">threshold ${m.threshold}%</span>
       </div>
       <table class="cm-table">
@@ -482,7 +482,7 @@ function buildModelSection(m, name, color) {
             <td class="tp">${cm.tp}<br><small>TP</small></td></tr>
       </table>
       <div style="margin-top:10px;">
-        <div style="font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Per Kelas</div>
+        <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Per Kelas</div>
         <table class="per-class-table">
           <tr><th>Kelas</th><th>Presisi</th><th>Recall</th><th>F1</th></tr>
           <tr><td><span class="badge-nonspam">Non-Spam</span></td>
@@ -505,7 +505,7 @@ function metricBox(val, lbl, color) {
 
 function buildTop20(features) {
   const validFeatures = features.filter(f => f.score !== null && f.score !== undefined);
-  if (validFeatures.length === 0) return '<div style="color:var(--gray-400);font-size:12px;">Tidak ada fitur tersedia.</div>';
+  if (validFeatures.length === 0) return '<div style="color:var(--gray-400);font-size:14px;">Tidak ada fitur tersedia.</div>';
   const max = validFeatures[0].score;
 
   const half = Math.ceil(validFeatures.length / 2);
@@ -514,8 +514,8 @@ function buildTop20(features) {
 
   const renderRows = (list, offset) => list.map((f, i) => `
     <tr>
-      <td style="width:22px;text-align:center;color:var(--gray-400);font-size:11px;">${i + offset + 1}</td>
-      <td style="font-weight:600;font-size:12px;max-width:120px;white-space:nowrap;
+      <td style="width:22px;text-align:center;color:var(--gray-400);font-size:13px;">${i + offset + 1}</td>
+      <td style="font-weight:600;font-size:14px;max-width:120px;white-space:nowrap;
                  overflow:hidden;text-overflow:ellipsis;" title="${f.feature}">${f.feature}</td>
       <td style="width:160px;padding:0 8px;">
         <div style="background:var(--gray-100);border-radius:99px;height:10px;overflow:hidden;">
@@ -524,7 +524,7 @@ function buildTop20(features) {
                       print-color-adjust:exact;-webkit-print-color-adjust:exact;"></div>
         </div>
       </td>
-      <td style="font-size:11px;color:var(--gray-500);text-align:right;white-space:nowrap;">
+      <td style="font-size:13px;color:var(--gray-500);text-align:right;white-space:nowrap;">
         ${f.score.toLocaleString()}
       </td>
     </tr>`).join('');
@@ -574,16 +574,16 @@ function buildComparison(r1, r2) {
   const heads = metrics.map(({ label }) =>
     `<th colspan="3">${label}</th>`).join('');
   const subHeads = metrics.map(() =>
-    `<th style="font-size:11px;color:#6366f1">M1</th>
-     <th style="font-size:11px;color:#0284c7">M2</th>
-     <th style="font-size:11px;">Δ</th>`).join('');
+    `<th style="font-size:13px;color:#6366f1">M1</th>
+     <th style="font-size:13px;color:#0284c7">M2</th>
+     <th style="font-size:13px;">Δ</th>`).join('');
 
   wrap.innerHTML = `
     <div class="method-divider">
       <span style="color:var(--success)">🔄 Perbandingan Metode 1 vs Metode 2</span>
     </div>
     <div style="overflow-x:auto;">
-      <table class="cm-table" style="font-size:13px;">
+      <table class="cm-table" style="font-size:14px;">
         <thead>
           <tr><th rowspan="2">Model</th>${heads}</tr>
           <tr>${subHeads}</tr>
@@ -591,7 +591,7 @@ function buildComparison(r1, r2) {
         <tbody>${rows}</tbody>
       </table>
     </div>
-    <div style="margin-top:10px;font-size:12px;color:var(--gray-400);">
+    <div style="margin-top:10px;font-size:14px;color:var(--gray-400);">
       M1 = Tanpa Domain Adaptation &nbsp;&bull;&nbsp; M2 = Domain Adaptation ${Math.round(r2.adapt_frac * 100)}%
       &nbsp;&bull;&nbsp; Δ = selisih M2 terhadap M1
     </div>`;
@@ -675,20 +675,20 @@ function printResults() {
       * { box-sizing:border-box; margin:0; padding:0; }
       html { scroll-behavior: smooth; }
     body { font-family:'Segoe UI',Arial,sans-serif; padding:20px 28px;
-             color:#1f2937; font-size:12px; }
+             color:#1f2937; font-size:14px; }
       h1   { font-size:17px; font-weight:800; margin-bottom:4px; }
-      p.sub { color:#6b7280; font-size:11px; margin-bottom:14px; }
+      p.sub { color:#6b7280; font-size:13px; margin-bottom:14px; }
       hr   { border:none; border-top:1px solid #e5e7eb; margin:10px 0; }
 
       /* method divider */
       .method-divider { display:flex; align-items:center; gap:10px;
-                         margin:16px 0 10px; font-size:14px; font-weight:800; }
+                         margin:16px 0 10px; font-size:15px; font-weight:800; }
       .method-divider::before, .method-divider::after
         { content:''; flex:1; height:2px; background:#e5e7eb; }
 
       /* info chips */
       .info-chip { display:inline-block; background:#f3f4f6; border:1px solid #e5e7eb;
-                   border-radius:99px; padding:2px 8px; font-size:10px; color:#4b5563;
+                   border-radius:99px; padding:2px 8px; font-size:12px; color:#4b5563;
                    margin:1px; }
 
       /* metrics */
@@ -697,14 +697,14 @@ function printResults() {
       .metric-box  { border:1px solid #e5e7eb; border-radius:8px; padding:8px;
                      text-align:center; }
       .metric-box .val { font-size:1.2rem; font-weight:800; color:#4f46e5; }
-      .metric-box .lbl { font-size:10px; color:#9ca3af; }
+      .metric-box .lbl { font-size:12px; color:#9ca3af; }
 
       /* 2-col model layout */
       .model-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
       .model-col  { }
 
       /* tables */
-      table { width:100%; border-collapse:collapse; font-size:11px;
+      table { width:100%; border-collapse:collapse; font-size:13px;
               margin:6px 0; page-break-inside:avoid; }
       th,td { border:1px solid #e5e7eb; padding:4px 7px; }
       th    { background:#f3f4f6; font-weight:700; text-align:center; }
@@ -720,19 +720,19 @@ function printResults() {
       .chi2-tbl td { border:none; padding:2px 4px; vertical-align:middle; }
 
       /* comparison table */
-      .cmp-tbl { width:100%; border-collapse:collapse; font-size:11px; }
+      .cmp-tbl { width:100%; border-collapse:collapse; font-size:13px; }
       .cmp-tbl th,td { border:1px solid #e5e7eb; padding:4px 7px; text-align:center; }
       .cmp-tbl th { background:#f3f4f6; font-weight:700; }
 
       /* section headers */
-      .section-title { font-size:12px; font-weight:700; color:#4b5563; margin:8px 0 4px;
+      .section-title { font-size:14px; font-weight:700; color:#4b5563; margin:8px 0 4px;
                        border-bottom:1px solid #e5e7eb; padding-bottom:3px; }
 
       /* badges */
       .badge-spam    { background:#fee2e2; color:#dc2626; border-radius:99px;
-                       padding:1px 7px; font-size:10px; font-weight:700; }
+                       padding:1px 7px; font-size:12px; font-weight:700; }
       .badge-nonspam { background:#dcfce7; color:#16a34a; border-radius:99px;
-                       padding:1px 7px; font-size:10px; font-weight:700; }
+                       padding:1px 7px; font-size:12px; font-weight:700; }
 
       @media print {
         button, .btn-row, [onclick] { display:none !important; }
@@ -980,7 +980,7 @@ async function fetchDatasetStats(file, targetElId) {
         <span class="stat-chip info">Kolom Teks: <b>${data.text_col}</b></span>
         <span class="stat-chip info">Kolom Label: <b>${data.label_col}</b></span>
         <span class="stat-chip info">Rata-rata panjang: ${data.avg_len} karakter</span>
-        <span style="font-size:12px;font-weight:600;color:${balColor};align-self:center;">
+        <span style="font-size:14px;font-weight:600;color:${balColor};align-self:center;">
         </span>
       </div>`;
   } catch (e) {
