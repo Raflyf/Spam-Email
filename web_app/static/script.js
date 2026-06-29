@@ -519,6 +519,12 @@ function pollJob(jobId) {
           setProgressBar(100, 'Selesai');
           try {
             renderCsvResults(data.result);
+            setTimeout(() => {
+              const resEl = document.getElementById('csvResults');
+              if (resEl) {
+                resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 300);
           } catch (renderErr) {
             showError('csvError', 'Gagal render hasil: ' + renderErr.message);
             console.error('renderCsvResults error:', renderErr);
@@ -2287,15 +2293,20 @@ async function startEval() {
 // Duplicate darkMode init removed
 
 
-function showToast(msg) {
-  const d = document.getElementById('toastDialog');
-  document.getElementById('toastMsg').textContent = msg;
-  d.showModal();
-  d.style.opacity = 1;
-  setTimeout(() => { d.style.opacity = 0; setTimeout(() => d.close(), 300); }, 2500);
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = msg;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('hide');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
 }
 // Override native alert
-window.alert = showToast;
+window.alert = (msg) => showToast(msg, 'info');
 
 window.addEventListener('beforeunload', () => {
   if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
