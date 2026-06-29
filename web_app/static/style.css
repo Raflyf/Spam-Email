@@ -6,57 +6,50 @@
   padding: 0;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
 :root {
   --primary: #4f46e5;
   --primary-dk: #3730a3;
-  --success: #16a34a;
+  --success: #2A9D8F;
   --danger: #dc2626;
-  --warning: #ca8a04;
-  --info: #0284c7;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-600: #4b5563;
-  --gray-800: #1f2937;
-  --card-bg: #ffffff;
-  --body-bg: #f3f4f6;
-  --border: #e5e7eb;
+  --warning: #F4A261;
+  --info: #457B9D;
+  --gray-50: #FFFFFF;
+  --gray-100: #F1F1ED;
+  --gray-200: #E0E0DB;
+  --gray-300: #D1D1CB;
+  --gray-400: #A0A09B;
+  --gray-600: #5C5C59;
+  --gray-800: #121212;
+  --card-bg: #FFFFFF;
+  --body-bg: #F9F9F6;
+  --border: #E0E0DB;
   --radius: 12px;
-  --shadow: 0 4px 24px rgba(0, 0, 0, .08);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Minimalist shadow */
 }
 
 /* ═══════════════════════════════
-       DARK MODE — palet slate hangat
-       Terinspirasi dari VS Code / Linear
+       DARK MODE — Swiss Analytics
     ═══════════════════════════════ */
 body.dark {
   --primary: #7c75f0;
-  /* ungu redup, bukan neon */
   --primary-dk: #6860e8;
-  --success: #4ade80;
+  --success: #2A9D8F;
   --danger: #f87171;
-  --warning: #fbbf24;
-  --info: #38bdf8;
-  --gray-50: #1c1e21;
-  --gray-100: #242628;
-  /* surface sekunder */
-  --gray-200: #2e3135;
-  /* border */
-  --gray-300: #3a3e44;
-  /* border lebih terang */
-  --gray-400: #868c95;
-  /* teks placeholder */
-  --gray-600: #adb3bc;
-  /* teks sekunder */
-  --gray-800: #e8eaed;
-  /* teks utama */
-  --card-bg: #1c1e21;
-  --body-bg: #141618;
-  /* background paling gelap */
-  --border: #2e3135;
-  --shadow: 0 4px 24px rgba(0, 0, 0, .35);
+  --warning: #F4A261;
+  --info: #457B9D;
+  --gray-50: #0A0A0A;
+  --gray-100: #141414;
+  --gray-200: #1F1F1F;
+  --gray-300: #2A2A2A;
+  --gray-400: #666666;
+  --gray-600: #999999;
+  --gray-800: #F3F3F3;
+  --card-bg: #111111;
+  --body-bg: #0A0A0A;
+  --border: #2A2A2A;
+  --shadow: none;
 }
 
 body.dark {
@@ -231,11 +224,12 @@ html {
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: var(--gray-100);
+  font-family: 'Archivo', system-ui, sans-serif;
+  background: var(--body-bg);
   color: var(--gray-800);
   min-height: 100vh;
   padding: 24px 32px 60px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -292,7 +286,8 @@ header p {
   gap: 4px;
   margin-bottom: 20px;
   background: var(--gray-100);
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   padding: 4px;
 }
 
@@ -310,9 +305,10 @@ header p {
 }
 
 .tab-btn.active {
-  background: #fff;
+  background: var(--card-bg);
   color: var(--primary);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+  box-shadow: none;
+  border-bottom: 2px solid var(--primary);
 }
 
 .tab-pane {
@@ -339,12 +335,14 @@ header p {
 textarea {
   width: 100%;
   height: 190px;
-  border: 2px solid var(--gray-200);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px 14px;
-  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
   line-height: 1.6;
   resize: vertical;
+  background: var(--card-bg);
   color: var(--gray-800);
   outline: none;
   transition: .2s;
@@ -359,12 +357,13 @@ input[type=file] {
 }
 
 .file-drop {
-  border: 2px dashed var(--gray-300);
-  border-radius: 10px;
+  border: 1px dashed var(--gray-400);
+  border-radius: 8px;
   padding: 32px 20px;
   text-align: center;
   cursor: pointer;
   transition: .2s;
+  background: var(--gray-100);
   color: var(--gray-600);
 }
 
@@ -460,10 +459,12 @@ input[type=range] {
 button {
   transition: all 0.2s ease;
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   padding: 10px 22px;
   transition: .15s;
 }
@@ -507,19 +508,21 @@ button:disabled {
 
 .pill {
   background: var(--gray-100);
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--border);
   border-radius: 99px;
   padding: 5px 14px;
   font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--gray-600);
   cursor: pointer;
   transition: .15s;
 }
 
 .pill:hover {
-  background: #e0e7ff;
+  background: var(--gray-200);
   color: var(--primary);
-  border-color: #c7d2fe;
+  border-color: var(--primary);
 }
 
 /* ── LOADING ── */
@@ -552,12 +555,13 @@ button:disabled {
 }
 
 .progress-log {
-  background: #1f2937;
+  background: var(--gray-800);
   color: #86efac;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px 16px;
   font-size: 12px;
-  font-family: monospace;
+  font-family: 'JetBrains Mono', monospace;
   max-height: 160px;
   overflow-y: auto;
   margin-top: 12px;
@@ -566,7 +570,7 @@ button:disabled {
 }
 
 body.dark .progress-log {
-  background: #0d1117;
+  background: var(--card-bg);
   border: 1px solid var(--border);
 }
 
@@ -578,7 +582,7 @@ body.dark .progress-log {
 .error-box {
   display: none;
   background: #fef2f2;
-  border: 1px solid #fca5a5;
+  border: 1px solid var(--danger);
   border-radius: 8px;
   padding: 12px 14px;
   font-size: 14px;
@@ -626,13 +630,14 @@ th {
 
 .metric-box {
   background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   padding: 14px;
   text-align: center;
 }
 
 .metric-box .val {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--primary);
@@ -640,14 +645,17 @@ th {
 
 .metric-box .lbl {
   font-size: 11px;
-  color: var(--gray-400);
-  margin-top: 2px;
-  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-600);
+  margin-top: 4px;
+  font-weight: 700;
 }
 
 .cm-table {
   width: 100%;
   border-collapse: collapse;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
 }
 
@@ -733,41 +741,49 @@ body.dark .cm-table .fn:hover {
 }
 
 .badge-spam {
-  background: #fee2e2;
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid var(--danger);
   color: var(--danger);
   border-radius: 99px;
-  padding: 2px 10px;
-  font-size: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
   font-weight: 700;
+  text-transform: uppercase;
 }
 
 .badge-nonspam {
-  background: #dcfce7;
+  background: rgba(42, 157, 143, 0.1);
+  border: 1px solid var(--success);
   color: var(--success);
   border-radius: 99px;
-  padding: 2px 10px;
-  font-size: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
   font-weight: 700;
+  text-transform: uppercase;
 }
 
 .indicator-spam {
-  background: #fee2e2;
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid var(--danger);
   color: var(--danger);
   border-radius: 99px;
-  padding: 3px 10px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
   margin: 2px 2px 2px 0;
   display: inline-block;
 }
 
 .indicator-ham {
-  background: #dcfce7;
+  background: rgba(42, 157, 143, 0.1);
+  border: 1px solid var(--success);
   color: var(--success);
   border-radius: 99px;
-  padding: 3px 10px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
   margin: 2px 2px 2px 0;
   display: inline-block;
 }
@@ -833,8 +849,8 @@ body.dark .cm-table .fn:hover {
 
 .compare-card {
   background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   padding: 14px;
 }
 
@@ -953,9 +969,11 @@ body.dark .consensus-banner.ham {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
   background: var(--gray-100);
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--border);
   border-radius: 99px;
   padding: 3px 10px;
   color: var(--gray-600);
@@ -992,30 +1010,36 @@ body.dark .info-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
   padding: 4px 12px;
   border-radius: 99px;
 }
 
 .stat-chip.total {
-  background: #e0e7ff;
-  color: #4338ca;
+  background: rgba(69, 123, 157, 0.1);
+  color: #457B9D;
+  border: 1px solid #457B9D;
 }
 
 .stat-chip.nonspam {
-  background: #dcfce7;
-  color: #15803d;
+  background: rgba(42, 157, 143, 0.1);
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .stat-chip.spam {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: rgba(230, 57, 70, 0.1);
+  color: var(--danger);
+  border: 1px solid var(--danger);
 }
 
 .stat-chip.info {
   background: var(--gray-100);
   color: var(--gray-600);
+  border: 1px solid var(--border);
 }
 
 /* ── BATCH MODE ── */
@@ -1103,19 +1127,14 @@ body.dark tr.selected-row {
 body.dark tr.selected-row:hover {
   background: #353560 !important;
 }
-tr.selected-row.pinned-row {
-  background: linear-gradient(to right, #fffbeb 70%, #eef2ff 100%) !important;
-}
-body.dark tr.selected-row.pinned-row {
-  background: linear-gradient(to right, #292619 70%, #2a2a4a 100%) !important;
-}
 
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@media print {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
 html {
   scroll-behavior: smooth;
@@ -1329,8 +1348,6 @@ td {
   font-weight: 700;
 }
 
-@media print {
-
   button,
   .btn-row,
   [onclick] {
@@ -1371,8 +1388,9 @@ th {
 }
 
 .modal-content {
-  background: var(--gray-50);
-  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
   max-width: 95vw;
   width: 800px;
   padding: 24px;
@@ -1390,3 +1408,5 @@ th {
   from { transform: scale(0.96); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+/* Fix hover on selected rows */
+tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body.dark tr.selected-row:hover td { background: transparent !important; }

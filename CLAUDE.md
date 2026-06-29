@@ -57,8 +57,9 @@ Sesuai dengan konsep *Personal AI Jarvis*, AI diharapkan bisa dipanggil untuk me
 
 ## 📖 Wajib Baca Saat Sesi Baru
 - Saat memulai sesi baru atau konteks sebelumnya sudah terpotong (*truncated*), **WAJIB** baca file `RANGKUMAN_SKRIPSI.md` terlebih dahulu sebelum menjawab pertanyaan apa pun.
-- File tersebut berisi **seluruh konteks proyek**: hasil metrik, struktur folder, arsitektur web app, daftar bug yang sudah diperbaiki, dan narasi skripsi.
-- Jangan pernah menebak atau berasumsi tentang struktur proyek — **selalu baca file dulu**.
+- Selain itu, Anda juga **WAJIB** mengecek folder `.agents/skills/` dan membaca panduan *skill* di dalamnya untuk memahami perintah kustom proyek ini (seperti `ponytail`, `headroom`, dsb.) dan memulihkan kembali konteks atau *skill* yang sudah terlupakan.
+- File `RANGKUMAN_SKRIPSI.md` berisi **seluruh konteks proyek**: hasil metrik, struktur folder, arsitektur web app, daftar bug yang sudah diperbaiki, dan narasi skripsi.
+- Jangan pernah menebak atau berasumsi tentang struktur proyek — **selalu baca file dan skill lokal dulu**.
 
 ## 🔒 File yang TIDAK BOLEH Diubah
 - `NB_XGB_PURE.py` — Skrip Metode 1 Final (sudah dikunci untuk BAB 4 Skripsi).
