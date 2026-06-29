@@ -2,7 +2,7 @@
 
 **Mahasiswa:** Rafly Firmansyah
 **Program Studi:** Informatika, Universitas Bina Sarana Informatika
-**Tanggal terakhir update:** 27 Juni 2026
+**Tanggal terakhir update:** 30 Juni 2026
 **Direktori proyek:** `D:\skripsi\skripsi_spam\Code_Spam_Email`
 
 ---
@@ -375,6 +375,13 @@ Deteksi kolom otomatis. Label yang dikenali:
 | Model uji realtime hilang setelah restart | Disimpan di temp dir yang terhapus saat server mati | Pindah ke `web_app/saved_models/` permanen |
 | Hasil CSV muncul lagi setelah run baru | `last_csv_result.json` tidak dihapus saat run baru | Hapus file saat `startEval()` dimulai |
 | `renderCsvResults is not defined` | Fungsi hilang karena edit, IIFE dipanggil sebelum definisi | Restore fungsi + pindah ke DOMContentLoaded |
+| Kebocoran latar belakang putih di bawah | `body { background-color: transparent }` membocorkan tag `html` putih | Set background-color ke `var(--body-bg) !important` di `html` dan `body` |
+| Gradasi judul teks bermasalah | `background-clip: text` tidak kompatibel di browser tertentu | Ubah judul H1 menggunakan warna solid `var(--primary)` |
+| Ukuran font tabel meluber | Override `.cm-table td` meluber ke tabel perbandingan & riwayat | Isolasi selector spesifik ke `.cm-table-main` & `.per-class-table-main` |
+| Popup perbandingan bertumpuk transparan | Variabel `--card-bg` memiliki opacity 50% tanpa backdrop-filter | Set background solid `var(--body-bg) !important` pada `.modal-content` & blur pada overlay |
+| Tab menu "Riwayat" terpotong di HP | Menu tab menggunakan `width: max-content` yang melebihi viewport HP | Ubah `.tabs` menjadi `width: 100%` di media query HP & kecilkan padding tombol |
+| Kolom Top 20 Chi-Square tidak sejajar | Ukuran kolom dinamis berbeda saat tabel menumpuk vertikal di HP | Terapkan `table-layout: fixed` & lebar piksel absolut pada kolom tabel |
+| Badge `NON-SPAM` terpotong di HP | Padding lebar & teks panjang memicu pembungkusan baris baru | Set `white-space: nowrap !important` & kecilkan ukuran badge ke `11px` di HP |
 
 ---
 
