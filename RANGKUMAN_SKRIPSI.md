@@ -628,7 +628,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih *"Open folder as vault
 
 | # | Fitur | Lokasi | Keterangan |
 |---|-------|--------|------------|
-| 1 | **Glassmorphism & Opacity Adjustments** | `style.css` | Merombak desain kartu (.card) dengan efek kaca (*backdrop-filter blur*) transparan. Opasitas dioptimalkan (95% solid `rgba(24, 24, 27, 0.95)`) agar teks tetap sangat jelas terbaca meski pada tingkat kecerahan layar HP yang rendah. |
+| 1 | **Glassmorphism & Opacity Adjustments** | `style.css` | Merombak desain kartu (.card) dengan efek kaca (*backdrop-filter blur*) transparan. Opasitas dioptimalkan (80% transparan `rgba(24, 24, 27, 0.80)`) agar teks tetap sangat jelas terbaca meski pada tingkat kecerahan layar HP yang rendah. |
 | 2 | **Penyempurnaan Warna Background (Soft Dark)** | `style.css` | Mengubah warna *background* utama mode gelap dari hitam pekat (`#09090b`) menjadi *slate black* abu-abu super gelap (`#111113`) agar lebih ramah di mata dan terasa premium. |
 | 3 | **Penyatuan Card Mode Teks** | `index.html`, `script.js` | Menggabungkan hasil akurasi model Naive Bayes dan XGBoost pada Mode Teks ke dalam **satu card besar** terpadu (dipisah dengan garis putus-putus), menggantikan desain lama yang terpisah-pisah. |
 | 4 | **Peningkatan Skala Huruf (Readability)** | `style.css` | Menaikkan ukuran *font* secara spesifik pada tabel *Confusion Matrix* (dari 13px ke 15px) dan tabel Metrik Per Kelas (dari 13px ke 14px) agar angka-angka krusial jauh lebih mudah dibaca. |
