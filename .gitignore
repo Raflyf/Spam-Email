@@ -24,6 +24,7 @@ graphify-out/
 *.log
 temp/
 tmp/
+ngrok.exe
 
 
 
