@@ -158,8 +158,17 @@ body.dark td {
   border-color: var(--border);
 }
 
+tr:hover td {
+  background-color: var(--gray-50);
+  transition: background-color var(--duration-micro) var(--ease-smooth-out);
+}
+
 body.dark tr:hover td {
-  background: rgba(255, 255, 255, .025);
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+td {
+  transition: background-color var(--duration-fast) var(--ease-smooth-out);
 }
 
 /* File drop */
