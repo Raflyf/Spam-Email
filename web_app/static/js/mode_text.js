@@ -155,6 +155,7 @@ function renderTextResult(d, rawText) {
 
   // Store result for copy
   window._lastTextResult = { d, rawText };
+  lucide.createIcons({ nodes: [banner] });
 
   // Rekomendasi & indikator
   const rekBox = document.getElementById('rekomendasiBox');
@@ -179,7 +180,7 @@ function renderTextResult(d, rawText) {
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
             <span style="font-size:1.4rem;line-height:1;">${isSpam ? '<i data-lucide="shield-alert" style="width:28px;height:28px;color:var(--danger);"></i>' : '<i data-lucide="shield-check" style="width:28px;height:28px;color:var(--success);"></i>'}</span>
             <span style="font-size:1.1rem;font-weight:800;
-              color:${isSpam ? 'var(--danger)' : 'var(--success)'};">${rek.label}</span>
+              color:${isSpam ? 'var(--danger)' : 'var(--success)'};"><b>${rek.label}</b></span>
             <span style="font-size:14px;color:${levelColor};font-weight:600;">
               ${levelIcon} Keyakinan ${rek.level}
             </span>
@@ -198,6 +199,7 @@ function renderTextResult(d, rawText) {
         : `<div style="font-size:14px;color:var(--gray-400);">Tidak ada indikator khusus</div>`}
         </div>
       </div>`;
+    lucide.createIcons({ nodes: [rekBox] });
   } else {
     rekBox.style.display = 'none';
   }
@@ -333,6 +335,7 @@ function renderBatchResults() {
     </tr></thead>
     <tbody>${rows}</tbody>
   </table>`;
+  lucide.createIcons({ nodes: [document.getElementById('batchResults')] });
 }
 
 // Tambah tombol Batch ke card input teks

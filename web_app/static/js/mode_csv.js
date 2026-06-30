@@ -380,6 +380,7 @@ function renderCsvResults(results) {
       <i data-lucide="printer" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Print / PDF
     </button>`;
   el.appendChild(saveBar);
+  lucide.createIcons({ nodes: [saveBar] });
 
   // Simpan ke window untuk tombol save
   window._lastCsvResults = results;
@@ -467,6 +468,7 @@ function buildMethodCard(r, key) {
         ${buildModelSection(xgb, 'XGBoost', '#0284c7')}
       </div>
     </div>`;
+  lucide.createIcons({ nodes: [wrap] });
   return wrap;
 }
 
@@ -605,6 +607,7 @@ function buildComparison(r1, r2) {
       M1 = Tanpa Domain Adaptation &nbsp;&bull;&nbsp; M2 = Domain Adaptation ${Math.round(r2.adapt_frac * 100)}%
       &nbsp;&bull;&nbsp; Δ = selisih M2 terhadap M1
     </div>`;
+  lucide.createIcons({ nodes: [wrap] });
   return wrap;
 }
 
@@ -993,6 +996,7 @@ async function fetchDatasetStats(file, targetElId) {
         <span style="font-size:14px;font-weight:600;color:${balColor};align-self:center;">
         </span>
       </div>`;
+    lucide.createIcons({ nodes: [el] });
   } catch (e) {
     document.getElementById(targetElId).style.display = 'none';
   }
