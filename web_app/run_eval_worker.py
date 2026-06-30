@@ -31,7 +31,13 @@ def main():
     import pandas as pd
     from evaluator import (run_metode1, run_metode2,
                             detect_columns, normalize_labels, balance_dataset)
-    from _shared import sanitize
+    def sanitize(obj):
+        import math
+        if isinstance(obj, float):
+            return None if (math.isnan(obj) or math.isinf(obj)) else obj
+        if isinstance(obj, dict): return {k: sanitize(v) for k,v in obj.items()}
+        if isinstance(obj, list): return [sanitize(i) for i in obj]
+        return obj
 
     # Progress writer — append satu baris JSON per pesan
     prog_file = open(progress_path, 'a', encoding='utf-8', buffering=1)
