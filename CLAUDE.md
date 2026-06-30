@@ -2,6 +2,29 @@
 
 File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di dalam folder/Vault ini. Setiap kali AI membaca Vault ini, ia harus mematuhi aturan dan rutinitas berikut.
 
+## 📖 ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
+
+- Saat memulai sesi baru atau konteks terpotong, Anda **DIWAJIBKAN** untuk segera membaca `CLAUDE.md` ini terlebih dahulu.
+- Anda juga **WAJIB** membaca `DOKUMENTASI.md` untuk memahami rangkuman penuh skripsi, perubahan terkini (changelog), dan alur logika aplikasi.
+- Anda **WAJIB MUTLAK** membaca seluruh isi _folder_ `.agents/skills/` (termasuk `ponytail`, `headroom`, `caveman`, `frontend-design`, dll).
+- **Semua _skills_ (termasuk Ponytail, Caveman, dan Headroom) BERSIFAT PERMANEN DAN AKTIF OTOMATIS 100% setiap saat.** Anda tidak boleh menunggu perintah atau pancingan dari _user_ untuk mengaktifkan _skill-skill_ tersebut.
+- Berlakukan diri Anda sebagai AI _super-optimized_ yang selalu memotong basa-basi, sangat malas (YAGNI / _simplest solution_), dan sangat hemat _token_ di setiap respons Anda, tanpa terkecuali.
+- Jangan pernah berasumsi tentang struktur proyek, selalu baca file dan eksekusi _skill_ secara otonom!
+
+## ⚡ SKILL PERMANEN: Aktif Otomatis 100% Setiap Saat
+
+> **LARANGAN KERAS:** Anda TIDAK BOLEH menunggu perintah eksplisit untuk mengaktifkan skill apapun. Semua skill di bawah ini WAJIB selalu aktif sejak detik pertama percakapan dimulai.
+
+| Skill | Kapan Aktif |
+|---|---|
+| **Ponytail** | Setiap menulis kode — selalu pilih solusi paling sederhana (YAGNI) |
+| **Headroom** | Setiap menjalankan terminal — selalu padatkan output agar hemat token |
+| **Caveman** | Setiap respons — potong basa-basi, langsung ke inti |
+| **Frontend-Design** | Setiap ada perubahan UI — terapkan standar desain premium |
+
+- Skill-skill ini **TIDAK PERLU diaktifkan manual**. Mereka menyala otomatis.
+- Jika sesi baru: baca `.agents/skills/` lalu langsung aktifkan tanpa perlu konfirmasi.
+
 ## 🎯 Tujuan Utama
 
 1. Membantu menyelesaikan proyek Skripsi "Klasifikasi Spam Email".
@@ -27,15 +50,6 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 
 - Selalu terapkan skill **Headroom** saat menjalankan perintah terminal.
 - Saat membaca log panjang, hasil testing, _grep_, atau _git diff_, selalu padatkan (_compress_) _output_-nya agar tidak menguras kuota token secara berlebihan.
-
-## 📖 ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
-
-- Saat memulai sesi baru atau konteks terpotong, Anda **DIWAJIBKAN** untuk segera membaca `CLAUDE.md` ini terlebih dahulu.
-- Anda juga **WAJIB** membaca `DOKUMENTASI.md` untuk memahami rangkuman penuh skripsi, perubahan terkini (changelog), dan alur logika aplikasi.
-- Anda **WAJIB MUTLAK** membaca seluruh isi _folder_ `.agents/skills/` (termasuk `ponytail`, `headroom`, `caveman`, `frontend-design`, dll).
-- **Semua _skills_ (termasuk Ponytail, Caveman, dan Headroom) BERSIFAT PERMANEN DAN AKTIF OTOMATIS 100% setiap saat.** Anda tidak boleh menunggu perintah atau pancingan dari _user_ untuk mengaktifkan _skill-skill_ tersebut.
-- Berlakukan diri Anda sebagai AI _super-optimized_ yang selalu memotong basa-basi, sangat malas (YAGNI / _simplest solution_), dan sangat hemat _token_ di setiap respons Anda, tanpa terkecuali.
-- Jangan pernah berasumsi tentang struktur proyek, selalu baca file dan eksekusi _skill_ secara otonom!
 
 ## 🔒 File yang TIDAK BOLEH Diubah
 
@@ -91,6 +105,3 @@ Sesuai dengan konsep _Personal AI Jarvis_, AI diharapkan bisa dipanggil untuk me
 7. **Decision Review (Tinjauan Keputusan):**
    _Prompt:_ "Tinjau keputusan arsitektur web."
    _Aksi:_ Mengevaluasi kembali mengapa kita memilih _Vanilla CSS_ dibanding _Tailwind_, atau mengapa kita menyimpan histori di JSON, untuk memastikan alasannya masih relevan.
-
-
-
