@@ -30,7 +30,42 @@
 }
 
 :root {
-  /* Shadcn UI Zinc Palette (Light) */
+  /* ═══════════════════════════════
+     MOTION TOKENS (transitions.dev)
+     ═══════════════════════════════ */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --distance-large: 30px;
+
+  --scale-large: 0.96;
+  --scale-medium: 0.97;
+  --scale-small: 0.98;
+  --scale-tiny: 0.99;
+
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --blur-large: 8px;
+
+  /* ═══════════════════════════════
+     COLOR PALETTE
+     ═══════════════════════════════ */
   --primary: #09090b;
   --primary-dk: #27272a;
   --primary-fg: #fafafa;
@@ -45,15 +80,15 @@
   --gray-400: #71717a;
   --gray-600: #52525b;
   --gray-800: #09090b;
-  --card-bg: #ffffff;
-  --body-bg: #ffffff;
-  --border: #e4e4e7;
-  --radius-sm: 4px;
-  --radius-md: 0.5rem;
-  --radius-lg: 12px;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --body-bg: #fafafa;
+  --border: rgba(9, 9, 11, 0.1);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
   --radius: var(--radius-md);
-  --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 20px -4px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.02);
 }
 
 /* ═══════════════════════════════
@@ -75,10 +110,10 @@ body.dark {
   --gray-400: #a1a1aa;
   --gray-600: #d4d4d8;
   --gray-800: #fafafa;
-  --card-bg: #111113;
+  --card-bg: rgba(24, 24, 27, 0.65); /* Glassmorphism */
   --body-bg: #111113;
-  --border: #27272a;
-  --shadow: none;
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 body.dark {
@@ -302,11 +337,24 @@ header p {
 }
 
 .card {
-  background: #fff;
-  border-radius: var(--radius);
+  background: var(--card-bg);
+  backdrop-filter: blur(var(--blur-large));
+  -webkit-backdrop-filter: blur(var(--blur-large));
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  border: 1px solid var(--border);
   padding: 24px 28px;
   margin-bottom: 18px;
+  position: relative;
+  transition: transform var(--duration-fast) var(--ease-smooth-out), 
+              box-shadow var(--duration-fast) var(--ease-smooth-out);
+}
+.card:hover {
+  transform: translateY(calc(var(--distance-micro) * -1));
+  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.02);
+}
+body.dark .card:hover {
+  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.4), inset 0 1px 0 0 rgba(255,255,255,0.08);
 }
 
 .card h2 {
@@ -1873,14 +1921,18 @@ body:not(.dark) .bg-grid {
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-premium) !important;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+  transition: transform var(--duration-fast) var(--ease-smooth-out), box-shadow var(--duration-fast) var(--ease-smooth-out) !important;
 }
 .card:hover {
-  /* transform removed per product ban on decorative motion */
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 40px -10px oklch(0% 0 0 / 0.15) !important;
+}
+body.dark .card:hover {
+  box-shadow: 0 12px 40px -10px oklch(0% 0 0 / 0.7), inset 0 1px 0 0 oklch(100% 0 0 / 0.1) !important;
 }
 
 .btn-primary, .btn-secondary, button {
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  transition: transform var(--duration-fast) var(--ease-smooth-out), box-shadow var(--duration-fast) var(--ease-smooth-out), background-color var(--duration-fast) var(--ease-smooth-out) !important;
 }
 .btn-primary:hover {
   transform: scale(1.02) !important;
@@ -1891,7 +1943,7 @@ body:not(.dark) .bg-grid {
 }
 
 .tab-btn {
-  transition: all 0.3s ease !important;
+  transition: all var(--duration-fast) var(--ease-smooth-out) !important;
 }
 .tab-btn:hover {
   background: oklch(50% 0.05 285 / 0.1) !important;
@@ -1997,4 +2049,43 @@ input[type="checkbox"]:focus-visible {
     white-space: nowrap !important;
     display: inline-block !important;
   }
+}
+
+/* ────────────────────────────────────────────────────────
+   PAGE LOAD STAGGER ANIMATIONS
+──────────────────────────────────────────────────────── */
+@keyframes stagger-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.t-stagger {
+  opacity: 0;
+  animation: stagger-fade-up var(--duration-very-slow) var(--ease-smooth-out) forwards;
+}
+.t-stagger-1 { animation-delay: calc(var(--duration-stagger) * 1); }
+.t-stagger-2 { animation-delay: calc(var(--duration-stagger) * 2); }
+.t-stagger-3 { animation-delay: calc(var(--duration-stagger) * 3); }
+.t-stagger-4 { animation-delay: calc(var(--duration-stagger) * 4); }
+.t-stagger-5 { animation-delay: calc(var(--duration-stagger) * 5); }
+
+/* Tab Transition */
+.tab-pane {
+  transition: opacity var(--duration-fast) var(--ease-smooth-out), filter var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out) !important;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(4px);
+}
+.tab-pane.active {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
 }
