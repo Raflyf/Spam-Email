@@ -408,17 +408,19 @@ body.dark .card:hover {
 
 .tab-pane.active {
   display: block;
-  animation: fadeInPane 0.25s ease-out forwards;
+  animation: fadeInPane var(--duration-medium) var(--ease-smooth-out) forwards;
 }
 
 @keyframes fadeInPane {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(12px);
+    filter: blur(4px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
@@ -1740,9 +1742,18 @@ body.dark textarea:focus, body.dark input[type="text"]:focus, body.dark input[ty
 .file-drop {
   border: 1px dashed var(--border) !important;
   background: transparent !important;
+  transition: all var(--duration-fast) var(--ease-smooth-out) !important;
 }
 .file-drop:hover {
   background: var(--gray-50) !important;
+  border-color: var(--primary) !important;
+  transform: scale(1.01) !important;
+}
+.file-drop.over {
+  background: oklch(100% 0 0 / 0.05) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px var(--primary-glow) !important;
+  transform: scale(1.02) !important;
 }
 
 .tabs {
@@ -1921,14 +1932,14 @@ body:not(.dark) .bg-grid {
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-premium) !important;
-  transition: transform var(--duration-fast) var(--ease-smooth-out), box-shadow var(--duration-fast) var(--ease-smooth-out) !important;
+  transition: transform var(--duration-slow) var(--ease-smooth-out), box-shadow var(--duration-slow) var(--ease-smooth-out) !important;
 }
 .card:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 12px 40px -10px oklch(0% 0 0 / 0.15) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 30px -8px oklch(0% 0 0 / 0.15) !important;
 }
 body.dark .card:hover {
-  box-shadow: 0 12px 40px -10px oklch(0% 0 0 / 0.7), inset 0 1px 0 0 oklch(100% 0 0 / 0.1) !important;
+  box-shadow: 0 8px 30px -8px oklch(0% 0 0 / 0.6), inset 0 1px 0 0 oklch(100% 0 0 / 0.1) !important;
 }
 
 .btn-primary, .btn-secondary, button {
@@ -2077,15 +2088,3 @@ input[type="checkbox"]:focus-visible {
 .t-stagger-4 { animation-delay: calc(var(--duration-stagger) * 4); }
 .t-stagger-5 { animation-delay: calc(var(--duration-stagger) * 5); }
 
-/* Tab Transition */
-.tab-pane {
-  transition: opacity var(--duration-fast) var(--ease-smooth-out), filter var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out) !important;
-  opacity: 0;
-  filter: blur(4px);
-  transform: translateY(4px);
-}
-.tab-pane.active {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}

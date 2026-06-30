@@ -92,11 +92,6 @@ function fileSelected(input) {
   const file = input.files[0];
   if (!file) return;
   
-  if (!validateFile(file, 'test')) {
-    input.value = '';
-    return;
-  }
-  
   csvFile = file;
   showFileLabel(csvFile, 'fileName', '📘');
   checkCanEval();
@@ -106,11 +101,6 @@ function fileSelected(input) {
 function fileSelectedTrain(input) {
   const file = input.files[0];
   if (!file) return;
-  
-  if (!validateFile(file, 'training')) {
-    input.value = '';
-    return;
-  }
   
   csvTrain = file;
   showFileLabel(csvTrain, 'fileNameTrain', '📗');

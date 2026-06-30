@@ -70,7 +70,15 @@ async function analyzeText() {
   const text = document.getElementById('emailText').value.trim();
   hide('textError');
   if (!text) { showError('textError', 'Masukkan teks email terlebih dahulu.'); return; }
-  setLoading('textLoading', true); setLoading('textResults', false, 'block');
+  
+  const resultsEl = document.getElementById('textResults');
+  if (resultsEl.style.display !== 'none') {
+    resultsEl.style.transition = 'opacity var(--duration-fast) ease';
+    resultsEl.style.opacity = '0.4';
+  } else {
+    setLoading('textLoading', true);
+  }
+  
   const analyzeBtn = document.getElementById('analyzeBtn');
   analyzeBtn.disabled = true;
   analyzeBtn.textContent = '⏳ Menganalisis...';
@@ -81,8 +89,17 @@ async function analyzeText() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Server error');
+    
     renderTextResult(data, text);
-    document.getElementById('textResults').style.display = 'block';
+    resultsEl.style.display = 'block';
+    
+    setTimeout(() => {
+      resultsEl.style.transition = 'opacity var(--duration-medium) ease';
+      resultsEl.style.opacity = '1';
+      document.querySelectorAll('#textResults .prob-bar-fill').forEach(bar => {
+        bar.style.width = bar.getAttribute('data-prob') + '%';
+      });
+    }, 50);
   } catch (e) { showError('textError', e.message); }
   finally { setLoading('textLoading', false); analyzeBtn.disabled = false; analyzeBtn.textContent = '🔍 Analisis'; }
 }
@@ -198,7 +215,7 @@ function renderTextResult(d, rawText) {
       <div class="prob-bar-wrap">
         <div class="prob-bar-label"><span>Probabilitas Spam</span><span>${m.probability}%</span></div>
         <div class="prob-bar-track">
-          <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:${m.probability}%"></div>
+          <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:0%" data-prob="${m.probability}"></div>
         </div>
       </div>
       <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">

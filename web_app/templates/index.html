@@ -167,7 +167,7 @@
         </label>
         <div class="file-drop" id="dropZone" onclick="document.getElementById('csvFile').click()"
           ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
-          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');previewCsvFile(f);checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
+          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
           <div class="icon"><i data-lucide="file-check-2" style="width:32px;height:32px;color:var(--gray-400);margin:0 auto;"></i></div>
           <div>Klik atau seret CSV Test ke sini</div>
           <div class="hint">CSV harus punya kolom teks (text/body/message) dan label (label/spam/class) &bull; Max 100
