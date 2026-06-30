@@ -966,6 +966,16 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | 6   | **Badge NON-SPAM Tidak Terpotong**     | `style.css`                | `white-space: nowrap` + ukuran 11px diterapkan pada badge di tabel per-kelas khusus layar HP.                                                                  |
 | 7   | **Auto-Reset Mode Pilih Data**         | `utils.js`                 | Saat pengguna pindah dari tab Riwayat ke tab lain, mode pilih data (`_selectMode`) otomatis di-reset — checkbox disembunyikan, tombol kembali ke "Pilih Data". |
 
+### Implementasi Animasi & Motion Tokens (Transitions.dev)
+
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Motion Tokens `_root.css`**          | `style.css`                | Variabel *easing* (`cubic-bezier`), durasi, dan skala dari *skill* `transitions-dev` diimplementasikan secara global. Mengganti animasi _hardcoded_ dengan sistem token yang solid. |
+| 2   | **Navigasi Tabs Sliding**              | `index.html`, `utils.js`   | Transisi mulus di menu utama navigasi ("Mode Teks", "Mode CSV", "Riwayat") menggunakan elemen `tabs-pill` yang meluncur secara dinamis mengikuti interaksi pengguna.             |
+| 3   | **Animasi Error Shake**                | `mode_text.js`             | Animasi _shake_ (getaran) dengan *overshoot* mekanis ketika textarea kosong tapi tombol analisis diklik, menggantikan notifikasi standar yang kaku.            |
+| 4   | **Header Hero Texts Reveal**           | `index.html`, `utils.js`   | Teks judul dan subjudul utama (Spam Email Classifier) kini muncul dengan efek *staggered blur rise* saat halaman pertama dimuat.                               |
+| 5   | **Animasi Success Check di Hasil**     | `mode_text.js`             | Penggantian emoji statis di _banner consensus_ (Mode Teks) dengan ikon SVG animasi dinamis (fade + rotasi + pop + *path drawing*).                             |
+
 ### Verifikasi Fitur (Audit 30 Juni 2026)
 
 | Fitur                                 | Status       |
@@ -976,4 +986,5 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | Auto-close pilih data saat pindah tab | ✅ Berfungsi |
 | Export CSV riwayat                    | ✅ Berfungsi |
 | Analisis Mode Teks (klasifikasi spam) | ✅ Berfungsi |
+| Transisi & Animasi UI                 | ✅ Berfungsi |
 | Console errors                        | ✅ Tidak ada |
