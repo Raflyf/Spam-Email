@@ -494,6 +494,14 @@ scipy>=1.14.0, pandas>=2.2.0, numpy>=1.26.0, joblib>=1.4.0
 - [X] Tombol Cancel training + auto-resume saat halaman di-refresh
 - [X] Model uji realtime tersimpan permanen di `web_app/saved_models/`
 - [X] Hapus BERT model (hemat 420 MB)
+- [X] UI Premium (glassmorphism, dot-grid bg, dark theme, font Archivo + JetBrains Mono)
+- [X] Confusion Matrix angka besar & bold (22px, weight 800) — hanya CM utama
+- [X] Tabel per-kelas diperbesar (16px) — diisolasi dari tabel lain
+- [X] Modal perbandingan riwayat: latar solid + blur overlay (anti-transparan)
+- [X] Responsif HP: tab menu tidak terpotong, body padding kompak
+- [X] Top 20 Chi-Square: 2 kolom sejajar sempurna di HP (table-layout fixed)
+- [X] Badge NON-SPAM tidak terpotong di HP (white-space nowrap)
+- [X] Auto-reset mode pilih data saat pindah tab
 
 ---
 
@@ -672,3 +680,32 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih *"Open folder as vault
 |---|-------|--------|------------|
 | 1 | **Pemecahan Monolitik JS** | `web_app/static/js/` | Berkas `script.js` raksasa (2.400 baris) telah dipecah secara sistematis menjadi 4 berkas mandiri (`utils.js`, `mode_text.js`, `mode_csv.js`, dan `history.js`) untuk mempermudah perawatan kode jangka panjang. |
 | 2 | **Pemuatan Skrip Berurutan** | `index.html` | Mengganti pemuatan `script.js` tunggal dengan pemanggilan 4 modul JS baru secara berurutan, mempertahankan ruang lingkup *Global Variable* tetap utuh dan stabil tanpa memecah dependensi bawaan. |
+
+---
+
+## 25. Update Terbaru (30 Juni 2026)
+
+### UI/UX Polish & Responsivitas HP (Final Pre-Sidang)
+
+| # | Fitur | Lokasi | Keterangan |
+|---|-------|--------|------------|
+| 1 | **Confusion Matrix Angka Besar** | `style.css` | Angka TN/FP/FN/TP diperbesar menjadi 22px bold-800. Diisolasi menggunakan kelas `.cm-table-main` agar tidak meluber ke tabel riwayat dan perbandingan metode. |
+| 2 | **Tabel Per-Kelas Diperbesar** | `style.css` | Sel tabel presisi/recall/F1 per kelas dinaikkan ke 16px. Diisolasi via `.per-class-table-main`. |
+| 3 | **Modal Perbandingan Anti-Transparan** | `style.css` | Background modal perbandingan riwayat diset solid `var(--body-bg)`. Overlay mendapat `backdrop-filter: blur(8px)` agar konten di belakang buram elegan. |
+| 4 | **Tab Menu Responsif HP** | `style.css` | Tab "Riwayat (11)" tidak lagi terpotong di HP. Diterapkan `width:100%` + font 12px + padding kompak di media query ≤600px. |
+| 5 | **Top 20 Chi-Square Sejajar di HP** | `mode_csv.js`, `style.css` | Dua tabel fitur (1-10 dan 11-20) kini sejajar pixel-sempurna saat menumpuk di HP menggunakan `table-layout: fixed` dengan lebar kolom absolut. |
+| 6 | **Badge NON-SPAM Tidak Terpotong** | `style.css` | `white-space: nowrap` + ukuran 11px diterapkan pada badge di tabel per-kelas khusus layar HP. |
+| 7 | **Auto-Reset Mode Pilih Data** | `utils.js` | Saat pengguna pindah dari tab Riwayat ke tab lain, mode pilih data (`_selectMode`) otomatis di-reset — checkbox disembunyikan, tombol kembali ke "Pilih Data". |
+
+### Verifikasi Fitur (Audit 30 Juni 2026)
+
+| Fitur | Status |
+|-------|--------|
+| Halaman utama (dark bg, no bleed) | ✅ Berfungsi |
+| Perpindahan tab Mode CSV | ✅ Berfungsi |
+| Riwayat 11 entri termuat | ✅ Berfungsi |
+| Auto-close pilih data saat pindah tab | ✅ Berfungsi |
+| Export CSV riwayat | ✅ Berfungsi |
+| Analisis Mode Teks (klasifikasi spam) | ✅ Berfungsi |
+| Console errors | ✅ Tidak ada |
+
