@@ -9,15 +9,10 @@ Mode 2: Evaluasi batch CSV (Metode 1 PURE vs Metode 2 Domain Adaptation)
 import os
 import sys
 import io
-import re
 import uuid
 import json
-import copy
-import time
 import shutil
-import logging
 import tempfile
-import traceback
 import subprocess
 import threading
 import pandas as pd
@@ -28,23 +23,15 @@ from werkzeug.utils import secure_filename
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(threadName)s] %(message)s')
-logger = logging.getLogger(__name__)
-
-try:
-    from ._shared import sanitize
-except ImportError:
-    from _shared import sanitize
-
 app = Flask(__name__, static_folder='static')
-app.config['MAX_CONTENT_LENGTH'] = 200 * 1024 * 1024   # 200 MB
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024   # 100 MB
 
 
 @app.errorhandler(RequestEntityTooLarge)
 def handle_file_too_large(_error):
     return jsonify({
         "ok": False,
-        "error": "Ukuran file melebihi batas 200 MB."
+        "error": "Ukuran file melebihi batas 100 MB."
     }), 413
 
 PYTHON_EXE = sys.executable
@@ -64,6 +51,7 @@ if os.path.exists(_venv_python):
 # ──────────────────────────────────────────
 # HISTORY STORE (riwayat eksperimen)
 # ──────────────────────────────────────────
+import time as _time_mod
 HISTORY_FILE       = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'experiment_history.json')
 LAST_RESULT_FILE   = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'last_csv_result.json')
 experiment_history : list = []
@@ -75,9 +63,10 @@ def _load_history():
         try:
             with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
                 experiment_history = json.load(f)
-            logger.info(f"  [OK] Riwayat dimuat: {len(experiment_history)} entri")
+            print(f"  [OK] Riwayat dimuat: {len(experiment_history)} entri")
             
             # Migration/enrichment for top10_chi2 if missing
+            import tempfile
             jobs_temp_dir = os.path.join(tempfile.gettempdir(), 'spam_eval_jobs')
             updated = False
             for h in experiment_history:
@@ -89,9 +78,10 @@ def _load_history():
                         if os.path.exists(result_path):
                             try:
                                 with open(result_path, 'r', encoding='utf-8') as rf:
+                                    import re as _re
                                     raw = rf.read()
-                                    raw = re.sub(r':\s*NaN', ': null', raw)
-                                    raw = re.sub(r':\s*Infinity', ': null', raw)
+                                    raw = _re.sub(r':\s*NaN', ': null', raw)
+                                    raw = _re.sub(r':\s*Infinity', ': null', raw)
                                     res_data = json.loads(raw)
                                     r_mk = res_data.get('result', {}).get(mk, {})
                                     if r_mk:
@@ -102,7 +92,7 @@ def _load_history():
             if updated:
                 _save_history()
         except Exception as e:
-            logger.error(f"  [ERROR] Gagal load history: {e}")
+            print(f"  [ERROR] Gagal load history: {e}")
             experiment_history = []
 
 def _save_history():
@@ -110,7 +100,7 @@ def _save_history():
         with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
             json.dump(experiment_history, f, ensure_ascii=False, indent=2)
     except Exception as e:
-        logger.error(f"  [ERROR] Gagal simpan history: {e}")
+        print(f"  [ERROR] Gagal simpan history: {e}")
 
 _load_history()
 
@@ -126,20 +116,17 @@ def _load_pipeline_bg():
     """Load model di background thread saat server start."""
     global pipeline, pipeline_ready, pipeline_error
     try:
-        try:
-            from .model_pipeline import SpamPipeline
-        except ImportError:
-            from model_pipeline import SpamPipeline
+        from model_pipeline import SpamPipeline
         pl = SpamPipeline()
         pl.load_or_train()
         with pipeline_lock:
             pipeline       = pl
             pipeline_ready = True
-        logger.info("  [OK] Model pipeline siap (background load selesai)")
+        print("  [OK] Model pipeline siap (background load selesai)")
     except Exception as e:
         with pipeline_lock:
             pipeline_error = str(e)
-        logger.error(f"  [ERROR] Gagal load pipeline: {e}")
+        print(f"  [ERROR] Gagal load pipeline: {e}")
 
 # Mulai load di background segera saat server start
 threading.Thread(target=_load_pipeline_bg, daemon=True).start()
@@ -152,7 +139,7 @@ def get_pipeline():
             raise RuntimeError(f"Gagal memuat model: {pipeline_error}")
     # Belum siap — tunggu maks 60 detik
     for _ in range(120):
-        time.sleep(0.5)
+        _time_mod.sleep(0.5)
         with pipeline_lock:
             if pipeline_ready: return pipeline
             if pipeline_error: raise RuntimeError(f"Gagal memuat model: {pipeline_error}")
@@ -200,6 +187,8 @@ def _monitor_job(job_id: str):
     lines_seen    = 0
 
     while True:
+        import time as _time
+
         # ── Baca baris progress baru ──
         try:
             if os.path.exists(progress_path):
@@ -226,7 +215,7 @@ def _monitor_job(job_id: str):
         ret = proc.poll()
         if ret is not None:
             # Tunggu sebentar agar result.json sempat ditulis
-            time.sleep(0.5)
+            _time.sleep(0.5)
 
             # Baca sisa progress terakhir
             try:
@@ -257,7 +246,7 @@ def _monitor_job(job_id: str):
                             result_data = json.load(f)
                         break
                     except Exception:
-                        time.sleep(0.3)
+                        import time as _t2; _t2.sleep(0.3)
 
                 if result_data:
                     with jobs_lock:
@@ -268,18 +257,25 @@ def _monitor_job(job_id: str):
                     # Simpan hasil terakhir ke disk agar tidak hilang saat server restart
                     if result_data.get('status') == 'done' and result_data.get('result'):
                         try:
+                            import re as _re2, math as _math
+                            def _sanitize(obj):
+                                if isinstance(obj, float):
+                                    return None if (_math.isnan(obj) or _math.isinf(obj)) else obj
+                                if isinstance(obj, dict): return {k: _sanitize(v) for k,v in obj.items()}
+                                if isinstance(obj, list): return [_sanitize(i) for i in obj]
+                                return obj
                             with open(LAST_RESULT_FILE, 'w', encoding='utf-8') as _f:
-                                json.dump(sanitize(result_data.get('result')), _f,
+                                json.dump(_sanitize(result_data.get('result')), _f,
                                           ensure_ascii=False, indent=2)
                         except Exception:
                             pass
                 else:
                     # Baca raw dan coba strip NaN
                     try:
-                        with open(result_path, 'r', encoding='utf-8') as f:
-                            raw = f.read()
-                        raw = re.sub(r':\s*NaN', ': null', raw)
-                        raw = re.sub(r':\s*Infinity', ': null', raw)
+                        import re as _re
+                        raw = open(result_path, 'r', encoding='utf-8').read()
+                        raw = _re.sub(r':\s*NaN', ': null', raw)
+                        raw = _re.sub(r':\s*Infinity', ': null', raw)
                         result_data = json.loads(raw)
                         with jobs_lock:
                             jobs[job_id]['status'] = result_data.get('status', 'error')
@@ -336,7 +332,7 @@ def _monitor_job(job_id: str):
             with jobs_lock:
                 j = jobs.get(job_id, {})
                 result_data = j.get('result', {}) or {}
-                elapsed = round(time.time() - j.get('start_time', time.time()), 1)
+                elapsed = round(_time_mod.time() - j.get('start_time', _time_mod.time()), 1)
                 inp_path = os.path.join(job_dir, 'input.json')
                 inp_data = {}
                 try:
@@ -347,7 +343,7 @@ def _monitor_job(job_id: str):
 
             summary = {
                 'job_id'       : job_id,
-                'timestamp'    : time.strftime('%Y-%m-%d %H:%M:%S'),
+                'timestamp'    : _time_mod.strftime('%Y-%m-%d %H:%M:%S'),
                 'elapsed_s'    : elapsed,
                 'preset'       : inp_data.get('preset', '-'),
                 'test_dataset_name' : inp_data.get('test_dataset_name', ''),
@@ -391,7 +387,7 @@ def _monitor_job(job_id: str):
 
             break
 
-        time.sleep(0.5)
+        _time.sleep(0.5)
 
 
 # ──────────────────────────────────────────
@@ -541,7 +537,7 @@ def evaluate():
             'error'     : None,
             'job_dir'   : job_dir,
             'proc'      : proc,
-            'start_time': time.time(),
+            'start_time': _time_mod.time(),
         }
 
     # Thread ringan — hanya baca file progress & hasil
@@ -580,16 +576,15 @@ def predict_job():
         from evaluator import predict_single_from_job
         import joblib
         job_models = joblib.load(model_path)
-        # deepcopy untuk hindari mutasi model asli di disk
-        xgb_m = copy.deepcopy(job_models['xgb_model'])
+        # Pastikan XGB di CPU untuk prediksi
         try:
-            xgb_m.set_params(device='cpu')
+            job_models['xgb_model'].set_params(device='cpu')
         except Exception:
             pass
-        job_models['xgb_model'] = xgb_m
         result = predict_single_from_job(email_text, job_models)
         return jsonify(result)
     except Exception as e:
+        import traceback
         return jsonify({'error': str(e), 'detail': traceback.format_exc()[-300:]}), 500
 
 
@@ -667,9 +662,9 @@ def update_history_pin():
 def last_result():
     if os.path.exists(LAST_RESULT_FILE):
         try:
-            with open(LAST_RESULT_FILE, 'r', encoding='utf-8') as f:
-                raw = f.read()
-            raw = re.sub(r':\s*NaN', ': null', raw)
+            import re as _re
+            raw = open(LAST_RESULT_FILE, 'r', encoding='utf-8').read()
+            raw = _re.sub(r':\s*NaN', ': null', raw)
             return jsonify({'result': json.loads(raw)})
         except Exception as e:
             return jsonify({'result': None, 'error': str(e)})
@@ -772,21 +767,20 @@ def job_status(job_id):
 
         progress = []
         if os.path.exists(prog_path):
-            with open(prog_path, 'r', encoding='utf-8') as f:
-                for ln in f:
-                    ln = ln.strip()
-                    if ln:
-                        try:
-                            progress.append(json.loads(ln)['msg'])
-                        except Exception:
-                            pass
+            import re as _re
+            for ln in open(prog_path, 'r', encoding='utf-8'):
+                ln = ln.strip()
+                if ln:
+                    try:
+                        progress.append(json.loads(ln)['msg'])
+                    except Exception:
+                        pass
 
         if os.path.exists(result_path):
             try:
-                with open(result_path, 'r', encoding='utf-8') as f:
-                    raw = f.read()
-                raw = re.sub(r':\s*NaN', ': null', raw)
-                raw = re.sub(r':\s*Infinity', ': null', raw)
+                raw = open(result_path, 'r', encoding='utf-8').read()
+                raw = _re.sub(r':\s*NaN', ': null', raw)
+                raw = _re.sub(r':\s*Infinity', ': null', raw)
                 result_data = json.loads(raw)
                 return jsonify({
                     'status'  : result_data.get('status', 'done'),
@@ -809,11 +803,11 @@ def job_status(job_id):
 
 
 if __name__ == '__main__':
-    logger.info("=" * 60)
-    logger.info("  Spam Email Classifier - Web App")
-    logger.info("  Mode Teks  : prediksi satu email")
-    logger.info("  Mode CSV   : evaluasi batch (subprocess, CUDA-safe)")
-    logger.info("=" * 60)
-    logger.info("\n  Akses di: http://localhost:5000")
-    logger.info("  Model dimuat di background — halaman langsung bisa diakses\n")
+    print("=" * 60)
+    print("  Spam Email Classifier - Web App")
+    print("  Mode Teks  : prediksi satu email")
+    print("  Mode CSV   : evaluasi batch (subprocess, CUDA-safe)")
+    print("=" * 60)
+    print("\n  Akses di: http://localhost:5000")
+    print("  Model dimuat di background — halaman langsung bisa diakses\n")
     app.run(debug=False, host='0.0.0.0', port=5000)

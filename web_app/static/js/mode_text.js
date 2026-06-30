@@ -66,43 +66,10 @@ function clearText() {
     }, 300);
   }
 }
-// ── Error state shake (ref 12) for textarea ──
-function showShakeError(msg) {
-  const cs = getComputedStyle(document.documentElement);
-  const ms = (k, fb) => { const v = parseFloat(cs.getPropertyValue(k)); return Number.isFinite(v) ? v : fb; };
-  const wrap = document.querySelector('.t-input-wrap');
-  const inp  = document.getElementById('emailText');
-  const errMsg = document.getElementById('textErrorInline');
-
-  if (errMsg) errMsg.textContent = msg;
-
-  if (wrap && inp) {
-    wrap.classList.add('is-error');
-    inp.classList.add('is-error');
-    inp.classList.remove('is-shaking');
-    void inp.offsetWidth;
-    inp.classList.add('is-shaking');
-    const shakeMs = ms('--shake-dur-a', 80) * 2 + ms('--shake-dur-b', 60) * 2;
-    setTimeout(() => inp.classList.remove('is-shaking'), shakeMs + 20);
-    if (wrap._revertTimer) clearTimeout(wrap._revertTimer);
-    wrap._revertTimer = setTimeout(() => {
-      wrap._revertTimer = null;
-      wrap.classList.remove('is-error');
-      inp.classList.remove('is-error');
-    }, shakeMs + ms('--revert-hold', 3000));
-    // Typing cancels error
-    inp.addEventListener('input', () => {
-      if (wrap._revertTimer) { clearTimeout(wrap._revertTimer); wrap._revertTimer = null; }
-      wrap.classList.remove('is-error');
-      inp.classList.remove('is-error');
-    }, { once: true });
-  }
-}
-
 async function analyzeText() {
   const text = document.getElementById('emailText').value.trim();
   hide('textError');
-  if (!text) { showShakeError('Masukkan teks email terlebih dahulu.'); return; }
+  if (!text) { showError('textError', 'Masukkan teks email terlebih dahulu.'); return; }
   setLoading('textLoading', true); setLoading('textResults', false, 'block');
   const analyzeBtn = document.getElementById('analyzeBtn');
   analyzeBtn.disabled = true;
@@ -119,7 +86,6 @@ async function analyzeText() {
   } catch (e) { showError('textError', e.message); }
   finally { setLoading('textLoading', false); analyzeBtn.disabled = false; analyzeBtn.textContent = '🔍 Analisis'; }
 }
-
 // ═══ Spam keyword highlighter ═══
 const SPAM_KEYWORDS = [
   'free', 'win', 'winner', 'won', 'prize', 'claim', 'cash', 'money', 'guaranteed', 'offer', 'limited',
@@ -151,22 +117,12 @@ function renderTextResult(d, rawText) {
 
   const banner = document.getElementById('consensusBanner');
 
-  // ── success-check SVG icons (ref 10) ──
-  const hamSvg = `<span class="t-success-check" data-state="out" aria-hidden="true" style="width:48px;height:48px;vertical-align:middle;">
-    <svg viewBox="0 0 48 48" fill="none" width="48" height="48" stroke="#10b981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="24" cy="24" r="19" stroke-opacity="0.25" style="stroke-dasharray:unset;stroke-dashoffset:unset;"/>
-      <path d="M14 25l7 7 13-14"/>
-    </svg></span>`;
-  const spamSvg = `<span class="t-success-check" data-state="out" aria-hidden="true" style="width:48px;height:48px;vertical-align:middle;">
-    <svg viewBox="0 0 48 48" fill="none" width="48" height="48" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="24" cy="24" r="19" stroke-opacity="0.25" style="stroke-dasharray:unset;stroke-dashoffset:unset;"/>
-      <path d="M24 16v11M24 30.5v1.5"/>
-    </svg></span>`;
+  // Copy to clipboard button
   const copyBtn = `<button onclick="copyResultToClipboard()" style="margin-left:auto;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:6px;padding:5px 12px;font-size:14px;font-weight:600;color:inherit;cursor:pointer;" title="Salin hasil ke clipboard">📋 Salin Hasil</button>`;
 
   banner.innerHTML = `
     <div class="consensus-banner ${finalIsSpam ? 'spam' : 'ham'}">
-      <div class="consensus-icon">${finalIsSpam ? spamSvg : hamSvg}</div>
+      <div class="consensus-icon">${finalIsSpam ? '🚨' : '✅'}</div>
       <div class="consensus-text" style="flex:1;">
         <h3>${finalIsSpam ? 'EMAIL INI TERDETEKSI SPAM' : 'EMAIL INI BUKAN SPAM'}</h3>
         <p>${finalDesc}</p>
@@ -178,19 +134,8 @@ function renderTextResult(d, rawText) {
       ${highlightSpamWords(rawText)}
     </div>` : ''}`;
 
-  // Trigger success-check animation after DOM update (ref 10)
-  requestAnimationFrame(() => {
-    const check = banner.querySelector('.t-success-check');
-    if (check) {
-      check.setAttribute('data-state', 'out');
-      void check.offsetWidth;
-      check.setAttribute('data-state', 'in');
-    }
-  });
-
   // Store result for copy
   window._lastTextResult = { d, rawText };
-
 
   // Rekomendasi & indikator
   const rekBox = document.getElementById('rekomendasiBox');
@@ -253,13 +198,20 @@ function renderTextResult(d, rawText) {
       <div class="prob-bar-wrap">
         <div class="prob-bar-label"><span>Probabilitas Spam</span><span>${m.probability}%</span></div>
         <div class="prob-bar-track">
-          <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:${m.probability}%"></div>
+          <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" data-width="${m.probability}%" style="width: 0%"></div>
         </div>
       </div>
       <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">
         Threshold: <b>${m.threshold}%</b> &nbsp;|&nbsp; Confidence: <b>${m.confidence}</b>
       </div>
     </div>`).join('');
+
+  // Animate probability bars (ref 16)
+  requestAnimationFrame(() => {
+    cards.querySelectorAll('.prob-bar-fill').forEach(bar => {
+      bar.style.width = bar.getAttribute('data-width');
+    });
+  });
 
   const note = document.getElementById('agreementNote');
   note.style.color = c.agreement ? 'var(--success)' : 'var(--warning)';

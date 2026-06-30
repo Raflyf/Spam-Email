@@ -154,7 +154,7 @@ function renderRealtimeResult(d, metode) {
             <div class="prob-bar-wrap">
               <div class="prob-bar-label"><span>Prob. Spam</span><span>${m.probability}%</span></div>
               <div class="prob-bar-track">
-                <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:${m.probability}%"></div>
+                <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" data-width="${m.probability}%" style="width: 0%"></div>
               </div>
             </div>
             <div style="font-size:13px;color:var(--gray-400);margin-top:4px;">
@@ -167,6 +167,13 @@ function renderRealtimeResult(d, metode) {
         ${highlightSpamWords(document.getElementById('realtimeText').value.trim() || '')}
       </div>
     </div>`;
+
+  // Animate probability bars (ref 16)
+  requestAnimationFrame(() => {
+    el.querySelectorAll('.prob-bar-fill').forEach(bar => {
+      bar.style.width = bar.getAttribute('data-width');
+    });
+  });
 }
 
 document.getElementById('realtimeText').addEventListener('keydown', e => {

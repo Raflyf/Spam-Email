@@ -54,71 +54,6 @@
   --radius-full: 9999px;
   --radius: var(--radius-md);
   --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-
-  /* ── transitions-dev motion tokens ─────────────────────────────── */
-  /* Durations */
-  --duration-stagger: 40ms;
-  --duration-micro: 80ms;
-  --duration-quick: 150ms;
-  --duration-fast: 250ms;
-  --duration-medium: 350ms;
-  --duration-slow: 400ms;
-  --duration-very-slow: 500ms;
-  /* Easings */
-  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: ease-in-out;
-  --ease-out: ease-out;
-  --ease-linear: linear;
-  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
-  --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
-  /* Distances */
-  --distance-micro: 4px;
-  --distance-small: 6px;
-  --distance-base: 8px;
-  --distance-medium: 12px;
-  /* Blur */
-  --blur-small: 2px;
-  --blur-medium: 3px;
-
-  /* ── Tabs sliding (16) */
-  --tabs-dur: var(--duration-fast);
-  --tabs-ease: var(--ease-smooth-out);
-  --tabs-text-muted: rgba(15, 15, 15, 0.6);
-  --tabs-text-active: #09090b;
-  --tabs-bar-bg: #e4e4e7;
-  --tabs-pill-bg: #ffffff;
-
-  /* ── Texts reveal (18) */
-  --stagger-dur: var(--duration-very-slow);
-  --stagger-distance: var(--distance-medium);
-  --stagger-stagger: var(--duration-stagger);
-  --stagger-blur: var(--blur-medium);
-  --stagger-ease: var(--ease-smooth-out);
-
-  /* ── Error state shake (12) */
-  --shake-distance: var(--distance-small);
-  --shake-overshoot: 4px;
-  --shake-dur-a: var(--duration-micro);
-  --shake-dur-b: 60ms;
-  --shake-ease: var(--ease-smooth-out);
-  --revert-hold: 3000ms;
-  --revert-dur: 280ms;
-
-  /* ── Success check (10) */
-  --check-opacity-dur: var(--duration-very-slow);
-  --check-rotate-dur: var(--duration-very-slow);
-  --check-rotate-from: 80deg;
-  --check-bob-dur: var(--duration-very-slow);
-  --check-y-amount: 30px;
-  --check-blur-dur: var(--duration-very-slow);
-  --check-blur-from: 8px;
-  --check-path-dur: var(--duration-very-slow);
-  --check-path-delay: var(--duration-micro);
-  --check-ease-out: var(--ease-smooth-out);
-  --check-ease-opacity: var(--ease-smooth-out);
-  --check-ease-rotate: var(--ease-smooth-out);
-  --check-ease-bob: cubic-bezier(0.34, 1.35, 0.64, 1);
-  --check-ease-path: var(--ease-smooth-out);
 }
 
 /* ═══════════════════════════════
@@ -159,15 +94,12 @@ body.dark .card {
 }
 
 body.dark .tab-btn.active {
+  background: var(--gray-300);
   color: var(--primary);
 }
 
 body.dark .tabs {
   background: var(--gray-100);
-  --tabs-bar-bg: var(--gray-100);
-  --tabs-pill-bg: var(--gray-200);
-  --tabs-text-muted: rgba(250, 250, 250, 0.6);
-  --tabs-text-active: #fafafa;
 }
 
 /* Input & Textarea */
@@ -383,14 +315,12 @@ header p {
   margin-bottom: 14px;
 }
 
-/* ── TAB (tabs-sliding, ref 16) ── */
+/* ── TAB ── */
 .tabs {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
+  display: flex;
+  gap: 4px;
   margin-bottom: 24px;
-  background: var(--tabs-bar-bg);
+  background: var(--gray-100);
   border-radius: 999px;
   padding: 4px;
   width: max-content;
@@ -398,27 +328,7 @@ header p {
   margin-right: auto;
 }
 
-/* Sliding pill — width+transform driven by JS */
-.tabs-pill {
-  position: absolute;
-  top: 4px;
-  left: 0;
-  height: calc(100% - 8px);
-  width: 0;
-  background: var(--tabs-pill-bg);
-  border-radius: 999px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  transform: translateX(0);
-  transition:
-    transform var(--tabs-dur) var(--tabs-ease),
-    width     var(--tabs-dur) var(--tabs-ease);
-  will-change: transform, width;
-  z-index: 0;
-  pointer-events: none;
-}
-
 .tab-btn {
-  position: relative;
   flex: 1;
   padding: 8px 18px;
   border: none;
@@ -428,25 +338,20 @@ header p {
   cursor: pointer;
   background: transparent;
   color: var(--gray-400);
-  transition: color var(--tabs-dur) var(--tabs-ease);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
-  white-space: nowrap;
 }
 
-.tab-btn:not([aria-selected="true"]):hover {
+.tab-btn:hover {
   color: var(--primary);
 }
 
-.tab-btn[aria-selected="true"] {
-  color: var(--primary);
-}
-
-/* Deprecated: kept for BC but pill replaces the bg */
 .tab-btn.active {
+  background: var(--card-bg);
   color: var(--primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .tab-pane {
@@ -455,26 +360,18 @@ header p {
 
 .tab-pane.active {
   display: block;
-  animation: fadeInPane var(--duration-fast) var(--ease-smooth-out) forwards;
+  animation: fadeInPane 0.25s ease-out forwards;
 }
 
 @keyframes fadeInPane {
   from {
     opacity: 0;
-    transform: translateY(var(--distance-base));
-    filter: blur(var(--blur-small));
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tabs-pill { transition: none !important; }
-  .tab-btn   { transition: none !important; }
-  .tab-pane.active { animation: none !important; }
 }
 
 /* ── FORM ELEMENTS ── */
@@ -749,111 +646,6 @@ body.dark .progress-log {
 
 .error-box.active {
   display: block;
-}
-
-/* ── Error state shake (12) — textarea wrap ── */
-.t-input-wrap { position: relative; }
-.t-input {
-  transition: border-color var(--duration-quick) var(--ease-out);
-  will-change: transform;
-}
-.t-input.is-error {
-  border-color: var(--danger) !important;
-  transition: border-color var(--revert-dur) var(--ease-out);
-}
-.t-error-msg {
-  opacity: 0;
-  visibility: hidden;
-  font-size: 13px;
-  color: var(--danger);
-  margin-top: 6px;
-  transition:
-    opacity    var(--revert-dur) var(--ease-out),
-    visibility 0s linear var(--revert-dur);
-}
-.t-input-wrap.is-error .t-error-msg {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity    var(--revert-dur) var(--ease-out),
-    visibility 0s linear 0s;
-}
-.t-input.is-shaking {
-  animation: t-input-shake calc(
-    var(--shake-dur-a) * 2 + var(--shake-dur-b) * 2
-  ) linear;
-}
-@keyframes t-input-shake {
-  0%     { transform: translateX(0);                              animation-timing-function: var(--shake-ease); }
-  28.57% { transform: translateX(var(--shake-distance));          animation-timing-function: var(--shake-ease); }
-  57.14% { transform: translateX(calc(var(--shake-distance)*-1)); animation-timing-function: var(--shake-ease); }
-  78.57% { transform: translateX(var(--shake-overshoot));         animation-timing-function: var(--shake-ease); }
-  100%   { transform: translateX(0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .t-input { animation: none !important; transform: none !important; }
-}
-
-/* ── Success check (10) ── */
-.t-success-check {
-  display: inline-block;
-  transform-origin: center;
-  opacity: 0;
-  will-change: transform, opacity, filter;
-}
-.t-success-check svg { display: block; overflow: visible; }
-.t-success-check svg path {
-  stroke-dasharray: 30;
-  stroke-dashoffset: 30;
-}
-.t-success-check[data-state="in"] {
-  animation:
-    t-check-fade   var(--check-opacity-dur) var(--check-ease-opacity) forwards,
-    t-check-rotate var(--check-rotate-dur)  var(--check-ease-rotate)  forwards,
-    t-check-blur   var(--check-blur-dur)    var(--check-ease-out)     forwards,
-    t-check-bob    var(--check-bob-dur)     var(--check-ease-bob)     forwards;
-}
-.t-success-check[data-state="in"] svg path {
-  animation: t-check-draw var(--check-path-dur) var(--check-ease-path) var(--check-path-delay, 0ms) forwards;
-}
-@keyframes t-check-fade   { from { opacity: 0; } to { opacity: 1; } }
-@keyframes t-check-rotate { from { transform: rotate(var(--check-rotate-from)); } to { transform: rotate(0deg); } }
-@keyframes t-check-blur   { from { filter: blur(var(--check-blur-from)); } to { filter: blur(0); } }
-@keyframes t-check-bob    { from { translate: 0 var(--check-y-amount); } to { translate: 0 0; } }
-@keyframes t-check-draw   { to { stroke-dashoffset: 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .t-success-check { animation: none !important; opacity: 1; }
-  .t-success-check svg path { animation: none !important; stroke-dashoffset: 0 !important; }
-}
-
-/* ── Texts reveal (18) — hero header ── */
-.t-stagger-line {
-  display: block;
-  opacity: 0;
-  transform: translateY(var(--stagger-distance));
-  filter: blur(var(--stagger-blur));
-  transition:
-    opacity   var(--stagger-dur) var(--stagger-ease),
-    transform var(--stagger-dur) var(--stagger-ease),
-    filter    var(--stagger-dur) var(--stagger-ease);
-  will-change: transform, opacity, filter;
-}
-.t-stagger-line--2 { transition-delay: var(--stagger-stagger); }
-.t-stagger-line--3 { transition-delay: calc(var(--stagger-stagger) * 2); }
-.t-stagger.is-shown .t-stagger-line {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-.t-stagger.is-hiding .t-stagger-line {
-  opacity: 0;
-  transform: translateY(0);
-  filter: blur(0);
-  transition: opacity 200ms ease, transform 0s linear, filter 0s linear;
-  transition-delay: 0s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .t-stagger-line { transition: none !important; }
 }
 
 th {
@@ -1152,7 +944,7 @@ body.dark .cm-table .fn:hover {
 .prob-bar-fill {
   height: 100%;
   border-radius: 99px;
-  transition: width .5s ease;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .prob-bar-fill.spam {
@@ -1807,13 +1599,7 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   to { transform: translateY(-20px); opacity: 0; }
 }
 
-/* ── ANIMATED PROB BAR ── */
-@keyframes fillGauge {
-  from { width: 0%; }
-}
-.prob-bar-fill {
-  animation: fillGauge 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+
 
 /* ═══════════════════════════════
        SHADCN UI OVERRIDES

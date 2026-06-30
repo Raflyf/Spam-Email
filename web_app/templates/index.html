@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=33">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=35">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -47,25 +47,20 @@
   <div class="container">
 
     <header style="position: relative;">
-      <div class="badge t-stagger">
-        <strong class="t-stagger-line t-stagger-line--1">Skripsi Klasifikasi Spam Email</strong>
-      </div>
-      <h1 style="margin-top:0; display:flex; justify-content:center;" class="t-stagger">
-        <span class="t-stagger-line t-stagger-line--1">Spam Email Classifier</span>
+      <div class="badge">Skripsi Klasifikasi Spam Email</div>
+      <h1 style="margin-top:0; display:flex; justify-content:center;">
+        Spam Email Classifier
       </h1>
-      <div class="t-stagger" style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
-        <span class="t-stagger-line t-stagger-line--2" style="display:block;margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</span>
-        <span class="t-stagger-line t-stagger-line--3" style="display:block;">
-          <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode">
-            <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
-          </button>
-        </span>
+      <div style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
+        <div style="margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</div>
+        <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode">
+          <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
+        </button>
       </div>
     </header>
 
     <!-- TABS -->
     <div class="tabs" id="mainTabs" role="tablist" aria-label="Navigasi Menu Utama">
-      <span class="tabs-pill" aria-hidden="true"></span>
       <button id="tab-text" class="tab-btn active" data-tab="text" onclick="switchTab('text')" role="tab" aria-selected="true" aria-controls="pane-text"><i data-lucide="pen-line" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode Teks</button>
       <button id="tab-csv" class="tab-btn" data-tab="csv" onclick="switchTab('csv')" role="tab" aria-selected="false" aria-controls="pane-csv"><i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode CSV</button>
       <button id="tab-history" class="tab-btn" data-tab="history" onclick="switchTab('history')" role="tab" aria-selected="false" aria-controls="pane-history"><i data-lucide="history" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> <span id="histTabText">Riwayat</span></button>
@@ -75,10 +70,7 @@
     <div id="pane-text" class="tab-pane active" role="tabpanel" aria-labelledby="tab-text">
       <div class="card" style="border-top:4px solid var(--primary);">
         <h2>Masukkan Teks Email</h2>
-        <div class="t-input-wrap">
-          <textarea id="emailText" class="t-input" placeholder="Paste isi email di sini..."></textarea>
-          <p class="t-error-msg" id="textErrorInline"></p>
-        </div>
+        <textarea id="emailText" placeholder="Paste isi email di sini..."></textarea>
         <div
           style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:8px;">
           <span style="font-size:14px;color:var(--gray-400)" id="charCount">0 karakter</span>
@@ -532,10 +524,10 @@
     border:1px solid rgba(255,255,255,0.1);"></div>
   
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=10"></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=9"></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=11"></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=8"></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=11"></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=11"></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=12"></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=9"></script>
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();

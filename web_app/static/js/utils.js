@@ -21,9 +21,8 @@ function escapeHtml(unsafe) {
 // ═══════════════════════════════════════════
 
 function switchTab(t) {
-  const tabs = [...document.querySelectorAll('.tabs > .tab-btn')];
-  tabs.forEach(b => {
-    const isActive = b.getAttribute('data-tab') === t;
+  document.querySelectorAll('.tabs > .tab-btn').forEach((b, i) => {
+    const isActive = (i === 0 && t === 'text') || (i === 1 && t === 'csv') || (i === 2 && t === 'history');
     b.classList.toggle('active', isActive);
     b.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
@@ -33,39 +32,13 @@ function switchTab(t) {
   if (ph) ph.classList.toggle('active', t === 'history');
   if (t === 'history') loadHistory();
   else {
+    // Tutup mode pilih data otomatis jika pindah ke tab lain
     if (typeof toggleSelectMode === 'function' && typeof _selectMode !== 'undefined' && _selectMode) {
       toggleSelectMode();
     }
   }
-  // Move sliding pill to active tab
-  const activeTab = tabs.find(b => b.getAttribute('data-tab') === t);
-  if (activeTab) movePill(activeTab, true);
+  // Simpan state ke URL hash
   window.location.hash = t;
-}
-
-// ── Tabs sliding pill orchestration (ref 16) ──
-function movePill(tab, animate) {
-  const pill = document.querySelector('.tabs-pill');
-  if (!pill) return;
-  if (!animate) {
-    const prev = pill.style.transition;
-    pill.style.transition = 'none';
-    pill.style.transform = `translateX(${tab.offsetLeft}px)`;
-    pill.style.width = `${tab.offsetWidth}px`;
-    void pill.offsetWidth; // force reflow
-    pill.style.transition = prev;
-  } else {
-    pill.style.transform = `translateX(${tab.offsetLeft}px)`;
-    pill.style.width = `${tab.offsetWidth}px`;
-  }
-}
-
-// ── Texts reveal orchestration (ref 18) ──
-function revealText(block) {
-  block.classList.remove('is-hiding');
-  block.classList.remove('is-shown');
-  void block.offsetHeight;
-  block.classList.add('is-shown');
 }
 
 // Restore tab state saat halaman dimuat
@@ -78,16 +51,8 @@ document.addEventListener('DOMContentLoaded', function initTabState() {
   const hash = window.location.hash.substring(1) || 'text';
   if (['text', 'csv', 'history'].includes(hash)) {
     switchTab(hash);
-  } else {
-    // Snap pill to default active tab on first paint
-    const activeTab = document.querySelector('.tabs > .tab-btn[aria-selected="true"]');
-    if (activeTab) movePill(activeTab, false);
   }
-
-  // Hero texts reveal on load
-  document.querySelectorAll('header .t-stagger').forEach(el => revealText(el));
 });
-
 
 
 // ═══════════════════════════════════════════

@@ -1095,6 +1095,144 @@
     "label_name": ""
   },
   {
+    "job_id": "283060c2-4082-46a9-b346-792f911b8623",
+    "timestamp": "2026-06-29 15:48:06",
+    "elapsed_s": 140.2,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 1350,
+    "n_train_spam": 1350,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 53.4,
+      "xgb_acc": 49.1,
+      "nb_f1": 47.31,
+      "xgb_f1": 47.71,
+      "nb_cm": {
+        "tn": 97,
+        "fp": 403,
+        "fn": 63,
+        "tp": 437
+      },
+      "xgb_cm": {
+        "tn": 164,
+        "fp": 336,
+        "fn": 173,
+        "tp": 327
+      },
+      "top10_chi2": [
+        {
+          "feature": "vince",
+          "score": 47.48
+        },
+        {
+          "feature": "enron",
+          "score": 44.55
+        },
+        {
+          "feature": "ect",
+          "score": 39.49
+        },
+        {
+          "feature": "kaminski",
+          "score": 32.09
+        },
+        {
+          "feature": "vince kaminski",
+          "score": 28.65
+        },
+        {
+          "feature": "hou",
+          "score": 28.51
+        },
+        {
+          "feature": "hou ect",
+          "score": 28.31
+        },
+        {
+          "feature": "ect ect",
+          "score": 26.37
+        },
+        {
+          "feature": "cc",
+          "score": 26.3
+        },
+        {
+          "feature": "numtoken pm",
+          "score": 23.21
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 87.86,
+      "xgb_acc": 94.57,
+      "nb_f1": 87.83,
+      "xgb_f1": 94.56,
+      "nb_cm": {
+        "tn": 290,
+        "fp": 60,
+        "fn": 25,
+        "tp": 325
+      },
+      "xgb_cm": {
+        "tn": 346,
+        "fp": 4,
+        "fn": 34,
+        "tp": 316
+      },
+      "top10_chi2": [
+        {
+          "feature": "vince",
+          "score": 50.0
+        },
+        {
+          "feature": "enron",
+          "score": 46.46
+        },
+        {
+          "feature": "ect",
+          "score": 40.63
+        },
+        {
+          "feature": "kaminski",
+          "score": 33.36
+        },
+        {
+          "feature": "vince kaminski",
+          "score": 29.77
+        },
+        {
+          "feature": "hou",
+          "score": 29.34
+        },
+        {
+          "feature": "hou ect",
+          "score": 29.11
+        },
+        {
+          "feature": "cc",
+          "score": 27.37
+        },
+        {
+          "feature": "ect ect",
+          "score": 26.99
+        },
+        {
+          "feature": "pm",
+          "score": 24.01
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
     "job_id": "57fb6094-68ef-4394-9004-1c43f645d89c",
     "timestamp": "2026-06-29 19:35:08",
     "elapsed_s": 24.0,
@@ -1249,66 +1387,6 @@
       ]
     },
     "status": "done",
-    "note": "",
-    "label_name": ""
-  },
-  {
-    "job_id": "3a3ee7aa-9a0d-41e9-bfe8-d6190ebed3b3",
-    "timestamp": "2026-06-30 11:28:39",
-    "elapsed_s": 57.6,
-    "preset": "full",
-    "test_dataset_name": "data_test_berlabel_awal.csv",
-    "train_dataset_name": "emails.csv (bawaan)",
-    "n_nonspam": 500,
-    "n_spam": 500,
-    "n_train_nonspam": 0,
-    "n_train_spam": 0,
-    "adapt_frac": 0.3,
-    "adapt_weight": 8.0,
-    "custom_train": false,
-    "metode1": null,
-    "metode2": null,
-    "status": "cancelled",
-    "note": "",
-    "label_name": ""
-  },
-  {
-    "job_id": "c579868d-e24f-45f9-8015-e17809f2111c",
-    "timestamp": "2026-06-30 11:38:27",
-    "elapsed_s": 30.1,
-    "preset": "fast",
-    "test_dataset_name": "tmp_test.csv",
-    "train_dataset_name": "emails.csv (bawaan)",
-    "n_nonspam": 10,
-    "n_spam": 10,
-    "n_train_nonspam": 0,
-    "n_train_spam": 0,
-    "adapt_frac": 0.3,
-    "adapt_weight": 8.0,
-    "custom_train": false,
-    "metode1": null,
-    "metode2": null,
-    "status": "cancelled",
-    "note": "",
-    "label_name": ""
-  },
-  {
-    "job_id": "9dfcecca-19f9-4efe-bc00-da73ac7f3966",
-    "timestamp": "2026-06-30 11:39:21",
-    "elapsed_s": 93.6,
-    "preset": "full",
-    "test_dataset_name": "data_test_berlabel_awal.csv",
-    "train_dataset_name": "emails.csv (bawaan)",
-    "n_nonspam": 500,
-    "n_spam": 500,
-    "n_train_nonspam": 0,
-    "n_train_spam": 0,
-    "adapt_frac": 0.3,
-    "adapt_weight": 8.0,
-    "custom_train": false,
-    "metode1": null,
-    "metode2": null,
-    "status": "cancelled",
     "note": "",
     "label_name": ""
   }
