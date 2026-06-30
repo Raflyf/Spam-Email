@@ -70,6 +70,7 @@ function dropFile(e, target) {
     fetchDatasetStats(f, 'trainDatasetStats');
   } else {
     csvFile = f; showFileLabel(f, 'fileName', '📘');
+    previewCsvFile(f);
     fetchDatasetStats(f, 'testDatasetStats');
   }
   checkCanEval();
@@ -99,6 +100,7 @@ function fileSelected(input) {
   
   csvFile = file;
   showFileLabel(csvFile, 'fileName', '📘');
+  previewCsvFile(file);
   checkCanEval();
   fetchDatasetStats(file, 'testDatasetStats');
 }
@@ -149,6 +151,43 @@ function showFileLabel(f, elId, icon) {
   el.style.display = 'block';
 }
 
+function syncPresetPills() {
+  document.querySelectorAll('.preset-pill').forEach(pill => {
+    pill.classList.toggle('active', pill.querySelector('input').checked);
+  });
+}
+
+function previewCsvFile(file) {
+  const el = document.getElementById('csvFilePreview');
+  if (!el) return;
+  if (!file || file.size > 5 * 1024 * 1024) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const lines = reader.result.split(/\r?\n/).filter(Boolean);
+    const rows = lines.slice(0, 4).map(line => line.split(',').map(v => v.trim().replace(/^"|"$/g, '')));
+    if (!rows.length) { el.style.display = 'none'; return; }
+    const labelIdx = rows[0].findIndex(h => /label|spam|class/i.test(h));
+    const counts = labelIdx >= 0 ? lines.slice(1).reduce((acc, line) => {
+      const v = (line.split(',')[labelIdx] || '').toLowerCase();
+      if (/^(1|spam|true)$/i.test(v)) acc.spam++;
+      else if (/^(0|ham|non.?spam|false)$/i.test(v)) acc.nonspam++;
+      return acc;
+    }, { spam: 0, nonspam: 0 }) : { spam: 0, nonspam: 0 };
+    const tableRows = rows.map((row, i) => `<tr>${row.map(cell => {
+      const tag = i ? 'td' : 'th';
+      return `<${tag}>${escapeHtml(cell || '—')}</${tag}>`;
+    }).join('')}</tr>`).join('');
+    el.style.display = 'block';
+    el.innerHTML = `<div class="csv-preview-meta"><b>${escapeHtml(file.name)}</b> · ${Math.max(lines.length - 1, 0).toLocaleString('id')} baris · Estimasi: ${counts.nonspam.toLocaleString('id')} non-spam / ${counts.spam.toLocaleString('id')} spam</div><div class="csv-preview-table-wrap"><table>${tableRows}</table></div>`;
+  };
+  reader.readAsText(file.slice(0, 5 * 1024 * 1024));
+}
+
 function resetCsv() {
   csvFile = null; csvTrain = null;
   currentJobId = null;
@@ -169,6 +208,8 @@ function resetCsv() {
   document.getElementById('csvTrain').value = '';
   document.getElementById('fileName').style.display = 'none';
   document.getElementById('fileNameTrain').style.display = 'none';
+  const preview = document.getElementById('csvFilePreview');
+  if (preview) { preview.style.display = 'none'; preview.innerHTML = ''; }
   document.getElementById('evalBtn').disabled = true;
   enableCsvInputs();
   document.getElementById('csvResults').style.display = 'none';
@@ -205,9 +246,10 @@ function pollJob(jobId) {
       const cancelBtn = document.getElementById('cancelJobBtn');
       if (cancelBtn) cancelBtn.style.display = 'none';
       setLoading('csvLoading', false);
-      document.getElementById('evalBtn').disabled = false;
+      const evalBtn = document.getElementById('evalBtn');
+      if (evalBtn) { evalBtn.disabled = false; evalBtn.textContent = '▶ Mulai Evaluasi'; }
       setProgressBar(0, '');
-      showError('csvError', '⏱ Training timeout (melebihi 30 menit). Coba gunakan mode Fast atau dataset lebih kecil.');
+      showError('csvError', '⏱ Waktu training habis (>30 menit). Gunakan mode Fast atau dataset lebih kecil.');
       return;
     }
 
@@ -229,7 +271,8 @@ function pollJob(jobId) {
           const cancelBtn = document.getElementById('cancelJobBtn');
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
-          document.getElementById('evalBtn').disabled = false;
+          const evalBtn = document.getElementById('evalBtn');
+          if (evalBtn) { evalBtn.disabled = false; evalBtn.textContent = '▶ Mulai Evaluasi'; }
           enableCsvInputs(); // Enable CSV inputs saat job selesai
           setProgressBar(100, 'Selesai');
           try {
@@ -250,7 +293,8 @@ function pollJob(jobId) {
           const cancelBtn = document.getElementById('cancelJobBtn');
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
-          document.getElementById('evalBtn').disabled = false;
+          const evalBtn = document.getElementById('evalBtn');
+          if (evalBtn) { evalBtn.disabled = false; evalBtn.textContent = '▶ Mulai Evaluasi'; }
           enableCsvInputs(); // Enable CSV inputs saat job error
           setProgressBar(0, '');
           showError('csvError', data.error || 'Terjadi kesalahan saat evaluasi.');
@@ -260,7 +304,8 @@ function pollJob(jobId) {
           const cancelBtn = document.getElementById('cancelJobBtn');
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
-          document.getElementById('evalBtn').disabled = false;
+          const evalBtn = document.getElementById('evalBtn');
+          if (evalBtn) { evalBtn.disabled = false; evalBtn.textContent = '▶ Mulai Evaluasi'; }
           enableCsvInputs(); // Enable CSV inputs saat job dibatalkan
           setProgressBar(0, '');
           // Pesan cancel yang bersih — bukan error merah
@@ -905,9 +950,12 @@ updateTrainBalancePreview();
   setTimeout(doSync, 150);
 })();
 
+syncPresetPills();
+
 // Semua init yang perlu renderCsvResults — jalankan setelah DOM siap
 document.addEventListener('DOMContentLoaded', function initRestoreState() {
   setUploadMode('test_only');
+  syncPresetPills();
   // Restore job ID terakhir dari session
   const saved = sessionStorage.getItem('lastJobId');
   if (saved) {

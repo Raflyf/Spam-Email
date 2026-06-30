@@ -36,8 +36,8 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=32">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=33">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -47,20 +47,25 @@
   <div class="container">
 
     <header style="position: relative;">
-      <div class="badge">Skripsi Klasifikasi Spam Email</div>
-      <h1 style="margin-top:0; display:flex; justify-content:center;">
-        Spam Email Classifier
+      <div class="badge t-stagger">
+        <strong class="t-stagger-line t-stagger-line--1">Skripsi Klasifikasi Spam Email</strong>
+      </div>
+      <h1 style="margin-top:0; display:flex; justify-content:center;" class="t-stagger">
+        <span class="t-stagger-line t-stagger-line--1">Spam Email Classifier</span>
       </h1>
-      <div style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
-        <div style="margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</div>
-        <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Ganti Tema Gelap/Terang">
-          <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
-        </button>
+      <div class="t-stagger" style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
+        <span class="t-stagger-line t-stagger-line--2" style="display:block;margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</span>
+        <span class="t-stagger-line t-stagger-line--3" style="display:block;">
+          <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode">
+            <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
+          </button>
+        </span>
       </div>
     </header>
 
     <!-- TABS -->
     <div class="tabs" id="mainTabs" role="tablist" aria-label="Navigasi Menu Utama">
+      <span class="tabs-pill" aria-hidden="true"></span>
       <button id="tab-text" class="tab-btn active" data-tab="text" onclick="switchTab('text')" role="tab" aria-selected="true" aria-controls="pane-text"><i data-lucide="pen-line" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode Teks</button>
       <button id="tab-csv" class="tab-btn" data-tab="csv" onclick="switchTab('csv')" role="tab" aria-selected="false" aria-controls="pane-csv"><i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Mode CSV</button>
       <button id="tab-history" class="tab-btn" data-tab="history" onclick="switchTab('history')" role="tab" aria-selected="false" aria-controls="pane-history"><i data-lucide="history" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> <span id="histTabText">Riwayat</span></button>
@@ -70,7 +75,10 @@
     <div id="pane-text" class="tab-pane active" role="tabpanel" aria-labelledby="tab-text">
       <div class="card" style="border-top:4px solid var(--primary);">
         <h2>Masukkan Teks Email</h2>
-        <textarea id="emailText" placeholder="Paste isi email di sini..."></textarea>
+        <div class="t-input-wrap">
+          <textarea id="emailText" class="t-input" placeholder="Paste isi email di sini..."></textarea>
+          <p class="t-error-msg" id="textErrorInline"></p>
+        </div>
         <div
           style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:8px;">
           <span style="font-size:14px;color:var(--gray-400)" id="charCount">0 karakter</span>
@@ -127,18 +135,18 @@
         <!-- ── PILIH MODE UPLOAD ── -->
         <div style="display:flex;gap:4px;background:var(--gray-100);border-radius:8px;padding:4px;margin-bottom:16px;">
           <button class="tab-btn active" id="modeTestOnly" onclick="setUploadMode('test_only')"
-            style="font-size:14px;padding:8px 14px;">
+            style="font-size:14px;padding:8px 14px;" aria-pressed="true">
             <i data-lucide="file-up" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Hanya Upload Test
           </button>
           <button class="tab-btn" id="modeCustomTrain" onclick="setUploadMode('custom_train')"
-            style="font-size:14px;padding:8px 14px;">
+            style="font-size:14px;padding:8px 14px;" aria-pressed="false">
             <i data-lucide="files" style="width:16px;height:16px;vertical-align:text-bottom;margin-right:4px;"></i> Upload Train + Test
           </button>
         </div>
 
         <!-- Info mode aktif -->
         <div id="modeInfo" style="font-size:14px;color:var(--gray-600);margin-bottom:14px;
-           padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:6px;border-left:3px solid var(--primary);">
+           padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:6px;">
           <b>Mode:</b> Data training menggunakan <b>emails.csv</b> bawaan (5.728 email Kaggle).
           Anda hanya perlu upload CSV test.
         </div>
@@ -167,15 +175,15 @@
         </label>
         <div class="file-drop" id="dropZone" onclick="document.getElementById('csvFile').click()"
           ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
-          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
+          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');previewCsvFile(f);checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
           <div class="icon"><i data-lucide="file-check-2" style="width:32px;height:32px;color:var(--gray-400);margin:0 auto;"></i></div>
           <div>Klik atau seret CSV Test ke sini</div>
           <div class="hint">CSV harus punya kolom teks (text/body/message) dan label (label/spam/class) &bull; Max 100
             MB</div>
         </div>
-        <input type="file" id="csvFile" accept=".csv"
-          onchange="csvFile=this.files[0];showFileLabel(this.files[0],'fileName','📘');checkCanEval();fetchDatasetStats(this.files[0],'testDatasetStats')">
+        <input type="file" id="csvFile" accept=".csv" onchange="fileSelected(this)">
         <div class="file-name" id="fileName"></div>
+        <div id="csvFilePreview" class="csv-preview" style="display:none;"></div>
         <!-- Statistik dataset test -->
         <div id="testDatasetStats" style="display:none;margin-top:8px;"></div>
 
@@ -194,12 +202,12 @@
         <!-- Pengaturan Metode 2 -->
         <div class="settings-row" id="m2Settings" style="margin-top:12px;">
           <div>
-            <label class="field-label">Rasio Adaptasi: <span class="range-val" id="fracVal">30%</span></label>
+            <label class="field-label">Rasio Adaptasi: <span class="range-val" id="fracVal">30%</span><span class="tooltip-icon" data-tooltip="Persentase data test target yang disisipkan ke training untuk Domain Adaptation.">?</span></label>
             <input type="range" id="adaptFrac" min="10" max="50" step="5" value="30" autocomplete="off"
               oninput="document.getElementById('fracVal').textContent=this.value+'%'">
           </div>
           <div>
-            <label class="field-label">Bobot Instance: <span class="range-val" id="weightVal">8×</span></label>
+            <label class="field-label">Bobot Instance: <span class="range-val" id="weightVal">8×</span><span class="tooltip-icon" data-tooltip="Pengali bobot sample adaptasi. Makin besar, model makin fokus ke data adaptasi.">?</span></label>
             <input type="range" id="adaptWeight" min="2" max="20" step="1" value="8" autocomplete="off"
               oninput="document.getElementById('weightVal').textContent=this.value+'×'">
           </div>
@@ -286,18 +294,15 @@
         </div>
 
         <!-- Preset Kecepatan -->
-        <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div class="preset-toggle" style="margin-top:14px;">
           <span style="font-size:14px;font-weight:700;color:var(--gray-600);">⚡ Mode Training:</span>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;font-weight:600;">
-            <input type="radio" name="preset" value="fast" style="accent-color:var(--primary);">
-            <span style="color:var(--success);">Fast</span>
-            <span style="font-size:13px;font-weight:400;color:var(--gray-400);">(~1-2 menit, fitur lebih sedikit)</span>
+          <label class="preset-pill">
+            <input type="radio" name="preset" value="fast" onchange="syncPresetPills()">
+            <span>Fast</span><small>500 trees / ES 40</small>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;font-weight:600;">
-            <input type="radio" name="preset" value="full" checked style="accent-color:var(--primary);">
-            <span style="color:var(--warning);">Full</span>
-            <span style="font-size:13px;font-weight:400;color:var(--gray-400);">(~10-30 menit, identik skrip
-              skripsi)</span>
+          <label class="preset-pill">
+            <input type="radio" name="preset" value="full" checked onchange="syncPresetPills()">
+            <span>Full</span><small>3000 trees / ES 80</small>
           </label>
         </div>
 
@@ -335,9 +340,10 @@
             <span id="progressPct">0%</span>
           </div>
           <div style="background:var(--gray-200);border-radius:99px;height:8px;overflow:hidden;">
-            <div id="progressBarFill" style="height:100%;width:0%;border-radius:99px;
+            <div id="progressBarFill" style="height:100%;border-radius:99px;
                       background:linear-gradient(90deg,var(--primary),#0284c7);
-                      transition:width .5s ease;"></div>
+                      transform:scaleX(0);transform-origin:left center;
+                      transition:transform .5s ease;"></div>
           </div>
         </div>
 
@@ -414,10 +420,10 @@
               oninput="filterHistory()">
           </div>
           <div style="display:flex;gap:8px;">
-            <button class="btn-secondary btn-sm" onclick="exportHistoryCSV()" id="exportHistBtn" disabled>
+            <button class="btn-secondary btn-sm" onclick="exportHistoryCSV()" id="exportHistBtn" disabled aria-label="Export riwayat sebagai CSV">
               📊 Export CSV
             </button>
-            <button class="btn-secondary btn-sm" onclick="toggleSelectMode()" id="toggleSelectModeBtn">
+            <button class="btn-secondary btn-sm" onclick="toggleSelectMode()" id="toggleSelectModeBtn" aria-label="Pilih data untuk dibandingkan">
               Pilih Data
             </button>
             <button class="btn-secondary btn-sm" onclick="deleteSelectedHistory()" id="deleteSelectedBtn"
@@ -428,7 +434,7 @@
               style="color:#0284c7;display:none;">
               🔄 Bandingkan
             </button>
-            <button class="btn-secondary btn-sm" onclick="clearHistory()" id="clearHistBtn"
+            <button class="btn-secondary btn-sm" onclick="clearHistory()" id="clearHistBtn" aria-label="Hapus semua riwayat eksperimen"
               style="color:var(--danger);display:none;">
               🗑 Hapus Semua
             </button>
@@ -507,7 +513,7 @@
     style="text-align:center;font-size:14px;color:var(--gray-400);margin-top:32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;flex-direction:column;">
     <span>Spam Email Classifier &mdash; Implementasi Web Skripsi &mdash; Metode 1: NB_XGB_PURE | Metode 2:
       NB_XGB_MIX_IMPROVED</span>
-    <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema">
+    <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode">
       <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
     </button>
   </footer>
@@ -526,10 +532,10 @@
     border:1px solid rgba(255,255,255,0.1);"></div>
   
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=9"></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=7"></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=10"></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=7"></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=10"></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=9"></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=11"></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=8"></script>
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();

@@ -808,7 +808,9 @@ async function startEval() {
   const labelName = document.getElementById('evalLabel')?.value.trim() || '';
   if (labelName) fd.append('label_name', labelName);
 
-  document.getElementById('evalBtn').disabled = true;
+  const evalBtn = document.getElementById('evalBtn');
+  evalBtn.disabled = true;
+  evalBtn.textContent = '⏳ Memproses...';
   disableCsvInputs(); // Disable CSV inputs saat job running
   // Reset hasil sebelumnya — hapus juga dari server agar tidak muncul kembali saat refresh
   fetch('/last_result/clear', { method: 'POST' }).catch(() => { });
@@ -834,7 +836,8 @@ async function startEval() {
     pollJob(data.job_id);
   } catch (e) {
     setLoading('csvLoading', false);
-    document.getElementById('evalBtn').disabled = false;
+    evalBtn.disabled = false;
+    evalBtn.textContent = '▶ Mulai Evaluasi';
     enableCsvInputs();
     showError('csvError', e.message);
   }

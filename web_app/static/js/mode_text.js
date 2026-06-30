@@ -13,7 +13,7 @@ const examples = [
   },
   {
     label: '🚨 Spam: Promo Bisnis',
-    text: 'Hello Description\nBig news! Genie AI has secured $17.8 million in Series A funding, led by Google Ventures and joined by Khosla Ventures.\nThis is a huge leap forward for us in our mission to empower everyone to create quality legal agreements, instantly.\nRead more about what this means for you here - as we build the world\'s most secure and accurate Legal AI.\nWe need your help to celebrate 🎉\nWe will add 3 Premium documents with 5 AI uses each to your Genie account (worth ~$140) if you comment on and share our LinkedIn post today!\nHere\'s what to do:\n    Comments on the LinkedIn post - tell us what you like about Genie\n    Share the post with your network - with or without a personal message\n    Reply to this email with \'done\' - to lock in +3 Premium Docs for your help\nWhen will you get them? We\'ll tally everything up in 48 hours, and update your account with new premium documents by Monday or Tuesday next week.\nWhy help? We get to showcase you, our fantastic users, and build momentum around our Legal AI.\nReady to celebrate with us? Amazing! Click here to comment on our LinkedIn post. Don’t forget to mention what you love about Genie.'
+    text: 'Hello Description\nBig news! Genie AI has secured $17.8 million in Series A funding, led by Google Ventures and joined by Khosla Ventures.\nThis is a huge leap forward for us in our mission to empower everyone to create quality legal agreements, instantly.\nRead more about what this means for you here - as we build the world\'s most secure and accurate Legal AI.\nWe need your help to celebrate 🎉\nWe will add 3 Premium documents with 5 AI uses each to your Genie account (worth ~$140) if you comment on and share our LinkedIn post today!\nHere\'s what to do:\n    Comments on the LinkedIn post - tell us what you like about Genie\n    Share the post with your network - with or without a personal message\n    Reply to this email with \'done\' - to lock in +3 Premium Docs for your help\nWhen will you get them? We\'ll tally everything up in 48 hours, and update your account with new premium documents by Monday or Tuesday next week.\nWhy help? We get to showcase you, our fantastic users, and build momentum around our Legal AI.\nReady to celebrate with us? Amazing! Click here to comment on our LinkedIn post. Don\'t forget to mention what you love about Genie.'
   },
   {
     label: '✅ Normal: IBM SkillsBuild',
@@ -21,7 +21,7 @@ const examples = [
   },
   {
     label: '✅ Normal: GitHub Copilot',
-    text: 'Hi there,\n\nWe’re updating how GitHub uses data to improve AI-powered coding tools. From April 24 onward, your interactions with GitHub Copilot—including inputs, outputs, code snippets, and associated context—may be used to train and enhance AI models unless you opt out.\n\nIf you previously opted out of the setting allowing GitHub to collect this data for product improvements, your preference has been retained— your choice is preserved, and your data will not be used for training unless you opt in.\n\nThis approach aligns with established industry practices and will enable our models to deliver more context-aware AI coding assistance. We have tested this with Microsoft interaction data and have seen meaningful improvements, including increased acceptance rates in multiple languages.\n\nPlease review your settings and choose whether your interactions with Copilot can be leveraged for training AI models before this update goes into effect on April 24. To opt out or adjust your settings:\n\n    Go to GitHub Account Settings\n    Select Copilot\n    Choose whether to allow your data to be used for AI model training\n\nTo learn more, please refer to our blog post and FAQ.\n\nPlease reach out to our support team if you have any questions about this update. Thank you for your continued use of GitHub Copilot.\n\nSincerely,\nThe GitHub Team'
+    text: 'Hi there,\n\nWe\'re updating how GitHub uses data to improve AI-powered coding tools. From April 24 onward, your interactions with GitHub Copilot—including inputs, outputs, code snippets, and associated context—may be used to train and enhance AI models unless you opt out.\n\nIf you previously opted out of the setting allowing GitHub to collect this data for product improvements, your preference has been retained— your choice is preserved, and your data will not be used for training unless you opt in.\n\nThis approach aligns with established industry practices and will enable our models to deliver more context-aware AI coding assistance. We have tested this with Microsoft interaction data and have seen meaningful improvements, including increased acceptance rates in multiple languages.\n\nPlease review your settings and choose whether your interactions with Copilot can be leveraged for training AI models before this update goes into effect on April 24. To opt out or adjust your settings:\n\n    Go to GitHub Account Settings\n    Select Copilot\n    Choose whether to allow your data to be used for AI model training\n\nTo learn more, please refer to our blog post and FAQ.\n\nPlease reach out to our support team if you have any questions about this update. Thank you for your continued use of GitHub Copilot.\n\nSincerely,\nThe GitHub Team'
   },
   {
     label: '✅ Normal: Tugas Kampus',
@@ -66,12 +66,47 @@ function clearText() {
     }, 300);
   }
 }
+// ── Error state shake (ref 12) for textarea ──
+function showShakeError(msg) {
+  const cs = getComputedStyle(document.documentElement);
+  const ms = (k, fb) => { const v = parseFloat(cs.getPropertyValue(k)); return Number.isFinite(v) ? v : fb; };
+  const wrap = document.querySelector('.t-input-wrap');
+  const inp  = document.getElementById('emailText');
+  const errMsg = document.getElementById('textErrorInline');
+
+  if (errMsg) errMsg.textContent = msg;
+
+  if (wrap && inp) {
+    wrap.classList.add('is-error');
+    inp.classList.add('is-error');
+    inp.classList.remove('is-shaking');
+    void inp.offsetWidth;
+    inp.classList.add('is-shaking');
+    const shakeMs = ms('--shake-dur-a', 80) * 2 + ms('--shake-dur-b', 60) * 2;
+    setTimeout(() => inp.classList.remove('is-shaking'), shakeMs + 20);
+    if (wrap._revertTimer) clearTimeout(wrap._revertTimer);
+    wrap._revertTimer = setTimeout(() => {
+      wrap._revertTimer = null;
+      wrap.classList.remove('is-error');
+      inp.classList.remove('is-error');
+    }, shakeMs + ms('--revert-hold', 3000));
+    // Typing cancels error
+    inp.addEventListener('input', () => {
+      if (wrap._revertTimer) { clearTimeout(wrap._revertTimer); wrap._revertTimer = null; }
+      wrap.classList.remove('is-error');
+      inp.classList.remove('is-error');
+    }, { once: true });
+  }
+}
+
 async function analyzeText() {
   const text = document.getElementById('emailText').value.trim();
   hide('textError');
-  if (!text) { showError('textError', 'Masukkan teks email terlebih dahulu.'); return; }
+  if (!text) { showShakeError('Masukkan teks email terlebih dahulu.'); return; }
   setLoading('textLoading', true); setLoading('textResults', false, 'block');
-  document.getElementById('analyzeBtn').disabled = true;
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  analyzeBtn.disabled = true;
+  analyzeBtn.textContent = '⏳ Menganalisis...';
   try {
     const res = await fetch('/predict', {
       method: 'POST',
@@ -82,8 +117,9 @@ async function analyzeText() {
     renderTextResult(data, text);
     document.getElementById('textResults').style.display = 'block';
   } catch (e) { showError('textError', e.message); }
-  finally { setLoading('textLoading', false); document.getElementById('analyzeBtn').disabled = false; }
+  finally { setLoading('textLoading', false); analyzeBtn.disabled = false; analyzeBtn.textContent = '🔍 Analisis'; }
 }
+
 // ═══ Spam keyword highlighter ═══
 const SPAM_KEYWORDS = [
   'free', 'win', 'winner', 'won', 'prize', 'claim', 'cash', 'money', 'guaranteed', 'offer', 'limited',
@@ -95,7 +131,7 @@ const SPAM_KEYWORDS = [
   'action-packed', 'tickets', 'bonuses', 'collaboration', 'secure', 'premium', 'worth', 'celebrate'
 ];
 function highlightSpamWords(text) {
-  const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+  const escaped = text.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/\n/g, '<br>');
   const pattern = new RegExp('\\b(' + SPAM_KEYWORDS.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'gi');
   return escaped.replace(pattern, '<mark class="highlight-spam">$1</mark>');
 }
@@ -115,12 +151,22 @@ function renderTextResult(d, rawText) {
 
   const banner = document.getElementById('consensusBanner');
 
-  // Copy to clipboard button
+  // ── success-check SVG icons (ref 10) ──
+  const hamSvg = `<span class="t-success-check" data-state="out" aria-hidden="true" style="width:48px;height:48px;vertical-align:middle;">
+    <svg viewBox="0 0 48 48" fill="none" width="48" height="48" stroke="#10b981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="24" cy="24" r="19" stroke-opacity="0.25" style="stroke-dasharray:unset;stroke-dashoffset:unset;"/>
+      <path d="M14 25l7 7 13-14"/>
+    </svg></span>`;
+  const spamSvg = `<span class="t-success-check" data-state="out" aria-hidden="true" style="width:48px;height:48px;vertical-align:middle;">
+    <svg viewBox="0 0 48 48" fill="none" width="48" height="48" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="24" cy="24" r="19" stroke-opacity="0.25" style="stroke-dasharray:unset;stroke-dashoffset:unset;"/>
+      <path d="M24 16v11M24 30.5v1.5"/>
+    </svg></span>`;
   const copyBtn = `<button onclick="copyResultToClipboard()" style="margin-left:auto;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:6px;padding:5px 12px;font-size:14px;font-weight:600;color:inherit;cursor:pointer;" title="Salin hasil ke clipboard">📋 Salin Hasil</button>`;
 
   banner.innerHTML = `
     <div class="consensus-banner ${finalIsSpam ? 'spam' : 'ham'}">
-      <div class="consensus-icon">${finalIsSpam ? '🚨' : '✅'}</div>
+      <div class="consensus-icon">${finalIsSpam ? spamSvg : hamSvg}</div>
       <div class="consensus-text" style="flex:1;">
         <h3>${finalIsSpam ? 'EMAIL INI TERDETEKSI SPAM' : 'EMAIL INI BUKAN SPAM'}</h3>
         <p>${finalDesc}</p>
@@ -132,8 +178,19 @@ function renderTextResult(d, rawText) {
       ${highlightSpamWords(rawText)}
     </div>` : ''}`;
 
+  // Trigger success-check animation after DOM update (ref 10)
+  requestAnimationFrame(() => {
+    const check = banner.querySelector('.t-success-check');
+    if (check) {
+      check.setAttribute('data-state', 'out');
+      void check.offsetWidth;
+      check.setAttribute('data-state', 'in');
+    }
+  });
+
   // Store result for copy
   window._lastTextResult = { d, rawText };
+
 
   // Rekomendasi & indikator
   const rekBox = document.getElementById('rekomendasiBox');
@@ -258,6 +315,61 @@ document.getElementById('emailText').addEventListener('keydown', e => {
 // ═══════════════════════════════════════════
 
 let _batchData = [];
+let _batchSortKey = 'num';
+let _batchSortAsc = true;
+
+function sortBatch(key) {
+  if (_batchSortKey === key) {
+    _batchSortAsc = !_batchSortAsc;
+  } else {
+    _batchSortKey = key;
+    _batchSortAsc = key === 'num';
+  }
+  renderBatchResults();
+}
+
+function getSortIndicator(key) {
+  if (_batchSortKey !== key) return '';
+  return _batchSortAsc ? ' ▲' : ' ▼';
+}
+
+function renderBatchResults() {
+  const sorted = [..._batchData].sort((a, b) => {
+    let va, vb;
+    switch (_batchSortKey) {
+      case 'num': va = a._num; vb = b._num; break;
+      case 'result': va = a.isSpam ? 1 : 0; vb = b.isSpam ? 1 : 0; break;
+      case 'nb_prob': va = a.nb_prob || 0; vb = b.nb_prob || 0; break;
+      case 'xgb_prob': va = a.xgb_prob || 0; vb = b.xgb_prob || 0; break;
+      default: va = a._num; vb = b._num;
+    }
+    if (va < vb) return _batchSortAsc ? -1 : 1;
+    if (va > vb) return _batchSortAsc ? 1 : -1;
+    return 0;
+  });
+
+  const rows = sorted.map((d) => {
+    const preview = d.email.substring(0, 60) + (d.email.length > 60 ? '...' : '');
+    const hasError = d._error;
+    return `<tr>
+      <td style="text-align:center;font-weight:700;color:var(--gray-400);">${d._num}</td>
+      <td style="font-size:13px;color:var(--gray-600);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${d.email.replace(/"/g, '"')}">${preview}</td>
+      <td style="font-size:13px;color:var(--gray-400);white-space:nowrap;">${hasError ? 'Error' : 'NB ' + d.nb_prob + '% | XGB ' + d.xgb_prob + '%'}</td>
+      <td style="font-weight:700;font-size:14px;${hasError ? 'color:var(--gray-400);' : d.isSpam ? 'color:var(--danger);' : 'color:var(--success);'}">${hasError ? '⚠ Error' : d.isSpam ? '🚨 SPAM' : '✅ Bukan Spam'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('batchResults').innerHTML = `<table class="batch-table">
+    <thead><tr>
+      <th style="cursor:pointer;user-select:none;" onclick="sortBatch('num')">Email #${getSortIndicator('num')}</th>
+      <th>Preview Teks</th>
+      <th style="cursor:pointer;user-select:none;font-size:13px;" onclick="sortBatch('nb_prob')">NB Prob${getSortIndicator('nb_prob')}</th>
+      <th style="cursor:pointer;user-select:none;font-size:13px;" onclick="sortBatch('xgb_prob')">XGB Prob${getSortIndicator('xgb_prob')}</th>
+      <th style="cursor:pointer;user-select:none;" onclick="sortBatch('result')">Result${getSortIndicator('result')}</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
 
 // Tambah tombol Batch ke card input teks
 document.addEventListener('DOMContentLoaded', () => {
@@ -293,7 +405,6 @@ async function analyzeBatch() {
   _batchData = [];
 
   let spam = 0, nonspam = 0;
-  const rows = [];
 
   for (let i = 0; i < emails.length; i++) {
     try {
@@ -307,33 +418,29 @@ async function analyzeBatch() {
       const isSpam = rek?.is_spam ?? false;
       if (isSpam) spam++; else nonspam++;
       _batchData.push({
+        _num: i + 1,
         email: emails[i], isSpam,
         nb_prob: d.naive_bayes?.probability,
         xgb_prob: d.xgboost?.probability,
         nb_label: d.naive_bayes?.label,
         xgb_label: d.xgboost?.label,
       });
-      const preview = emails[i].substring(0, 60) + (emails[i].length > 60 ? '...' : '');
-      rows.push(`
-        <div class="batch-row">
-          <span class="batch-num">${i + 1}</span>
-          <span class="batch-text" title="${emails[i].replace(/"/g, '&quot;')}">${preview}</span>
-          <span style="font-size:13px;color:var(--gray-400);white-space:nowrap;margin:0 6px;">
-            NB ${d.naive_bayes?.probability}% | XGB ${d.xgboost?.probability}%
-          </span>
-          <span class="${isSpam ? 'batch-spam' : 'batch-ham'}">${isSpam ? '🚨 SPAM' : '✅ NON-SPAM'}</span>
-        </div>`);
     } catch (e) {
-      rows.push(`<div class="batch-row"><span class="batch-num">${i + 1}</span>
-        <span class="batch-text">Error: ${e.message}</span></div>`);
+      _batchData.push({
+        _num: i + 1,
+        email: emails[i], isSpam: null,
+        nb_prob: null, xgb_prob: null,
+        nb_label: 'Error', xgb_label: 'Error',
+        _error: e.message
+      });
     }
   }
 
   setLoading('textLoading', false);
   btn.disabled = false;
-  document.getElementById('batchResults').innerHTML = rows.join('');
+  renderBatchResults();
   document.getElementById('batchSummary').textContent =
-    `${emails.length} email — 🚨 ${spam} Spam | ✅ ${nonspam} Non-Spam`;
+    `${emails.length} email — 🚨 ${spam} Spam | ✅ ${nonspam} Bukan Spam`;
   document.getElementById('batchCard').style.display = 'block';
 }
 
@@ -387,4 +494,3 @@ function exportBatchCSV() {
     })
     .catch(() => { });
 })();
-

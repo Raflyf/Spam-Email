@@ -31,6 +31,7 @@ def main():
     import pandas as pd
     from evaluator import (run_metode1, run_metode2,
                             detect_columns, normalize_labels, balance_dataset)
+    from _shared import sanitize
 
     # Progress writer — append satu baris JSON per pesan
     prog_file = open(progress_path, 'a', encoding='utf-8', buffering=1)
@@ -139,19 +140,6 @@ def main():
 
         # Tulis hasil
         # Sanitize NaN/Inf sebelum dump — JSON standar tidak mengenal NaN
-        import math
-
-        def sanitize(obj):
-            if isinstance(obj, float):
-                if math.isnan(obj) or math.isinf(obj):
-                    return None
-                return obj
-            if isinstance(obj, dict):
-                return {k: sanitize(v) for k, v in obj.items()}
-            if isinstance(obj, list):
-                return [sanitize(i) for i in obj]
-            return obj
-
         with open(result_path, 'w', encoding='utf-8') as f:
             json.dump(sanitize({'status': 'done', 'result': results,
                        'dataset_info': {

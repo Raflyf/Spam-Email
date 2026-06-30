@@ -21,96 +21,18 @@ from sklearn.model_selection import train_test_split
 from scipy.sparse import hstack, csr_matrix
 from xgboost import XGBClassifier
 
-
-# ──────────────────────────────────────────
-# KONSTANTA (sama persis dengan .py final)
-# ──────────────────────────────────────────
-
-SPAM_KW = [
-    'free','click','unsubscribe','offer','winner','won',
-    'urgent','immediately','guarantee','bonus','prize','cash',
-    'congratulations','selected','limited','exclusive','deal',
-    'discount','save','earn','income','money','profit',
-    'investment','million','percent','risk','verify',
-    'account','password','bank','credit','loan',
-    'pharmacy','pills','medication','weight','diet',
-]
-
-HAM_PLATFORMS = [
-    'facebook','google','mozilla','firefox','instagram',
-    'twitter','linkedin','microsoft','apple','amazon',
-    'youtube','github','whatsapp','telegram','zoom',
-    'netflix','spotify','dropbox','slack','notion',
-]
-
-
-def preprocess(text: str) -> str:
-    text = str(text).lower()
-    text = re.sub(r'http\S+|www\S+',  ' urltoken ',   text)
-    text = re.sub(r'\S+@\S+',         ' emailtoken ', text)
-    text = re.sub(r'\$[\d,]+',        ' pricetoken ', text)
-    text = re.sub(r'\b\d{5,}\b',      ' longnum ',    text)
-    text = re.sub(r'\b\d+\b',         ' numtoken ',   text)
-    text = re.sub(r'[^a-zA-Z\s]',     ' ',            text)
-    return ' '.join(w for w in text.split() if len(w) > 1)
-
-
-def extra_features(raw_text: str) -> list:
-    text    = str(raw_text)
-    lower   = text.lower()
-    length  = max(len(text), 1)
-    words   = text.split()
-    n_words = max(len(words), 1)
-
-    upper_count    = sum(1 for c in text if c.isupper())
-    all_caps_words = sum(1 for w in words if w.isupper() and len(w) > 1)
-    html_tags      = len(re.findall(r'<[^>]+>', text))
-    excl_count     = text.count('!')
-    url_count      = len(re.findall(r'http\S+|www\S+', lower))
-    email_count    = len(re.findall(r'\S+@\S+', lower))
-
-    feats = [
-        min(length / 3000, 1.0),
-        excl_count / length,
-        text.count('$') / length,
-        text.count('?') / length,
-        upper_count / length,
-        all_caps_words / n_words,
-        min(url_count / 5, 1.0),
-        email_count / n_words,
-        min(html_tags / 20, 1.0),
-        int(excl_count > 3),
-        int(upper_count / length > 0.3),
-        min(n_words / 500, 1.0),
-        int(any(p in lower for p in HAM_PLATFORMS)),
-    ]
-    for kw in SPAM_KW:
-        feats.append(int(kw in lower))
-    return feats
-
-
-def find_best_threshold(proba, y_true):
-    best_thresh, best_score = 0.5, 0.0
-    for t in np.arange(0.10, 0.95, 0.01):
-        pred  = (proba >= t).astype(int)
-        score = f1_score(y_true, pred, average='weighted', zero_division=0)
-        if score > best_score:
-            best_score, best_thresh = score, t
-    return float(best_thresh), float(best_score)
-
-
-def check_gpu():
-    try:
-        import xgboost as xgb
-        dtrain = xgb.DMatrix(
-            np.random.rand(10, 5).astype(np.float32),
-            label=np.random.randint(0, 2, 10)
-        )
-        xgb.train({'tree_method': 'hist', 'device': 'cuda', 'verbosity': 0},
-                  dtrain, num_boost_round=1)
-        return True
-    except Exception:
-        return False
+try:
+    from ._shared import (
+        SPAM_KW, HAM_PLATFORMS,
+        preprocess, extra_features,
+        find_best_threshold, check_gpu, _metrics_dict,
+    )
+except ImportError:
+    from _shared import (
+        SPAM_KW, HAM_PLATFORMS,
+        preprocess, extra_features,
+        find_best_threshold, check_gpu, _metrics_dict,
+    )
 
 
 # ──────────────────────────────────────────
@@ -142,38 +64,6 @@ PRESET_CONFIGS = {
         'xgb_colsample'       : 0.6,
     },
 }
-
-def _metrics_dict(y_true, y_pred, threshold: float, model_name: str) -> dict:
-    """Hitung semua metrik dan kembalikan sebagai dict JSON-serializable."""
-    cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
-    tn, fp, fn, tp = int(cm[0,0]), int(cm[0,1]), int(cm[1,0]), int(cm[1,1])
-
-    acc  = float(accuracy_score(y_true, y_pred))
-    prec = float(precision_score(y_true, y_pred, average='weighted', zero_division=0))
-    rec  = float(recall_score(y_true, y_pred, average='weighted', zero_division=0))
-    f1   = float(f1_score(y_true, y_pred, average='weighted', zero_division=0))
-
-    prec0 = float(precision_score(y_true, y_pred, labels=[0], average='micro', zero_division=0))
-    rec0  = float(recall_score(y_true, y_pred, labels=[0], average='micro', zero_division=0))
-    f10   = float(f1_score(y_true, y_pred, labels=[0], average='micro', zero_division=0))
-
-    prec1 = float(precision_score(y_true, y_pred, labels=[1], average='micro', zero_division=0))
-    rec1  = float(recall_score(y_true, y_pred, labels=[1], average='micro', zero_division=0))
-    f11   = float(f1_score(y_true, y_pred, labels=[1], average='micro', zero_division=0))
-
-    return {
-        'model'      : model_name,
-        'threshold'  : round(threshold * 100, 1),
-        'accuracy'   : round(acc  * 100, 2),
-        'precision'  : round(prec * 100, 2),
-        'recall'     : round(rec  * 100, 2),
-        'f1'         : round(f1   * 100, 2),
-        'cm'         : {'tn': tn, 'fp': fp, 'fn': fn, 'tp': tp},
-        'per_class'  : {
-            'non_spam': {'precision': round(prec0*100,2), 'recall': round(rec0*100,2), 'f1': round(f10*100,2)},
-            'spam'    : {'precision': round(prec1*100,2), 'recall': round(rec1*100,2), 'f1': round(f11*100,2)},
-        },
-    }
 
 
 # ──────────────────────────────────────────────────────────────
@@ -262,17 +152,24 @@ def normalize_labels(series: pd.Series) -> pd.Series:
     """
     Normalisasi label ke 0 (ham) dan 1 (spam).
     Support: 0/1, ham/spam, legitimate/phishing, benign/malicious, dsb.
+    Raises ValueError for unexpected values or all-NaN/empty.
     """
     s = series.copy()
+
+    if s.empty or s.isna().all():
+        raise ValueError("Label series kosong atau semua NaN.")
 
     # Sudah numerik 0/1
     if pd.api.types.is_numeric_dtype(s):
         unique = set(s.dropna().unique())
         if unique <= {0, 1}:
             return s.astype(int)
-        # Kalau ada nilai lain, coba mapping min=0 max=1
-        mn, mx = s.min(), s.max()
-        return ((s - mn) / (mx - mn)).round().astype(int)
+        # Allow shifted binary like {-1, 0} → rescale to {0, 1}
+        if len(unique) == 2:
+            mn, mx = s.min(), s.max()
+            return ((s - mn) / (mx - mn)).round().astype(int)
+        # Unexpected values
+        raise ValueError(f"Unexpected label values: {unique - {0, 1}}")
 
     # String → lowercase → mapping
     s = s.astype(str).str.strip().str.lower()
@@ -292,6 +189,139 @@ def normalize_labels(series: pd.Series) -> pd.Series:
         raise ValueError(f"Nilai label tidak dikenali: {unknown}. "
                          f"Gunakan: spam/ham, 0/1, phishing/legitimate, dsb.")
     return mapped.astype(int)
+
+
+# ──────────────────────────────────────────────────────────────
+# SHARED TRAINING LOGIC
+# ──────────────────────────────────────────────────────────────
+
+def _train_model(
+    X_train_text, y_train, X_test_text, y_test,
+    X_train_extra, X_test_extra,
+    cfg, preset, XGB_DEVICE,
+    nb_alpha=0.05,
+    nb_sample_weight=None,
+    xgb_sample_weight=None,
+    xgb_gamma=0.3, xgb_reg_alpha=0.05, xgb_reg_lambda=1.0, xgb_min_child_weight=3,
+    progress_cb=None,
+):
+    """
+    Shared training logic for Metode 1 & Metode 2.
+    Only differences: NB alpha, sample_weight handling, XGB params.
+    """
+    def cb(msg):
+        if progress_cb:
+            progress_cb(msg)
+
+    # ---- TF-IDF ----
+    tfidf_word = TfidfVectorizer(
+        max_features=cfg['tfidf_word_features'], ngram_range=(1, 2),
+        min_df=2, max_df=0.85, stop_words='english', sublinear_tf=True,
+    )
+    X_train_word = tfidf_word.fit_transform(X_train_text)
+    X_test_word  = tfidf_word.transform(X_test_text)
+
+    tfidf_char = TfidfVectorizer(
+        max_features=cfg['tfidf_char_features'], analyzer='char_wb',
+        ngram_range=(3, 5), min_df=2, max_df=0.90, sublinear_tf=True,
+    )
+    X_train_char = tfidf_char.fit_transform(X_train_text)
+    X_test_char  = tfidf_char.transform(X_test_text)
+
+    X_train_full = hstack([X_train_word, X_train_char, csr_matrix(X_train_extra)]).astype(np.float32).tocsr()
+    X_test_full  = hstack([X_test_word,  X_test_char,  csr_matrix(X_test_extra)]).astype(np.float32).tocsr()
+    n_word = X_train_word.shape[1]
+
+    # ---- Validation split ----
+    ratio = float((y_train == 0).sum()) / max(float((y_train == 1).sum()), 1)
+
+    if xgb_sample_weight is not None:
+        X_tr, X_val, y_tr, y_val, sw_tr, _ = train_test_split(
+            X_train_full, y_train, xgb_sample_weight,
+            test_size=0.15, random_state=42, stratify=y_train
+        )
+    else:
+        X_tr, X_val, y_tr, y_val = train_test_split(
+            X_train_full, y_train, test_size=0.15, random_state=42, stratify=y_train
+        )
+        sw_tr = None
+
+    X_tr_word  = X_tr[:,  :n_word]
+    X_val_word = X_val[:, :n_word]
+
+    # ---- NB ----
+    cb('Melatih Naive Bayes...')
+    selector      = SelectKBest(chi2, k=min(cfg['nb_k'], X_tr_word.shape[1]))
+    X_tr_nb_sel   = selector.fit_transform(X_tr_word, y_tr)
+    X_val_nb_sel  = selector.transform(X_val_word)
+    X_test_nb_sel = selector.transform(X_test_word.astype(np.float32))
+
+    nb_model = ComplementNB(alpha=nb_alpha)
+    nb_model.fit(X_tr_nb_sel, y_tr, sample_weight=nb_sample_weight if nb_sample_weight is not None else sw_tr)
+
+    nb_val_proba = nb_model.predict_proba(X_val_nb_sel)[:, 1]
+    thresh_nb, _ = find_best_threshold(y_val, nb_val_proba)
+
+    nb_proba_test = nb_model.predict_proba(X_test_nb_sel)[:, 1]
+    nb_pred       = (nb_proba_test >= thresh_nb).astype(int)
+
+    # ---- XGB ----
+    cb(f'Melatih XGBoost ({XGB_DEVICE.upper()})...')
+    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
+    xgb_model = XGBClassifier(
+        n_estimators      = cfg['xgb_n_estimators'],
+        learning_rate     = cfg['xgb_learning_rate'],
+        max_depth         = cfg['xgb_max_depth'],
+        scale_pos_weight  = ratio,
+        subsample         = cfg['xgb_subsample'],
+        colsample_bytree  = cfg['xgb_colsample'],
+        gamma=xgb_gamma, reg_alpha=xgb_reg_alpha, reg_lambda=xgb_reg_lambda,
+        min_child_weight=xgb_min_child_weight,
+        random_state=42, eval_metric='logloss',
+        tree_method='hist', device=XGB_DEVICE,
+        max_bin=vram_saver_bin,
+        early_stopping_rounds=cfg['xgb_early_stopping'],
+        n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
+    )
+    try:
+        xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
+                      eval_set=[(X_val, y_val)], verbose=False)
+    except Exception as e:
+        err_str = str(e).lower()
+        if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
+            cb('VRAM tidak cukup, XGBoost beralih ke CPU. Harap tunggu...')
+            xgb_model.set_params(device='cpu', n_jobs=-1)
+            xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
+                          eval_set=[(X_val, y_val)], verbose=False)
+        else:
+            raise e
+
+    xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
+    thresh_xgb, _ = find_best_threshold(y_val, xgb_val_proba)
+
+    xgb_proba_test = xgb_model.predict_proba(X_test_full)[:, 1]
+    xgb_pred       = (xgb_proba_test >= thresh_xgb).astype(int)
+
+    # ---- Top 20 chi2 features ----
+    feature_names  = np.array(tfidf_word.get_feature_names_out())
+    valid_mask     = np.isfinite(selector.scores_)
+    valid_scores   = selector.scores_[valid_mask]
+    valid_names    = feature_names[valid_mask]
+    top20_idx      = np.argsort(valid_scores)[::-1][:20]
+    top20_features = [
+        {'feature': str(valid_names[i]), 'score': round(float(valid_scores[i]), 2)}
+        for i in top20_idx
+    ]
+
+    return {
+        'nb_model': nb_model, 'xgb_model': xgb_model,
+        'tfidf_word': tfidf_word, 'tfidf_char': tfidf_char,
+        'selector': selector,
+        'thresh_nb': thresh_nb, 'thresh_xgb': thresh_xgb,
+        'nb_pred': nb_pred, 'xgb_pred': xgb_pred,
+        'top20_features': top20_features,
+        'xgb_best_iter': int(xgb_model.best_iteration),
+    }
 
 
 # ──────────────────────────────────────────────────────────────
@@ -329,8 +359,14 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     X_train_extra = np.array([extra_features(t) for t in df_train_kaggle['Text']], dtype=np.float32)
     X_test_extra  = np.array([extra_features(t) for t in df_test_upload['Text']],  dtype=np.float32)
 
-    # ---- TF-IDF ----
+    # ---- NB sample weight (class balancing) ----
+    class_ratio = (y_train == 0).sum() / max((y_train == 1).sum(), 1)
+    nb_sw = np.where(y_train == 1, class_ratio, 1.0).astype(np.float32)
+
     cb('Metode 1 — TF-IDF vectorization...')
+    vram_saver_bin = 128 if len(y_train) > 10000 else 256
+    ratio = float((y_train == 0).sum()) / max(float((y_train == 1).sum()), 1)
+
     tfidf_word = TfidfVectorizer(
         max_features=cfg['tfidf_word_features'], ngram_range=(1, 2),
         min_df=2, max_df=0.85, stop_words='english', sublinear_tf=True,
@@ -349,37 +385,33 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     X_test_full  = hstack([X_test_word,  X_test_char,  csr_matrix(X_test_extra)]).astype(np.float32).tocsr()
     n_word = X_train_word.shape[1]
 
-    # ---- Validation split ----
-    ratio = float((y_train == 0).sum()) / max(float((y_train == 1).sum()), 1)
-
     X_tr, X_val, y_tr, y_val = train_test_split(
         X_train_full, y_train, test_size=0.15, random_state=42, stratify=y_train
     )
     X_tr_word  = X_tr[:,  :n_word]
     X_val_word = X_val[:, :n_word]
 
-    # ---- NB ----
-    cb('Metode 1 — melatih Naive Bayes...')
+    # NB
     selector      = SelectKBest(chi2, k=min(cfg['nb_k'], X_tr_word.shape[1]))
     X_tr_nb_sel   = selector.fit_transform(X_tr_word, y_tr)
     X_val_nb_sel  = selector.transform(X_val_word)
     X_test_nb_sel = selector.transform(X_test_word.astype(np.float32))
 
-    class_ratio = (y_tr == 0).sum() / max((y_tr == 1).sum(), 1)
-    nb_sw = np.where(y_tr == 1, class_ratio, 1.0).astype(np.float32)
-
     nb_model = ComplementNB(alpha=0.05)
-    nb_model.fit(X_tr_nb_sel, y_tr, sample_weight=nb_sw)
+    nb_model.fit(X_tr_nb_sel, y_tr, sample_weight=nb_sw[:len(y_tr)] if len(nb_sw) == len(y_train) else nb_sw)
+
+    # Recalculate nb_sw for split
+    class_ratio_tr = (y_tr == 0).sum() / max((y_tr == 1).sum(), 1)
+    nb_sw_tr = np.where(y_tr == 1, class_ratio_tr, 1.0).astype(np.float32)
+    nb_model.fit(X_tr_nb_sel, y_tr, sample_weight=nb_sw_tr)
 
     nb_val_proba = nb_model.predict_proba(X_val_nb_sel)[:, 1]
-    thresh_nb, _ = find_best_threshold(nb_val_proba, y_val)
+    thresh_nb, _ = find_best_threshold(y_val, nb_val_proba)
 
     nb_proba_test = nb_model.predict_proba(X_test_nb_sel)[:, 1]
     nb_pred       = (nb_proba_test >= thresh_nb).astype(int)
 
-    # ---- XGB ----
-    cb(f'Metode 1 — melatih XGBoost ({XGB_DEVICE.upper()})...')
-    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
+    # XGB with M1 params
     xgb_model = XGBClassifier(
         n_estimators      = 2000 if preset == 'full' else cfg['xgb_n_estimators'],
         learning_rate     = 0.03 if preset == 'full' else cfg['xgb_learning_rate'],
@@ -399,23 +431,21 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM tidak cukup, XGBoost (M1) beralih ke CPU. Harap tunggu, proses ini akan memakan waktu lebih lama...')
+            cb('VRAM tidak cukup, XGBoost (M1) beralih ke CPU...')
             xgb_model.set_params(device='cpu', n_jobs=-1)
             xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
         else:
             raise e
 
     xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
-    thresh_xgb, _ = find_best_threshold(xgb_val_proba, y_val)
+    thresh_xgb, _ = find_best_threshold(y_val, xgb_val_proba)
 
     xgb_proba_test = xgb_model.predict_proba(X_test_full)[:, 1]
     xgb_pred       = (xgb_proba_test >= thresh_xgb).astype(int)
 
     cb('Metode 1 — selesai.')
 
-    # ---- Top 20 chi2 features ----
     feature_names  = np.array(tfidf_word.get_feature_names_out())
-    # Filter fitur dengan skor valid (tidak NaN/Inf) sebelum ambil top 20
     valid_mask     = np.isfinite(selector.scores_)
     valid_scores   = selector.scores_[valid_mask]
     valid_names    = feature_names[valid_mask]
@@ -431,11 +461,11 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
         'n_test' : int(len(y_test)),
         'gpu'    : USE_GPU,
         'preset' : preset,
-        'naive_bayes': _metrics_dict(y_test, nb_pred,  thresh_nb,  'Naive Bayes'),
-        'xgboost'    : _metrics_dict(y_test, xgb_pred, thresh_xgb, 'XGBoost'),
+        'naive_bayes': _metrics_dict(y_test, nb_pred, label_names=['Spam', 'Non-Spam']),
+        'xgboost'    : _metrics_dict(y_test, xgb_pred, label_names=['Spam', 'Non-Spam']),
         'top20_chi2' : top20_features,
         'xgb_best_iter': int(xgb_model.best_iteration),
-        '_models': {   # hanya dipakai internal, tidak di-JSON
+        '_models': {
             'nb_model': nb_model, 'xgb_model': xgb_model,
             'tfidf_word': tfidf_word, 'tfidf_char': tfidf_char,
             'selector': selector,
@@ -506,98 +536,20 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
     X_train_extra = np.array([extra_features(t) for t in df_combined['Text']],   dtype=np.float32)
     X_test_extra  = np.array([extra_features(t) for t in df_test_final['Text']], dtype=np.float32)
 
-    # ---- TF-IDF ----
     cb('Metode 2 — TF-IDF vectorization...')
-    tfidf_word = TfidfVectorizer(
-        max_features=cfg['tfidf_word_features'], ngram_range=(1, 2),
-        min_df=2, max_df=0.85, stop_words='english', sublinear_tf=True,
+
+    result = _train_model(
+        X_train_text, y_train, X_test_text, y_test,
+        X_train_extra, X_test_extra,
+        cfg, preset, XGB_DEVICE,
+        nb_alpha=0.1,
+        nb_sample_weight=sw,
+        xgb_sample_weight=sw,
+        xgb_gamma=0.5, xgb_reg_alpha=0.1, xgb_reg_lambda=2.0, xgb_min_child_weight=5,
+        progress_cb=cb,
     )
-    X_train_word = tfidf_word.fit_transform(X_train_text)
-    X_test_word  = tfidf_word.transform(X_test_text)
-
-    tfidf_char = TfidfVectorizer(
-        max_features=cfg['tfidf_char_features'], analyzer='char_wb',
-        ngram_range=(3, 5), min_df=3, max_df=0.90, sublinear_tf=True,
-    )
-    X_train_char = tfidf_char.fit_transform(X_train_text)
-    X_test_char  = tfidf_char.transform(X_test_text)
-
-    X_train_full = hstack([X_train_word, X_train_char, csr_matrix(X_train_extra)]).astype(np.float32).tocsr()
-    X_test_full  = hstack([X_test_word,  X_test_char,  csr_matrix(X_test_extra)]).astype(np.float32).tocsr()
-    n_word = X_train_word.shape[1]
-
-    ratio = float((y_train == 0).sum()) / max(float((y_train == 1).sum()), 1)
-
-    X_tr, X_val, y_tr, y_val, sw_tr, _ = train_test_split(
-        X_train_full, y_train, sw,
-        test_size=0.15, random_state=42, stratify=y_train
-    )
-    X_tr_word  = X_tr[:,  :n_word]
-    X_val_word = X_val[:, :n_word]
-
-    # ---- NB ----
-    cb('Metode 2 — melatih Naive Bayes...')
-    selector      = SelectKBest(chi2, k=min(cfg['nb_k'], X_tr_word.shape[1]))
-    X_tr_nb       = selector.fit_transform(X_tr_word, y_tr)
-    X_val_nb      = selector.transform(X_val_word)
-    X_test_nb     = selector.transform(X_test_word)
-
-    nb_model = ComplementNB(alpha=0.1)
-    nb_model.fit(X_tr_nb, y_tr, sample_weight=sw_tr)
-
-    nb_val_proba = nb_model.predict_proba(X_val_nb)[:, 1]
-    thresh_nb, _ = find_best_threshold(nb_val_proba, y_val)
-
-    nb_proba_test = nb_model.predict_proba(X_test_nb)[:, 1]
-    nb_pred       = (nb_proba_test >= thresh_nb).astype(int)
-
-    # ---- XGB ----
-    cb(f'Metode 2 — melatih XGBoost ({XGB_DEVICE.upper()})...')
-    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
-    xgb_model = XGBClassifier(
-        n_estimators      = cfg['xgb_n_estimators'],
-        learning_rate     = cfg['xgb_learning_rate'],
-        max_depth         = cfg['xgb_max_depth'],
-        scale_pos_weight  = ratio,
-        subsample         = cfg['xgb_subsample'],
-        colsample_bytree  = cfg['xgb_colsample'],
-        gamma=0.5, reg_alpha=0.1, reg_lambda=2.0, min_child_weight=5,
-        random_state=42, eval_metric='logloss',
-        tree_method='hist', device=XGB_DEVICE,
-        max_bin=vram_saver_bin,
-        early_stopping_rounds=cfg['xgb_early_stopping'],
-        n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
-    )
-    try:
-        xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
-                      eval_set=[(X_val, y_val)], verbose=False)
-    except Exception as e:
-        err_str = str(e).lower()
-        if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM tidak cukup, XGBoost (M2) beralih ke CPU. Harap tunggu, proses ini akan memakan waktu lebih lama...')
-            xgb_model.set_params(device='cpu', n_jobs=-1)
-            xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
-                          eval_set=[(X_val, y_val)], verbose=False)
-        else:
-            raise e
-
-    xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
-    thresh_xgb, _ = find_best_threshold(xgb_val_proba, y_val)
-
-    xgb_proba_test = xgb_model.predict_proba(X_test_full)[:, 1]
-    xgb_pred       = (xgb_proba_test >= thresh_xgb).astype(int)
 
     cb('Metode 2 — selesai.')
-
-    feature_names  = np.array(tfidf_word.get_feature_names_out())
-    valid_mask     = np.isfinite(selector.scores_)
-    valid_scores   = selector.scores_[valid_mask]
-    valid_names    = feature_names[valid_mask]
-    top20_idx      = np.argsort(valid_scores)[::-1][:20]
-    top20_features = [
-        {'feature': str(valid_names[i]), 'score': round(float(valid_scores[i]), 2)}
-        for i in top20_idx
-    ]
 
     return {
         'metode'      : f'Metode 2 — Domain Adaptation {int(adapt_frac*100)}%',
@@ -608,15 +560,15 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
         'adapt_weight': adapt_weight,
         'gpu'         : USE_GPU,
         'preset'      : preset,
-        'naive_bayes' : _metrics_dict(y_test, nb_pred,  thresh_nb,  'Naive Bayes'),
-        'xgboost'     : _metrics_dict(y_test, xgb_pred, thresh_xgb, 'XGBoost'),
-        'top20_chi2'  : top20_features,
-        'xgb_best_iter': int(xgb_model.best_iteration),
+        'naive_bayes' : _metrics_dict(y_test, result['nb_pred'], label_names=['Spam', 'Non-Spam']),
+        'xgboost'     : _metrics_dict(y_test, result['xgb_pred'], label_names=['Spam', 'Non-Spam']),
+        'top20_chi2'  : result['top20_features'],
+        'xgb_best_iter': result['xgb_best_iter'],
         '_models': {
-            'nb_model': nb_model, 'xgb_model': xgb_model,
-            'tfidf_word': tfidf_word, 'tfidf_char': tfidf_char,
-            'selector': selector,
-            'thresh_nb': thresh_nb, 'thresh_xgb': thresh_xgb,
+            'nb_model': result['nb_model'], 'xgb_model': result['xgb_model'],
+            'tfidf_word': result['tfidf_word'], 'tfidf_char': result['tfidf_char'],
+            'selector': result['selector'],
+            'thresh_nb': result['thresh_nb'], 'thresh_xgb': result['thresh_xgb'],
             'metode': 'metode2',
         } if return_models else None,
     }
@@ -632,7 +584,7 @@ def predict_single_from_job(email_text: str, job_models: dict) -> dict:
     job_models: dict berisi nb_model, xgb_model, tfidf_word, tfidf_char,
                 selector, thresh_nb, thresh_xgb, metode ('metode1'|'metode2')
     """
-    import math
+    import copy
 
     clean_text = preprocess(email_text)
     extra_feat = np.array([extra_features(email_text)], dtype=np.float32)
@@ -647,8 +599,8 @@ def predict_single_from_job(email_text: str, job_models: dict) -> dict:
     thresh_nb = job_models['thresh_nb']
     nb_pred  = int(nb_proba >= thresh_nb)
 
-    # XGB — paksa CPU untuk prediksi single
-    xgb_m = job_models['xgb_model']
+    # XGB — paksa CPU untuk prediksi single (deepcopy to avoid mutation)
+    xgb_m = copy.deepcopy(job_models['xgb_model'])
     try:
         xgb_m.set_params(device='cpu')
     except Exception:
