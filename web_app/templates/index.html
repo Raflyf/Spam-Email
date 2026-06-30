@@ -538,6 +538,20 @@
     lucide.createIcons();
     // Preload history and update badge count
     loadHistory();
+
+    // UI Toggle for preset pills
+    function syncPresetPills() {
+      document.querySelectorAll('.preset-pill').forEach(pill => {
+        const radio = pill.querySelector('input[type="radio"]');
+        if (radio && radio.checked) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    }
+    // Init on load
+    document.addEventListener('DOMContentLoaded', syncPresetPills);
   </script>
 </body>
 
