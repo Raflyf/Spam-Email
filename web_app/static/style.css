@@ -388,19 +388,17 @@ body.dark .card:hover {
 
 .tab-pane.active {
   display: block;
-  animation: fadeInPane var(--duration-medium) var(--ease-smooth-out) forwards;
+  animation: fadeInPane var(--duration-fast) var(--ease-smooth-out) forwards;
 }
 
 @keyframes fadeInPane {
   0% {
-    opacity: 0;
-    transform: translateY(12px);
-    filter: blur(4px);
+    opacity: 0.3;
+    transform: translateY(6px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
