@@ -8,26 +8,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
-/* ═══════════════════════════════
-   REDUCED MOTION
-   ═══════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  html { scroll-behavior: auto; }
-  .tab-pane.active { animation: none !important; }
-  .modal-overlay { animation: none !important; }
-  .modal-content { animation: none !important; }
-  .toast { animation: none !important; opacity: 1 !important; transform: none !important; }
-  .toast.hide { animation: none !important; }
-  .prob-bar-fill { animation: none !important; }
-  .card:hover { transform: none !important; }
-  .btn-primary:hover { transform: none !important; }
-}
 
 :root {
   /* ═══════════════════════════════
