@@ -1085,10 +1085,14 @@ body.dark .info-chip {
 .top20-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 16px;
+  align-items: start;
+}
+.top20-single {
+  grid-template-columns: 1fr !important;
 }
 
-@media(max-width:600px) {
+@media (max-width: 992px) {
   .top20-grid {
     grid-template-columns: 1fr;
   }

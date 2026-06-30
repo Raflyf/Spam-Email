@@ -447,20 +447,25 @@ function buildMethodCard(r, key) {
     <div class="method-divider"><span style="color:${color}">${r.metode}</span></div>
     <div style="margin-bottom:14px;">${infoChips}</div>
 
-    <div class="model-row">
-      ${buildModelSection(nb, 'Naive Bayes', '#6366f1')}
-      ${buildModelSection(xgb, 'XGBoost', '#0284c7')}
-    </div>
-
-    <div class="result-section" style="margin-top:18px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-        <h3 style="margin:0;">📊 Top 20 Fitur Chi-Square (Naive Bayes)</h3>
-        <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${r.metode?.replace(/\s/g, '_')}.png')"
-                class="btn-secondary" style="font-size:13px;padding:4px 10px;">
-          🖼 Simpan PNG
-        </button>
+    <div class="model-row model-row-grid">
+      <div class="nb-wrap">
+        ${buildModelSection(nb, 'Naive Bayes', '#6366f1')}
+        
+        <div class="result-section chi-square-section" style="margin-top:24px; padding-top:18px; border-top:1px dashed var(--gray-200);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <h3 style="margin:0; font-size:14px; color:#6366f1;">📊 Top 20 Fitur Chi-Square</h3>
+            <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${r.metode?.replace(/\\s/g, '_')}.png')"
+                    class="btn-secondary" style="font-size:12px;padding:4px 8px;">
+              🖼 Simpan PNG
+            </button>
+          </div>
+          <div class="top20-grid top20-single" id="chi2_${key}">${buildTop20(r.top20_chi2)}</div>
+        </div>
       </div>
-      <div class="top20-grid" id="chi2_${key}">${buildTop20(r.top20_chi2)}</div>
+
+      <div class="xgb-wrap">
+        ${buildModelSection(xgb, 'XGBoost', '#0284c7')}
+      </div>
     </div>`;
   return wrap;
 }
