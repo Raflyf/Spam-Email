@@ -2053,18 +2053,16 @@ input[type="checkbox"]:focus-visible {
   0% {
     opacity: 0;
     translate: 0 12px;
-    filter: blur(4px);
   }
   100% {
     opacity: 1;
     translate: 0 0;
-    filter: blur(0);
   }
 }
 
 .t-stagger {
   opacity: 0;
-  animation: stagger-fade-up var(--duration-very-slow) var(--ease-smooth-out) forwards;
+  animation: stagger-fade-up var(--duration-fast) var(--ease-smooth-out) forwards;
 }
 .t-stagger-1 { animation-delay: calc(var(--duration-stagger) * 1); }
 .t-stagger-2 { animation-delay: calc(var(--duration-stagger) * 2); }

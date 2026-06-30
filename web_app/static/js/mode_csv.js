@@ -913,8 +913,8 @@ updateTrainBalancePreview();
 // Semua init yang perlu renderCsvResults — jalankan setelah DOM siap
 document.addEventListener('DOMContentLoaded', function initRestoreState() {
   setUploadMode('test_only');
-  // Restore job ID terakhir dari session
-  const saved = sessionStorage.getItem('lastJobId');
+  // Restore job ID terakhir dari session atau local storage
+  const saved = sessionStorage.getItem('lastJobId') || localStorage.getItem('lastJobId');
   if (saved) {
     currentJobId = saved;
     fetch('/job_models/' + saved)
@@ -926,7 +926,7 @@ document.addEventListener('DOMContentLoaded', function initRestoreState() {
   }
 
   // Load hasil CSV terakhir yang tersimpan di disk
-  fetch('/last_result')
+  fetch('/lastresult')
     .then(r => r.json())
     .then(d => {
       if (d.result) {
