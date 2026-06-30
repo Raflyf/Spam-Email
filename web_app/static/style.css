@@ -1904,6 +1904,8 @@ body.dark {
 
 html, body {
   background-color: var(--body-bg) !important;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .bg-grid {
