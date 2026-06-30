@@ -6,27 +6,27 @@ const LI = (name, size=14) => `<svg xmlns="http://www.w3.org/2000/svg" width="${
 
 const examples = [
   {
-    label: '⚠ Spam: Hadiah',
+    label: 'Spam: Hadiah',
     text: 'One More Week of Launch Discount!\nWITHOUT A HITCH launched last week, and it\'s been amazing to watch players explore the chaotic wasteland with their friends!\nIf you haven\'t already joined us, the 10% launch discount It is available for one more week, ending May 19th at 10 AM PT. Now\'s the time to grab your crew, pick up the Apocazon P.A.C.K.A.G.E., and hit the road.\nIf you\'ve been waiting to jump in, now\'s the time to grab your crew, pick up the Apocazon P.A.C.K.A.G.E., and hit the road.\nWe\'ve got a second free reward for you:\n🎁Another Free Launch Reward 🎁\nWOAH Graphic\nYour Code:\nGETY-OURB-EARG-RILL\nThis is a new gift, separate from last week\'s code. Once you\'ve got WITHOUT A HITCH, you can redeem both codes in-game.This WITHOUT A HITCH in-game code expires in 2 weeks, on May 26th, at 10 AM PT\nReady to roll?'
   },
   {
-    label: '⚠ Spam: Game Crossover',
+    label: 'Spam: Game Crossover',
     text: 'Play the Crossover Event!\nAdventure with Sung Jinwoo, Choi Jong-In,\nCha Hae-In, & Igris!\nGrand Summoners, an action-packed mobile JRPG, is collaborating with Solo Leveling!!\nHere are some of the highlights for the crossover starting on June 12, 2026 (PDT):\nSummon a Guaranteed ★5 Legend on your first roll.\n    Get the chance to summon fully voiced Sung Jinwoo, Choi Jong-In, Cha Hae-In, and Igris & their weapons by using over 100 free Crossover Summon Tickets obtainable from daily login bonuses and limited-time missions.\n    The Demon Monach\'s Sword, as well as other iconic items such as Igris\' Claymore, emerge as summonable powerful Equips.\n    The characters\' skills and Arts recreate epic moves from the anime.\nFor exciting videos on the collaboration, visit Grand Summoners\' official YouTube channel.\nJoin the GS Community!\nDiscord, Facebook, X X, Bluesky, Instagram,\nYouTube, Displate\nWhat are you waiting for? Download Grand Summoners and start your adventure with Sung Jinwoo & co. today!'
   },
   {
-    label: '⚠ Spam: Promo Bisnis',
+    label: 'Spam: Promo Bisnis',
     text: 'Hello Description\nBig news! Genie AI has secured $17.8 million in Series A funding, led by Google Ventures and joined by Khosla Ventures.\nThis is a huge leap forward for us in our mission to empower everyone to create quality legal agreements, instantly.\nRead more about what this means for you here - as we build the world\'s most secure and accurate Legal AI.\nWe need your help to celebrate 🎉\nWe will add 3 Premium documents with 5 AI uses each to your Genie account (worth ~$140) if you comment on and share our LinkedIn post today!\nHere\'s what to do:\n    Comments on the LinkedIn post - tell us what you like about Genie\n    Share the post with your network - with or without a personal message\n    Reply to this email with \'done\' - to lock in +3 Premium Docs for your help\nWhen will you get them? We\'ll tally everything up in 48 hours, and update your account with new premium documents by Monday or Tuesday next week.\nWhy help? We get to showcase you, our fantastic users, and build momentum around our Legal AI.\nReady to celebrate with us? Amazing! Click here to comment on our LinkedIn post. Don\'t forget to mention what you love about Genie.'
   },
   {
-    label: '✓ Normal: IBM SkillsBuild',
+    label: 'Normal: IBM SkillsBuild',
     text: 'Footprint in collaboration with IBM SkillsBuild\nHello Participants of DescriptionDeadline Steps to work on the class at IBM SkillsBuild is getting closer. Come on, immediately continue and finish the class before June 30, 2022 so that your learning progress remains safe. Please make the most of the time left and work out gradually from now on. Make sure you complete the class until you successfully print the certificate. If you have completed the class, please ignore this message. The spirit of learning with the footing 🙌\nIntroduction to Artificial Intelligence'
   },
   {
-    label: '✓ Normal: GitHub Copilot',
+    label: 'Normal: GitHub Copilot',
     text: 'Hi there,\n\nWe\'re updating how GitHub uses data to improve AI-powered coding tools. From April 24 onward, your interactions with GitHub Copilot—including inputs, outputs, code snippets, and associated context—may be used to train and enhance AI models unless you opt out.\n\nIf you previously opted out of the setting allowing GitHub to collect this data for product improvements, your preference has been retained— your choice is preserved, and your data will not be used for training unless you opt in.\n\nThis approach aligns with established industry practices and will enable our models to deliver more context-aware AI coding assistance. We have tested this with Microsoft interaction data and have seen meaningful improvements, including increased acceptance rates in multiple languages.\n\nPlease review your settings and choose whether your interactions with Copilot can be leveraged for training AI models before this update goes into effect on April 24. To opt out or adjust your settings:\n\n    Go to GitHub Account Settings\n    Select Copilot\n    Choose whether to allow your data to be used for AI model training\n\nTo learn more, please refer to our blog post and FAQ.\n\nPlease reach out to our support team if you have any questions about this update. Thank you for your continued use of GitHub Copilot.\n\nSincerely,\nThe GitHub Team'
   },
   {
-    label: '✓ Normal: Tugas Kampus',
+    label: 'Normal: Tugas Kampus',
     text: 'Hi,\n\nYour instructor has posted a new announcement in "Skripsi dan Tugas Akhir".\n\n"Please submit your draft document by next Friday so we can review the progress. If you have any questions regarding the formatting, check the syllabus guidelines attached in the portal."\n\nTo view this announcement, please log in to the student academic portal.\n\nBest regards,\nUniversity Academic System'
   },
 ];
@@ -34,7 +34,13 @@ document.querySelectorAll('.example-pills').forEach(pillsEl => {
   const isRealtime = !pillsEl.closest('#pane-text');
   examples.forEach(ex => {
     const p = document.createElement('button');
-    p.className = 'pill'; p.textContent = ex.label;
+    p.className = 'pill';
+    const isSpam = ex.label.toLowerCase().includes('spam');
+    const iconName = isSpam ? 'mail-warning' : 'mail-check';
+    p.innerHTML = `<i data-lucide="${iconName}" style="width:14px;height:14px;"></i> ${ex.label}`;
+    p.style.display = 'inline-flex';
+    p.style.alignItems = 'center';
+    p.style.gap = '6px';
     p.onclick = () => {
       if (isRealtime) {
         document.getElementById('realtimeText').value = ex.text;
@@ -83,7 +89,8 @@ async function analyzeText() {
   
   const analyzeBtn = document.getElementById('analyzeBtn');
   analyzeBtn.disabled = true;
-  analyzeBtn.textContent = '⏳ Menganalisis...';
+  analyzeBtn.innerHTML = '<i data-lucide="loader-2" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Menganalisis...';
+  lucide.createIcons({ nodes: [analyzeBtn] });
   try {
     const res = await fetch('/predict', {
       method: 'POST',
@@ -321,7 +328,7 @@ function renderBatchResults() {
       <td style="text-align:center;font-weight:700;color:var(--gray-400);">${d._num}</td>
       <td style="font-size:13px;color:var(--gray-600);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${d.email.replace(/"/g, '"')}">${preview}</td>
       <td style="font-size:13px;color:var(--gray-400);white-space:nowrap;">${hasError ? 'Error' : 'NB ' + d.nb_prob + '% | XGB ' + d.xgb_prob + '%'}</td>
-      <td style="font-weight:700;font-size:14px;${hasError ? 'color:var(--gray-400);' : d.isSpam ? 'color:var(--danger);' : 'color:var(--success);'}">${hasError ? '⚠ Error' : d.isSpam ? '<i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>SPAM' : '<i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Bukan Spam'}</td>
+      <td style="font-weight:700;font-size:14px;${hasError ? 'color:var(--gray-400);' : d.isSpam ? 'color:var(--danger);' : 'color:var(--success);'}">${hasError ? '<i data-lucide="alert-triangle" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Error' : d.isSpam ? '<i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>SPAM' : '<i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Bukan Spam'}</td>
     </tr>`;
   }).join('');
 
@@ -338,19 +345,7 @@ function renderBatchResults() {
   lucide.createIcons({ nodes: [document.getElementById('batchResults')] });
 }
 
-// Tambah tombol Batch ke card input teks
-document.addEventListener('DOMContentLoaded', () => {
-  const btnGroup = document.querySelector('.btn-group') ||
-    document.querySelector('#analyzeBtn')?.parentElement;
-  if (btnGroup) {
-    const batchBtn = document.createElement('button');
-    batchBtn.className = 'btn-secondary';
-    batchBtn.innerHTML = '<i data-lucide="layers" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Batch'; lucide.createIcons({nodes:[batchBtn]});
-    batchBtn.title = 'Prediksi banyak email (satu per baris)';
-    batchBtn.onclick = analyzeBatch;
-    btnGroup.appendChild(batchBtn);
-  }
-});
+// (Tombol Batch sekarang langsung di index.html)
 
 async function analyzeBatch() {
   const raw = document.getElementById('emailText').value.trim();

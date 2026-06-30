@@ -977,3 +977,22 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | Export CSV riwayat                    | ✅ Berfungsi |
 | Analisis Mode Teks (klasifikasi spam) | ✅ Berfungsi |
 | Console errors                        | ✅ Tidak ada |
+
+---
+
+## 26. Update Lanjutan (30 Juni 2026 - Final UI & Stabilitas)
+
+### Penyempurnaan Dark Mode & Antarmuka
+
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Neutral Dark Mode (No Blue Tint)**   | `style.css`                | Mengganti *override* variabel warna `oklch` yang sebelumnya memberi rona biru/ungu (hue 280-285) dengan skala *Neutral Grayscale* murni (`#0A0A0A` untuk latar belakang dan `rgba` abu-abu transparan untuk grid).  |
+| 2   | **Ikon pada Pil Contoh Cepat**         | `mode_text.js`             | Menambahkan ikon indikator visual menggunakan pustaka Lucide (`mail-warning` untuk Spam dan `mail-check` untuk Normal) pada tombol *chip* contoh teks cepat agar lebih intuitif dan modern. |
+| 3   | **Tata Letak Tombol Aksi**             | `index.html`, `style.css`  | Merapikan susunan tombol *[Analisis]*, *[Batch]*, dan *[Hapus]* pada mode teks dengan penempatan *flex-end* merapat sempurna ke sebelah kanan, sehingga terlihat lebih tertata di layar HP maupun desktop. |
+| 4   | **Warna Netral Tombol Toggle Tema**    | `style.css`                | Mengubah warna latar belakang tombol peralihan mode Terang/Gelap pada state *dark mode* yang sebelumnya ungu transparan menjadi warna abu-abu netral. |
+
+### Peningkatan Stabilitas (Ghost Process Prevention)
+
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Force Exit pada Interupsi Ctrl+C**   | `app.py`                   | Menambahkan blok penanganan `try-finally` saat pemanggilan `app.run` dengan menjalankan perintah sistem `os._exit(0)`. Ini memastikan seluruh proses latar dan *thread pool* bandel (misal: *Joblib loky worker*) terbunuh seketika saat server dimatikan, membasmi tuntas masalah port 5000 terkunci (*ghost process*). |

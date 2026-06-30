@@ -196,7 +196,7 @@ def _monitor_job(job_id: str):
             last_ping = jobs[job_id].get('last_ping', _time.time())
             status = jobs[job_id].get('status')
             
-        if status == 'running' and _time.time() - last_ping > 15:
+        if status == 'running' and _time.time() - last_ping > 10:
             with jobs_lock:
                 jobs[job_id]['cancelled'] = True
             try:
@@ -832,5 +832,9 @@ if __name__ == '__main__':
     print("=" * 60)
     print("\n  Akses di: http://localhost:5000")
     print("  Model dimuat di background — halaman langsung bisa diakses\n")
-    app.run(debug=False, host='0.0.0.0', port=5000)
+    try:
+        app.run(debug=False, host='0.0.0.0', port=5000)
+    finally:
+        print("\n  [INFO] Mematikan server secara paksa (Mencegah ghost process)...")
+        os._exit(0)
 

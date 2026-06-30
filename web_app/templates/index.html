@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>📩 Spam Email Classifier</title>
+  <title>Spam Email Classifier</title>
   <script src="/static/chart.min.js" defer></script>
   <script>
     // Anti-flicker: update tab classes via MutationObserver before first paint
@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=47">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=31">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -58,8 +58,8 @@
       </h1>
       <div style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
         <div style="margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</div>
-        <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode">
-          <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
+        <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode" style="display:inline-flex;align-items:center;gap:6px;justify-content:center;">
+          <span class="theme-icon-wrapper"><i data-lucide="moon" style="width:16px;height:16px;"></i></span> <span class="theme-text">Dark Mode</span>
         </button>
       </div>
     </header>
@@ -79,9 +79,10 @@
         <div
           style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:8px;">
           <span style="font-size:14px;color:var(--gray-400)" id="charCount">0 karakter</span>
-          <div class="btn-row" style="margin:0;">
-            <button class="btn-secondary" onclick="clearText()">Hapus</button>
+          <div class="btn-row" style="margin:0; display:flex; justify-content:flex-end; gap:8px; flex:1;">
             <button class="btn-primary" id="analyzeBtn" onclick="analyzeText()"><i data-lucide="search" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Analisis</button>
+            <button class="btn-secondary" id="batchBtnHtml" title="Prediksi banyak email (satu per baris)" onclick="analyzeBatch()"><i data-lucide="layers" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Batch</button>
+            <button class="btn-secondary" onclick="clearText()">Hapus</button>
           </div>
         </div>
         <div class="error-box" id="textError"></div>
@@ -155,13 +156,13 @@
           </label>
           <div class="file-drop" id="dropZoneTrain" onclick="document.getElementById('csvTrain').click()"
             ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
-            ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvTrain=f;showFileLabel(f,'fileNameTrain','📗');checkCanEval();fetchDatasetStats(f,'trainDatasetStats');}})(event.dataTransfer.files[0])">
+            ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvTrain=f;showFileLabel(f,'fileNameTrain','');checkCanEval();fetchDatasetStats(f,'trainDatasetStats');}})(event.dataTransfer.files[0])">
             <div class="icon"><i data-lucide="inbox" style="width:32px;height:32px;color:var(--gray-400);margin:0 auto;"></i></div>
             <div>Klik atau seret CSV Training ke sini</div>
             <div class="hint">Harus punya kolom teks dan label &bull; Contoh: emails.csv, enron_spam_data.csv</div>
           </div>
           <input type="file" id="csvTrain" accept=".csv"
-            onchange="csvTrain=this.files[0];showFileLabel(this.files[0],'fileNameTrain','📗');checkCanEval();if(this.files[0]) fetchDatasetStats(this.files[0], 'trainDatasetStats');">
+            onchange="csvTrain=this.files[0];showFileLabel(this.files[0],'fileNameTrain','');checkCanEval();if(this.files[0]) fetchDatasetStats(this.files[0], 'trainDatasetStats');">
           <div class="file-name" id="fileNameTrain"></div>
           <div id="trainDatasetStats" class="dataset-stats"></div>
         </div>
@@ -172,7 +173,7 @@
         </label>
         <div class="file-drop" id="dropZone" onclick="document.getElementById('csvFile').click()"
           ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')"
-          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','📘');checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
+          ondrop="event.preventDefault();this.classList.remove('over');(function(f){if(f&&f.name.endsWith('.csv')){csvFile=f;showFileLabel(f,'fileName','');checkCanEval();fetchDatasetStats(f,'testDatasetStats');}})(event.dataTransfer.files[0])">
           <div class="icon"><i data-lucide="file-check-2" style="width:32px;height:32px;color:var(--gray-400);margin:0 auto;"></i></div>
           <div>Klik atau seret CSV Test ke sini</div>
           <div class="hint">CSV harus punya kolom teks (text/body/message) dan label (label/spam/class) &bull; Max 100
@@ -354,7 +355,7 @@
       <div id="realtimeSection" style="display:none;">
         <div class="card" style="border-top:4px solid var(--success);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-            <span style="font-size:1.4rem;">⚡</span>
+            <span style="font-size:1.4rem;"><i data-lucide="zap"></i></span>
             <div>
               <div style="font-size:16px;font-weight:800;color:var(--gray-800);">
                 Uji Email Langsung dengan Model Ini
@@ -394,7 +395,7 @@
           <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;">
             <button class="btn-secondary" onclick="clearRealtime()">Hapus</button>
             <button class="btn-primary" id="realtimeBtn" onclick="analyzeRealtime()">
-              ⚡ Analisis dengan Model Ini
+              <i data-lucide="zap"></i> Analisis dengan Model Ini
             </button>
           </div>
           <div class="error-box" id="realtimeError"></div>
@@ -411,29 +412,29 @@
         <div
           style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <h2 style="margin:0;">📋 Riwayat Eksperimen</h2>
+            <h2 style="margin:0;display:flex;align-items:center;gap:8px;"><i data-lucide="clipboard-list" style="width:24px;height:24px;"></i> Riwayat Eksperimen</h2>
             <input type="text" id="historySearch" placeholder="Cari riwayat..."
               style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--gray-300); font-size:14px; outline: none; transition: .2s;"
               oninput="filterHistory()">
           </div>
           <div style="display:flex;gap:8px;">
             <button class="btn-secondary btn-sm" onclick="exportHistoryCSV()" id="exportHistBtn" disabled aria-label="Export riwayat sebagai CSV">
-              📊 Export CSV
+              <i data-lucide="file-spreadsheet"></i> Export CSV
             </button>
             <button class="btn-secondary btn-sm" onclick="toggleSelectMode()" id="toggleSelectModeBtn" aria-label="Pilih data untuk dibandingkan">
               Pilih Data
             </button>
             <button class="btn-secondary btn-sm" onclick="deleteSelectedHistory()" id="deleteSelectedBtn"
               style="display:none;align-items:center;">
-              🗑 Hapus Terpilih
+              <i data-lucide="trash-2"></i> Hapus Terpilih
             </button>
             <button class="btn-secondary btn-sm" onclick="compareSelectedRuns()" id="compareRunsBtn"
               style="color:#0284c7;display:none;">
-              🔄 Bandingkan
+              <i data-lucide="git-compare"></i> Bandingkan
             </button>
             <button class="btn-secondary btn-sm" onclick="clearHistory()" id="clearHistBtn" aria-label="Hapus semua riwayat eksperimen"
               style="color:var(--danger);display:none;">
-              🗑 Hapus Semua
+              <i data-lucide="trash"></i> Hapus Semua
             </button>
           </div>
         </div>
@@ -478,7 +479,7 @@
 
       <!-- Grafik Perbandingan Antar Run -->
       <div class="card" id="historyChartCard" style="display:none;">
-        <h2>📈 Grafik Akurasi Antar Eksperimen</h2>
+        <h2><i data-lucide="trending-up"></i> Grafik Akurasi Antar Eksperimen</h2>
         <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap;">
           <label style="font-size:14px;font-weight:600;">Tampilkan:&nbsp;
             <select id="chartMetric" onchange="renderHistoryChart()"
@@ -498,23 +499,14 @@
 
   </div><!-- end container -->
 
-  
-
-  
-
-  
-
-  
-
   <footer
     style="text-align:center;font-size:14px;color:var(--gray-400);margin-top:32px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;flex-direction:column;">
     <span>Spam Email Classifier &mdash; Implementasi Web Skripsi &mdash; Metode 1: NB_XGB_PURE | Metode 2:
       NB_XGB_MIX_IMPROVED</span>
-    <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode">
-      <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
+    <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode" style="display:inline-flex;align-items:center;gap:6px;justify-content:center;">
+      <span class="theme-icon-wrapper"><i data-lucide="moon" style="width:16px;height:16px;"></i></span> <span class="theme-text">Dark Mode</span>
     </button>
   </footer>
-  
 
   <dialog id="toastDialog"
     style="border:none; border-radius:8px; padding:16px 24px; background:#333; color:#fff; margin:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2); transition:opacity 0.3s; opacity:0;">
@@ -529,10 +521,10 @@
     border:1px solid rgba(255,255,255,0.1);"></div>
   
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=15"></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=17"></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=20"></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=12"></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=26"></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=29"></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=26"></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=26"></script>
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();

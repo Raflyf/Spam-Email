@@ -90,8 +90,8 @@ body.dark {
   --gray-400: #a1a1aa;
   --gray-600: #d4d4d8;
   --gray-800: #fafafa;
-  --card-bg: rgba(24, 24, 27, 0.65); /* Glassmorphism */
-  --body-bg: #111113;
+  --card-bg: rgba(23, 23, 23, 0.65); /* Glassmorphism (Neutral 900) */
+  --body-bg: #0a0a0a; /* Neutral 950 (Murni tanpa hint biru) */
   --border: rgba(255, 255, 255, 0.08);
   --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 }
@@ -225,13 +225,13 @@ body.dark .error-box {
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 body.dark .theme-toggle-btn {
-  background: rgba(124, 117, 240, 0.1);
-  border-color: rgba(124, 117, 240, 0.2);
+  background: var(--gray-100);
+  border-color: var(--border);
   color: var(--primary);
   box-shadow: none;
 }
 body.dark .theme-toggle-btn:hover {
-  background: rgba(124, 117, 240, 0.2);
+  background: var(--gray-200);
 }
 
 /* Footer & dark btn */
@@ -1883,9 +1883,9 @@ body.dark .cm-table th, body.dark .per-class-table th, body.dark table.history-t
 }
 
 body.dark {
-  --body-bg: oklch(14% 0.02 285);
-  --card-bg: oklch(18% 0.025 285 / 0.5);
-  --border: oklch(28% 0.04 285 / 0.5);
+  --body-bg: #0a0a0a;
+  --card-bg: rgba(23, 23, 23, 0.65);
+  --border: rgba(255, 255, 255, 0.08);
   --primary-glow: oklch(100% 0 0 / 0.15);
   --shadow-premium: 0 20px 40px -10px oklch(0% 0 0 / 0.5), inset 0 1px 0 0 oklch(100% 0 0 / 0.05);
 }
@@ -1906,13 +1906,13 @@ html, body {
 
 body.dark .bg-grid {
   background-image: 
-    radial-gradient(oklch(80% 0.1 280 / 0.07) 1px, transparent 1px) !important;
+    radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px) !important;
   background-size: 24px 24px !important;
 }
 
 body:not(.dark) .bg-grid {
   background-image: 
-    radial-gradient(oklch(50% 0.1 280 / 0.07) 1px, transparent 1px) !important;
+    radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px) !important;
   background-size: 24px 24px !important;
 }
 

@@ -65,24 +65,38 @@ document.addEventListener('DOMContentLoaded', function initTabState() {
 
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark');
-  document.querySelectorAll('.theme-toggle-btn .theme-icon').forEach(icon => {
-    icon.textContent = isDark ? '☀️' : '🌙';
+  _applyThemeIcons(isDark);
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+}
+
+function _applyThemeIcons(isDark) {
+  const iconName = isDark ? 'sun' : 'moon';
+  const wrappers = document.querySelectorAll('.theme-toggle-btn .theme-icon-wrapper');
+  
+  wrappers.forEach(wrapper => {
+    wrapper.innerHTML = `<i data-lucide="${iconName}" style="width:16px;height:16px;"></i>`;
   });
+  
+  if (typeof lucide !== 'undefined' && wrappers.length > 0) {
+    lucide.createIcons({ nodes: Array.from(wrappers) });
+  }
+
   document.querySelectorAll('.theme-toggle-btn .theme-text').forEach(txt => {
     txt.textContent = isDark ? 'Light Mode' : 'Dark Mode';
   });
-  localStorage.setItem('darkMode', isDark ? '1' : '0');
 }
+
 // Apply saved preference (Default is Dark Mode)
 if (localStorage.getItem('darkMode') === '0') {
   document.body.classList.remove('dark');
-  document.querySelectorAll('.theme-toggle-btn .theme-icon').forEach(icon => {
-    icon.textContent = '🌙';
-  });
-  document.querySelectorAll('.theme-toggle-btn .theme-text').forEach(txt => {
-    txt.textContent = 'Dark Mode';
-  });
+  // Will be applied after lucide loads via DOMContentLoaded
 }
+
+// Apply theme icons after page & lucide are ready
+document.addEventListener('DOMContentLoaded', function() {
+  const isDark = document.body.classList.contains('dark');
+  _applyThemeIcons(isDark);
+});
 
 
 // ═══════════════════════════════════════════

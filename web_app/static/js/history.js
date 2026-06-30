@@ -13,10 +13,10 @@ function initRealtimeSection(jobId, availableModels) {
   const badges = document.getElementById('realtimeModelBadges');
   badges.innerHTML = '';
   if (availableModels.metode1) {
-    badges.innerHTML += `<span class="info-chip" style="color:#4f46e5;">✓ Model Metode 1 siap</span>`;
+    badges.innerHTML += `<span class="info-chip" style="color:#4f46e5;"><i data-lucide="check-circle" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Model Metode 1 siap</span>`;
   }
   if (availableModels.metode2) {
-    badges.innerHTML += `<span class="info-chip" style="color:#0284c7;">✓ Model Metode 2 siap</span>`;
+    badges.innerHTML += `<span class="info-chip" style="color:#0284c7;"><i data-lucide="check-circle" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Model Metode 2 siap</span>`;
   }
 
   // Tampilkan picker metode jika keduanya ada
@@ -72,7 +72,7 @@ async function analyzeRealtime() {
 
   const btn = document.getElementById('realtimeBtn');
   btn.disabled = true;
-  btn.textContent = '⏳ Menganalisis...';
+  btn.innerHTML = '<i data-lucide="loader-2" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Menganalisis...';
 
   try {
     const res = await fetch('/predict_job', {
@@ -87,7 +87,7 @@ async function analyzeRealtime() {
     showError('realtimeError', e.message);
   } finally {
     btn.disabled = false;
-    btn.textContent = '⚡ Analisis dengan Model Ini';
+    btn.innerHTML = '<i data-lucide="zap" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Analisis dengan Model Ini';
   }
 }
 
@@ -101,9 +101,9 @@ function renderRealtimeResult(d, metode) {
     ? 'Metode 1 (Tanpa Domain Adaptation)' : 'Metode 2 (Domain Adaptation)';
 
   const spamTags = (rek?.indikator_spam || []).map(r =>
-    `<span class="indicator-spam">🚩 ${r}</span>`).join('');
+    `<span class="indicator-spam"><i data-lucide="flag" style="width:11px;height:11px;vertical-align:text-bottom;margin-right:3px;"></i>${r}</span>`).join('');
   const hamTags = (rek?.indikator_ham || []).map(r =>
-    `<span class="indicator-ham">✓ ${r}</span>`).join('');
+    `<span class="indicator-ham"><i data-lucide="check" style="width:11px;height:11px;vertical-align:text-bottom;margin-right:3px;"></i>${r}</span>`).join('');
 
   el.innerHTML = `
     <div class="card" style="border-top:4px solid ${finalIsSpam ? 'var(--danger)' : 'var(--success)'};">
@@ -114,7 +114,7 @@ function renderRealtimeResult(d, metode) {
 
       <!-- Banner -->
       <div class="consensus-banner ${finalIsSpam ? 'spam' : 'ham'}" style="margin-bottom:14px;">
-        <div class="consensus-icon">${finalIsSpam ? '🚨' : '✅'}</div>
+        <div class="consensus-icon">${finalIsSpam ? '<i data-lucide="shield-alert" style="width:28px;height:28px;"></i>' : '<i data-lucide="shield-check" style="width:28px;height:28px;"></i>'}</div>
         <div class="consensus-text">
           <h3>${finalIsSpam ? 'EMAIL INI TERDETEKSI SPAM' : 'EMAIL INI BUKAN SPAM'}</h3>
           <p>${c.agreement ? 'Kedua model sepakat: ' + c.label
@@ -131,7 +131,7 @@ function renderRealtimeResult(d, metode) {
           <div style="font-size:13px;font-weight:700;color:var(--gray-400);
                text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Rekomendasi</div>
           <div style="font-weight:800;color:${rek.is_spam ? 'var(--danger)' : 'var(--success)'};
-               font-size:1rem;">${rek.is_spam ? '🚨' : '✅'} ${rek.label}</div>
+               font-size:1rem;display:flex;align-items:center;gap:5px;">${rek.is_spam ? '<i data-lucide="shield-alert" style="width:16px;height:16px;"></i>' : '<i data-lucide="shield-check" style="width:16px;height:16px;"></i>'} ${rek.label}</div>
           <div style="font-size:14px;color:var(--gray-600);margin-top:4px;">${rek.alasan}</div>
         </div>
         <div style="flex:1;min-width:180px;">
@@ -167,6 +167,7 @@ function renderRealtimeResult(d, metode) {
         ${highlightSpamWords(document.getElementById('realtimeText').value.trim() || '')}
       </div>
     </div>`;
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [el] });
 }
 
 document.getElementById('realtimeText').addEventListener('keydown', e => {
@@ -350,16 +351,17 @@ function showCompareModal(runs) {
         <canvas id="${chartId}" height="120"></canvas>
       </div>
       <div style="margin-top:20px;">
-        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">🟦 Confusion Matrix</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;"><i data-lucide="grid-3x3" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i>Confusion Matrix</div>
         ${cmGridsHtml || '<div style="font-size:13px;color:var(--gray-400)">Tidak ada data Confusion Matrix di histori yang dipilih.</div>'}
       </div>
       <div style="margin-top:20px;">
-        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">📊 Top 10 Fitur Chi-Square</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;"><i data-lucide="bar-chart-2" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i>Top 10 Fitur Chi-Square</div>
         ${chiGridsHtml || '<div style="font-size:13px;color:var(--gray-400)">Tidak ada data Fitur Chi-Square di histori yang dipilih.</div>'}
       </div>
     </div>`;
   document.body.appendChild(modal);
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [modal] });
 
   // Draw chart after element exists in DOM
   setTimeout(() => {
@@ -408,14 +410,14 @@ function toggleSelectMode() {
   const btn = document.getElementById('toggleSelectModeBtn');
   const clearBtn = document.getElementById('clearHistBtn');
 
-  if (_selectMode) {
-    btn.innerHTML = '❌ Batal Pilih';
+    if (_selectMode) {
+    btn.innerHTML = '<i data-lucide="x" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Batal Pilih';
     btn.classList.add('active');
     clearBtn.style.display = 'inline-flex';
     document.querySelectorAll('.select-col').forEach(el => el.style.display = 'table-cell');
     document.querySelectorAll('#historyTbody tr').forEach(tr => tr.style.cursor = 'pointer');
   } else {
-    btn.innerHTML = 'Pilih Data';
+    btn.innerHTML = '<i data-lucide="check-square" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Pilih Data';
     btn.classList.remove('active');
     clearBtn.style.display = 'none';
     document.querySelectorAll('.select-col').forEach(el => el.style.display = 'none');
@@ -469,11 +471,11 @@ function updateDeleteBtn() {
 
   if (delBtn) {
     delBtn.style.display = checked.length > 0 ? 'inline-flex' : 'none';
-    delBtn.innerHTML = `🗑 Hapus ${checked.length} Terpilih`;
+    delBtn.innerHTML = `<i data-lucide="trash-2" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Hapus ${checked.length} Terpilih`;
   }
   if (cmpBtn) {
     cmpBtn.style.display = checked.length >= 2 ? 'inline-flex' : 'none';
-    cmpBtn.innerHTML = `🔄 Bandingkan ${checked.length} Run`;
+    cmpBtn.innerHTML = `<i data-lucide="git-compare" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Bandingkan ${checked.length} Run`;
   }
 
   if (all) {
@@ -486,6 +488,11 @@ function updateDeleteBtn() {
     const tr = c.closest('tr');
     if (tr) tr.classList.toggle('selected-row', c.checked);
   });
+  // Re-render lucide icons in dynamically updated buttons
+  if (typeof lucide !== 'undefined') {
+    if (delBtn && delBtn.style.display !== 'none') lucide.createIcons({ nodes: [delBtn] });
+    if (cmpBtn && cmpBtn.style.display !== 'none') lucide.createIcons({ nodes: [cmpBtn] });
+  }
 }
 
 // Sync highlight via event delegation (untuk toggle saat baris diklik)
@@ -606,10 +613,10 @@ function renderHistory() {
     const m1 = h.metode1, m2 = h.metode2;
     const acc = v => v != null ? `<b>${v}%</b>` : '<span style="color:var(--gray-300);">—</span>';
     const statusBadge = h.status === 'done'
-      ? '<span style="color:var(--success);font-size:13px;">✓ Selesai</span>'
+      ? '<span style="color:var(--success);font-size:13px;display:inline-flex;align-items:center;gap:3px;"><i data-lucide="check-circle" style="width:13px;height:13px;"></i> Selesai</span>'
       : h.status === 'cancelled'
-        ? '<span style="color:var(--warning);font-size:13px;">⏹ Dibatalkan</span>'
-        : '<span style="color:var(--danger);font-size:13px;">✗ Error</span>';
+        ? '<span style="color:var(--warning);font-size:13px;display:inline-flex;align-items:center;gap:3px;"><i data-lucide="square" style="width:13px;height:13px;"></i> Dibatalkan</span>'
+        : '<span style="color:var(--danger);font-size:13px;display:inline-flex;align-items:center;gap:3px;"><i data-lucide="x-circle" style="width:13px;height:13px;"></i> Error</span>';
     const adaptPct = h.adapt_frac != null
       ? `<span style="font-weight:700;color:#0284c7;">${Math.round(h.adapt_frac * 100)}%</span>`
       : '<span style="color:var(--gray-300);">—</span>';
@@ -670,6 +677,8 @@ function renderHistory() {
   }).join('');
 
   updateDeleteBtn();
+  // Re-render lucide icons in newly injected table rows
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [tbody] });
   renderHistoryChart();
 }
 
