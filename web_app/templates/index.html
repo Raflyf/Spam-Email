@@ -81,7 +81,7 @@
           <span style="font-size:14px;color:var(--gray-400)" id="charCount">0 karakter</span>
           <div class="btn-row" style="margin:0;">
             <button class="btn-secondary" onclick="clearText()">Hapus</button>
-            <button class="btn-primary" id="analyzeBtn" onclick="analyzeText()">🔍 Analisis</button>
+            <button class="btn-primary" id="analyzeBtn" onclick="analyzeText()"><i data-lucide="search" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Analisis</button>
           </div>
         </div>
         <div class="error-box" id="textError"></div>
@@ -213,7 +213,7 @@
         <!-- Balancing Dataset Training -->
         <div style="margin-top:14px;padding:14px 16px;background:transparent;border:1px solid var(--border);border-radius:10px;">
           <div style="font-size:14px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
-            ⚖️ Balancing Dataset Training
+            <i data-lucide="scale" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i> Balancing Dataset Training
             <span style="font-size:13px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data training</span>
           </div>
           <div class="settings-row">
@@ -253,7 +253,7 @@
         <div id="testBalancingSection"
           style="margin-top:10px;padding:14px 16px;background:transparent;border:1px solid var(--border);border-radius:10px;">
           <div style="font-size:14px;font-weight:700;color:var(--gray-800);margin-bottom:10px;">
-            ⚖️ Balancing Dataset Test
+            <i data-lucide="scale" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i> Balancing Dataset Test
             <span style="font-size:13px;font-weight:400;color:var(--gray-400);margin-left:6px;">isi 0 = pakai semua data
               yang tersedia</span>
           </div>
@@ -292,7 +292,7 @@
 
         <!-- Preset Kecepatan -->
         <div class="preset-toggle" style="margin-top:14px;">
-          <span style="font-size:14px;font-weight:700;color:var(--gray-600);">⚡ Mode Training:</span>
+          <span style="font-size:14px;font-weight:700;color:var(--gray-600);"><i data-lucide="zap" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i>Mode Training:</span>
           <label class="preset-pill">
             <input type="radio" name="preset" value="fast" onchange="syncPresetPills()">
             <span>Fast</span><small>Estimasi 1 - 3 menit</small>
@@ -305,14 +305,14 @@
 
         <!-- Nama Eksperimen -->
         <div style="margin-top:14px;">
-          <label class="field-label">📝 Nama Eksperimen (opsional)</label>
+          <label class="field-label"><i data-lucide="tag" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Nama Eksperimen (opsional)</label>
           <input type="text" id="evalLabel" maxlength="100" placeholder="Contoh: Uji Enron Dataset, Tes Adaptasi 30%..."
             style="width:100%;border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;font-size:14px;outline:none;transition:.2s;"
             onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--gray-200)'">
         </div>
         <div class="btn-row" style="margin-top:14px;">
           <button class="btn-secondary" onclick="resetCsv()">Reset</button>
-          <button class="btn-primary" id="evalBtn" onclick="startEval()" disabled>▶ Mulai Evaluasi</button>
+          <button class="btn-primary" id="evalBtn" onclick="startEval()" disabled><i data-lucide="play" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Mulai Evaluasi</button>
         </div>
         <div class="error-box" id="csvError"></div>
       </div>
@@ -325,7 +325,7 @@
           <button id="cancelJobBtn" onclick="cancelCurrentJob()" style="background:#fee2e2;border:1px solid #fca5a5;color:var(--danger);
                        border-radius:6px;padding:4px 12px;font-size:14px;font-weight:600;
                        cursor:pointer;display:none;">
-            ✕ Batalkan
+            <i data-lucide="x" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Batalkan
           </button>
         </div>
 
@@ -530,8 +530,8 @@
   
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="{{ url_for('static', filename='js/utils.js') }}?v=15"></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=15"></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=18"></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=16"></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=19"></script>
   <script src="{{ url_for('static', filename='js/history.js') }}?v=12"></script>
   <script>
     // Initialize Lucide Icons

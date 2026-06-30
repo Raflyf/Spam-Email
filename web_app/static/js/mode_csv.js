@@ -66,10 +66,10 @@ function dropFile(e, target) {
   const f = e.dataTransfer.files[0];
   if (!f || !validateFile(f, target === 'train' ? 'training' : 'test')) return;
   if (target === 'train') {
-    csvTrain = f; showFileLabel(f, 'fileNameTrain', '📗');
+    csvTrain = f; showFileLabel(f, 'fileNameTrain', '');
     fetchDatasetStats(f, 'trainDatasetStats');
   } else {
-    csvFile = f; showFileLabel(f, 'fileName', '📘');
+    csvFile = f; showFileLabel(f, 'fileName', '');
     fetchDatasetStats(f, 'testDatasetStats');
   }
   checkCanEval();
@@ -93,7 +93,7 @@ function fileSelected(input) {
   if (!file) return;
   
   csvFile = file;
-  showFileLabel(csvFile, 'fileName', '📘');
+  showFileLabel(csvFile, 'fileName', '');
   checkCanEval();
   fetchDatasetStats(file, 'testDatasetStats');
 }
@@ -103,7 +103,7 @@ function fileSelectedTrain(input) {
   if (!file) return;
   
   csvTrain = file;
-  showFileLabel(csvTrain, 'fileNameTrain', '📗');
+  showFileLabel(csvTrain, 'fileNameTrain', '');
   checkCanEval();
   fetchDatasetStats(file, 'trainDatasetStats');
 }
@@ -371,13 +371,13 @@ function renderCsvResults(results) {
   saveBar.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;margin-top:6px;flex-wrap:wrap;';
   saveBar.innerHTML = `
     <button class="btn-secondary" onclick="saveResultsJSON()" title="Download hasil lengkap sebagai JSON">
-      💾 Simpan JSON
+      <i data-lucide="download" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Simpan JSON
     </button>
     <button class="btn-secondary" onclick="saveResultsCSV()" title="Download ringkasan sebagai CSV">
-      📊 Simpan CSV
+      <i data-lucide="file-down" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Simpan CSV
     </button>
     <button class="btn-primary" onclick="printResults()" title="Print atau Save PDF via browser">
-      🖨️ Print / PDF
+      <i data-lucide="printer" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Print / PDF
     </button>`;
   el.appendChild(saveBar);
 
@@ -430,18 +430,18 @@ function buildMethodCard(r, key) {
   wrap.style.borderTop = `4px solid ${color}`;
 
   const infoChips = key === 'metode1'
-    ? `<span class="info-chip">🗂 Train: ${r.n_train.toLocaleString()}</span>
-       <span class="info-chip">🧪 Test: ${r.n_test.toLocaleString()}</span>
-       <span class="info-chip">${r.gpu ? '⚡ GPU (CUDA)' : '💻 CPU'}</span>
+    ? `<span class="info-chip"><i data-lucide="database" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Train: ${r.n_train.toLocaleString()}</span>
+       <span class="info-chip"><i data-lucide="flask-conical" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Test: ${r.n_test.toLocaleString()}</span>
+       <span class="info-chip">${r.gpu ? '<i data-lucide="zap" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>GPU (CUDA)' : '<i data-lucide="cpu" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>CPU'}</span>
        <span class="info-chip" style="color:${r.preset === 'full' ? 'var(--warning)' : 'var(--success)'}">
-         ${r.preset === 'full' ? '🔬 Mode Full' : '⚡ Mode Fast'}</span>`
-    : `<span class="info-chip">🗂 Train: ${r.n_train.toLocaleString()}</span>
-       <span class="info-chip">🔄 Adapt: ${r.n_adapt} (${Math.round(r.adapt_frac * 100)}%)</span>
-       <span class="info-chip">⚖️ Bobot: ${r.adapt_weight}×</span>
-       <span class="info-chip">🧪 Test: ${r.n_test.toLocaleString()}</span>
-       <span class="info-chip">${r.gpu ? '⚡ GPU (CUDA)' : '💻 CPU'}</span>
+         ${r.preset === 'full' ? '<i data-lucide="microscope" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>Mode Full' : '<i data-lucide="zap" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>Mode Fast'}</span>`
+    : `<span class="info-chip"><i data-lucide="database" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Train: ${r.n_train.toLocaleString()}</span>
+       <span class="info-chip"><i data-lucide="repeat" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Adapt: ${r.n_adapt} (${Math.round(r.adapt_frac * 100)}%)</span>
+       <span class="info-chip"><i data-lucide="weight" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Bobot: ${r.adapt_weight}×</span>
+       <span class="info-chip"><i data-lucide="flask-conical" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Test: ${r.n_test.toLocaleString()}</span>
+       <span class="info-chip">${r.gpu ? '<i data-lucide="zap" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>GPU (CUDA)' : '<i data-lucide="cpu" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>CPU'}</span>
        <span class="info-chip" style="color:${r.preset === 'full' ? 'var(--warning)' : 'var(--success)'}">
-         ${r.preset === 'full' ? '🔬 Mode Full' : '⚡ Mode Fast'}</span>`;
+         ${r.preset === 'full' ? '<i data-lucide="microscope" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>Mode Full' : '<i data-lucide="zap" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:2px;"></i>Mode Fast'}</span>`;
 
   wrap.innerHTML = `
     <div class="method-divider"><span style="color:${color}">${r.metode}</span></div>
@@ -453,10 +453,10 @@ function buildMethodCard(r, key) {
         
         <div class="result-section chi-square-section" style="margin-top:24px; padding-top:18px; border-top:1px dashed var(--gray-200);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <h3 style="margin:0; font-size:14px; color:#6366f1;">📊 Top 20 Fitur Chi-Square</h3>
+            <h3 style="margin:0; font-size:14px; color:#6366f1;"><i data-lucide="bar-chart-2" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i>Top 20 Fitur Chi-Square</h3>
             <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${r.metode?.replace(/\\s/g, '_')}.png')"
                     class="btn-secondary" style="font-size:12px;padding:4px 8px;">
-              🖼 Simpan PNG
+              <i data-lucide="image" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Simpan PNG
             </button>
           </div>
           <div class="top20-grid" id="chi2_${key}">${buildTop20(r.top20_chi2)}</div>
@@ -590,7 +590,7 @@ function buildComparison(r1, r2) {
 
   wrap.innerHTML = `
     <div class="method-divider">
-      <span style="color:var(--success)">🔄 Perbandingan Metode 1 vs Metode 2</span>
+      <span style="color:var(--success)"><i data-lucide="git-compare" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Perbandingan Metode 1 vs Metode 2</span>
     </div>
     <div style="overflow-x:auto;">
       <table class="cm-table" style="font-size:14px;">
@@ -984,9 +984,9 @@ async function fetchDatasetStats(file, targetElId) {
     el.style.display = 'block';
     el.innerHTML = `
       <div class="stat-chips">
-        <span class="stat-chip total">📊 Total: ${data.total.toLocaleString('id')}</span>
-        <span class="stat-chip nonspam">✅ Non-Spam: ${data.n_nonspam.toLocaleString('id')}</span>
-        <span class="stat-chip spam">🚨 Spam: ${data.n_spam.toLocaleString('id')}</span>
+        <span class="stat-chip total"><i data-lucide="hash" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Total: ${data.total.toLocaleString('id')}</span>
+        <span class="stat-chip nonspam"><i data-lucide="shield-check" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Non-Spam: ${data.n_nonspam.toLocaleString('id')}</span>
+        <span class="stat-chip spam"><i data-lucide="shield-alert" style="width:12px;height:12px;vertical-align:text-bottom;margin-right:3px;"></i>Spam: ${data.n_spam.toLocaleString('id')}</span>
         <span class="stat-chip info">Kolom Teks: <b>${data.text_col}</b></span>
         <span class="stat-chip info">Kolom Label: <b>${data.label_col}</b></span>
         <span class="stat-chip info">Rata-rata panjang: ${data.avg_len} karakter</span>
