@@ -191,6 +191,23 @@ def _monitor_job(job_id: str):
     while True:
         import time as _time
 
+        # ── Cek Heartbeat Timeout (jika browser di close) ──
+        with jobs_lock:
+            last_ping = jobs[job_id].get('last_ping', _time.time())
+            status = jobs[job_id].get('status')
+            
+        if status == 'running' and _time.time() - last_ping > 15:
+            with jobs_lock:
+                jobs[job_id]['cancelled'] = True
+            try:
+                proc.kill()
+            except Exception:
+                pass
+            with jobs_lock:
+                jobs[job_id]['status'] = 'cancelled'
+                jobs[job_id]['error']  = 'Dibatalkan otomatis (browser ditutup/koneksi terputus).'
+            break
+
         # ── Baca baris progress baru ──
         try:
             if os.path.exists(progress_path):
@@ -540,6 +557,7 @@ def evaluate():
             'job_dir'   : job_dir,
             'proc'      : proc,
             'start_time': _time_mod.time(),
+            'last_ping' : _time_mod.time(),
         }
 
     # Thread ringan — hanya baca file progress & hasil
@@ -757,6 +775,8 @@ def cancel_job(job_id):
 def job_status(job_id):
     with jobs_lock:
         job = jobs.get(job_id)
+        if job:
+            job['last_ping'] = _time_mod.time()
 
     if job is None:
         # Fallback: cari di disk (terjadi jika server restart saat job berjalan)
