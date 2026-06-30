@@ -944,7 +944,7 @@ body.dark .cm-table .fn:hover {
 .prob-bar-fill {
   height: 100%;
   border-radius: 99px;
-  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width .5s ease;
 }
 
 .prob-bar-fill.spam {
@@ -1599,7 +1599,13 @@ tr.selected-row td, tr.selected-row:hover td, body.dark tr.selected-row td, body
   to { transform: translateY(-20px); opacity: 0; }
 }
 
-
+/* ── ANIMATED PROB BAR ── */
+@keyframes fillGauge {
+  from { width: 0%; }
+}
+.prob-bar-fill {
+  animation: fillGauge 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
 /* ═══════════════════════════════
        SHADCN UI OVERRIDES

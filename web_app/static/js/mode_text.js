@@ -198,20 +198,13 @@ function renderTextResult(d, rawText) {
       <div class="prob-bar-wrap">
         <div class="prob-bar-label"><span>Probabilitas Spam</span><span>${m.probability}%</span></div>
         <div class="prob-bar-track">
-          <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" data-width="${m.probability}%" style="width: 0%"></div>
+          <div class="prob-bar-fill ${m.is_spam ? 'spam' : 'ham'}" style="width:${m.probability}%"></div>
         </div>
       </div>
       <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">
         Threshold: <b>${m.threshold}%</b> &nbsp;|&nbsp; Confidence: <b>${m.confidence}</b>
       </div>
     </div>`).join('');
-
-  // Animate probability bars (ref 16)
-  requestAnimationFrame(() => {
-    cards.querySelectorAll('.prob-bar-fill').forEach(bar => {
-      bar.style.width = bar.getAttribute('data-width');
-    });
-  });
 
   const note = document.getElementById('agreementNote');
   note.style.color = c.agreement ? 'var(--success)' : 'var(--warning)';
