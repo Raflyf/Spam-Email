@@ -1,3 +1,5 @@
+import re
+import math
 """
 Flask Web App - Spam Email Classifier
 Mode 1: Prediksi teks tunggal (NB + XGB via model pipeline)
@@ -53,7 +55,7 @@ if os.path.exists(_venv_python):
 # ──────────────────────────────────────────
 import time as _time_mod
 HISTORY_FILE       = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'experiment_history.json')
-LAST_RESULT_FILE   = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'last_csv_result.json')
+LASTreSULT_FILE   = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'last_csvresult.json')
 experiment_history : list = []
 history_lock       = threading.Lock()
 
@@ -78,10 +80,10 @@ def _load_history():
                         if os.path.exists(result_path):
                             try:
                                 with open(result_path, 'r', encoding='utf-8') as rf:
-                                    import re as _re
+                                    
                                     raw = rf.read()
-                                    raw = _re.sub(r':\s*NaN', ': null', raw)
-                                    raw = _re.sub(r':\s*Infinity', ': null', raw)
+                                    raw = re.sub(r':\s*NaN', ': null', raw)
+                                    raw = re.sub(r':\s*Infinity', ': null', raw)
                                     res_data = json.loads(raw)
                                     r_mk = res_data.get('result', {}).get(mk, {})
                                     if r_mk:
@@ -108,20 +110,20 @@ _load_history()
 # SINGLE-TEXT PIPELINE (Mode Teks) — lazy load di background
 # ──────────────────────────────────────────
 pipeline       = None
-pipeline_ready = False
+pipelineready = False
 pipeline_error = None
 pipeline_lock  = threading.Lock()
 
 def _load_pipeline_bg():
     """Load model di background thread saat server start."""
-    global pipeline, pipeline_ready, pipeline_error
+    global pipeline, pipelineready, pipeline_error
     try:
         from model_pipeline import SpamPipeline
         pl = SpamPipeline()
         pl.load_or_train()
         with pipeline_lock:
             pipeline       = pl
-            pipeline_ready = True
+            pipelineready = True
         print("  [OK] Model pipeline siap (background load selesai)")
     except Exception as e:
         with pipeline_lock:
@@ -133,7 +135,7 @@ threading.Thread(target=_load_pipeline_bg, daemon=True).start()
 
 def get_pipeline():
     with pipeline_lock:
-        if pipeline_ready:
+        if pipelineready:
             return pipeline
         if pipeline_error:
             raise RuntimeError(f"Gagal memuat model: {pipeline_error}")
@@ -141,7 +143,7 @@ def get_pipeline():
     for _ in range(120):
         _time_mod.sleep(0.5)
         with pipeline_lock:
-            if pipeline_ready: return pipeline
+            if pipelineready: return pipeline
             if pipeline_error: raise RuntimeError(f"Gagal memuat model: {pipeline_error}")
     raise RuntimeError("Model timeout saat loading.")
 
@@ -149,7 +151,7 @@ def get_pipeline():
 # ──────────────────────────────────────────
 # JOB STORE  (subprocess-based, CUDA-safe)
 # ──────────────────────────────────────────
-jobs: dict      = {}        # job_id → {status, progress_lines_read, job_dir, proc}
+jobs: dict      = {}        # job_id → {status, progress_linesread, job_dir, proc}
 jobs_lock       = threading.Lock()
 JOBS_TEMP_DIR   = os.path.join(tempfile.gettempdir(), 'spam_eval_jobs')
 os.makedirs(JOBS_TEMP_DIR, exist_ok=True)
@@ -257,14 +259,14 @@ def _monitor_job(job_id: str):
                     # Simpan hasil terakhir ke disk agar tidak hilang saat server restart
                     if result_data.get('status') == 'done' and result_data.get('result'):
                         try:
-                            import re as _re2, math as _math
+                            
                             def _sanitize(obj):
                                 if isinstance(obj, float):
-                                    return None if (_math.isnan(obj) or _math.isinf(obj)) else obj
+                                    return None if (math.isnan(obj) or math.isinf(obj)) else obj
                                 if isinstance(obj, dict): return {k: _sanitize(v) for k,v in obj.items()}
                                 if isinstance(obj, list): return [_sanitize(i) for i in obj]
                                 return obj
-                            with open(LAST_RESULT_FILE, 'w', encoding='utf-8') as _f:
+                            with open(LASTreSULT_FILE, 'w', encoding='utf-8') as _f:
                                 json.dump(_sanitize(result_data.get('result')), _f,
                                           ensure_ascii=False, indent=2)
                         except Exception:
@@ -272,10 +274,10 @@ def _monitor_job(job_id: str):
                 else:
                     # Baca raw dan coba strip NaN
                     try:
-                        import re as _re
+                        
                         raw = open(result_path, 'r', encoding='utf-8').read()
-                        raw = _re.sub(r':\s*NaN', ': null', raw)
-                        raw = _re.sub(r':\s*Infinity', ': null', raw)
+                        raw = re.sub(r':\s*NaN', ': null', raw)
+                        raw = re.sub(r':\s*Infinity', ': null', raw)
                         result_data = json.loads(raw)
                         with jobs_lock:
                             jobs[job_id]['status'] = result_data.get('status', 'error')
@@ -419,7 +421,7 @@ def predict():
 @app.route('/status')
 def status():
     with pipeline_lock:
-        ready = pipeline_ready
+        ready = pipelineready
         err   = pipeline_error
     if not ready and not err:
         return jsonify({'status': 'loading', 'message': 'Model sedang dimuat...'})
@@ -658,23 +660,23 @@ def update_history_pin():
     return jsonify({'ok': True})
 
 # ---- Hasil CSV terakhir (persist) ----
-@app.route('/last_result')
-def last_result():
-    if os.path.exists(LAST_RESULT_FILE):
+@app.route('/lastresult')
+def lastresult():
+    if os.path.exists(LASTreSULT_FILE):
         try:
-            import re as _re
-            raw = open(LAST_RESULT_FILE, 'r', encoding='utf-8').read()
-            raw = _re.sub(r':\s*NaN', ': null', raw)
+            
+            raw = open(LASTreSULT_FILE, 'r', encoding='utf-8').read()
+            raw = re.sub(r':\s*NaN', ': null', raw)
             return jsonify({'result': json.loads(raw)})
         except Exception as e:
             return jsonify({'result': None, 'error': str(e)})
     return jsonify({'result': None})
 
-@app.route('/last_result/clear', methods=['POST'])
-def clear_last_result():
+@app.route('/lastresult/clear', methods=['POST'])
+def clear_lastresult():
     try:
-        if os.path.exists(LAST_RESULT_FILE):
-            os.remove(LAST_RESULT_FILE)
+        if os.path.exists(LASTreSULT_FILE):
+            os.remove(LASTreSULT_FILE)
     except Exception:
         pass
     return jsonify({'ok': True})
@@ -767,7 +769,7 @@ def job_status(job_id):
 
         progress = []
         if os.path.exists(prog_path):
-            import re as _re
+            
             for ln in open(prog_path, 'r', encoding='utf-8'):
                 ln = ln.strip()
                 if ln:
@@ -779,8 +781,8 @@ def job_status(job_id):
         if os.path.exists(result_path):
             try:
                 raw = open(result_path, 'r', encoding='utf-8').read()
-                raw = _re.sub(r':\s*NaN', ': null', raw)
-                raw = _re.sub(r':\s*Infinity', ': null', raw)
+                raw = re.sub(r':\s*NaN', ': null', raw)
+                raw = re.sub(r':\s*Infinity', ': null', raw)
                 result_data = json.loads(raw)
                 return jsonify({
                     'status'  : result_data.get('status', 'done'),
@@ -811,3 +813,4 @@ if __name__ == '__main__':
     print("\n  Akses di: http://localhost:5000")
     print("  Model dimuat di background — halaman langsung bisa diakses\n")
     app.run(debug=False, host='0.0.0.0', port=5000)
+
