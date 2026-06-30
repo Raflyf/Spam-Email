@@ -1088,9 +1088,6 @@ body.dark .info-chip {
   gap: 16px;
   align-items: start;
 }
-.top20-single {
-  grid-template-columns: 1fr !important;
-}
 
 @media (max-width: 992px) {
   .top20-grid {

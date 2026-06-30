@@ -459,7 +459,7 @@ function buildMethodCard(r, key) {
               🖼 Simpan PNG
             </button>
           </div>
-          <div class="top20-grid top20-single" id="chi2_${key}">${buildTop20(r.top20_chi2)}</div>
+          <div class="top20-grid" id="chi2_${key}">${buildTop20(r.top20_chi2)}</div>
         </div>
       </div>
 
