@@ -92,46 +92,5 @@ Sesuai dengan konsep _Personal AI Jarvis_, AI diharapkan bisa dipanggil untuk me
    _Prompt:_ "Tinjau keputusan arsitektur web."
    _Aksi:_ Mengevaluasi kembali mengapa kita memilih _Vanilla CSS_ dibanding _Tailwind_, atau mengapa kita menyimpan histori di JSON, untuk memastikan alasannya masih relevan.
 
-## 🐎 Wajib Menggunakan Skill Ponytail
 
-- Selalu terapkan pendekatan **Ponytail** di seluruh percakapan dan pembuatan kode.
-- Jangan bertele-tele. Buat semuanya sesingkat, sesederhana, dan seefisien mungkin.
-- Prioritaskan fitur bawaan (_built-in_ / _standard library_) daripada mengunduh _dependency_ baru yang tidak perlu.
-- Patuhi prinsip YAGNI (_You Aren't Gonna Need It_). Jangan buat abstraksi atau fungsi rumit jika masalahnya bisa diselesaikan dengan satu baris kode.
 
-## 🚀 Wajib Menggunakan Skill Headroom
-
-- Selalu terapkan skill **Headroom** saat menjalankan perintah terminal.
-- Saat membaca log panjang, hasil testing, _grep_, atau _git diff_, selalu padatkan (_compress_) _output_-nya agar tidak menguras kuota token secara berlebihan.
-
-## 📖 ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
-
-- Saat memulai sesi baru atau konteks terpotong, Anda **DIWAJIBKAN** untuk segera membaca `CLAUDE.md` ini terlebih dahulu.
-- Anda juga **WAJIB** membaca `DOKUMENTASI.md` untuk memahami rangkuman penuh skripsi, perubahan terkini (changelog), dan alur logika aplikasi.
-- Anda **WAJIB MUTLAK** membaca seluruh isi _folder_ `.agents/skills/` (termasuk `ponytail`, `headroom`, `caveman`, `frontend-design`, dll).
-- **Semua _skills_ (termasuk Ponytail, Caveman, dan Headroom) BERSIFAT PERMANEN DAN AKTIF OTOMATIS 100% setiap saat.** Anda tidak boleh menunggu perintah atau pancingan dari _user_ untuk mengaktifkan _skill-skill_ tersebut.
-- Berlakukan diri Anda sebagai AI _super-optimized_ yang selalu memotong basa-basi, sangat malas (YAGNI / _simplest solution_), dan sangat hemat _token_ di setiap respons Anda, tanpa terkecuali.
-- Jangan pernah berasumsi tentang struktur proyek, selalu baca file dan eksekusi _skill_ secara otonom!
-
-## 🔒 File yang TIDAK BOLEH Diubah
-
-- `NB_XGB_PURE.py` — Skrip Metode 1 Final (sudah dikunci untuk BAB 4 Skripsi).
-- `NB_XGB_MIX_IMPROVED.py` — Skrip Metode 2 Final (sudah dikunci untuk BAB 4 Skripsi).
-- `data/*.csv` — Dataset penelitian (jangan hapus, rename, atau modifikasi).
-- `grafik_skripsi/*.png` — 9 grafik output untuk lampiran skripsi.
-- `models/webapp_models/*.joblib` — Model tersimpan untuk Mode Teks.
-
-## 📂 Lokasi Penting
-
-- **Web app:** `web_app/` (Flask, jalankan via `.venv\Scripts\python.exe web_app/app.py`)
-- **Frontend:** `web_app/static/script.js`, `web_app/static/style.css`, `web_app/templates/index.html`
-- **Backend:** `web_app/app.py` (server), `web_app/evaluator.py` (ML pipeline), `web_app/run_eval_worker.py` (CUDA subprocess)
-- **Riwayat:** `web_app/experiment_history.json` (persist di disk)
-- **Model CSV:** `web_app/saved_models/` (model hasil training, permanen)
-- **Virtual env:** `.venv/` — selalu gunakan `.venv\Scripts\python.exe`
-
-## 🚢 Git Workflow
-
-- Setelah selesai mengubah kode, **selalu commit dan push** ke GitHub kecuali diminta sebaliknya.
-- Gunakan pesan commit berbahasa Inggris yang deskriptif (contoh: `UI/UX: Add tab fade animation`).
-- Jangan commit file `.csv`, `.pdf`, atau `.venv/` (sudah di-`.gitignore`).
