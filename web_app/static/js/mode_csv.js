@@ -117,8 +117,23 @@ function setUploadMode(mode) {
   document.getElementById('modeInfo').innerHTML = isCustom
     ? '<b>Mode:</b> Anda upload <b>CSV Training sendiri</b> dan CSV Test. Model dilatih dari data training Anda.'
     : '<b>Mode:</b> Data training menggunakan <b>emails.csv</b> bawaan (5.728 email Kaggle). Anda hanya perlu upload CSV test.';
-  // Reset file train jika kembali ke test_only
-  if (!isCustom) { csvTrain = null; document.getElementById('fileNameTrain').style.display = 'none'; }
+  if (!isCustom) { 
+    csvTrain = null; 
+    document.getElementById('fileNameTrain').style.display = 'none'; 
+    window.dsStats.trainNS = 0;
+    window.dsStats.trainSp = 0;
+  } else {
+    if (!csvTrain) {
+      window.dsStats.trainNS = 0;
+      window.dsStats.trainSp = 0;
+    }
+  }
+  
+  // Reset input ratio setiap ganti mode agar tidak pakai sisa nilai dari mode sebelumnya
+  document.getElementById('nTrainNonSpam').value = 0;
+  document.getElementById('nTrainSpam').value = 0;
+  if (typeof updateTrainBalancePreview === 'function') updateTrainBalancePreview();
+  
   checkCanEval();
 }
 

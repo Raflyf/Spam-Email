@@ -1,4 +1,4 @@
-window.dsStats = { trainNS: 4360, trainSp: 1368, testNS: 0, testSp: 0 };
+window.dsStats = { trainNS: 0, trainSp: 0, testNS: 0, testSp: 0 };
 
 
 // ═══════════════════════════════════════════
@@ -139,4 +139,5 @@ function setProgressBar(pct, label) {
 
 // Reset progress bar saat evaluasi baru dimulai (sudah ada di startEval reset block, tambah ini):
 const _origResetProgress = () => setProgressBar(0, 'Menunggu...');
+
 
