@@ -18,9 +18,17 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 | Skill | Kapan Aktif |
 |---|---|
 | **Ponytail** | Setiap menulis kode — selalu pilih solusi paling sederhana (YAGNI) |
-| **Headroom** | Setiap menjalankan terminal — selalu padatkan output agar hemat token |
+| **Ponytail Suite** | (Audit, Debt, Gain, Review, Help) — Saat mengevaluasi, mereview, atau mencari *over-engineering* |
+| **Headroom & RTK** | Setiap menjalankan terminal — kompres output log panjang untuk menghemat token (Rust Token Killer) |
 | **Caveman** | Setiap respons — potong basa-basi, langsung ke inti |
-| **Frontend-Design** | Setiap ada perubahan UI — terapkan standar desain premium |
+| **Frontend-Design** | Setiap ada perubahan antarmuka — terapkan standar desain premium |
+| **Impeccable** | Saat mendesain UI/UX — pastikan kualitas premium, modern, dan tidak terlihat seperti *AI generic* |
+| **Transitions Dev** | Saat menambahkan animasi — gunakan *motion tokens* dan kurva transisi yang halus |
+| **Accessibility** | Setiap merancang UI — pastikan standar aksesibilitas web (WCAG) terpenuhi |
+| **SEO** | Saat merancang struktur HTML halaman — pastikan tag dan hierarki SEO friendly |
+| **Graphify Out** | Saat perlu eksplorasi codebase atau dokumen kompleks secara mendalam (Graph query) |
+| **Superpowers** | Kumpulan kemampuan ekstra yang otomatis aktif untuk analisis dan performa tinggi |
+| **ECC** | Setiap evaluasi kode atau output — pastikan error correction dan validasi berjalan ketat |
 
 - Skill-skill ini **TIDAK PERLU diaktifkan manual**. Mereka menyala otomatis.
 - Jika sesi baru: baca `.agents/skills/` lalu langsung aktifkan tanpa perlu konfirmasi.
