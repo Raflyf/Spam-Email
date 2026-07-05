@@ -334,9 +334,15 @@ function showCompareModal(runs) {
   modal.innerHTML = `
     <div class="modal-content">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h3 style="font-size:16px;font-weight:800;">&#128260; Perbandingan ${runs.length} Eksperimen</h3>
+        <h3 style="font-size:16px;font-weight:800;display:flex;align-items:center;gap:6px;">
+          <i data-lucide="git-compare" style="width:18px;height:18px;color:var(--info);"></i> Perbandingan ${runs.length} Eksperimen
+        </h3>
         <button onclick="document.getElementById('compareModal').remove()"
-                style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--gray-400);">&#10005;</button>
+                style="background:none;border:none;cursor:pointer;color:var(--gray-400);display:flex;align-items:center;padding:4px;border-radius:4px;"
+                onmouseover="this.style.background='var(--gray-200)';this.style.color='var(--primary)'"
+                onmouseout="this.style.background='none';this.style.color='var(--gray-400)'">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px;margin-bottom:16px;font-size:14px;">
         ${infoCards}
@@ -346,10 +352,14 @@ function showCompareModal(runs) {
           <thead><tr><th>Model</th>${headersHtml}</tr></thead>
           <tbody>${rowsHtml}</tbody>
         </table>
-        <div style="font-size:13px;color:var(--success);margin-top:4px;">&#9654; Nilai tertinggi ditampilkan tebal hijau</div>
+        <div style="font-size:13px;color:var(--success);margin-top:4px;display:flex;align-items:center;gap:4px;">
+          <i data-lucide="info" style="width:14px;height:14px;"></i> Nilai tertinggi ditampilkan tebal hijau
+        </div>
       </div>
       <div style="margin-top:4px;">
-        <div style="font-size:14px;font-weight:700;margin-bottom:8px;">&#128202; Grafik Perbandingan Akurasi &amp; F1</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:4px;">
+          <i data-lucide="bar-chart-2" style="width:16px;height:16px;color:var(--info);"></i> Grafik Perbandingan Akurasi &amp; F1
+        </div>
         <canvas id="${chartId}" height="120"></canvas>
       </div>
       <div style="margin-top:20px;">
