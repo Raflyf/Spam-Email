@@ -3,9 +3,9 @@ name: Spam Email Classifier Design System
 description: Premium, academic, and data-centric visual language for machine learning evaluation.
 colors:
   primary: "#fafafa"
-  neutral-bg: "oklch(14% 0.02 285)"
-  card-bg: "oklch(18% 0.025 285 / 0.5)"
-  border: "oklch(28% 0.04 285 / 0.5)"
+  neutral-bg: "#0A0A0A"
+  card-bg: "rgba(24, 24, 27, 0.80)"
+  border: "#3f3f46"
   success: "#10b981"
   danger: "#ef4444"
 typography:
@@ -37,7 +37,7 @@ rounded:
 Visual system ini dirancang untuk menghadirkan antarmuka akademis tingkat lanjut yang profesional, bersih, dan berorientasi pada data. Menghindari "AI slop" dekoratif yang berlebihan, sistem ini mengutamakan keterbacaan data evaluasi algoritma Naive Bayes dan XGBoost. Karakteristik utama berpusat pada kegunaan (utility), presisi tinggi, dan konsistensi status antarmuka.
 
 **Key Characteristics:**
-- **Zinc & Space-tinted Palette:** Menggunakan kombinasi warna gelap zinc dengan sedikit tint indigo hangat untuk mengurangi kelelahan mata dosen penguji.
+- **Neutral Grayscale Palette:** Menggunakan kombinasi warna gelap murni (slate/zinc) tanpa rona biru/ungu untuk mengurangi kelelahan mata dosen penguji dan memberikan kesan netral.
 - **Data-First Layout:** Hirarki visual yang menempatkan metrik performa (Akurasi, F1-Score) dan tabel Confusion Matrix di atas segalanya.
 - **Glass & Depth Details:** Penggunaan taktil minimal (blurs, inset border glow) untuk menciptakan kesan kedalaman yang terstruktur tanpa ornamen dekoratif yang berlebihan.
 
@@ -49,9 +49,9 @@ Sistem ini didominasi oleh palet warna gelap netral dengan aksen semantik yang t
 - **Zinc White** (#fafafa / #09090b di Light Mode): Digunakan sebagai teks utama dan warna tombol primer.
 
 ### Neutral
-- **Midnight Space** (oklch(14% 0.02 285)): Warna latar belakang utama aplikasi.
-- **Dark Sapphire Card** (oklch(18% 0.025 285 / 0.5)): Latar belakang kartu/kontainer semi-transparan dengan efek blur.
-- **Muted Steel** (oklch(28% 0.04 285 / 0.5)): Warna garis batas (border) antar komponen.
+- **Midnight Space** (#0A0A0A): Warna latar belakang utama aplikasi.
+- **Dark Sapphire Card** (rgba(24, 24, 27, 0.80)): Latar belakang kartu/kontainer semi-transparan dengan efek blur.
+- **Muted Steel** (#3f3f46): Warna garis batas (border) antar komponen.
 
 ### Semantic Accents
 - **Emerald Green** (#10b981): Melambangkan kelas Non-Spam (Ham), True Positive, dan metrik yang sukses.

@@ -445,6 +445,46 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
+## 14. Update Terbaru (29 Juni 2026)
+
+### Perombakan UI/UX (Linear / Cult UI Aesthetic)
+
+| #   | Fitur                                          | Lokasi                    | Keterangan                                                                                                                                                                                                                                  |
+| --- | ---------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Glassmorphism & Opacity Adjustments**        | `style.css`               | Merombak desain kartu (.card) dengan efek kaca (_backdrop-filter blur_) transparan. Opasitas dioptimalkan (80% transparan `rgba(24, 24, 27, 0.80)`) agar teks tetap sangat jelas terbaca meski pada tingkat kecerahan layar HP yang rendah. |
+| 2   | **Penyempurnaan Warna Background (Soft Dark)** | `style.css`               | Mengubah warna _background_ utama mode gelap dari hitam pekat (`#09090b`) menjadi _slate black_ abu-abu super gelap (`#111113`) agar lebih ramah di mata dan terasa premium.                                                                |
+| 3   | **Penyatuan Card Mode Teks**                   | `index.html`, `script.js` | Menggabungkan hasil akurasi model Naive Bayes dan XGBoost pada Mode Teks ke dalam **satu card besar** terpadu (dipisah dengan garis putus-putus), menggantikan desain lama yang terpisah-pisah.                                             |
+| 4   | **Peningkatan Skala Huruf (Readability)**      | `style.css`               | Menaikkan ukuran _font_ secara spesifik pada tabel _Confusion Matrix_ (dari 13px ke 15px) dan tabel Metrik Per Kelas (dari 13px ke 14px) agar angka-angka krusial jauh lebih mudah dibaca.                                                  |
+
+### Bug Fixes & Tata Letak Mobile
+
+| #   | Fitur                               | Lokasi       | Keterangan                                                                                                                                                                                                                                                 |
+| --- | ----------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Fix Tata Letak Input Mobile**     | `style.css`  | Memperbaiki masalah kotak input "Jumlah Spam Training" yang tidak sejajar horizontal pada layar HP akibat teks label di atasnya terpotong/turun baris. Diselesaikan dengan menerapkan `align-items: end;` pada _CSS Grid_.                                 |
+| 2   | **Fix Bug Ikon Toggle Tema Hilang** | `index.html` | Tombol _Dark Mode_ atas sempat kehilangan emotikonnya saat diklik karena JavaScript me-reset struktur SVG `lucide`. Diperbaiki dengan menyeragamkan penggunaan elemen `<span class="theme-icon">🌙</span>` murni untuk kedua tombol toggle atas dan bawah. |
+| 3   | **Pemulihan Aksen Warna Card**      | `style.css`  | Memperbaiki garis aksen warna di bagian atas _card_ (seperti merah/hijau/biru) yang sebelumnya hilang karena tertimpa deklarasi `border !important` global.                                                                                                |
+
+---
+
+## 15. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
+
+### Stabilitas Backend & Keamanan Memori
+
+| #   | Fitur                             | Lokasi   | Keterangan                                                                                                                                                                                                                                               |
+| --- | --------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Zombie Job Cleanup**            | `app.py` | Menambahkan pembersihan otomatis saat server dijalankan (boot). Jika server Flask mati mendadak saat evaluasi CSV berjalan, _worker_ yang terputus akan ditandai dengan error `result.json` agar _frontend_ tidak terjebak dalam siklus _polling_ abadi. |
+| 2   | **Fallback Job Status Sinkron**   | `app.py` | Memaksa penulisan `result.json` ke dalam _disk_ secara sinkron apabila _worker_ gagal atau dihentikan paksa (cancelled), sehingga antarmuka UI menerima umpan balik seketika.                                                                            |
+| 3   | **Memory Leak Prevention (Jobs)** | `app.py` | Menghapus referensi memori pekerjaan (`del jobs[job_id]`) secara proaktif segera setelah _worker_ selesai dan data disimpan ke cakram. Ini memastikan RAM server tidak membengkak walau ratusan pengguna melakukan eksperimen berturut-turut.            |
+
+### Pemisahan & Modularisasi Frontend (Skala Besar)
+
+| #   | Fitur                        | Lokasi               | Keterangan                                                                                                                                                                                                       |
+| --- | ---------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Pemecahan Monolitik JS**   | `web_app/static/js/` | Berkas `script.js` raksasa (2.400 baris) telah dipecah secara sistematis menjadi 4 berkas mandiri (`utils.js`, `mode_text.js`, `mode_csv.js`, dan `history.js`) untuk mempermudah perawatan kode jangka panjang. |
+| 2   | **Pemuatan Skrip Berurutan** | `index.html`         | Mengganti pemuatan `script.js` tunggal dengan pemanggilan 4 modul JS baru secara berurutan, mempertahankan ruang lingkup _Global Variable_ tetap utuh dan stabil tanpa memecah dependensi bawaan.                |
+
+---
+
 ## Riwayat Update (Changelog)
 
 ## 🆕 Recent Updates (05 Juli 2026) — Final Architecture & Performance Optimization
@@ -483,6 +523,21 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
    - Menambahkan `<meta name="theme-color">` pada header *web* dan membuat properti *background-color* eksklusif di tag `<html>` yang tersinkronisasi. Ini menyembuhkan masalah *gesture bar* putih yang merusak imersi visual pada Safari iOS dan Chrome Android saat mengaktifkan *Dark Mode*.
 
 ---
+
+
+### Penyempurnaan Tampilan Utama & Responsivitas
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Grid Latar Light Mode Terjaga**      | style.css                | Mengganti shorthand ackground menjadi ackground-color pada elemen ody sehingga tidak lagi menimpa pola grid (tekstur) di Light Mode.                  |
+| 2   | **Mencegah Layout Shift (Layar Geser)**| style.css                | Menambahkan aturan modern scrollbar-gutter: stable; overflow-y: scroll; pada kerangka dokumen html untuk mencegah halaman bergeser patah-patah saat berpindah antar tab (teks/CSV/riwayat). |
+| 3   | **Kontras Tab Menu Dark Mode**         | style.css                | Mengubah warna latar div.tabs (pembungkus) menjadi lebih pekat (ar(--gray-50)) agar tombol menu aktif yang berwarna ar(--primary) bisa "pop-out" atau terlihat menonjol dan kontras di mata. |
+| 4   | **Animasi Hover Tab Fleksibel**        | style.css                | Memperbaiki bug warna transparan "aneh" saat hover. Menambahkan efek 	ransform: scale(1.02) saat hover (pada tab aktif maupun pasif) untuk rasa interaksi yang lebih "hidup" tanpa merusak hierarki warna solid, ditambah highlight #e4e4e7 (Light)/#3f3f46 (Dark) universal untuk kompatibilitas. |
+
+### Perbaikan Sistem Data (Bug Fix)
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Pembasmi Hasil Hantu (Ghost Result)**| mode_csv.js, history.js| Memperbaiki bug salah ketik etch('/last_result/clear') menjadi /lastresult/clear (mengikuti rute di pp.py). Ini memastikan hasil sebelumnya benar-benar terhapus secara permanen di backend saat tombol 'Reset' atau 'Mulai Evaluasi' ditekan, sehingga hasil lama tak muncul lagi setelah halaman di-refresh. |
+
 
 ## 🆕 Recent Updates (30 Juni 2026) — Phase 1, 2, 3 Implementation
 
@@ -705,108 +760,6 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 - Docs: [`DOKUMENTASI.md`](DOKUMENTASI.md), [`UI_UX_AUDIT_REPORT.md`](UI_UX_AUDIT_REPORT.md) (new)
 
 ---
-
-## 14. Update Terbaru (29 Juni 2026)
-
-### Perombakan UI/UX (Linear / Cult UI Aesthetic)
-
-| #   | Fitur                                          | Lokasi                    | Keterangan                                                                                                                                                                                                                                  |
-| --- | ---------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Glassmorphism & Opacity Adjustments**        | `style.css`               | Merombak desain kartu (.card) dengan efek kaca (_backdrop-filter blur_) transparan. Opasitas dioptimalkan (80% transparan `rgba(24, 24, 27, 0.80)`) agar teks tetap sangat jelas terbaca meski pada tingkat kecerahan layar HP yang rendah. |
-| 2   | **Penyempurnaan Warna Background (Soft Dark)** | `style.css`               | Mengubah warna _background_ utama mode gelap dari hitam pekat (`#09090b`) menjadi _slate black_ abu-abu super gelap (`#111113`) agar lebih ramah di mata dan terasa premium.                                                                |
-| 3   | **Penyatuan Card Mode Teks**                   | `index.html`, `script.js` | Menggabungkan hasil akurasi model Naive Bayes dan XGBoost pada Mode Teks ke dalam **satu card besar** terpadu (dipisah dengan garis putus-putus), menggantikan desain lama yang terpisah-pisah.                                             |
-| 4   | **Peningkatan Skala Huruf (Readability)**      | `style.css`               | Menaikkan ukuran _font_ secara spesifik pada tabel _Confusion Matrix_ (dari 13px ke 15px) dan tabel Metrik Per Kelas (dari 13px ke 14px) agar angka-angka krusial jauh lebih mudah dibaca.                                                  |
-
-### Bug Fixes & Tata Letak Mobile
-
-| #   | Fitur                               | Lokasi       | Keterangan                                                                                                                                                                                                                                                 |
-| --- | ----------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Fix Tata Letak Input Mobile**     | `style.css`  | Memperbaiki masalah kotak input "Jumlah Spam Training" yang tidak sejajar horizontal pada layar HP akibat teks label di atasnya terpotong/turun baris. Diselesaikan dengan menerapkan `align-items: end;` pada _CSS Grid_.                                 |
-| 2   | **Fix Bug Ikon Toggle Tema Hilang** | `index.html` | Tombol _Dark Mode_ atas sempat kehilangan emotikonnya saat diklik karena JavaScript me-reset struktur SVG `lucide`. Diperbaiki dengan menyeragamkan penggunaan elemen `<span class="theme-icon">🌙</span>` murni untuk kedua tombol toggle atas dan bawah. |
-| 3   | **Pemulihan Aksen Warna Card**      | `style.css`  | Memperbaiki garis aksen warna di bagian atas _card_ (seperti merah/hijau/biru) yang sebelumnya hilang karena tertimpa deklarasi `border !important` global.                                                                                                |
-
----
-
-## 15. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
-
-### Stabilitas Backend & Keamanan Memori
-
-| #   | Fitur                             | Lokasi   | Keterangan                                                                                                                                                                                                                                               |
-| --- | --------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Zombie Job Cleanup**            | `app.py` | Menambahkan pembersihan otomatis saat server dijalankan (boot). Jika server Flask mati mendadak saat evaluasi CSV berjalan, _worker_ yang terputus akan ditandai dengan error `result.json` agar _frontend_ tidak terjebak dalam siklus _polling_ abadi. |
-| 2   | **Fallback Job Status Sinkron**   | `app.py` | Memaksa penulisan `result.json` ke dalam _disk_ secara sinkron apabila _worker_ gagal atau dihentikan paksa (cancelled), sehingga antarmuka UI menerima umpan balik seketika.                                                                            |
-| 3   | **Memory Leak Prevention (Jobs)** | `app.py` | Menghapus referensi memori pekerjaan (`del jobs[job_id]`) secara proaktif segera setelah _worker_ selesai dan data disimpan ke cakram. Ini memastikan RAM server tidak membengkak walau ratusan pengguna melakukan eksperimen berturut-turut.            |
-
-### Pemisahan & Modularisasi Frontend (Skala Besar)
-
-| #   | Fitur                        | Lokasi               | Keterangan                                                                                                                                                                                                       |
-| --- | ---------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Pemecahan Monolitik JS**   | `web_app/static/js/` | Berkas `script.js` raksasa (2.400 baris) telah dipecah secara sistematis menjadi 4 berkas mandiri (`utils.js`, `mode_text.js`, `mode_csv.js`, dan `history.js`) untuk mempermudah perawatan kode jangka panjang. |
-| 2   | **Pemuatan Skrip Berurutan** | `index.html`         | Mengganti pemuatan `script.js` tunggal dengan pemanggilan 4 modul JS baru secara berurutan, mempertahankan ruang lingkup _Global Variable_ tetap utuh dan stabil tanpa memecah dependensi bawaan.                |
-
----
-
-## 16. Update Terbaru (30 Juni 2026)
-
-### UI/UX Polish & Responsivitas HP (Final Pre-Sidang)
-
-| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
-| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Confusion Matrix Angka Besar**       | `style.css`                | Angka TN/FP/FN/TP diperbesar menjadi 22px bold-800. Diisolasi menggunakan kelas `.cm-table-main` agar tidak meluber ke tabel riwayat dan perbandingan metode.  |
-| 2   | **Tabel Per-Kelas Diperbesar**         | `style.css`                | Sel tabel presisi/recall/F1 per kelas dinaikkan ke 16px. Diisolasi via `.per-class-table-main`.                                                                |
-| 3   | **Modal Perbandingan Anti-Transparan** | `style.css`                | Background modal perbandingan riwayat diset solid `var(--body-bg)`. Overlay mendapat `backdrop-filter: blur(8px)` agar konten di belakang buram elegan.        |
-| 4   | **Tab Menu Responsif HP**              | `style.css`                | Tab "Riwayat (11)" tidak lagi terpotong di HP. Diterapkan `width:100%` + font 12px + padding kompak di media query ≤600px.                                     |
-| 5   | **Top 20 Chi-Square Sejajar di HP**    | `mode_csv.js`, `style.css` | Dua tabel fitur (1-10 dan 11-20) kini sejajar pixel-sempurna saat menumpuk di HP menggunakan `table-layout: fixed` dengan lebar kolom absolut.                 |
-| 6   | **Badge NON-SPAM Tidak Terpotong**     | `style.css`                | `white-space: nowrap` + ukuran 11px diterapkan pada badge di tabel per-kelas khusus layar HP.                                                                  |
-| 7   | **Auto-Reset Mode Pilih Data**         | `utils.js`                 | Saat pengguna pindah dari tab Riwayat ke tab lain, mode pilih data (`_selectMode`) otomatis di-reset — checkbox disembunyikan, tombol kembali ke "Pilih Data". |
-
-### Verifikasi Fitur (Audit 30 Juni 2026)
-
-| Fitur                                 | Status       |
-| ------------------------------------- | ------------ |
-| Halaman utama (dark bg, no bleed)     | ✅ Berfungsi |
-| Perpindahan tab Mode CSV              | ✅ Berfungsi |
-| Riwayat 11 entri termuat              | ✅ Berfungsi |
-| Auto-close pilih data saat pindah tab | ✅ Berfungsi |
-| Export CSV riwayat                    | ✅ Berfungsi |
-| Analisis Mode Teks (klasifikasi spam) | ✅ Berfungsi |
-| Console errors                        | ✅ Tidak ada |
-
----
-
-## 17. Update Lanjutan (30 Juni 2026 - Final UI & Stabilitas)
-
-### Penyempurnaan Dark Mode & Antarmuka
-
-| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
-| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Neutral Dark Mode (No Blue Tint)**   | `style.css`                | Mengganti *override* variabel warna `oklch` yang sebelumnya memberi rona biru/ungu (hue 280-285) dengan skala *Neutral Grayscale* murni (`#0A0A0A` untuk latar belakang dan `rgba` abu-abu transparan untuk grid).  |
-| 2   | **Ikon pada Pil Contoh Cepat**         | `mode_text.js`             | Menambahkan ikon indikator visual menggunakan pustaka Lucide (`mail-warning` untuk Spam dan `mail-check` untuk Normal) pada tombol *chip* contoh teks cepat agar lebih intuitif dan modern. |
-| 3   | **Tata Letak Tombol Aksi**             | `index.html`, `style.css`  | Merapikan susunan tombol *[Analisis]*, *[Batch]*, dan *[Hapus]* pada mode teks dengan penempatan *flex-end* merapat sempurna ke sebelah kanan, sehingga terlihat lebih tertata di layar HP maupun desktop. |
-| 4   | **Warna Netral Tombol Toggle Tema**    | `style.css`                | Mengubah warna latar belakang tombol peralihan mode Terang/Gelap pada state *dark mode* yang sebelumnya ungu transparan menjadi warna abu-abu netral. |
-
-### Peningkatan Stabilitas (Ghost Process Prevention)
-
-| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
-| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Force Exit pada Interupsi Ctrl+C**   | `app.py`                   | Menambahkan blok penanganan `try-finally` saat pemanggilan `app.run` dengan menjalankan perintah sistem `os._exit(0)`. Ini memastikan seluruh proses latar dan *thread pool* bandel (misal: *Joblib loky worker*) terbunuh seketika saat server dimatikan, membasmi tuntas masalah port 5000 terkunci (*ghost process*). |
----
-
-## 18. Update Lanjutan (5 Juli 2026 - Perbaikan UI/UX dan State Data)
-
-### Penyempurnaan Tampilan Utama & Responsivitas
-| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
-| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Grid Latar Light Mode Terjaga**      | style.css                | Mengganti shorthand ackground menjadi ackground-color pada elemen ody sehingga tidak lagi menimpa pola grid (tekstur) di Light Mode.                  |
-| 2   | **Mencegah Layout Shift (Layar Geser)**| style.css                | Menambahkan aturan modern scrollbar-gutter: stable; overflow-y: scroll; pada kerangka dokumen html untuk mencegah halaman bergeser patah-patah saat berpindah antar tab (teks/CSV/riwayat). |
-| 3   | **Kontras Tab Menu Dark Mode**         | style.css                | Mengubah warna latar div.tabs (pembungkus) menjadi lebih pekat (ar(--gray-50)) agar tombol menu aktif yang berwarna ar(--primary) bisa "pop-out" atau terlihat menonjol dan kontras di mata. |
-| 4   | **Animasi Hover Tab Fleksibel**        | style.css                | Memperbaiki bug warna transparan "aneh" saat hover. Menambahkan efek 	ransform: scale(1.02) saat hover (pada tab aktif maupun pasif) untuk rasa interaksi yang lebih "hidup" tanpa merusak hierarki warna solid, ditambah highlight #e4e4e7 (Light)/#3f3f46 (Dark) universal untuk kompatibilitas. |
-
-### Perbaikan Sistem Data (Bug Fix)
-| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
-| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Pembasmi Hasil Hantu (Ghost Result)**| mode_csv.js, history.js| Memperbaiki bug salah ketik etch('/last_result/clear') menjadi /lastresult/clear (mengikuti rute di pp.py). Ini memastikan hasil sebelumnya benar-benar terhapus secara permanen di backend saat tombol 'Reset' atau 'Mulai Evaluasi' ditekan, sehingga hasil lama tak muncul lagi setelah halaman di-refresh. |
-
 
 ## Struktur File Proyek (Web App)
 

@@ -63,7 +63,7 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 ## 📂 Lokasi Penting
 
 - **Web app:** `web_app/` (Flask, jalankan via `.venv\Scripts\python.exe web_app/app.py`)
-- **Frontend:** `web_app/static/script.js`, `web_app/static/style.css`, `web_app/templates/index.html`
+- **Frontend:** `web_app/static/js/*.js` (modular), `web_app/static/style.css`, `web_app/templates/index.html`
 - **Backend:** `web_app/app.py` (server), `web_app/evaluator.py` (ML pipeline), `web_app/run_eval_worker.py` (CUDA subprocess)
 - **Riwayat:** `web_app/experiment_history.json` (persist di disk)
 - **Model CSV:** `web_app/saved_models/` (model hasil training, permanen)
