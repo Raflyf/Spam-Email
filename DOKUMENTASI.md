@@ -2,8 +2,26 @@
 
 **Mahasiswa:** Rafly Firmansyah
 **Program Studi:** Informatika, Universitas Bina Sarana Informatika
-**Tanggal terakhir update:** 30 Juni 2026
+**Tanggal terakhir update:** 05 Juli 2026
 **Direktori proyek:** `D:\skripsi\skripsi_spam\Code_Spam_Email`
+
+---
+
+## 🆕 Recent Updates (05 Juli 2026) — Bug Fixes & Mobile UI Polish
+
+**Tujuan:** Memperbaiki *bugs* minor, memperbaiki UI di perangkat seluler, dan menata layout tabel untuk kenyamanan pengguna.
+
+1. **Pencegahan Ghost Process**
+   - Menambahkan mekanisme penangkapan sinyal `SIGINT` dan `SIGTERM` secara eksplisit pada *backend* Flask dan *sub-process* model. Hal ini menjamin bahwa setiap kali _developer_ menghentikan server (CTRL+C) saat melakukan evaluasi model, semua proses di memori mati secara tuntas tanpa menyisakan proses siluman (*ghost process*) yang memakan RAM/GPU.
+2. **Penyempurnaan Animasi (Anti-Blink)**
+   - Menghilangkan kedipan transparansi (*opacity blink*) pada komponen teks saat pergantian hasil evaluasi. Transisi sekarang berjalan mulus secara instan.
+3. **Perbaikan *Icon* Analisis yang Hilang**
+   - Memperbaiki hilangnya *icon* petir (⚡) di tombol **"Analisis dengan Model Ini"** pasca evaluasi ulang. Sistem kini memasukkan kembali elemen SVG Lucide Icons secara presisi tanpa bertabrakan dengan manipulasi DOM.
+4. **Perataan Lebar Kolom Tabel Batch**
+   - **Preview Teks:** Diubah menjadi rata kiri (*left-aligned*) dengan `padding-left: 10px` agar mudah dibaca dan tidak menyatu dengan kolom angka urut.
+   - **Probabilitas:** Lebar kolom ditambah dari `150px` menjadi `180px` untuk menampung teks "NB 100.0% | XGB 100.0%" agar proporsional dan tidak menabrak kolom Hasil/Result.
+5. **Warna Navigasi Bawah di Browser Seluler (Gesture Bar Android/iOS)**
+   - Menambahkan `<meta name="theme-color">` pada header *web* dan membuat properti *background-color* eksklusif di tag `<html>` yang tersinkronisasi. Ini menyembuhkan masalah *gesture bar* putih yang merusak imersi visual pada Safari iOS dan Chrome Android saat mengaktifkan *Dark Mode*.
 
 ---
 

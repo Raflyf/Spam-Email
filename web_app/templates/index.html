@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 
 <head>
   <meta charset="UTF-8" />
@@ -37,14 +37,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=31">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=34">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <meta id="theme-color-meta" name="theme-color" content="#0a0a0a" />
 </head>
 
 <body class="dark">
   <script>
-    if (localStorage.getItem('theme') === 'light') {
+    if (localStorage.getItem('darkMode') === '0') {
       document.body.classList.remove('dark');
+      document.documentElement.classList.remove('dark');
+      document.getElementById('theme-color-meta').setAttribute('content', '#fafafa');
     }
   </script>
   <div class="bg-grid"></div>
@@ -441,7 +444,7 @@
         <div id="historyEmpty" style="text-align:center;padding:32px;color:var(--gray-400);">
           Belum ada eksperimen. Jalankan Mode CSV terlebih dahulu.
         </div>
-        <div id="historyTableWrap" style="display:none;overflow-x:auto;">
+        <div id="historyTableWrap" style="display:none; overflow-x:auto; overflow-y:auto; max-height:380px;">
           <table class="cm-table" id="historyTable" style="font-size:14px;min-width:700px;">
             <thead>
               <tr>
@@ -521,10 +524,10 @@
     border:1px solid rgba(255,255,255,0.1);"></div>
   
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=26"></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=29"></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=26"></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=26"></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=28"></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=34"></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=32"></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=33"></script>
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();

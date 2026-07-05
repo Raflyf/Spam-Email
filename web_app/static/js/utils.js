@@ -65,8 +65,11 @@ document.addEventListener('DOMContentLoaded', function initTabState() {
 
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark');
+  document.documentElement.classList.toggle('dark', isDark);
   _applyThemeIcons(isDark);
   localStorage.setItem('darkMode', isDark ? '1' : '0');
+  const metaTheme = document.getElementById('theme-color-meta');
+  if (metaTheme) metaTheme.setAttribute('content', isDark ? '#0a0a0a' : '#fafafa');
 }
 
 function _applyThemeIcons(isDark) {
@@ -89,6 +92,7 @@ function _applyThemeIcons(isDark) {
 // Apply saved preference (Default is Dark Mode)
 if (localStorage.getItem('darkMode') === '0') {
   document.body.classList.remove('dark');
+  document.documentElement.classList.remove('dark');
   // Will be applied after lucide loads via DOMContentLoaded
 }
 

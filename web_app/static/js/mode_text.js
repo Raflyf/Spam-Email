@@ -80,17 +80,14 @@ async function analyzeText() {
   if (!text) { showError('textError', 'Masukkan teks email terlebih dahulu.'); return; }
   
   const resultsEl = document.getElementById('textResults');
-  if (resultsEl.style.display !== 'none') {
-    resultsEl.style.transition = 'opacity var(--duration-fast) ease';
-    resultsEl.style.opacity = '0.4';
-  } else {
+  if (resultsEl.style.display === 'none') {
     setLoading('textLoading', true);
   }
   
   const analyzeBtn = document.getElementById('analyzeBtn');
   analyzeBtn.disabled = true;
   analyzeBtn.innerHTML = '<i data-lucide="loader-2" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Menganalisis...';
-  lucide.createIcons({ nodes: [analyzeBtn] });
+  lucide.createIcons();
   try {
     const res = await fetch('/predict', {
       method: 'POST',
@@ -103,14 +100,17 @@ async function analyzeText() {
     resultsEl.style.display = 'block';
     
     setTimeout(() => {
-      resultsEl.style.transition = 'opacity var(--duration-medium) ease';
-      resultsEl.style.opacity = '1';
       document.querySelectorAll('#textResults .prob-bar-fill').forEach(bar => {
         bar.style.width = bar.getAttribute('data-prob') + '%';
       });
     }, 50);
   } catch (e) { showError('textError', e.message); }
-  finally { setLoading('textLoading', false); analyzeBtn.disabled = false; analyzeBtn.innerHTML = '<i data-lucide="search" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Analisis'; lucide.createIcons({nodes:[analyzeBtn]}); }
+  finally { 
+    setLoading('textLoading', false); 
+    analyzeBtn.disabled = false; 
+    analyzeBtn.innerHTML = '<i data-lucide="search" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Analisis'; 
+    lucide.createIcons(); 
+  }
 }
 // ═══ Spam keyword highlighter ═══
 const SPAM_KEYWORDS = [
@@ -322,23 +322,22 @@ function renderBatchResults() {
   });
 
   const rows = sorted.map((d) => {
-    const preview = d.email.substring(0, 60) + (d.email.length > 60 ? '...' : '');
+    const preview = d.email.substring(0, 100) + (d.email.length > 100 ? '...' : '');
     const hasError = d._error;
     return `<tr>
-      <td style="text-align:center;font-weight:700;color:var(--gray-400);">${d._num}</td>
-      <td style="font-size:13px;color:var(--gray-600);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${d.email.replace(/"/g, '"')}">${preview}</td>
-      <td style="font-size:13px;color:var(--gray-400);white-space:nowrap;">${hasError ? 'Error' : 'NB ' + d.nb_prob + '% | XGB ' + d.xgb_prob + '%'}</td>
-      <td style="font-weight:700;font-size:14px;${hasError ? 'color:var(--gray-400);' : d.isSpam ? 'color:var(--danger);' : 'color:var(--success);'}">${hasError ? '<i data-lucide="alert-triangle" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Error' : d.isSpam ? '<i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>SPAM' : '<i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Bukan Spam'}</td>
+      <td style="text-align:center;font-weight:700;color:var(--gray-400);width:80px;">${d._num}</td>
+      <td style="font-size:13px;color:var(--gray-600);width:auto;text-align:left;padding-left:10px;">${preview}</td>
+      <td style="font-size:13px;color:var(--gray-400);white-space:nowrap;width:180px;text-align:center;">${hasError ? 'Error' : 'NB ' + d.nb_prob + '% | XGB ' + d.xgb_prob + '%'}</td>
+      <td style="font-weight:700;font-size:14px;white-space:nowrap;width:130px;${hasError ? 'color:var(--gray-400);' : d.isSpam ? 'color:var(--danger);' : 'color:var(--success);'}">${hasError ? '<i data-lucide="alert-triangle" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Error' : d.isSpam ? '<i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>SPAM' : '<i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:3px;"></i>Bukan Spam'}</td>
     </tr>`;
   }).join('');
 
-  document.getElementById('batchResults').innerHTML = `<table class="batch-table">
+  document.getElementById('batchResults').innerHTML = `<table class="cm-table" style="table-layout:fixed;width:100%;text-align:left;">
     <thead><tr>
-      <th style="cursor:pointer;user-select:none;" onclick="sortBatch('num')">Email #${getSortIndicator('num')}</th>
-      <th>Preview Teks</th>
-      <th style="cursor:pointer;user-select:none;font-size:13px;" onclick="sortBatch('nb_prob')">NB Prob${getSortIndicator('nb_prob')}</th>
-      <th style="cursor:pointer;user-select:none;font-size:13px;" onclick="sortBatch('xgb_prob')">XGB Prob${getSortIndicator('xgb_prob')}</th>
-      <th style="cursor:pointer;user-select:none;" onclick="sortBatch('result')">Result${getSortIndicator('result')}</th>
+      <th style="cursor:pointer;user-select:none;width:80px;text-align:center;" onclick="sortBatch('num')">Email #${getSortIndicator('num')}</th>
+      <th style="width:auto;text-align:left;padding-left:10px;">Preview Teks</th>
+      <th style="cursor:pointer;user-select:none;font-size:13px;width:180px;text-align:center;" onclick="sortBatch('nb_prob')">Probabilitas${getSortIndicator('nb_prob')}</th>
+      <th style="cursor:pointer;user-select:none;width:130px;" onclick="sortBatch('result')">Result${getSortIndicator('result')}</th>
     </tr></thead>
     <tbody>${rows}</tbody>
   </table>`;

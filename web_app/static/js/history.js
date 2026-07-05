@@ -72,7 +72,9 @@ async function analyzeRealtime() {
 
   const btn = document.getElementById('realtimeBtn');
   btn.disabled = true;
+  const originalBtnContent = btn.innerHTML;
   btn.innerHTML = '<i data-lucide="loader-2" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Menganalisis...';
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 
   try {
     const res = await fetch('/predict_job', {
@@ -87,7 +89,7 @@ async function analyzeRealtime() {
     showError('realtimeError', e.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<i data-lucide="zap" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Analisis dengan Model Ini';
+    btn.innerHTML = originalBtnContent;
   }
 }
 
