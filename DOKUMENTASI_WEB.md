@@ -1,6 +1,6 @@
 # Dokumentasi Web App Spam Email Classifier
 
-## 7. Web App — Cara Menjalankan
+## 1. Web App — Cara Menjalankan
 
 ```cmd
 cd D:\skripsi\skripsi_spam\Code_Spam_Email
@@ -14,7 +14,7 @@ Stop: `Ctrl+C` di terminal.
 
 ---
 
-## 8. Web App — Fitur Lengkap
+## 2. Web App — Fitur Lengkap
 
 ### Tab 1 — Mode Teks
 
@@ -108,9 +108,9 @@ Stop: `Ctrl+C` di terminal.
 
 ---
 
-## 9. Arsitektur Teknis Web App
+## 3. Arsitektur Teknis Web App
 
-### 9.1 Backend Architecture (Updated Phase 1)
+### 3.1 Backend Architecture (Updated Phase 1)
 
 ```
 Flask App (app.py)
@@ -155,7 +155,7 @@ Flask App (app.py)
 - **Shared module `_shared.py`:** Eliminasi 240 baris duplikasi, single source of truth untuk preprocessing & features
 - **Job persistence:** `experiment_history.json`, `last_csv_result.json` persist di disk untuk survive server restart
 
-### 9.2 Frontend Architecture (Updated Phase 2)
+### 3.2 Frontend Architecture (Updated Phase 2)
 
 ```
 index.html (1046 lines)
@@ -186,7 +186,7 @@ index.html (1046 lines)
 
 ---
 
-## 10. Preset Mode Training
+## 4. Preset Mode Training
 
 |                    | Fast         | Full             |
 | ------------------ | ------------ | ---------------- |
@@ -203,7 +203,7 @@ index.html (1046 lines)
 
 ---
 
-## 11. Format CSV yang Didukung
+## 5. Format CSV yang Didukung
 
 Deteksi kolom otomatis. Label yang dikenali:
 `spam/ham`, `0/1`, `phishing/legitimate`, `phishing email/safe email`, `malicious/benign`, `junk/normal`, `yes/no`, `true/false`
@@ -217,7 +217,7 @@ Deteksi kolom otomatis. Label yang dikenali:
 
 ---
 
-## 12. Bug yang Pernah Ditemui & Solusinya
+## 6. Bug yang Pernah Ditemui & Solusinya
 
 | Bug                                                | Penyebab                                                              | Solusi                                                                                     |
 | -------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -247,7 +247,7 @@ Deteksi kolom otomatis. Label yang dikenali:
 
 ---
 
-## 13. Visualisasi yang Dihasilkan Skrip Skripsi
+## 7. Visualisasi yang Dihasilkan Skrip Skripsi
 
 ### Metode 1 (NB_XGB_PURE.py) — 4 Gambar
 
@@ -266,7 +266,7 @@ Deteksi kolom otomatis. Label yang dikenali:
 
 ---
 
-## 14. Narasi Siap Pakai untuk BAB 4
+## 8. Narasi Siap Pakai untuk BAB 4
 
 **Metode 1 (rendah):**
 
@@ -289,7 +289,7 @@ Deteksi kolom otomatis. Label yang dikenali:
 
 ---
 
-## 15. Cara Menjalankan Skrip Skripsi (bukan web app)
+## 9. Cara Menjalankan Skrip Skripsi (bukan web app)
 
 ```cmd
 cd D:\skripsi\skripsi_spam\Code_Spam_Email
@@ -305,7 +305,7 @@ Output: file CSV hasil + 4/5 file PNG grafik.
 
 ---
 
-## 16. Informasi Teknis
+## 10. Informasi Teknis
 
 | Item     | Detail                                  |
 | -------- | --------------------------------------- |
@@ -324,7 +324,7 @@ scipy>=1.14.0, pandas>=2.2.0, numpy>=1.26.0, joblib>=1.4.0
 
 ---
 
-## 17. Status Saat Ini & Checklist Web App
+## 11. Status Saat Ini & Checklist Web App
 
 ### Sudah Selesai ✅
 
@@ -366,7 +366,7 @@ scipy>=1.14.0, pandas>=2.2.0, numpy>=1.26.0, joblib>=1.4.0
 
 ---
 
-## 18. Konteks untuk AI Assistant Baru
+## 12. Konteks untuk AI Assistant Baru
 
 Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting:
 
@@ -387,7 +387,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
    - Untuk domain adaptation: **30% pertama dipakai adaptasi** (stratified), **70% sisanya untuk evaluasi**
 10. **Untuk menjalankan web app:** `cd D:\skripsi\skripsi_spam\Code_Spam_Email && .venv\Scripts\python.exe web_app/app.py` lalu buka http://localhost:5000
 
-## 19. Update Terbaru (25 Juni 2026)
+## 13. Update Terbaru (25 Juni 2026)
 
 ### Fitur Baru Web App
 
@@ -424,7 +424,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 
 ---
 
-## 20. Update Terbaru (26 Juni 2026)
+## 14. Update Terbaru (26 Juni 2026)
 
 ### UI / UX Enhancements
 
@@ -435,7 +435,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 
 ---
 
-## 21. Update Terbaru (27 Juni 2026)
+## 15. Update Terbaru (27 Juni 2026)
 
 ### Backend & Performa
 
@@ -469,7 +469,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 | 1   | **Integrasi CLAUDE.md**       | `CLAUDE.md` | Menggabungkan _rules_ proyek ke dalam satu file standar universal yang dikenali oleh berbagai IDE (Cursor, Cline, dll).                                                                           |
 | 2   | **Ponytail & Headroom Rules** | `CLAUDE.md` | Menetapkan paksaan (_enforcement_) agar AI selalu menggunakan gaya koding paling efisien (Prinsip YAGNI) dan otomatis memadatkan keluaran (_output_) terminal agar menghemat ribuan token harian. |
 
-## 22. Update Terbaru (28 Juni 2026)
+## 16. Update Terbaru (28 Juni 2026)
 
 ### Visual Feedback Baris Terpilih pada Riwayat
 
@@ -764,7 +764,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 23. Update Terbaru (29 Juni 2026)
+## 17. Update Terbaru (29 Juni 2026)
 
 ### Perombakan UI/UX (Linear / Cult UI Aesthetic)
 
@@ -785,7 +785,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 24. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
+## 18. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
 
 ### Stabilitas Backend & Keamanan Memori
 
@@ -804,7 +804,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 25. Update Terbaru (30 Juni 2026)
+## 19. Update Terbaru (30 Juni 2026)
 
 ### UI/UX Polish & Responsivitas HP (Final Pre-Sidang)
 
@@ -832,7 +832,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 26. Update Lanjutan (30 Juni 2026 - Final UI & Stabilitas)
+## 20. Update Lanjutan (30 Juni 2026 - Final UI & Stabilitas)
 
 ### Penyempurnaan Dark Mode & Antarmuka
 
@@ -850,7 +850,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | 1   | **Force Exit pada Interupsi Ctrl+C**   | `app.py`                   | Menambahkan blok penanganan `try-finally` saat pemanggilan `app.run` dengan menjalankan perintah sistem `os._exit(0)`. Ini memastikan seluruh proses latar dan *thread pool* bandel (misal: *Joblib loky worker*) terbunuh seketika saat server dimatikan, membasmi tuntas masalah port 5000 terkunci (*ghost process*). |
 ---
 
-## 27. Update Lanjutan (5 Juli 2026 - Perbaikan UI/UX dan State Data)
+## 21. Update Lanjutan (5 Juli 2026 - Perbaikan UI/UX dan State Data)
 
 ### Penyempurnaan Tampilan Utama & Responsivitas
 | #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
