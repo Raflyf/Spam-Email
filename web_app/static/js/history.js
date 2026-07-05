@@ -834,7 +834,7 @@ async function startEval() {
   evalBtn.textContent = '⏳ Memproses...';
   disableCsvInputs(); // Disable CSV inputs saat job running
   // Reset hasil sebelumnya — hapus juga dari server agar tidak muncul kembali saat refresh
-  fetch('/last_result/clear', { method: 'POST' }).catch(() => { });
+  fetch('/lastresult/clear', { method: 'POST' }).catch(() => { });
   document.getElementById('csvResults').style.display = 'none';
   document.getElementById('csvResults').innerHTML = '';
    document.getElementById('realtimeSection').style.display = 'none';

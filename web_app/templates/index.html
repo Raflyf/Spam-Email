@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=34">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=49">
   <meta id="theme-color-meta" name="theme-color" content="#0a0a0a" />
 </head>
 
@@ -95,8 +95,7 @@
       </div>
 
       <div class="loading" id="textLoading">
-        <div class="spinner"></div>
-        <div>Menganalisis...</div>
+        <div class="t-shimmer" style="font-size: 15px;">Menganalisis...</div>
       </div>
 
       <!-- Mode Batch -->
@@ -110,7 +109,7 @@
               CSV</button>
           </div>
         </div>
-        <div id="batchResults" style="max-height:350px;overflow-y:auto;"></div>
+        <div id="batchResults" style="max-height:350px;overflow-y:auto;overflow-x:auto;"></div>
       </div>
 
       <div id="textResults" class="card" style="display:none; border-top:4px solid var(--primary);">
@@ -522,9 +521,9 @@
   
   <script src="https://unpkg.com/lucide@latest" defer></script>
   <script src="{{ url_for('static', filename='js/utils.js') }}?v=28" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=35" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=32" defer></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=34" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=36" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=33" defer></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=35" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Initialize Lucide Icons

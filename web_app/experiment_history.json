@@ -1133,5 +1133,143 @@
     "status": "error",
     "note": "",
     "label_name": ""
+  },
+  {
+    "job_id": "599e3b26-f75e-4460-a98b-f3d4f60207f2",
+    "timestamp": "2026-07-05 19:05:45",
+    "elapsed_s": 319.6,
+    "preset": "full",
+    "test_dataset_name": "full_data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 53.1,
+      "xgb_acc": 50.0,
+      "nb_f1": 44.11,
+      "xgb_f1": 49.47,
+      "nb_cm": {
+        "tn": 65,
+        "fp": 435,
+        "fn": 34,
+        "tp": 466
+      },
+      "xgb_cm": {
+        "tn": 199,
+        "fp": 301,
+        "fn": 199,
+        "tp": 301
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 72.0,
+      "xgb_acc": 93.71,
+      "nb_f1": 70.37,
+      "xgb_f1": 93.71,
+      "nb_cm": {
+        "tn": 170,
+        "fp": 180,
+        "fn": 16,
+        "tp": 334
+      },
+      "xgb_cm": {
+        "tn": 335,
+        "fp": 15,
+        "fn": 29,
+        "tp": 321
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 48.57
+        },
+        {
+          "feature": "click",
+          "score": 46.14
+        },
+        {
+          "feature": "money",
+          "score": 45.05
+        },
+        {
+          "feature": "viagra",
+          "score": 43.28
+        },
+        {
+          "feature": "vince",
+          "score": 41.95
+        },
+        {
+          "feature": "enron",
+          "score": 40.33
+        },
+        {
+          "feature": "life",
+          "score": 39.49
+        },
+        {
+          "feature": "software",
+          "score": 37.73
+        },
+        {
+          "feature": "ect",
+          "score": 36.64
+        },
+        {
+          "feature": "online",
+          "score": 35.82
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
   }
 ]

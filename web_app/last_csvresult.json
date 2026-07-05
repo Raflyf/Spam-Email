@@ -8,52 +8,52 @@
     "naive_bayes": {
       "model": "Naive Bayes",
       "threshold": 42.0,
-      "accuracy": 51.5,
-      "precision": 53.58,
-      "recall": 51.5,
-      "f1": 43.26,
+      "accuracy": 53.1,
+      "precision": 58.69,
+      "recall": 53.1,
+      "f1": 44.11,
       "cm": {
-        "tn": 67,
-        "fp": 433,
-        "fn": 52,
-        "tp": 448
+        "tn": 65,
+        "fp": 435,
+        "fn": 34,
+        "tp": 466
       },
       "per_class": {
         "non_spam": {
-          "precision": 56.3,
-          "recall": 13.4,
-          "f1": 21.65
+          "precision": 65.66,
+          "recall": 13.0,
+          "f1": 21.7
         },
         "spam": {
-          "precision": 50.85,
-          "recall": 89.6,
-          "f1": 64.88
+          "precision": 51.72,
+          "recall": 93.2,
+          "f1": 66.52
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 68.0,
-      "accuracy": 48.2,
-      "precision": 48.1,
-      "recall": 48.2,
-      "f1": 47.52,
+      "threshold": 75.0,
+      "accuracy": 50.0,
+      "precision": 50.0,
+      "recall": 50.0,
+      "f1": 49.47,
       "cm": {
-        "tn": 184,
-        "fp": 316,
-        "fn": 202,
-        "tp": 298
+        "tn": 199,
+        "fp": 301,
+        "fn": 199,
+        "tp": 301
       },
       "per_class": {
         "non_spam": {
-          "precision": 47.67,
-          "recall": 36.8,
-          "f1": 41.53
+          "precision": 50.0,
+          "recall": 39.8,
+          "f1": 44.32
         },
         "spam": {
-          "precision": 48.53,
-          "recall": 59.6,
-          "f1": 53.5
+          "precision": 50.0,
+          "recall": 60.2,
+          "f1": 54.63
         }
       }
     },
@@ -139,7 +139,7 @@
         "score": 24.25
       }
     ],
-    "xgb_best_iter": 1095
+    "xgb_best_iter": 846
   },
   "metode2": {
     "metode": "Metode 2 — Domain Adaptation 30%",
@@ -152,120 +152,120 @@
     "preset": "full",
     "naive_bayes": {
       "model": "Naive Bayes",
-      "threshold": 51.0,
-      "accuracy": 77.0,
-      "precision": 81.4,
-      "recall": 77.0,
-      "f1": 76.17,
+      "threshold": 50.0,
+      "accuracy": 72.0,
+      "precision": 78.19,
+      "recall": 72.0,
+      "f1": 70.37,
       "cm": {
-        "tn": 204,
-        "fp": 146,
-        "fn": 15,
-        "tp": 335
+        "tn": 170,
+        "fp": 180,
+        "fn": 16,
+        "tp": 334
       },
       "per_class": {
         "non_spam": {
-          "precision": 93.15,
-          "recall": 58.29,
-          "f1": 71.7
+          "precision": 91.4,
+          "recall": 48.57,
+          "f1": 63.43
         },
         "spam": {
-          "precision": 69.65,
-          "recall": 95.71,
-          "f1": 80.63
+          "precision": 64.98,
+          "recall": 95.43,
+          "f1": 77.31
         }
       }
     },
     "xgboost": {
       "model": "XGBoost",
-      "threshold": 64.0,
-      "accuracy": 93.0,
-      "precision": 93.08,
-      "recall": 93.0,
-      "f1": 93.0,
+      "threshold": 55.0,
+      "accuracy": 93.71,
+      "precision": 93.78,
+      "recall": 93.71,
+      "f1": 93.71,
       "cm": {
-        "tn": 333,
-        "fp": 17,
-        "fn": 32,
-        "tp": 318
+        "tn": 335,
+        "fp": 15,
+        "fn": 29,
+        "tp": 321
       },
       "per_class": {
         "non_spam": {
-          "precision": 91.23,
-          "recall": 95.14,
-          "f1": 93.15
+          "precision": 92.03,
+          "recall": 95.71,
+          "f1": 93.84
         },
         "spam": {
-          "precision": 94.93,
-          "recall": 90.86,
-          "f1": 92.85
+          "precision": 95.54,
+          "recall": 91.71,
+          "f1": 93.59
         }
       }
     },
     "top20_chi2": [
       {
-        "feature": "click",
-        "score": 48.6
+        "feature": "save",
+        "score": 48.57
       },
       {
-        "feature": "save",
-        "score": 47.08
+        "feature": "click",
+        "score": 46.14
       },
       {
         "feature": "money",
-        "score": 45.45
+        "score": 45.05
       },
       {
         "feature": "viagra",
-        "score": 43.14
+        "score": 43.28
       },
       {
         "feature": "vince",
-        "score": 41.93
+        "score": 41.95
       },
       {
         "feature": "enron",
-        "score": 40.3
+        "score": 40.33
       },
       {
         "feature": "life",
-        "score": 39.63
+        "score": 39.49
       },
       {
         "feature": "software",
-        "score": 37.42
+        "score": 37.73
       },
       {
         "feature": "ect",
-        "score": 36.61
+        "score": 36.64
       },
       {
         "feature": "online",
-        "score": 36.0
+        "score": 35.82
       },
       {
         "feature": "andmanyother",
-        "score": 32.87
-      },
-      {
-        "feature": "logo",
-        "score": 29.7
-      },
-      {
-        "feature": "kaminski",
-        "score": 27.88
+        "score": 32.78
       },
       {
         "feature": "unsubscribe",
-        "score": 27.69
+        "score": 28.27
+      },
+      {
+        "feature": "logo",
+        "score": 28.21
+      },
+      {
+        "feature": "kaminski",
+        "score": 27.9
       },
       {
         "feature": "hou",
-        "score": 26.72
+        "score": 26.74
       },
       {
         "feature": "hou ect",
-        "score": 26.49
+        "score": 26.51
       },
       {
         "feature": "stationery",
@@ -273,17 +273,17 @@
       },
       {
         "feature": "vince kaminski",
-        "score": 25.46
+        "score": 25.48
       },
       {
         "feature": "oem",
-        "score": 24.83
+        "score": 24.69
       },
       {
         "feature": "ect ect",
-        "score": 24.52
+        "score": 24.54
       }
     ],
-    "xgb_best_iter": 1708
+    "xgb_best_iter": 2143
   }
 }

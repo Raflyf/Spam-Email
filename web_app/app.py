@@ -38,7 +38,9 @@ def add_security_headers(response):
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     response.headers['X-XSS-Protection'] = '1; mode=block'
     if request.path.startswith('/static/'):
-        response.headers['Cache-Control'] = 'public, max-age=31536000'
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
     return response
 
 
@@ -559,6 +561,7 @@ def evaluate():
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,
         cwd=WORKER_CWD,
+        close_fds=True, # Mencegah worker inherit socket dari Waitress
     )
 
     with jobs_lock:
@@ -846,9 +849,10 @@ if __name__ == '__main__':
     print("\n  Akses di: http://localhost:5000")
     print("  Model dimuat di background — halaman langsung bisa diakses")
     print("  Menjalankan server via Waitress (Production WSGI)...\n")
-    try:
-        serve(app, host='0.0.0.0', port=5000, threads=8)
-    finally:
-        print("\n  [INFO] Mematikan server secara paksa (Mencegah ghost process)...")
-        os._exit(0)
+    
+    # Biarkan Waitress handle KeyboardInterrupt (CTRL+C) secara natural
+    # agar socket tertutup dengan bersih, alih-alih di-os._exit(0) paksa.
+    serve(app, host='0.0.0.0', port=5000, threads=8)
+    
+    print("\n  [INFO] Server dimatikan dengan aman.")
 

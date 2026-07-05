@@ -161,7 +161,7 @@ function resetCsv() {
   sessionStorage.removeItem('lastJobId');
   localStorage.removeItem('lastJobId');
   // Hapus hasil tersimpan di server
-  fetch('/last_result/clear', { method: 'POST' }).catch(() => { });
+  fetch('/lastresult/clear', { method: 'POST' }).catch(() => { });
   // Reset badge tab CSV
   const csvTab = document.querySelectorAll('.tab-btn')[1];
   if (csvTab) {

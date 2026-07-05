@@ -99,6 +99,9 @@ async function analyzeText() {
     
     renderTextResult(data, text);
     resultsEl.style.display = 'block';
+    resultsEl.classList.remove('t-reveal');
+    void resultsEl.offsetWidth;
+    resultsEl.classList.add('t-reveal');
     
     setTimeout(() => {
       document.querySelectorAll('#textResults .prob-bar-fill').forEach(bar => {
@@ -333,7 +336,7 @@ function renderBatchResults() {
     </tr>`;
   }).join('');
 
-  document.getElementById('batchResults').innerHTML = `<table class="cm-table" style="table-layout:fixed;width:100%;text-align:left;">
+  document.getElementById('batchResults').innerHTML = `<table class="cm-table" style="table-layout:fixed;width:100%;min-width:600px;text-align:left;">
     <thead><tr>
       <th style="cursor:pointer;user-select:none;width:80px;text-align:center;" onclick="sortBatch('num')">Email #${getSortIndicator('num')}</th>
       <th style="width:auto;text-align:left;padding-left:10px;">Preview Teks</th>
@@ -404,7 +407,11 @@ async function analyzeBatch() {
   document.getElementById('batchSummary').innerHTML =
     `${emails.length} email &mdash; <i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--danger);"></i> ${spam} Spam &nbsp;|&nbsp; <i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--success);"></i> ${nonspam} Bukan Spam`;
   lucide.createIcons({nodes:[document.getElementById('batchSummary')]});
-  document.getElementById('batchCard').style.display = 'block';
+  const bCard = document.getElementById('batchCard');
+  bCard.style.display = 'block';
+  bCard.classList.remove('t-reveal');
+  void bCard.offsetWidth;
+  bCard.classList.add('t-reveal');
 }
 
 function clearBatch() {

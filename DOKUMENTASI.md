@@ -1033,3 +1033,20 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
 | --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | **Force Exit pada Interupsi Ctrl+C**   | `app.py`                   | Menambahkan blok penanganan `try-finally` saat pemanggilan `app.run` dengan menjalankan perintah sistem `os._exit(0)`. Ini memastikan seluruh proses latar dan *thread pool* bandel (misal: *Joblib loky worker*) terbunuh seketika saat server dimatikan, membasmi tuntas masalah port 5000 terkunci (*ghost process*). |
+---
+
+## 27. Update Lanjutan (5 Juli 2026 - Perbaikan UI/UX dan State Data)
+
+### Penyempurnaan Tampilan Utama & Responsivitas
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Grid Latar Light Mode Terjaga**      | style.css                | Mengganti shorthand ackground menjadi ackground-color pada elemen ody sehingga tidak lagi menimpa pola grid (tekstur) di Light Mode.                  |
+| 2   | **Mencegah Layout Shift (Layar Geser)**| style.css                | Menambahkan aturan modern scrollbar-gutter: stable; overflow-y: scroll; pada kerangka dokumen html untuk mencegah halaman bergeser patah-patah saat berpindah antar tab (teks/CSV/riwayat). |
+| 3   | **Kontras Tab Menu Dark Mode**         | style.css                | Mengubah warna latar div.tabs (pembungkus) menjadi lebih pekat (ar(--gray-50)) agar tombol menu aktif yang berwarna ar(--primary) bisa "pop-out" atau terlihat menonjol dan kontras di mata. |
+| 4   | **Animasi Hover Tab Fleksibel**        | style.css                | Memperbaiki bug warna transparan "aneh" saat hover. Menambahkan efek 	ransform: scale(1.02) saat hover (pada tab aktif maupun pasif) untuk rasa interaksi yang lebih "hidup" tanpa merusak hierarki warna solid, ditambah highlight #e4e4e7 (Light)/#3f3f46 (Dark) universal untuk kompatibilitas. |
+
+### Perbaikan Sistem Data (Bug Fix)
+| #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |
+| --- | -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Pembasmi Hasil Hantu (Ghost Result)**| mode_csv.js, history.js| Memperbaiki bug salah ketik etch('/last_result/clear') menjadi /lastresult/clear (mengikuti rute di pp.py). Ini memastikan hasil sebelumnya benar-benar terhapus secara permanen di backend saat tombol 'Reset' atau 'Mulai Evaluasi' ditekan, sehingga hasil lama tak muncul lagi setelah halaman di-refresh. |
+
