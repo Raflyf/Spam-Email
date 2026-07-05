@@ -36,7 +36,7 @@ Tidak perlu konfigurasi *server* yang rumit! Cukup ikuti langkah berikut untuk m
 
 ## ≡ Dokumentasi Ekstra
 
-Untuk membaca ringkasan utuh penelitian, *changelog*, pemecahan masalah algoritma (mengapa Akurasi Metode 2 turun), dan alur logika aplikasi, silakan buka file **`DOKUMENTASI.md`** di repositori ini. 
+Untuk membaca ringkasan utuh penelitian, *changelog*, pemecahan masalah algoritma (mengapa Akurasi Metode 2 turun), dan alur logika aplikasi, silakan buka file **`DOKUMENTASI_MODEL.md`** dan **`DOKUMENTASI_WEB.md`** di repositori ini. 
 
 ## ⚙ Teknologi
 
