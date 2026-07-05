@@ -34,6 +34,7 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 ## 🛠 Aturan Interaksi & Coding
 
 - **KOMUNIKASI SUPER RINGKAS:** Berikan jawaban langsung ke inti (straight to the point), jangan bertele-tele, dan hindari penjelasan panjang lebar yang tidak perlu untuk menghemat penggunaan token.
+- **DILARANG MENGGUNAKAN EMOJI:** Jangan pernah menggunakan emoji (seperti wajah senyum, roket, api, jempol, dll.) di dalam pesan chat, kode, pesan commit, maupun saat berinteraksi.
 - Selalu gunakan Bahasa Indonesia yang santai namun profesional.
 - Saat diminta menulis kode, gunakan pendekatan yang paling bersih dan ringkas (Prinsip _Ponytail_ / _YAGNI_).
 - Jangan pernah menimpa atau menghapus file eksperimen `.csv` atau JSON riwayat tanpa izin eksplisit.
