@@ -21,12 +21,24 @@ import pandas as pd
 from flask import Flask, render_template, request, jsonify
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
+from flask_compress import Compress
+from waitress import serve
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__, static_folder='static')
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024   # 100 MB
+Compress(app)
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    if request.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'public, max-age=31536000'
+    return response
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -831,9 +843,10 @@ if __name__ == '__main__':
     print("  Mode CSV   : evaluasi batch (subprocess, CUDA-safe)")
     print("=" * 60)
     print("\n  Akses di: http://localhost:5000")
-    print("  Model dimuat di background — halaman langsung bisa diakses\n")
+    print("  Model dimuat di background — halaman langsung bisa diakses")
+    print("  Menjalankan server via Waitress (Production WSGI)...\n")
     try:
-        app.run(debug=False, host='0.0.0.0', port=5000)
+        serve(app, host='0.0.0.0', port=5000)
     finally:
         print("\n  [INFO] Mematikan server secara paksa (Mencegah ghost process)...")
         os._exit(0)

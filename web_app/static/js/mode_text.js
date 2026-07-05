@@ -61,6 +61,7 @@ function clearText() {
   document.getElementById('emailText').value = '';
   updateCharCount();
   hide('textError');
+  clearBatch();
   
   // Smooth fade-out animation before hiding
   const resultsEl = document.getElementById('textResults');

@@ -109,8 +109,6 @@
             <span id="batchSummary" style="font-size:14px;color:var(--gray-400);"></span>
             <button class="btn-secondary" onclick="exportBatchCSV()" style="font-size:14px;padding:6px 14px;"><i data-lucide="download" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i> Export
               CSV</button>
-            <button class="btn-secondary" onclick="clearBatch()"
-              style="font-size:14px;padding:6px 14px;color:var(--danger);"><i data-lucide="x" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i> Tutup</button>
           </div>
         </div>
         <div id="batchResults" style="max-height:350px;overflow-y:auto;"></div>
@@ -523,16 +521,18 @@
     display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);
     border:1px solid rgba(255,255,255,0.1);"></div>
   
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=28"></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=34"></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=32"></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=34"></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=28" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=35" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=32" defer></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=34" defer></script>
   <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
-    // Preload history and update badge count
-    loadHistory();
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Lucide Icons
+      lucide.createIcons();
+      // Preload history and update badge count
+      loadHistory();
+    });
 
     // UI Toggle for preset pills
     function syncPresetPills() {

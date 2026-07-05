@@ -7,9 +7,28 @@
 
 ---
 
-## 🆕 Recent Updates (05 Juli 2026) — Bug Fixes & Mobile UI Polish
+## 🆕 Recent Updates (05 Juli 2026) — Final Architecture & Performance Optimization
 
-**Tujuan:** Memperbaiki *bugs* minor, memperbaiki UI di perangkat seluler, dan menata layout tabel untuk kenyamanan pengguna.
+**Tujuan:** Menerapkan standar industri untuk produksi web (*production-grade*) dan mengatasi *bottleneck* memori, serta mengatasi hutang teknis (DRY).
+
+1. **Arsitektur Kode: DRY (Don't Repeat Yourself)**
+   - **Masalah:** Fungsi `preprocess()`, `extra_features()`, dan konstanta daftar *spam/ham* diduplikasi pada file `model_pipeline.py` dan `evaluator.py`.
+   - **Solusi:** Seluruh logika duplikat diekstrak ke dalam satu *module shared* baru yaitu `_shared.py`. Semua *script* sekarang mengimpor fungsi dan konstanta dari file ini.
+2. **Optimasi Memori (RAM): Memory Mapping (`mmap_mode='r'`)**
+   - **Masalah:** *Load* matriks TF-IDF secara utuh membebani RAM (hingga gigabytes).
+   - **Solusi:** Modifikasi `joblib.load()` menggunakan metode *memory mapping* `mmap_mode='r'` pada `model_pipeline.py`. Ini mengizinkan model berukuran masif untuk dibaca perlahan langsung dari disk SSD/HDD, mencegah lonjakan RAM, dan memangkas jeda inisialisasi aplikasi.
+3. **Web Server Stabil: Produksi (Waitress WSGI)**
+   - **Masalah:** Server bawaan Flask (Werkzeug) dikhususkan untuk *development* (single-threaded) dan sangat tidak aman serta tidak stabil jika diakses secara masif (dari banyak *smartphone* saat demo).
+   - **Solusi:** Migrasi *web server* menggunakan **Waitress** (standar WSGI untuk lingkungan Windows). Aplikasi kini bisa menyerap *traffic* yang besar tanpa gangguan.
+4. **Optimasi Waktu Muat Antarmuka (UI Load Time)**
+   - **GZIP Compression:** Menambahkan ekstensi `Flask-Compress`. File JSON (seperti riwayat evaluasi), file CSS, dan JS kini dikompres *on-the-fly* sebelum disajikan ke *browser*, memangkas drastis ukuran pemuatan *(payload size)*.
+   - **Non-Blocking JS:** Tag `script` di `index.html` dimodifikasi menggunakan parameter `defer` sehingga proses merender kerangka visual antarmuka (HTML/CSS) di layar *smartphone* bisa terjadi secara instan tanpa tertahan menunggu Javascript.
+5. **Perbaikan UX: Penyatuan Fungsi Tombol Hapus**
+   - Menghilangkan tombol *Tutup* pada *card* Hasil Uji Batch. Fungsi penutupan *card* dan pembersihan memori UI batch kini disatukan secara ringkas dengan tombol "Hapus" utama yang terletak di Mode Teks (sebelah tombol Analisis dan Batch).
+
+---
+
+## 🛠️ Updates (05 Juli 2026) — Bug Fixes & Mobile UI Polish
 
 1. **Pencegahan Ghost Process**
    - Menambahkan mekanisme penangkapan sinyal `SIGINT` dan `SIGTERM` secara eksplisit pada *backend* Flask dan *sub-process* model. Hal ini menjamin bahwa setiap kali _developer_ menghentikan server (CTRL+C) saat melakukan evaluasi model, semua proses di memori mati secara tuntas tanpa menyisakan proses siluman (*ghost process*) yang memakan RAM/GPU.
