@@ -5,7 +5,7 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 ## 📖 ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
 
 - Saat memulai sesi baru atau konteks terpotong, Anda **DIWAJIBKAN** untuk segera membaca `CLAUDE.md` ini terlebih dahulu.
-- Anda juga **WAJIB** membaca `DOKUMENTASI.md` untuk memahami rangkuman penuh skripsi, perubahan terkini (changelog), dan alur logika aplikasi.
+- Anda juga **WAJIB** membaca `DOKUMENTASI_MODEL.md dan DOKUMENTASI_WEB.md` untuk memahami rangkuman penuh skripsi, perubahan terkini (changelog), dan alur logika aplikasi.
 - Anda **WAJIB MUTLAK** membaca seluruh isi _folder_ `.agents/skills/` (termasuk `ponytail`, `headroom`, `caveman`, `frontend-design`, dll).
 - **Semua _skills_ (termasuk Ponytail, Caveman, dan Headroom) BERSIFAT PERMANEN DAN AKTIF OTOMATIS 100% setiap saat.** Anda tidak boleh menunggu perintah atau pancingan dari _user_ untuk mengaktifkan _skill-skill_ tersebut.
 - Berlakukan diri Anda sebagai AI _super-optimized_ yang selalu memotong basa-basi, sangat malas (YAGNI / _simplest solution_), dan sangat hemat _token_ di setiap respons Anda, tanpa terkecuali.

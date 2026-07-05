@@ -247,65 +247,7 @@ Deteksi kolom otomatis. Label yang dikenali:
 
 ---
 
-## 7. Visualisasi yang Dihasilkan Skrip Skripsi
-
-### Metode 1 (NB_XGB_PURE.py) — 4 Gambar
-
-1. `Gambar_IV_ConfusionMatrix_NB_Metode1.png` — heatmap biru, DPI 300
-2. `Gambar_IV_ConfusionMatrix_XGB_Metode1.png` — heatmap hijau
-3. `Gambar_IV_Top20_ChiSquare_Metode1.png` — bar chart horizontal
-4. `Gambar_IV_Perbandingan_Metrik_Metode1.png` — NB vs XGB
-
-### Metode 2 (NB_XGB_MIX_IMPROVED.py) — 5 Gambar
-
-1. `Gambar_IV_ConfusionMatrix_NB_Metode2.png`
-2. `Gambar_IV_ConfusionMatrix_XGB_Metode2.png`
-3. `Gambar_IV_Top20_ChiSquare_Metode2.png`
-4. `Gambar_IV_Perbandingan_Metrik_Metode2.png`
-5. `Gambar_IV_Perbandingan_Metode1_vs_Metode2.png` ← TERPENTING untuk skripsi
-
----
-
-## 8. Narasi Siap Pakai untuk BAB 4
-
-**Metode 1 (rendah):**
-
-> "Hasil pengujian Metode 1 menunjukkan akurasi Naive Bayes sebesar 51,50% dan XGBoost sebesar 48,00%. Rendahnya akurasi ini disebabkan oleh domain gap yang signifikan antara dataset pelatihan (email Kaggle era 2000-an) dan data uji (email pribadi modern). Hal ini membuktikan bahwa model yang dilatih pada data historis tidak dapat langsung diterapkan pada email kontemporer tanpa adaptasi."
-
-**Metode 2 (tinggi):**
-
-> "Dengan menerapkan domain adaptation menggunakan 30% data uji sebagai data adaptasi dengan instance weighting 8×, akurasi meningkat drastis: Naive Bayes menjadi 77% dan XGBoost mencapai 93%. Peningkatan sebesar +44,00% pada XGBoost membuktikan efektivitas domain adaptation dalam mengatasi domain gap."
-
-**Perbandingan:**
-
-> "XGBoost dengan domain adaptation berhasil mendeteksi 318 dari 350 email spam (recall 90,86%) dengan hanya 17 false positive, menjadikannya model yang handal untuk implementasi nyata."
-
-**Confusion Matrix XGBoost Metode 2:**
-
-- TN=333 (Non-Spam benar terdeteksi)
-- FP=17 (Non-Spam salah dianggap Spam — merugikan user)
-- FN=32 (Spam lolos — bahaya keamanan)
-- TP=318 (Spam benar terdeteksi)
-
----
-
-## 9. Cara Menjalankan Skrip Skripsi (bukan web app)
-
-```cmd
-cd D:\skripsi\skripsi_spam\Code_Spam_Email
-
-# Metode 1
-.venv\Scripts\python.exe NB_XGB_PURE.py
-
-# Metode 2
-.venv\Scripts\python.exe NB_XGB_MIX_IMPROVED.py
-```
-
-Output: file CSV hasil + 4/5 file PNG grafik.
-
----
-
-## 10. Informasi Teknis
+## 7. Informasi Teknis
 
 | Item     | Detail                                  |
 | -------- | --------------------------------------- |
@@ -324,7 +266,7 @@ scipy>=1.14.0, pandas>=2.2.0, numpy>=1.26.0, joblib>=1.4.0
 
 ---
 
-## 11. Status Saat Ini & Checklist Web App
+## 8. Status Saat Ini & Checklist Web App
 
 ### Sudah Selesai ✅
 
@@ -366,7 +308,7 @@ scipy>=1.14.0, pandas>=2.2.0, numpy>=1.26.0, joblib>=1.4.0
 
 ---
 
-## 12. Konteks untuk AI Assistant Baru
+## 9. Konteks untuk AI Assistant Baru
 
 Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting:
 
@@ -387,7 +329,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
    - Untuk domain adaptation: **30% pertama dipakai adaptasi** (stratified), **70% sisanya untuk evaluasi**
 10. **Untuk menjalankan web app:** `cd D:\skripsi\skripsi_spam\Code_Spam_Email && .venv\Scripts\python.exe web_app/app.py` lalu buka http://localhost:5000
 
-## 13. Update Terbaru (25 Juni 2026)
+## 10. Update Terbaru (25 Juni 2026)
 
 ### Fitur Baru Web App
 
@@ -424,7 +366,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 
 ---
 
-## 14. Update Terbaru (26 Juni 2026)
+## 11. Update Terbaru (26 Juni 2026)
 
 ### UI / UX Enhancements
 
@@ -435,7 +377,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 
 ---
 
-## 15. Update Terbaru (27 Juni 2026)
+## 12. Update Terbaru (27 Juni 2026)
 
 ### Backend & Performa
 
@@ -469,7 +411,7 @@ Jika kamu adalah AI assistant baru yang membaca dokumen ini, berikut hal penting
 | 1   | **Integrasi CLAUDE.md**       | `CLAUDE.md` | Menggabungkan _rules_ proyek ke dalam satu file standar universal yang dikenali oleh berbagai IDE (Cursor, Cline, dll).                                                                           |
 | 2   | **Ponytail & Headroom Rules** | `CLAUDE.md` | Menetapkan paksaan (_enforcement_) agar AI selalu menggunakan gaya koding paling efisien (Prinsip YAGNI) dan otomatis memadatkan keluaran (_output_) terminal agar menghemat ribuan token harian. |
 
-## 16. Update Terbaru (28 Juni 2026)
+## 13. Update Terbaru (28 Juni 2026)
 
 ### Visual Feedback Baris Terpilih pada Riwayat
 
@@ -764,7 +706,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 17. Update Terbaru (29 Juni 2026)
+## 14. Update Terbaru (29 Juni 2026)
 
 ### Perombakan UI/UX (Linear / Cult UI Aesthetic)
 
@@ -785,7 +727,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 18. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
+## 15. Update Terbaru (29 Juni 2026 - Tahap Lanjutan)
 
 ### Stabilitas Backend & Keamanan Memori
 
@@ -804,7 +746,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 19. Update Terbaru (30 Juni 2026)
+## 16. Update Terbaru (30 Juni 2026)
 
 ### UI/UX Polish & Responsivitas HP (Final Pre-Sidang)
 
@@ -832,7 +774,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 20. Update Lanjutan (30 Juni 2026 - Final UI & Stabilitas)
+## 17. Update Lanjutan (30 Juni 2026 - Final UI & Stabilitas)
 
 ### Penyempurnaan Dark Mode & Antarmuka
 
@@ -850,7 +792,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | 1   | **Force Exit pada Interupsi Ctrl+C**   | `app.py`                   | Menambahkan blok penanganan `try-finally` saat pemanggilan `app.run` dengan menjalankan perintah sistem `os._exit(0)`. Ini memastikan seluruh proses latar dan *thread pool* bandel (misal: *Joblib loky worker*) terbunuh seketika saat server dimatikan, membasmi tuntas masalah port 5000 terkunci (*ghost process*). |
 ---
 
-## 21. Update Lanjutan (5 Juli 2026 - Perbaikan UI/UX dan State Data)
+## 18. Update Lanjutan (5 Juli 2026 - Perbaikan UI/UX dan State Data)
 
 ### Penyempurnaan Tampilan Utama & Responsivitas
 | #   | Fitur                                  | Lokasi                     | Keterangan                                                                                                                                                     |

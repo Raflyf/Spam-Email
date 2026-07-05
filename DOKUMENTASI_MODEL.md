@@ -120,7 +120,65 @@ tree_method='hist', device='cuda', early_stopping_rounds=80
 
 ---
 
-## 6. Struktur File Proyek (Model)
+## 6. Visualisasi yang Dihasilkan Skrip Skripsi
+
+### Metode 1 (NB_XGB_PURE.py) — 4 Gambar
+
+1. `Gambar_IV_ConfusionMatrix_NB_Metode1.png` — heatmap biru, DPI 300
+2. `Gambar_IV_ConfusionMatrix_XGB_Metode1.png` — heatmap hijau
+3. `Gambar_IV_Top20_ChiSquare_Metode1.png` — bar chart horizontal
+4. `Gambar_IV_Perbandingan_Metrik_Metode1.png` — NB vs XGB
+
+### Metode 2 (NB_XGB_MIX_IMPROVED.py) — 5 Gambar
+
+1. `Gambar_IV_ConfusionMatrix_NB_Metode2.png`
+2. `Gambar_IV_ConfusionMatrix_XGB_Metode2.png`
+3. `Gambar_IV_Top20_ChiSquare_Metode2.png`
+4. `Gambar_IV_Perbandingan_Metrik_Metode2.png`
+5. `Gambar_IV_Perbandingan_Metode1_vs_Metode2.png` ← TERPENTING untuk skripsi
+
+---
+
+## 7. Narasi Siap Pakai untuk BAB 4
+
+**Metode 1 (rendah):**
+
+> "Hasil pengujian Metode 1 menunjukkan akurasi Naive Bayes sebesar 51,50% dan XGBoost sebesar 48,00%. Rendahnya akurasi ini disebabkan oleh domain gap yang signifikan antara dataset pelatihan (email Kaggle era 2000-an) dan data uji (email pribadi modern). Hal ini membuktikan bahwa model yang dilatih pada data historis tidak dapat langsung diterapkan pada email kontemporer tanpa adaptasi."
+
+**Metode 2 (tinggi):**
+
+> "Dengan menerapkan domain adaptation menggunakan 30% data uji sebagai data adaptasi dengan instance weighting 8×, akurasi meningkat drastis: Naive Bayes menjadi 77% dan XGBoost mencapai 93%. Peningkatan sebesar +44,00% pada XGBoost membuktikan efektivitas domain adaptation dalam mengatasi domain gap."
+
+**Perbandingan:**
+
+> "XGBoost dengan domain adaptation berhasil mendeteksi 318 dari 350 email spam (recall 90,86%) dengan hanya 17 false positive, menjadikannya model yang handal untuk implementasi nyata."
+
+**Confusion Matrix XGBoost Metode 2:**
+
+- TN=333 (Non-Spam benar terdeteksi)
+- FP=17 (Non-Spam salah dianggap Spam — merugikan user)
+- FN=32 (Spam lolos — bahaya keamanan)
+- TP=318 (Spam benar terdeteksi)
+
+---
+
+## 8. Cara Menjalankan Skrip Skripsi (bukan web app)
+
+```cmd
+cd D:\skripsi\skripsi_spam\Code_Spam_Email
+
+# Metode 1
+.venv\Scripts\python.exe NB_XGB_PURE.py
+
+# Metode 2
+.venv\Scripts\python.exe NB_XGB_MIX_IMPROVED.py
+```
+
+Output: file CSV hasil + 4/5 file PNG grafik.
+
+---
+
+## 9. Struktur File Proyek (Model)
 
 `
 Code_Spam_Email/
