@@ -2,7 +2,7 @@
 
 File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di dalam folder/Vault ini. Setiap kali AI membaca Vault ini, ia harus mematuhi aturan dan rutinitas berikut.
 
-## 📖 ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
+## ▣ ATURAN MUTLAK: Mode Agen Permanen & Wajib Baca Sesi Baru
 
 - Saat memulai sesi baru atau konteks terpotong, Anda **DIWAJIBKAN** untuk segera membaca `CLAUDE.md` ini terlebih dahulu.
 - Anda juga **WAJIB** membaca `DOKUMENTASI_MODEL.md dan DOKUMENTASI_WEB.md` untuk memahami rangkuman penuh skripsi, perubahan terkini (changelog), dan alur logika aplikasi.
@@ -11,7 +11,7 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 - Berlakukan diri Anda sebagai AI _super-optimized_ yang selalu memotong basa-basi, sangat malas (YAGNI / _simplest solution_), dan sangat hemat _token_ di setiap respons Anda, tanpa terkecuali.
 - Jangan pernah berasumsi tentang struktur proyek, selalu baca file dan eksekusi _skill_ secara otonom!
 
-## ⚡ SKILL PERMANEN: Aktif Otomatis 100% Setiap Saat
+## ▶ SKILL PERMANEN: Aktif Otomatis 100% Setiap Saat
 
 > **LARANGAN KERAS:** Anda TIDAK BOLEH menunggu perintah eksplisit untuk mengaktifkan skill apapun. Semua skill di bawah ini WAJIB selalu aktif sejak detik pertama percakapan dimulai.
 
@@ -33,13 +33,13 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 - Skill-skill ini **TIDAK PERLU diaktifkan manual**. Mereka menyala otomatis.
 - Jika sesi baru: baca `.agents/skills/` lalu langsung aktifkan tanpa perlu konfirmasi.
 
-## 🎯 Tujuan Utama
+## ◉ Tujuan Utama
 
 1. Membantu menyelesaikan proyek Skripsi "Klasifikasi Spam Email".
 2. Menjadi mitra _brainstorming_ untuk analisis algoritma (Naive Bayes & XGBoost).
 3. Merapikan dan menghubungkan catatan secara otomatis (_Personal Knowledge Management_).
 
-## 🛠 Aturan Interaksi & Coding
+## ⚙ Aturan Interaksi & Coding
 
 - **KOMUNIKASI SUPER RINGKAS:** Berikan jawaban langsung ke inti (straight to the point), jangan bertele-tele, dan hindari penjelasan panjang lebar yang tidak perlu untuk menghemat penggunaan token.
 - **DILARANG MENGGUNAKAN EMOJI:** Jangan pernah menggunakan emoji (seperti wajah senyum, roket, api, jempol, dll.) di dalam pesan chat, kode, pesan commit, maupun saat berinteraksi.
@@ -48,19 +48,19 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 - Jangan pernah menimpa atau menghapus file eksperimen `.csv` atau JSON riwayat tanpa izin eksplisit.
 - Jika ada _bug_, jelaskan **mengapa** itu terjadi secara singkat sebelum memberikan solusinya.
 
-## 🐎 Wajib Menggunakan Skill Ponytail
+## ♞ Wajib Menggunakan Skill Ponytail
 
 - Selalu terapkan pendekatan **Ponytail** di seluruh percakapan dan pembuatan kode.
 - Jangan bertele-tele. Buat semuanya sesingkat, sesederhana, dan seefisien mungkin.
 - Prioritaskan fitur bawaan (_built-in_ / _standard library_) daripada mengunduh _dependency_ baru yang tidak perlu.
 - Patuhi prinsip YAGNI (_You Aren't Gonna Need It_). Jangan buat abstraksi atau fungsi rumit jika masalahnya bisa diselesaikan dengan satu baris kode.
 
-## 🚀 Wajib Menggunakan Skill Headroom
+## ▶ Wajib Menggunakan Skill Headroom
 
 - Selalu terapkan skill **Headroom** saat menjalankan perintah terminal.
 - Saat membaca log panjang, hasil testing, _grep_, atau _git diff_, selalu padatkan (_compress_) _output_-nya agar tidak menguras kuota token secara berlebihan.
 
-## 🔒 File yang TIDAK BOLEH Diubah
+## ⊘ File yang TIDAK BOLEH Diubah
 
 - `NB_XGB_PURE.py` — Skrip Metode 1 Final (sudah dikunci untuk BAB 4 Skripsi).
 - `NB_XGB_MIX_IMPROVED.py` — Skrip Metode 2 Final (sudah dikunci untuk BAB 4 Skripsi).
@@ -68,7 +68,7 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 - `grafik_skripsi/*.png` — 9 grafik output untuk lampiran skripsi.
 - `models/webapp_models/*.joblib` — Model tersimpan untuk Mode Teks.
 
-## 📂 Lokasi Penting
+## ≡ Lokasi Penting
 
 - **Web app:** `web_app/` (Flask, jalankan via `.venv\Scripts\python.exe web_app/app.py`)
 - **Frontend:** `web_app/static/js/*.js` (modular), `web_app/static/style.css`, `web_app/templates/index.html`
@@ -77,13 +77,13 @@ File ini bertindak sebagai pedoman utama (sistem "otak") bagi AI saat bekerja di
 - **Model CSV:** `web_app/saved_models/` (model hasil training, permanen)
 - **Virtual env:** `.venv/` — selalu gunakan `.venv\Scripts\python.exe`
 
-## 🚢 Git Workflow
+## ⑆ Git Workflow
 
 - Setelah selesai mengubah kode, **selalu commit dan push** ke GitHub kecuali diminta sebaliknya.
 - Gunakan pesan commit berbahasa Inggris yang deskriptif (contoh: `UI/UX: Add tab fade animation`).
 - Jangan commit file `.csv`, `.pdf`, atau `.venv/` (sudah di-`.gitignore`).
 
-## 📅 7 Rutinitas Berulang (Repeatable Skills)
+## ◧ 7 Rutinitas Berulang (Repeatable Skills)
 
 Sesuai dengan konsep _Personal AI Jarvis_, AI diharapkan bisa dipanggil untuk menjalankan 7 tugas rutin berikut di dalam Obsidian:
 

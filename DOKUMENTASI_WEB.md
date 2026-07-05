@@ -179,10 +179,10 @@ index.html (1046 lines)
 
 **Modularization Benefits:**
 
-- ✅ **Separation of concerns:** Setiap file fokus 1 tanggung jawab
-- ✅ **Maintainability:** Bug fix di 1 concern tidak impact file lain
-- ✅ **Debuggability:** Console errors langsung point ke file spesifik
-- ✅ **Performance:** Browser parallel-download 4 file kecil vs 1 file 2400 baris
+- ✔ **Separation of concerns:** Setiap file fokus 1 tanggung jawab
+- ✔ **Maintainability:** Bug fix di 1 concern tidak impact file lain
+- ✔ **Debuggability:** Console errors langsung point ke file spesifik
+- ✔ **Performance:** Browser parallel-download 4 file kecil vs 1 file 2400 baris
 
 ---
 
@@ -268,7 +268,7 @@ scipy>=1.14.0, pandas>=2.2.0, numpy>=1.26.0, joblib>=1.4.0
 
 ## 8. Status Saat Ini & Checklist Web App
 
-### Sudah Selesai ✅
+### Sudah Selesai ✔
 
 - [x] Metode 1 (NB_XGB_PURE.py) — hasil final + visualisasi lengkap
 - [x] Metode 2 (NB_XGB_MIX_IMPROVED.py) — hasil final + visualisasi lengkap
@@ -487,7 +487,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ## Riwayat Update (Changelog)
 
-## 🆕 Recent Updates (05 Juli 2026) — Final Architecture & Performance Optimization
+## ✦ Recent Updates (05 Juli 2026) — Final Architecture & Performance Optimization
 
 **Tujuan:** Menerapkan standar industri untuk produksi web (*production-grade*) dan mengatasi *bottleneck* memori, serta mengatasi hutang teknis (DRY).
 
@@ -508,14 +508,14 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ---
 
-## 🛠️ Updates (05 Juli 2026) — Bug Fixes & Mobile UI Polish
+## ⚙ Updates (05 Juli 2026) — Bug Fixes & Mobile UI Polish
 
 1. **Pencegahan Ghost Process**
    - Menambahkan mekanisme penangkapan sinyal `SIGINT` dan `SIGTERM` secara eksplisit pada *backend* Flask dan *sub-process* model. Hal ini menjamin bahwa setiap kali _developer_ menghentikan server (CTRL+C) saat melakukan evaluasi model, semua proses di memori mati secara tuntas tanpa menyisakan proses siluman (*ghost process*) yang memakan RAM/GPU.
 2. **Penyempurnaan Animasi (Anti-Blink)**
    - Menghilangkan kedipan transparansi (*opacity blink*) pada komponen teks saat pergantian hasil evaluasi. Transisi sekarang berjalan mulus secara instan.
 3. **Perbaikan *Icon* Analisis yang Hilang**
-   - Memperbaiki hilangnya *icon* petir (⚡) di tombol **"Analisis dengan Model Ini"** pasca evaluasi ulang. Sistem kini memasukkan kembali elemen SVG Lucide Icons secara presisi tanpa bertabrakan dengan manipulasi DOM.
+   - Memperbaiki hilangnya *icon* petir (▶) di tombol **"Analisis dengan Model Ini"** pasca evaluasi ulang. Sistem kini memasukkan kembali elemen SVG Lucide Icons secara presisi tanpa bertabrakan dengan manipulasi DOM.
 4. **Perataan Lebar Kolom Tabel Batch**
    - **Preview Teks:** Diubah menjadi rata kiri (*left-aligned*) dengan `padding-left: 10px` agar mudah dibaca dan tidak menyatu dengan kolom angka urut.
    - **Probabilitas:** Lebar kolom ditambah dari `150px` menjadi `180px` untuk menampung teks "NB 100.0% | XGB 100.0%" agar proporsional dan tidak menabrak kolom Hasil/Result.
@@ -539,7 +539,7 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 | 1   | **Pembasmi Hasil Hantu (Ghost Result)**| mode_csv.js, history.js| Memperbaiki bug salah ketik etch('/last_result/clear') menjadi /lastresult/clear (mengikuti rute di pp.py). Ini memastikan hasil sebelumnya benar-benar terhapus secara permanen di backend saat tombol 'Reset' atau 'Mulai Evaluasi' ditekan, sehingga hasil lama tak muncul lagi setelah halaman di-refresh. |
 
 
-## 🆕 Recent Updates (30 Juni 2026) — Phase 1, 2, 3 Implementation
+## ✦ Recent Updates (30 Juni 2026) — Phase 1, 2, 3 Implementation
 
 ### Phase 1: Backend Refactoring & Code Quality
 
@@ -564,10 +564,10 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 **Dampak:**
 
-- ✅ **Reduksi duplikasi:** -427 baris → +187 baris = **hemat 240 baris (~56%)**
-- ✅ **Single source of truth:** Perubahan di `_shared.py` otomatis berlaku di semua pipeline
-- ✅ **Maintainability:** Lebih mudah debug dan test karena logika terpusat
-- ✅ **Konsistensi:** Preprocessing Mode Teks & Mode CSV dijamin identik
+- ✔ **Reduksi duplikasi:** -427 baris → +187 baris = **hemat 240 baris (~56%)**
+- ✔ **Single source of truth:** Perubahan di `_shared.py` otomatis berlaku di semua pipeline
+- ✔ **Maintainability:** Lebih mudah debug dan test karena logika terpusat
+- ✔ **Konsistensi:** Preprocessing Mode Teks & Mode CSV dijamin identik
 
 **File yang Direfactor:**
 
@@ -616,10 +616,10 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 **Dampak:**
 
-- ✅ **Maintainability:** Setiap developer bisa fokus di 1 concern
-- ✅ **Debuggability:** Console errors langsung point ke file spesifik
-- ✅ **Performance:** Browser bisa parallel-download 4 file kecil vs 1 file besar
-- ✅ **Code organization:** Fungsi mudah ditemukan berdasarkan kategori
+- ✔ **Maintainability:** Setiap developer bisa fokus di 1 concern
+- ✔ **Debuggability:** Console errors langsung point ke file spesifik
+- ✔ **Performance:** Browser bisa parallel-download 4 file kecil vs 1 file besar
+- ✔ **Code organization:** Fungsi mudah ditemukan berdasarkan kategori
 
 ---
 
@@ -728,29 +728,29 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 **Backend:**
 
-- ✅ New module [`_shared.py`](web_app/_shared.py) — 187 lines, eliminates 240 lines duplication
-- ✅ Memory leak fixes, zombie job cleanup, VRAM optimization
+- ✔ New module [`_shared.py`](web_app/_shared.py) — 187 lines, eliminates 240 lines duplication
+- ✔ Memory leak fixes, zombie job cleanup, VRAM optimization
 
 **Frontend:**
 
-- ✅ JS modularization: 2400 lines → 4 files (400-800 lines each)
-- ✅ Accessibility: Reduced motion, keyboard nav, tooltips, contrast fixes
-- ✅ Performance: Layout animations fixed, memory cleanup, exponential backoff polling
+- ✔ JS modularization: 2400 lines → 4 files (400-800 lines each)
+- ✔ Accessibility: Reduced motion, keyboard nav, tooltips, contrast fixes
+- ✔ Performance: Layout animations fixed, memory cleanup, exponential backoff polling
 
 **New Features:**
 
-- ✅ Sortable batch evaluation table with visual indicators
-- ✅ Quick preset selector (Fast/Full)
-- ✅ Tooltips for table headers
-- ✅ CSV preview before training
-- ✅ Visual sort indicators (⇅▲▼)
+- ✔ Sortable batch evaluation table with visual indicators
+- ✔ Quick preset selector (Fast/Full)
+- ✔ Tooltips for table headers
+- ✔ CSV preview before training
+- ✔ Visual sort indicators (⇅▲▼)
 
 **Bug Fixes:**
 
-- ✅ 5 critical mobile responsiveness issues resolved
-- ✅ Confusion Matrix font size isolation
-- ✅ Modal transparency fixed
-- ✅ Tab menu overflow fixed
+- ✔ 5 critical mobile responsiveness issues resolved
+- ✔ Confusion Matrix font size isolation
+- ✔ Modal transparency fixed
+- ✔ Tab menu overflow fixed
 
 **Files Modified:** 12 files total
 
