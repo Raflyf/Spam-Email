@@ -29,6 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__, static_folder='static')
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024   # 100 MB
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000     # 1 Tahun cache static file
 Compress(app)
 
 @app.after_request
@@ -846,7 +847,7 @@ if __name__ == '__main__':
     print("  Model dimuat di background — halaman langsung bisa diakses")
     print("  Menjalankan server via Waitress (Production WSGI)...\n")
     try:
-        serve(app, host='0.0.0.0', port=5000)
+        serve(app, host='0.0.0.0', port=5000, threads=8)
     finally:
         print("\n  [INFO] Mematikan server secara paksa (Mencegah ghost process)...")
         os._exit(0)
