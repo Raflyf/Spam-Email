@@ -2185,7 +2185,7 @@ input[type="checkbox"]:focus-visible {
 /* Animasi untuk elemen yang muncul dinamis (via JS trigger) - disamakan dengan CSV Mode */
 .t-reveal {
   opacity: 0;
-  animation: reveal-fade-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: reveal-fade-up 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* ────────────────────────────────────────────────────────
@@ -2224,14 +2224,14 @@ html.lenis, html.lenis body {
 .scroll-reveal {
   opacity: 0;
   transform: translateY(50px);
-  /* Ease-out (menghilang) dipercepat agar terlihat sebelum terpotong layar saat scroll */
-  transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+  /* Ease-out (menghilang): kembalikan ke durasi 2 detik penuh dengan linear agar proses pudarnya benar-benar pelan */
+  transition: opacity 2s linear, transform 2s ease-in-out;
   will-change: opacity, transform;
 }
 
 .scroll-reveal.active {
   opacity: 1;
   transform: translateY(0);
-  /* Animasi saat muncul (scroll down): Durasi ekstra lambat (1.5s) */
-  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Animasi saat muncul (scroll down): Durasi ekstra ekstra lambat (2s) */
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1), transform 2s cubic-bezier(0.4, 0, 0.2, 1);
 }
