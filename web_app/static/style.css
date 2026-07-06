@@ -2170,6 +2170,12 @@ input[type="checkbox"]:focus-visible {
 .t-stagger-4 { animation-delay: calc(var(--duration-stagger) * 4); }
 .t-stagger-5 { animation-delay: calc(var(--duration-stagger) * 5); }
 
+/* Animasi untuk elemen yang muncul dinamis (via JS trigger) */
+.t-reveal {
+  opacity: 0;
+  animation: stagger-fade-up 0.5s var(--ease-smooth-out) forwards;
+}
+
 /* ────────────────────────────────────────────────────────
    HISTORY TABLE SCROLL & STICKY HEADER
 ──────────────────────────────────────────────────────── */
