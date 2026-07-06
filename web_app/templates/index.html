@@ -602,7 +602,13 @@
         el.classList.add('scroll-reveal');
         // Hapus class active jika sebelumnya ada, agar bisa animasi ulang
         el.classList.remove('active'); 
-        window.revealObserver.observe(el);
+        
+        // Tunda pengamatan (observe) hingga browser selesai me-render frame awal (CSS default)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.revealObserver.observe(el);
+          });
+        });
       };
 
       // Inisialisasi awal untuk elemen statis yang sudah ada
