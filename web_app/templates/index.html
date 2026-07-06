@@ -580,6 +580,30 @@
           }
         });
       }
+
+      // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
+      const revealElements = document.querySelectorAll('.card, .hero-section');
+      revealElements.forEach((el) => {
+        el.classList.add('scroll-reveal');
+      });
+
+      const revealOptions = {
+        root: null,
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.1
+      };
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Unobserve agar animasi hanya jalan sekali (masuk viewport)
+            observer.unobserve(entry.target);
+          }
+        });
+      }, revealOptions);
+
+      revealElements.forEach(el => revealObserver.observe(el));
     });
   </script>
 </body>
