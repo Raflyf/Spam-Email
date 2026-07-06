@@ -2211,7 +2211,7 @@ html.lenis, html.lenis body {
 "?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"? */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px); /* Kembalikan ke 30px agar pergerakan animasi cukup terlihat */
+  transform: translateY(40px); /* Tambah jarak agar terasa lebih panjang perjalanannya */
   /* Animasi saat menghilang (scroll up): gunakan ease-in-out agar perlahan memudar, bukan instan */
   transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
   will-change: opacity, transform;
@@ -2220,6 +2220,6 @@ html.lenis, html.lenis body {
 .scroll-reveal.active {
   opacity: 1;
   transform: translateY(0);
-  /* Animasi saat muncul (scroll down): persis seperti GSAP power3.out (lambat di akhir) */
-  transition: opacity 0.9s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.9s cubic-bezier(0.165, 0.84, 0.44, 1);
+  /* Animasi saat muncul (scroll down): Durasi ekstra (1.2s) dengan kurva ease-in-out (lambat di awal dan di akhir) */
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
