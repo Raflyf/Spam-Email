@@ -97,6 +97,8 @@ async function analyzeText() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Server error');
     
+    renderTextResult(data, text);
+    
     // Panggil ulang observer agar animasi terpicu
     if (typeof window.observeScrollReveal === 'function') {
       window.observeScrollReveal(resultsEl);
