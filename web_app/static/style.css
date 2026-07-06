@@ -2211,7 +2211,7 @@ html.lenis, html.lenis body {
 "?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"? */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(25px); /* Kurangi jarak agar tidak seperti jatuh saat scroll cepat */
+  transform: translateY(30px); /* Kembalikan ke 30px agar pergerakan animasi cukup terlihat */
   /* Animasi saat menghilang (scroll up): gunakan ease-in-out agar perlahan memudar, bukan instan */
   transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
   will-change: opacity, transform;
