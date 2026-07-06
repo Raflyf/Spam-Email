@@ -332,7 +332,7 @@ function showCompareModal(runs) {
   modal.id = 'compareModal';
   modal.className = 'modal-overlay';
   modal.innerHTML = `
-    <div class="modal-content">
+    <div class="modal-content" data-lenis-prevent>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <h3 style="font-size:16px;font-weight:800;display:flex;align-items:center;gap:6px;">
           <i data-lucide="git-compare" style="width:18px;height:18px;color:var(--info);"></i> Perbandingan ${runs.length} Eksperimen
