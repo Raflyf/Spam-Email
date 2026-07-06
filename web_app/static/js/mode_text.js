@@ -99,6 +99,9 @@ async function analyzeText() {
     
     renderTextResult(data, text);
     resultsEl.style.display = 'block';
+    if (typeof window.observeScrollReveal === 'function') {
+      window.observeScrollReveal(resultsEl);
+    }
     resultsEl.classList.remove('t-reveal');
     void resultsEl.offsetWidth;
     resultsEl.classList.add('t-reveal');

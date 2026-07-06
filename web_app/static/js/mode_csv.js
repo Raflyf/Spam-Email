@@ -429,6 +429,9 @@ function buildMethodCard(r, key) {
 
   const wrap = document.createElement('div');
   wrap.className = 'card';
+  if (typeof window.observeScrollReveal === 'function') {
+    window.observeScrollReveal(wrap);
+  }
   wrap.style.borderTop = `4px solid ${color}`;
 
   const infoChips = key === 'metode1'
@@ -560,6 +563,9 @@ function buildTop20(features) {
 function buildComparison(r1, r2) {
   const wrap = document.createElement('div');
   wrap.className = 'card';
+  if (typeof window.observeScrollReveal === 'function') {
+    window.observeScrollReveal(wrap);
+  }
   wrap.style.borderTop = '4px solid #16a34a';
 
   const models = ['naive_bayes', 'xgboost'];

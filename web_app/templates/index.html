@@ -582,19 +582,13 @@
       }
 
       // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
-      // Hanya mengamati elemen dengan class .scroll-on-scroll agar tidak bentrok dengan t-stagger
-      const revealElements = document.querySelectorAll('.scroll-on-scroll');
-      revealElements.forEach((el) => {
-        el.classList.add('scroll-reveal');
-      });
-
       const revealOptions = {
         root: null,
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.05
       };
 
-      const revealObserver = new IntersectionObserver((entries, observer) => {
+      window.revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
@@ -603,7 +597,16 @@
         });
       }, revealOptions);
 
-      revealElements.forEach(el => revealObserver.observe(el));
+      // Fungsi global untuk mendaftarkan elemen dinamis (dipanggil dari JS)
+      window.observeScrollReveal = function(el) {
+        el.classList.add('scroll-reveal');
+        // Hapus class active jika sebelumnya ada, agar bisa animasi ulang
+        el.classList.remove('active'); 
+        window.revealObserver.observe(el);
+      };
+
+      // Inisialisasi awal untuk elemen statis yang sudah ada
+      document.querySelectorAll('.scroll-on-scroll').forEach(window.observeScrollReveal);
     });
   </script>
 </body>
