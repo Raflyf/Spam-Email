@@ -581,43 +581,6 @@
         });
       }
 
-      // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
-      const revealOptions = {
-        root: null,
-        rootMargin: '0px 0px -100px 0px', // Trigger saat kartu sudah masuk 100px agar animasinya terlihat jelas oleh mata
-        threshold: 0
-      };
-
-      window.revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          } else {
-            // Cek apakah elemen keluar dari viewport ke arah BAWAH (user scroll ke atas).
-            // Jika keluarnya ke atas (user scroll ke bawah dengan cepat), JANGAN di-reset agar tidak glitch!
-            if (entry.boundingClientRect.top > 0) {
-              entry.target.classList.remove('active');
-            }
-          }
-        });
-      }, revealOptions);
-
-      // Fungsi global untuk mendaftarkan elemen dinamis (dipanggil dari JS)
-      window.observeScrollReveal = function(el) {
-        el.classList.add('scroll-reveal');
-        // Hapus class active jika sebelumnya ada, agar bisa animasi ulang
-        el.classList.remove('active'); 
-        
-        // Tunda pengamatan (observe) hingga browser selesai me-render frame awal (CSS default)
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            window.revealObserver.observe(el);
-          });
-        });
-      };
-
-      // Inisialisasi awal untuk elemen statis yang sudah ada
-      document.querySelectorAll('.scroll-reveal').forEach(window.observeScrollReveal);
     });
   </script>
 </body>

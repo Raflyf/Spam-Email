@@ -159,3 +159,69 @@ function setProgressBar(pct, label) {
 const _origResetProgress = () => setProgressBar(0, 'Menunggu...');
 
 
+// ═══════════════════════════════════════════
+// UTILITY: UI State Helpers (hide, showError, setLoading)
+// ═══════════════════════════════════════════
+
+function hide(id) { 
+  const el = document.getElementById(id);
+  if(el) {
+    el.classList.remove('active'); 
+    el.style.display = 'none'; 
+  }
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if(el) {
+    el.textContent = msg; 
+    el.classList.add('active'); 
+    el.style.display = 'block';
+  }
+}
+
+function setLoading(id, active, display = 'block') {
+  const el = document.getElementById(id);
+  if(el) {
+    if (active) { el.classList.add('active'); el.style.display = display; }
+    else { el.classList.remove('active'); el.style.display = 'none'; }
+  }
+}
+
+
+// -------------------------------------------
+// SCROLL REVEAL OBSERVER
+// -------------------------------------------
+
+document.addEventListener('DOMContentLoaded', () => {
+  const revealOptions = {
+    root: null,
+    rootMargin: '0px 0px -100px 0px',
+    threshold: 0
+  };
+
+  window.revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      } else {
+        if (entry.boundingClientRect.top > 0) {
+          entry.target.classList.remove('active');
+        }
+      }
+    });
+  }, revealOptions);
+
+  window.observeScrollReveal = function(el) {
+    el.classList.add('scroll-reveal');
+    el.classList.remove('active'); 
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.revealObserver.observe(el);
+      });
+    });
+  };
+
+  document.querySelectorAll('.scroll-reveal').forEach(window.observeScrollReveal);
+});
+

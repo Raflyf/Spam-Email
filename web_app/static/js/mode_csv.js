@@ -776,17 +776,6 @@ function printResults() {
   </body></html>`);
   w.document.close();
 }
-function hide(id) { document.getElementById(id).classList.remove('active'); document.getElementById(id).style.display = 'none'; }
-function showError(id, msg) {
-  const el = document.getElementById(id);
-  el.textContent = msg; el.classList.add('active'); el.style.display = 'block';
-}
-function setLoading(id, active, display = 'block') {
-  const el = document.getElementById(id);
-  if (active) { el.classList.add('active'); el.style.display = display; }
-  else { el.classList.remove('active'); el.style.display = 'none'; }
-}
-
 function updateBalancePreview() {
   const ns = parseInt(document.getElementById('nNonSpam').value) || 0;
   const sp = parseInt(document.getElementById('nSpam').value) || 0;
