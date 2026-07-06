@@ -109,7 +109,7 @@
               CSV</button>
           </div>
         </div>
-        <div id="batchResults"></div>
+        <div id="batchResults" data-lenis-prevent style="max-height:350px;overflow-y:auto;overflow-x:auto;"></div>
       </div>
 
       <div id="textResults" class="card" style="display:none; border-top:4px solid var(--primary);">
@@ -440,8 +440,8 @@
         <div id="historyEmpty" style="text-align:center;padding:32px;color:var(--gray-400);">
           Belum ada eksperimen. Jalankan Mode CSV terlebih dahulu.
         </div>
-        <!-- WRAPPER TABEL HISTORY -->
-        <div id="historyTableWrap" style="display:none; overflow-x:auto;">
+        <!-- WRAPPER TABEL HISTORY (YANG PUNYA SCROLLBAR) -->
+        <div id="historyTableWrap" data-lenis-prevent style="display:none; overflow-x:auto; overflow-y:auto; max-height:380px;">
           <table class="cm-table" id="historyTable" style="font-size:14px;min-width:700px;">
             <thead>
               <tr>
@@ -522,8 +522,6 @@
   
   <script src="https://unpkg.com/lucide@latest" defer></script>
   <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
   <script src="{{ url_for('static', filename='js/utils.js') }}?v=28" defer></script>
   <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=36" defer></script>
   <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=33" defer></script>
@@ -550,14 +548,13 @@
     // Init on load
     document.addEventListener('DOMContentLoaded', syncPresetPills);
 
-    // Initialize Lenis Smooth Scroll & GSAP
-    window.addEventListener('load', () => {
-      if (typeof Lenis !== 'undefined' && typeof gsap !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-
+    // Initialize Lenis Smooth Scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if Lenis is loaded
+      if (typeof Lenis !== 'undefined') {
         const lenis = new Lenis({
           duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
           direction: 'vertical',
           gestureDirection: 'vertical',
           smooth: true,
@@ -565,47 +562,62 @@
           smoothTouch: false,
           touchMultiplier: 2,
           infinite: false,
+        })
+
+        let rafId;
+        function raf(time) {
+          lenis.raf(time)
+          rafId = requestAnimationFrame(raf)
+        }
+        rafId = requestAnimationFrame(raf)
+
+        // Optimasi: Hentikan loop animasi jika tab sedang tidak aktif
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            cancelAnimationFrame(rafId);
+          } else {
+            rafId = requestAnimationFrame(raf);
+          }
         });
-
-        // Sinkronisasi mutlak antara Lenis dan GSAP ScrollTrigger
-        lenis.on('scroll', ScrollTrigger.update);
-
-        gsap.ticker.add((time) => {
-          lenis.raf(time * 1000);
-        });
-        gsap.ticker.lagSmoothing(0);
-
-        // --- GSAP SCROLLTRIGGER UNTUK KARTU DINAMIS ---
-        // Fungsi global agar JS lain (mode_csv.js / mode_text.js) bisa memanggil GSAP
-        window.observeScrollReveal = function(el) {
-          // Tunggu hingga elemen benar-benar disisipkan ke DOM agar GSAP bisa menghitung kordinatnya
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              gsap.fromTo(el, 
-                { opacity: 0, y: 40 }, // Posisi awal (transparan & agak ke bawah)
-                { 
-                  opacity: 1, 
-                  y: 0, 
-                  duration: 0.8,
-                  ease: "power3.out", // Easing sangat smooth khas GSAP
-                  scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%", // Mulai animasi saat kartu mencapai 85% layar dari atas
-                    end: "top 15%",   // Berakhir/menghilang saat menyentuh 15% atas layar (seperti tutorial)
-                    toggleActions: "play reverse play reverse", // Mengulang otomatis saat scroll up/down
-                    markers: false // set true jika butuh debug
-                  }
-                }
-              );
-              // Segarkan perhitungan posisi ScrollTrigger setelah elemen baru masuk
-              ScrollTrigger.refresh();
-            });
-          });
-        };
-
-        // Inisialisasi awal untuk elemen yang sudah ada
-        document.querySelectorAll('.scroll-on-scroll').forEach(window.observeScrollReveal);
       }
+
+      // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
+      const revealOptions = {
+        root: null,
+        rootMargin: '0px 0px -150px 0px', // Animasi baru mulai saat kartu sudah 150px masuk ke layar
+        threshold: 0
+      };
+
+      window.revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          } else {
+            // Cek apakah elemen keluar dari viewport ke arah BAWAH (user scroll ke atas).
+            // Jika keluarnya ke atas (user scroll ke bawah dengan cepat), JANGAN di-reset agar tidak glitch!
+            if (entry.boundingClientRect.top > 0) {
+              entry.target.classList.remove('active');
+            }
+          }
+        });
+      }, revealOptions);
+
+      // Fungsi global untuk mendaftarkan elemen dinamis (dipanggil dari JS)
+      window.observeScrollReveal = function(el) {
+        el.classList.add('scroll-reveal');
+        // Hapus class active jika sebelumnya ada, agar bisa animasi ulang
+        el.classList.remove('active'); 
+        
+        // Tunda pengamatan (observe) hingga browser selesai me-render frame awal (CSS default)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.revealObserver.observe(el);
+          });
+        });
+      };
+
+      // Inisialisasi awal untuk elemen statis yang sudah ada
+      document.querySelectorAll('.scroll-on-scroll').forEach(window.observeScrollReveal);
     });
   </script>
 </body>
