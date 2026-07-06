@@ -431,17 +431,20 @@ function toggleSelectMode() {
   _selectMode = !_selectMode;
   const btn = document.getElementById('toggleSelectModeBtn');
   const clearBtn = document.getElementById('clearHistBtn');
+  const exportBtn = document.getElementById('exportHistBtn');
 
     if (_selectMode) {
     btn.innerHTML = '<i data-lucide="x" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Batal Pilih';
     btn.classList.add('active');
     clearBtn.style.display = 'inline-flex';
+    if (exportBtn) exportBtn.style.display = 'none';
     document.querySelectorAll('.select-col').forEach(el => el.style.display = 'table-cell');
     document.querySelectorAll('#historyTbody tr').forEach(tr => tr.style.cursor = 'pointer');
   } else {
     btn.innerHTML = '<i data-lucide="check-square" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Pilih Data';
     btn.classList.remove('active');
     clearBtn.style.display = 'none';
+    if (exportBtn) exportBtn.style.display = 'inline-flex';
     document.querySelectorAll('.select-col').forEach(el => el.style.display = 'none');
     document.querySelectorAll('#historyTbody tr').forEach(tr => tr.style.cursor = '');
     // Uncheck all when leaving select mode
