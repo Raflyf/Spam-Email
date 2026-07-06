@@ -582,7 +582,8 @@
       }
 
       // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
-      const revealElements = document.querySelectorAll('.card, .hero-section');
+      // Hanya mengamati elemen dengan class .scroll-on-scroll agar tidak bentrok dengan t-stagger
+      const revealElements = document.querySelectorAll('.scroll-on-scroll');
       revealElements.forEach((el) => {
         el.classList.add('scroll-reveal');
       });
@@ -597,7 +598,6 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            // Unobserve agar animasi hanya jalan sekali (masuk viewport)
             observer.unobserve(entry.target);
           }
         });
