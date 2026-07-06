@@ -520,6 +520,7 @@
     border:1px solid rgba(255,255,255,0.1);"></div>
   
   <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js" defer></script>
   <script src="{{ url_for('static', filename='js/utils.js') }}?v=28" defer></script>
   <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=36" defer></script>
   <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=33" defer></script>
@@ -545,6 +546,31 @@
     }
     // Init on load
     document.addEventListener('DOMContentLoaded', syncPresetPills);
+
+    // Initialize Lenis Smooth Scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if Lenis is loaded
+      if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+          direction: 'vertical',
+          gestureDirection: 'vertical',
+          smooth: true,
+          mouseMultiplier: 1,
+          smoothTouch: false,
+          touchMultiplier: 2,
+          infinite: false,
+        })
+
+        function raf(time) {
+          lenis.raf(time)
+          requestAnimationFrame(raf)
+        }
+
+        requestAnimationFrame(raf)
+      }
+    });
   </script>
 </body>
 
