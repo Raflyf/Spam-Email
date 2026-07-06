@@ -48,6 +48,11 @@ window.addEventListener('hashchange', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function initTabState() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   const hash = window.location.hash.substring(1) || 'text';
   if (['text', 'csv', 'history'].includes(hash)) {
     switchTab(hash);
