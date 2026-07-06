@@ -779,3 +779,16 @@ Code_Spam_Email/
     └── templates/
         └── index.html          ← Kerangka UI Web App
 `
+
+## ✦ Recent Updates (06 Juli 2026) — UI/UX Polish & Scroll Animation Refactoring
+
+### Pembaruan UI/UX dan Logika Antarmuka
+
+| #   | Fitur | Lokasi | Keterangan |
+| --- | --- | --- | --- |
+| 1 | **Sentralisasi Fungsi UI** | utils.js | Memindahkan fungsi pembantu global UI (hide(), showError(), setLoading()) dari mode_csv.js ke utils.js agar struktur arsitektur lebih bersih dan terhindar dari konflik urutan _loading_ script. |
+| 2 | **Scroll Reveal Animasi ("Reveal Once")** | utils.js, style.css | Mengubah logika Intersection Observer untuk animasi gulir (scroll-reveal) menjadi **"Muncul Sekali Saja" (Reveal Once)**. Memperbaiki masalah animasi menghilang secara tiba-tiba (instan) saat pengguna men-scroll ke atas, dengan cara mematikan pengawasan observasi setelah elemen pertama kali muncul (Sesuai standar AOS/web modern). |
+| 3 | **Penyembunyian Tombol Seleksi** | history.js | Menyembunyikan tombol "Export CSV" saat mode Pilih Data (untuk membandingkan riwayat) sedang aktif. Ini mencegah tombol menu meluap dan terpotong (overflow) pada layar ponsel berukuran kecil. |
+| 4 | **Pencegahan Overflow Tombol Aksi** | index.html | Menerapkan lex-wrap: wrap; pada kontainer tombol-tombol riwayat agar tombol otomatis menyusun ke baris bawah apabila ruang layar ponsel sudah tidak cukup, menjaga UI tetap rapi tanpa ada yang terpotong. |
+| 5 | **Manual Scroll Restoration** | utils.js | Memaksa perilaku history.scrollRestoration = 'manual' dan window.scrollTo(0,0) pada inisialisasi awal. Mencegah peramban otomatis melanjutkan posisi _scroll_ yang terputus di tengah halaman saat tab dimuat ulang (_refresh_). |
+| 6 | **Bust Cache Agresif (v=50)** | index.html | Menaikkan tag versi cache-buster CSS dan JS menjadi ?v=50 untuk memaksa ponsel pintar menghapus singgahan (cache) memori peramban dan langsung mengunduh perbaikan antarmuka terbaru. |
