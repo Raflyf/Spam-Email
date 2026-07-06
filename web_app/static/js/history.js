@@ -7,6 +7,11 @@ let currentJobId = null;
 function initRealtimeSection(jobId, availableModels) {
   currentJobId = jobId;
   const sec = document.getElementById('realtimeSection');
+  
+  if (typeof window.observeScrollReveal === 'function') {
+    sec.querySelectorAll('.scroll-reveal').forEach(window.observeScrollReveal);
+  }
+  
   sec.style.display = 'block';
 
   // Badge model tersedia
@@ -95,6 +100,11 @@ async function analyzeRealtime() {
 
 function renderRealtimeResult(d, metode) {
   const el = document.getElementById('realtimeResult');
+  
+  if (typeof window.observeScrollReveal === 'function') {
+    window.observeScrollReveal(el);
+  }
+  
   el.style.display = 'block';
 
   const { naive_bayes: nb, xgboost: xgb, consensus: c, rekomendasi: rek } = d;
