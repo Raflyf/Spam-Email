@@ -582,7 +582,16 @@ function renderHistory() {
 
   empty.style.display = 'none';
   wrap.style.display = 'block';
-  chartCard.style.display = 'block';
+  
+  // Tampilkan grafik dengan animasi t-reveal
+  if (chartCard.style.display === 'none') {
+    chartCard.style.display = 'block';
+    chartCard.classList.remove('t-reveal');
+    void chartCard.offsetWidth; // force reflow
+    chartCard.classList.add('t-reveal');
+  } else {
+    chartCard.style.display = 'block';
+  }
   exportBtn.disabled = false; clearBtn.disabled = false;
 
   // Assign nomor urut (1 = terlama, n = terbaru) sebelum sort

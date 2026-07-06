@@ -440,8 +440,8 @@
         <div id="historyEmpty" style="text-align:center;padding:32px;color:var(--gray-400);">
           Belum ada eksperimen. Jalankan Mode CSV terlebih dahulu.
         </div>
-        <!-- WRAPPER TABEL HISTORY (YANG PUNYA SCROLLBAR) -->
-        <div id="historyTableWrap" data-lenis-prevent style="display:none; overflow-x:auto; overflow-y:auto; max-height:380px;">
+        <!-- WRAPPER TABEL HISTORY (OPSI B: Tanpa max-height agar bisa dipengaruhi smooth scroll Lenis) -->
+        <div id="historyTableWrap" style="display:none; overflow-x:auto;">
           <table class="cm-table" id="historyTable" style="font-size:14px;min-width:700px;">
             <thead>
               <tr>
@@ -584,7 +584,7 @@
       // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
       const revealOptions = {
         root: null,
-        rootMargin: '0px 0px -150px 0px', // Animasi baru mulai saat kartu sudah 150px masuk ke layar
+        rootMargin: '0px 0px -50px 0px', // Trigger sedikit lebih awal untuk mencegah glitch saat scroll cepat
         threshold: 0
       };
 

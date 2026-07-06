@@ -2211,13 +2211,15 @@ html.lenis, html.lenis body {
 "?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"? */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px);
-  /* Fade In Up klasik: Durasi ideal (0.7s) dengan kurva deselerasi natural */
-  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: translateY(25px); /* Kurangi jarak agar tidak seperti jatuh saat scroll cepat */
+  /* Animasi saat menghilang (scroll up): sedikit lebih lambat dan elegan */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   will-change: opacity, transform;
 }
 
 .scroll-reveal.active {
   opacity: 1;
   transform: translateY(0);
+  /* Animasi saat muncul (scroll down): persis seperti GSAP power3.out (lambat di akhir) */
+  transition: opacity 0.9s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.9s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
