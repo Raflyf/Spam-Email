@@ -109,7 +109,7 @@
               CSV</button>
           </div>
         </div>
-        <div id="batchResults" style="max-height:350px;overflow-y:auto;overflow-x:auto;"></div>
+        <div id="batchResults" data-lenis-prevent style="max-height:350px;overflow-y:auto;overflow-x:auto;"></div>
       </div>
 
       <div id="textResults" class="card" style="display:none; border-top:4px solid var(--primary);">
@@ -440,7 +440,8 @@
         <div id="historyEmpty" style="text-align:center;padding:32px;color:var(--gray-400);">
           Belum ada eksperimen. Jalankan Mode CSV terlebih dahulu.
         </div>
-        <div id="historyTableWrap" style="display:none; overflow-x:auto; overflow-y:auto; max-height:380px;">
+        <!-- WRAPPER TABEL HISTORY (YANG PUNYA SCROLLBAR) -->
+        <div id="historyTableWrap" data-lenis-prevent style="display:none; overflow-x:auto; overflow-y:auto; max-height:380px;">
           <table class="cm-table" id="historyTable" style="font-size:14px;min-width:700px;">
             <thead>
               <tr>
@@ -563,12 +564,21 @@
           infinite: false,
         })
 
+        let rafId;
         function raf(time) {
           lenis.raf(time)
-          requestAnimationFrame(raf)
+          rafId = requestAnimationFrame(raf)
         }
+        rafId = requestAnimationFrame(raf)
 
-        requestAnimationFrame(raf)
+        // Optimasi: Hentikan loop animasi jika tab sedang tidak aktif
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            cancelAnimationFrame(rafId);
+          } else {
+            rafId = requestAnimationFrame(raf);
+          }
+        });
       }
     });
   </script>
