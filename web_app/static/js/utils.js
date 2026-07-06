@@ -201,7 +201,7 @@ function setLoading(id, active, display = 'block') {
 document.addEventListener('DOMContentLoaded', () => {
   const revealOptions = {
     root: null,
-    rootMargin: '0px 0px -100px 0px',
+    rootMargin: '0px 0px -200px 0px', // Trigger lebih tinggi agar ease-out sempat terlihat sebelum keluar layar
     threshold: 0
   };
 

@@ -2223,9 +2223,9 @@ html.lenis, html.lenis body {
 "?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"? */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px);
-  /* Ease-out (saat scroll ke atas): durasi dicepatkan (0.4s) agar animasinya tuntas terlihat sebelum card hilang ditelan ujung layar bawah */
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  transform: translateY(50px);
+  /* Ease-out: dibuat sangat lambat (1.5s) agar proses pudarnya selembut mungkin */
+  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 }
 
