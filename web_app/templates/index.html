@@ -578,22 +578,29 @@
         // --- GSAP SCROLLTRIGGER UNTUK KARTU DINAMIS ---
         // Fungsi global agar JS lain (mode_csv.js / mode_text.js) bisa memanggil GSAP
         window.observeScrollReveal = function(el) {
-          gsap.fromTo(el, 
-            { opacity: 0, y: 40 }, // Posisi awal (transparan & agak ke bawah)
-            { 
-              opacity: 1, 
-              y: 0, 
-              duration: 0.8,
-              ease: "power3.out", // Easing sangat smooth khas GSAP
-              scrollTrigger: {
-                trigger: el,
-                start: "top 85%", // Mulai animasi saat kartu mencapai 85% layar dari atas
-                end: "top 15%",   // Berakhir/menghilang saat menyentuh 15% atas layar (seperti tutorial)
-                toggleActions: "play reverse play reverse", // Mengulang otomatis saat scroll up/down
-                markers: false // set true jika butuh debug
-              }
-            }
-          );
+          // Tunggu hingga elemen benar-benar disisipkan ke DOM agar GSAP bisa menghitung kordinatnya
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              gsap.fromTo(el, 
+                { opacity: 0, y: 40 }, // Posisi awal (transparan & agak ke bawah)
+                { 
+                  opacity: 1, 
+                  y: 0, 
+                  duration: 0.8,
+                  ease: "power3.out", // Easing sangat smooth khas GSAP
+                  scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%", // Mulai animasi saat kartu mencapai 85% layar dari atas
+                    end: "top 15%",   // Berakhir/menghilang saat menyentuh 15% atas layar (seperti tutorial)
+                    toggleActions: "play reverse play reverse", // Mengulang otomatis saat scroll up/down
+                    markers: false // set true jika butuh debug
+                  }
+                }
+              );
+              // Segarkan perhitungan posisi ScrollTrigger setelah elemen baru masuk
+              ScrollTrigger.refresh();
+            });
+          });
         };
 
         // Inisialisasi awal untuk elemen yang sudah ada
