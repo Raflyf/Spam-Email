@@ -364,11 +364,23 @@ async function analyzeBatch() {
     return;
   }
 
-  const btn = document.getElementById('analyzeBtn');
-  btn.disabled = true;
-  setLoading('textLoading', true);
-  document.getElementById('batchCard').style.display = 'none';
-  document.getElementById('textResults').style.display = 'none';
+  const btnBatch = document.getElementById('batchBtnHtml');
+  const btnAnalyze = document.getElementById('analyzeBtn');
+  const bCard = document.getElementById('batchCard');
+  
+  // Disable both buttons during processing
+  btnBatch.disabled = true;
+  btnAnalyze.disabled = true;
+  
+  // Ubah teks tombol Batch menjadi loading
+  const originalBatchHtml = btnBatch.innerHTML;
+  btnBatch.innerHTML = '<i data-lucide="loader-2" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Menganalisis...';
+  lucide.createIcons();
+
+  if (bCard.style.display === 'none') {
+    setLoading('textLoading', true);
+  }
+  
   hide('textError');
   _batchData = [];
 
@@ -405,12 +417,19 @@ async function analyzeBatch() {
   }
 
   setLoading('textLoading', false);
-  btn.disabled = false;
+  btnBatch.disabled = false;
+  btnAnalyze.disabled = false;
+  btnBatch.innerHTML = originalBatchHtml;
+  lucide.createIcons();
+  
+  // Hide text results if it was showing
+  document.getElementById('textResults').style.display = 'none';
+
   renderBatchResults();
   document.getElementById('batchSummary').innerHTML =
     `${emails.length} email &mdash; <i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--danger);"></i> ${spam} Spam &nbsp;|&nbsp; <i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--success);"></i> ${nonspam} Bukan Spam`;
   lucide.createIcons({nodes:[document.getElementById('batchSummary')]});
-  const bCard = document.getElementById('batchCard');
+  
   bCard.style.display = 'block';
   bCard.classList.remove('t-reveal');
   void bCard.offsetWidth;
