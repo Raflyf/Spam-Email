@@ -18,7 +18,7 @@ Aplikasi Web berbasis **Machine Learning** untuk mengklasifikasikan email spam v
 ### Hasil Analisis Penelitian
 Berikut adalah contoh grafik hasil komparasi algoritma yang dihasilkan dari pengujian eksperimen:
 
-![Perbandingan Algoritma](https://raw.githubusercontent.com/Raflyf/Spam-Email/main/grafik_skripsi/Gambar_IV_Perbandingan_Metode1_vs_Metode2.png)
+![Perbandingan Algoritma](/grafik_skripsi/Gambar_IV_Perbandingan_Metode1_vs_Metode2.png)
 *(Grafik di atas membandingkan performa model menggunakan Metode 1 vs Metode 2).*
 
 ## ▶ Cara Menjalankan Aplikasi
