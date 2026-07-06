@@ -201,7 +201,7 @@ function setLoading(id, active, display = 'block') {
 document.addEventListener('DOMContentLoaded', () => {
   const revealOptions = {
     root: null,
-    rootMargin: '0px 0px -200px 0px', // Trigger lebih tinggi agar ease-out sempat terlihat sebelum keluar layar
+    rootMargin: '0px 0px -50px 0px',
     threshold: 0
   };
 
@@ -209,10 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-      } else {
-        if (entry.boundingClientRect.top > 0) {
-          entry.target.classList.remove('active');
-        }
+        // REVEAL ONCE: Jangan hilangkan lagi (berhenti mengawasi setelah muncul)
+        window.revealObserver.unobserve(entry.target);
       }
     });
   }, revealOptions);
