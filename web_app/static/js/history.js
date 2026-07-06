@@ -8,7 +8,7 @@ function initRealtimeSection(jobId, availableModels) {
   currentJobId = jobId;
   const sec = document.getElementById('realtimeSection');
   
-  if (typeof window.observeScrollReveal === 'function') {
+  if (sec.style.display === 'none' && typeof window.observeScrollReveal === 'function') {
     sec.querySelectorAll('.scroll-reveal').forEach(window.observeScrollReveal);
   }
   
@@ -101,7 +101,7 @@ async function analyzeRealtime() {
 function renderRealtimeResult(d, metode) {
   const el = document.getElementById('realtimeResult');
   
-  if (typeof window.observeScrollReveal === 'function') {
+  if (el.style.display === 'none' && typeof window.observeScrollReveal === 'function') {
     window.observeScrollReveal(el);
   }
   

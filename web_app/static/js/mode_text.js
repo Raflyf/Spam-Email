@@ -99,8 +99,8 @@ async function analyzeText() {
     
     renderTextResult(data, text);
     
-    // Panggil ulang observer agar animasi terpicu
-    if (typeof window.observeScrollReveal === 'function') {
+    // Panggil observer HANYA jika sebelumnya tersembunyi
+    if (resultsEl.style.display === 'none' && typeof window.observeScrollReveal === 'function') {
       window.observeScrollReveal(resultsEl);
     }
     
@@ -430,8 +430,8 @@ async function analyzeBatch() {
     `${emails.length} email &mdash; <i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--danger);"></i> ${spam} Spam &nbsp;|&nbsp; <i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--success);"></i> ${nonspam} Bukan Spam`;
   lucide.createIcons({nodes:[document.getElementById('batchSummary')]});
   
-  // Panggil ulang observer agar animasi terpicu
-  if (typeof window.observeScrollReveal === 'function') {
+  // Panggil observer HANYA jika sebelumnya tersembunyi
+  if (bCard.style.display === 'none' && typeof window.observeScrollReveal === 'function') {
     window.observeScrollReveal(bCard);
   }
   
