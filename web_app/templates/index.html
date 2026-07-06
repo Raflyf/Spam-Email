@@ -584,7 +584,7 @@
       // --- INTERSECTION OBSERVER UNTUK SCROLL REVEAL ---
       const revealOptions = {
         root: null,
-        rootMargin: '0px 0px -200px 0px', // Animasi baru mulai saat kartu sudah masuk sejauh 200px ke dalam layar
+        rootMargin: '0px 0px -150px 0px', // Kompromi jarak aman agar layar kecil tidak bug
         threshold: 0
       };
 
@@ -593,8 +593,11 @@
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
           } else {
-            // Hapus class agar animasi bisa terulang kembali saat digulir ke atas lalu ke bawah lagi
-            entry.target.classList.remove('active');
+            // Cek apakah elemen keluar dari viewport ke arah BAWAH (user scroll ke atas).
+            // Jika keluarnya ke atas (user scroll ke bawah dengan cepat), JANGAN di-reset agar tidak glitch!
+            if (entry.boundingClientRect.top > 0) {
+              entry.target.classList.remove('active');
+            }
           }
         });
       }, revealOptions);
