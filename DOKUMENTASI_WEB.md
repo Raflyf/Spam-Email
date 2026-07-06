@@ -51,7 +51,7 @@ Stop: `Ctrl+C` di terminal.
 - **Tema Dark Mode (VS Code / Linear Style)** — palet abu-abu/slate gelap yang modern dan nyaman di mata. Dilengkapi dengan dua tombol toggle (atas & bawah) yang ter-sinkronisasi. Seluruh komponen, termasuk _info-chip_ keterangan model, memiliki kontras gelap/terang yang disesuaikan secara khusus.
 - **Standar Confusion Matrix** — Tabel CM sudah menggunakan warna _Best Practice_ global (Hijau/Success untuk Prediksi Benar (TP/TN) dan Merah/Danger untuk Prediksi Salah (FP/FN)) beserta animasi transisi dan efek _hover_ interaktif.
 - **Efisiensi Ruang (Layout)** — Tabel Top 20 Fitur Chi-Square dibagi menjadi dua kolom berdampingan secara responsif agar tidak memakan terlalu banyak ruang vertikal ke bawah.
-- **Micro-interactions** — Hover tooltip instan untuk nama eksperimen, transisi halus pada _progress bar_, dan kotak dialog/notifikasi tanpa mem-blok layar.
+- **Micro-interactions & Animasi** — Terdapat animasi *scroll-reveal* (memudar masuk/keluar) pada kartu-kartu hasil analisis (Teks Biasa, Batch, Mode CSV, Grafik Histori) sehingga UI terasa lebih organik, sinematik, dan reaktif terhadap posisi scroll (Intersection Observer).
 - **Keterbacaan** — Banner _consensus_ spam disesuaikan warnanya agar tidak "sakit mata" saat berada di _Dark Mode_. Background log terminal bersifat statis (pekat gelap) di semua mode.
 - **Code Refactoring & Clean Architecture** — File Antarmuka Pengguna telah dipisah secara rapi menggunakan pendekatan modern `index.html` (kerangka), `style.css` (gaya & layout UI), dan `script.js` (logika _client-side_).
 
