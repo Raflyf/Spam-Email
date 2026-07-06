@@ -97,10 +97,10 @@ async function analyzeText() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Server error');
     
-    renderTextResult(data, text);
-    
-    // Reset active class so the scroll-reveal transition can play again
-    resultsEl.classList.remove('active');
+    // Panggil ulang observer agar animasi terpicu
+    if (typeof window.observeScrollReveal === 'function') {
+      window.observeScrollReveal(resultsEl);
+    }
     
     resultsEl.style.display = 'block';
     
@@ -428,8 +428,10 @@ async function analyzeBatch() {
     `${emails.length} email &mdash; <i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--danger);"></i> ${spam} Spam &nbsp;|&nbsp; <i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--success);"></i> ${nonspam} Bukan Spam`;
   lucide.createIcons({nodes:[document.getElementById('batchSummary')]});
   
-  // Reset active class so the scroll-reveal transition can play again
-  bCard.classList.remove('active');
+  // Panggil ulang observer agar animasi terpicu
+  if (typeof window.observeScrollReveal === 'function') {
+    window.observeScrollReveal(bCard);
+  }
   
   bCard.style.display = 'block';
 }

@@ -585,7 +585,9 @@ function renderHistory() {
   
   // Tampilkan grafik dengan animasi scroll-reveal
   if (chartCard.style.display === 'none') {
-    chartCard.classList.remove('active');
+    if (typeof window.observeScrollReveal === 'function') {
+      window.observeScrollReveal(chartCard);
+    }
     chartCard.style.display = 'block';
   } else {
     chartCard.style.display = 'block';
