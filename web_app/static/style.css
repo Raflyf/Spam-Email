@@ -2152,6 +2152,17 @@ input[type="checkbox"]:focus-visible {
 @keyframes stagger-fade-up {
   0% {
     opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-fade-up {
+  0% {
+    opacity: 0;
     transform: translateY(50px);
   }
   100% {
@@ -2162,7 +2173,8 @@ input[type="checkbox"]:focus-visible {
 
 .t-stagger {
   opacity: 0;
-  animation: stagger-fade-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  /* Animasi UI Tab: Kembali cepat */
+  animation: stagger-fade-up var(--duration-fast) var(--ease-smooth-out) forwards;
 }
 .t-stagger-1 { animation-delay: calc(var(--duration-stagger) * 1); }
 .t-stagger-2 { animation-delay: calc(var(--duration-stagger) * 2); }
@@ -2173,7 +2185,7 @@ input[type="checkbox"]:focus-visible {
 /* Animasi untuk elemen yang muncul dinamis (via JS trigger) - disamakan dengan CSV Mode */
 .t-reveal {
   opacity: 0;
-  animation: stagger-fade-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: reveal-fade-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* ────────────────────────────────────────────────────────
