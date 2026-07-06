@@ -98,13 +98,11 @@ async function analyzeText() {
     if (!res.ok) throw new Error(data.error || 'Server error');
     
     renderTextResult(data, text);
+    
+    // Reset active class so the scroll-reveal transition can play again
+    resultsEl.classList.remove('active');
+    
     resultsEl.style.display = 'block';
-    if (typeof window.observeScrollReveal === 'function') {
-      window.observeScrollReveal(resultsEl);
-    }
-    resultsEl.classList.remove('t-reveal');
-    void resultsEl.offsetWidth;
-    resultsEl.classList.add('t-reveal');
     
     setTimeout(() => {
       document.querySelectorAll('#textResults .prob-bar-fill').forEach(bar => {
@@ -430,10 +428,10 @@ async function analyzeBatch() {
     `${emails.length} email &mdash; <i data-lucide="shield-alert" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--danger);"></i> ${spam} Spam &nbsp;|&nbsp; <i data-lucide="shield-check" style="width:13px;height:13px;vertical-align:text-bottom;color:var(--success);"></i> ${nonspam} Bukan Spam`;
   lucide.createIcons({nodes:[document.getElementById('batchSummary')]});
   
+  // Reset active class so the scroll-reveal transition can play again
+  bCard.classList.remove('active');
+  
   bCard.style.display = 'block';
-  bCard.classList.remove('t-reveal');
-  void bCard.offsetWidth;
-  bCard.classList.add('t-reveal');
 }
 
 function clearBatch() {

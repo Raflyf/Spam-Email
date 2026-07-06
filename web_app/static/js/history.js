@@ -583,12 +583,10 @@ function renderHistory() {
   empty.style.display = 'none';
   wrap.style.display = 'block';
   
-  // Tampilkan grafik dengan animasi t-reveal
+  // Tampilkan grafik dengan animasi scroll-reveal
   if (chartCard.style.display === 'none') {
+    chartCard.classList.remove('active');
     chartCard.style.display = 'block';
-    chartCard.classList.remove('t-reveal');
-    void chartCard.offsetWidth; // force reflow
-    chartCard.classList.add('t-reveal');
   } else {
     chartCard.style.display = 'block';
   }
