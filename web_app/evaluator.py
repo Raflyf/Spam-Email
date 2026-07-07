@@ -341,7 +341,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
             raise e
     if not _m1_fitted:
         cb('GPU tetap tidak cukup, XGBoost (M1) terpaksa beralih ke CPU...')
-        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=256)
+        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=128)
         xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
 
     xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]

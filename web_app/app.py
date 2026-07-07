@@ -111,14 +111,89 @@ def _load_history():
             print(f"  [ERROR] Gagal load history: {e}")
             experiment_history = []
 
+    # RECOVERY ABANDONED JOBS (Akibat server mati mendadak/restart)
+    import time
+    try:
+        updated = False
+        known_jobs = {h.get('job_id') for h in experiment_history if h.get('job_id')}
+        if os.path.exists(JOBS_TEMP_DIR):
+            for job_id in os.listdir(JOBS_TEMP_DIR):
+                if job_id not in known_jobs:
+                    job_dir = os.path.join(JOBS_TEMP_DIR, job_id)
+                    if os.path.isdir(job_dir):
+                        result_path = os.path.join(job_dir, 'result.json')
+                        inp_path = os.path.join(job_dir, 'input.json')
+                        
+                        inp_data = {}
+                        if os.path.exists(inp_path):
+                            try:
+                                with open(inp_path, 'r', encoding='utf-8') as f:
+                                    inp_data = json.load(f)
+                            except Exception: pass
+                            
+                        # Jika input ada, berarti job sah yang terputus
+                        if inp_data:
+                            status = 'error'
+                            res_data = {}
+                            if os.path.exists(result_path):
+                                try:
+                                    raw = open(result_path, 'r', encoding='utf-8').read()
+                                    raw = re.sub(r':\s*NaN', ': null', raw)
+                                    raw = re.sub(r':\s*Infinity', ': null', raw)
+                                    parsed = json.loads(raw)
+                                    status = parsed.get('status', 'error')
+                                    res_data = parsed.get('result', {}) or {}
+                                except Exception: pass
+                            else:
+                                status = 'error'
+                                
+                            summary = {
+                                'job_id'       : job_id,
+                                'timestamp'    : time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(inp_path))),
+                                'elapsed_s'    : 0,
+                                'preset'       : inp_data.get('preset', '-'),
+                                'test_dataset_name' : inp_data.get('test_dataset_name', ''),
+                                'train_dataset_name': inp_data.get('train_dataset_name', ''),
+                                'n_nonspam'    : inp_data.get('n_nonspam', 0),
+                                'n_spam'       : inp_data.get('n_spam', 0),
+                                'n_train_nonspam': inp_data.get('n_train_nonspam', 0),
+                                'n_train_spam' : inp_data.get('n_train_spam', 0),
+                                'adapt_frac'   : inp_data.get('adapt_frac', 0.3),
+                                'adapt_weight' : inp_data.get('adapt_weight', 8.0),
+                                'custom_train' : inp_data.get('train_csv_path') is not None,
+                                'metode1'      : None,
+                                'metode2'      : None,
+                                'status'       : status,
+                                'note'         : 'Interupsi (Server terputus saat proses berjalan)',
+                                'label_name'   : inp_data.get('label_name', ''),
+                            }
+                            for mk in ['metode1', 'metode2']:
+                                r = res_data.get(mk)
+                                if r:
+                                    summary[mk] = {
+                                        'nb_acc' : r.get('naive_bayes', {}).get('accuracy'),
+                                        'xgb_acc': r.get('xgboost',     {}).get('accuracy'),
+                                        'nb_f1'  : r.get('naive_bayes', {}).get('f1'),
+                                        'xgb_f1' : r.get('xgboost',     {}).get('f1'),
+                                        'nb_cm'  : r.get('naive_bayes', {}).get('cm'),
+                                        'xgb_cm' : r.get('xgboost',     {}).get('cm'),
+                                        'top10_chi2': r.get('top20_chi2', [])[:10],
+                                    }
+                            experiment_history.append(summary)
+                            updated = True
+        if updated:
+            # Sort terbaru di paling atas, tapi append ditaruh belakang
+            # Tidak perlu disort disini karena /history otomatis membaca list.
+            _save_history()
+    except Exception as e:
+        print(f"  [ERROR] Gagal recovery history: {e}")
+
 def _save_history():
     try:
         with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
             json.dump(experiment_history, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"  [ERROR] Gagal simpan history: {e}")
-
-_load_history()
 
 # ──────────────────────────────────────────
 # SINGLE-TEXT PIPELINE (Mode Teks) — lazy load di background
@@ -171,6 +246,9 @@ jobs: dict      = {}        # job_id → {status, progress_linesread, job_dir, p
 jobs_lock       = threading.Lock()
 JOBS_TEMP_DIR   = os.path.join(tempfile.gettempdir(), 'spam_eval_jobs')
 os.makedirs(JOBS_TEMP_DIR, exist_ok=True)
+
+# Panggil load history setelah JOBS_TEMP_DIR didefinisikan
+_load_history()
 
 # ── CLEANUP ZOMBIE JOBS DARI SESI SERVER SEBELUMNYA ──
 try:
@@ -599,6 +677,11 @@ def predict_job():
         return jsonify({'error': 'job_id tidak ditemukan.'}), 400
     if not email_text:
         return jsonify({'error': 'Teks email tidak boleh kosong.'}), 400
+
+    with jobs_lock:
+        st = jobs.get(job_id, {}).get('status')
+        if st == 'running':
+            return jsonify({'error': 'Model masih dilatih di latar belakang. Harap tunggu hingga proses selesai.'}), 409
 
     job_dir    = os.path.join(JOBS_TEMP_DIR, job_id)
     model_path = os.path.join(job_dir, f'models_{metode}.joblib')
