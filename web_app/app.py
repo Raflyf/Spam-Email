@@ -17,7 +17,6 @@ import shutil
 import tempfile
 import subprocess
 import threading
-import pandas as pd
 from flask import Flask, render_template, request, jsonify
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
@@ -139,6 +138,8 @@ def _load_pipeline_bg():
         with pipeline_lock:
             pipeline       = pl
             pipelineready = True
+        # Bebaskan RAM sisa import/training
+        import gc; gc.collect()
         print("  [OK] Model pipeline siap (background load selesai)")
     except Exception as e:
         with pipeline_lock:
@@ -507,6 +508,7 @@ def evaluate():
     train_path = None
 
     def save_csv(file_obj, path):
+        import pandas as pd
         content = file_obj.read()
         # Deteksi separator
         import io as _io
@@ -724,6 +726,7 @@ def dataset_preview():
         return jsonify({'error': 'File tidak ditemukan.'}), 400
     try:
         from evaluator import detect_columns, normalize_labels
+        import pandas as pd
         content = f.read()
         df = None
         for sep in [',', ';', '\t']:
@@ -841,18 +844,73 @@ def job_status(job_id):
 
 
 if __name__ == '__main__':
+    # Deteksi IP jaringan lokal untuk akses dari perangkat lain
+    import socket
+    _local_ip = '127.0.0.1'
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 80))
+        _local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        pass
+
+    # ── Ngrok Tunnel (opsional, otomatis jika ngrok terinstal) ──
+    _ngrok_proc = None
+    def _start_ngrok():
+        global _ngrok_proc
+        try:
+            _ngrok_proc = subprocess.Popen(
+                ['ngrok', 'http', '5000', '--log', 'stdout', '--log-format', 'json'],
+                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0,
+            )
+            # Tunggu ngrok siap, lalu ambil URL publik via API lokal
+            import time as _t; _t.sleep(3)
+            import urllib.request
+            try:
+                resp = urllib.request.urlopen('http://127.0.0.1:4040/api/tunnels', timeout=5)
+                tunnels = json.loads(resp.read().decode())
+                for t in tunnels.get('tunnels', []):
+                    if t.get('proto') == 'https':
+                        print(f"  Publik   : {t['public_url']}")
+                        print( "  (Bisa dibuka dari mana saja, tanpa perlu 1 WiFi)\n")
+                        return
+                # Fallback: ambil tunnel pertama
+                if tunnels.get('tunnels'):
+                    print(f"  Publik   : {tunnels['tunnels'][0]['public_url']}")
+                    print( "  (Bisa dibuka dari mana saja, tanpa perlu 1 WiFi)\n")
+            except Exception:
+                print("  Publik   : (ngrok berjalan, cek http://127.0.0.1:4040)\n")
+        except FileNotFoundError:
+            print("  Publik   : (ngrok tidak ditemukan, lewati)\n")
+        except Exception as e:
+            print(f"  Publik   : (gagal start ngrok: {e})\n")
+
     print("=" * 60)
     print("  Spam Email Classifier - Web App")
     print("  Mode Teks  : prediksi satu email")
     print("  Mode CSV   : evaluasi batch (subprocess, CUDA-safe)")
     print("=" * 60)
-    print("\n  Akses di: http://localhost:5000")
-    print("  Model dimuat di background — halaman langsung bisa diakses")
-    print("  Menjalankan server via Waitress (Production WSGI)...\n")
+    print(f"\n  Lokal    : http://localhost:5000")
+    print(f"  Jaringan : http://{_local_ip}:5000")
+
+    # Jalankan ngrok di background thread
+    _ngrok_thread = threading.Thread(target=_start_ngrok, daemon=True)
+    _ngrok_thread.start()
+
+    print( "  Model dimuat di background — halaman langsung bisa diakses")
+    print( "  Menjalankan server via Waitress (Production WSGI)...\n")
     
     # Biarkan Waitress handle KeyboardInterrupt (CTRL+C) secara natural
     # agar socket tertutup dengan bersih, alih-alih di-os._exit(0) paksa.
-    serve(app, host='0.0.0.0', port=5000, threads=8)
+    try:
+        serve(app, host='0.0.0.0', port=5000, threads=4,
+              channel_timeout=120, recv_bytes=65536)
+    finally:
+        # Matikan ngrok saat server berhenti
+        if _ngrok_proc and _ngrok_proc.poll() is None:
+            _ngrok_proc.kill()
     
     print("\n  [INFO] Server dimatikan dengan aman.")
 
