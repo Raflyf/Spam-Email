@@ -21,6 +21,11 @@ function escapeHtml(unsafe) {
 // ═══════════════════════════════════════════
 
 function switchTab(t) {
+  const targetPane = document.getElementById(`pane-${t}`);
+  if (targetPane && targetPane.classList.contains('active')) {
+    return; // Cegah double-click menghapus card
+  }
+
   document.querySelectorAll('.tabs > .tab-btn').forEach((b, i) => {
     const isActive = (i === 0 && t === 'text') || (i === 1 && t === 'csv') || (i === 2 && t === 'history');
     b.classList.toggle('active', isActive);
@@ -231,7 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.observeScrollReveal = function(el) {
     el.classList.add('scroll-reveal');
-    el.classList.remove('active'); 
+    el.classList.remove('active');
+    window.revealObserver.unobserve(el); // Wajib di-unobserve agar callback observer terpicu ulang
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         window.revealObserver.observe(el);
