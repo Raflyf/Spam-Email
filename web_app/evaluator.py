@@ -307,7 +307,10 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     nb_pred       = (nb_proba_test >= thresh_nb).astype(int)
 
     # ---- XGB ----
-    cb(f'Metode 1 — melatih XGBoost ({XGB_DEVICE.upper()})...')
+    total_data_m1 = len(y_train) + len(y_test)
+    auto_max_bin_m1 = 128 if total_data_m1 > 10000 else 256
+    
+    cb(f'Metode 1 — melatih XGBoost ({XGB_DEVICE.upper()}, max_bin={auto_max_bin_m1})...')
     xgb_model = XGBClassifier(
         n_estimators      = 2000 if preset == 'full' else cfg['xgb_n_estimators'],
         learning_rate     = 0.03 if preset == 'full' else cfg['xgb_learning_rate'],
@@ -319,7 +322,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
         deterministic_histogram=True,
-        max_bin=256,
+        max_bin=auto_max_bin_m1,
         early_stopping_rounds=60 if preset == 'full' else cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
@@ -331,8 +334,9 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM penuh (max_bin=256), coba max_bin=128...')
-            xgb_model.set_params(max_bin=128)
+            fallback_bin_m1 = 64 if auto_max_bin_m1 == 128 else 128
+            cb(f'VRAM penuh (max_bin={auto_max_bin_m1}), coba max_bin={fallback_bin_m1}...')
+            xgb_model.set_params(max_bin=fallback_bin_m1)
             try:
                 xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
                 _m1_fitted = True
@@ -342,7 +346,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
             raise e
     if not _m1_fitted:
         cb('GPU tetap tidak cukup, XGBoost (M1) terpaksa beralih ke CPU...')
-        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=256)
+        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=auto_max_bin_m1)
         xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
 
     xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
@@ -492,7 +496,10 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
     nb_pred       = (nb_proba_test >= thresh_nb).astype(int)
 
     # ---- XGB ----
-    cb(f'Metode 2 — melatih XGBoost ({XGB_DEVICE.upper()})...')
+    total_data_m2 = len(y_train) + len(y_test)
+    auto_max_bin_m2 = 128 if total_data_m2 > 10000 else 256
+    
+    cb(f'Metode 2 — melatih XGBoost ({XGB_DEVICE.upper()}, max_bin={auto_max_bin_m2})...')
     xgb_model = XGBClassifier(
         n_estimators      = cfg['xgb_n_estimators'],
         learning_rate     = cfg['xgb_learning_rate'],
@@ -504,7 +511,7 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
         deterministic_histogram=True,
-        max_bin=256,
+        max_bin=auto_max_bin_m2,
         early_stopping_rounds=cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
@@ -517,8 +524,9 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM penuh (max_bin=128), coba max_bin=64...')
-            xgb_model.set_params(max_bin=64)
+            fallback_bin_m2 = 64 if auto_max_bin_m2 == 128 else 128
+            cb(f'VRAM penuh (max_bin={auto_max_bin_m2}), coba max_bin={fallback_bin_m2}...')
+            xgb_model.set_params(max_bin=fallback_bin_m2)
             try:
                 xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
                               eval_set=[(X_val, y_val)], verbose=False)
@@ -529,7 +537,7 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
             raise e
     if not _m2_fitted:
         cb('GPU tetap tidak cukup, XGBoost (M2) terpaksa beralih ke CPU...')
-        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=256)
+        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=auto_max_bin_m2)
         xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
                       eval_set=[(X_val, y_val)], verbose=False)
 
