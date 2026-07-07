@@ -23,8 +23,8 @@ from xgboost import XGBClassifier
 
 
 from _shared import (
-    SPAM_KW, HAM_PLATFORMS, preprocess, 
-    extra_features, find_best_threshold
+    SPAM_KW_M1, SPAM_KW_M2, HAM_PLATFORMS, preprocess, 
+    extra_features_m1, extra_features_m2, find_best_threshold
 )
 
 
@@ -255,8 +255,8 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     y_test       = df_test_upload['Label'].values.astype(np.int32)
 
     # ---- Extra features ----
-    X_train_extra = np.array([extra_features(t) for t in df_train_kaggle['Text']], dtype=np.float32)
-    X_test_extra  = np.array([extra_features(t) for t in df_test_upload['Text']],  dtype=np.float32)
+    X_train_extra = np.array([extra_features_m1(t) for t in df_train_kaggle['Text']], dtype=np.float32)
+    X_test_extra  = np.array([extra_features_m1(t) for t in df_test_upload['Text']],  dtype=np.float32)
 
     # ---- TF-IDF ----
     cb('Metode 1 — TF-IDF vectorization...')
@@ -268,7 +268,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     X_test_word  = tfidf_word.transform(X_test_text)
 
     tfidf_char = TfidfVectorizer(
-        max_features=cfg['tfidf_char_features'], analyzer='char_wb',
+        max_features=10000 if preset == 'full' else cfg['tfidf_char_features'], analyzer='char_wb',
         ngram_range=(3, 5), min_df=2, max_df=0.90, sublinear_tf=True,
     )
     X_train_char = tfidf_char.fit_transform(X_train_text)
@@ -308,7 +308,6 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
 
     # ---- XGB ----
     cb(f'Metode 1 — melatih XGBoost ({XGB_DEVICE.upper()})...')
-    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
     xgb_model = XGBClassifier(
         n_estimators      = 2000 if preset == 'full' else cfg['xgb_n_estimators'],
         learning_rate     = 0.03 if preset == 'full' else cfg['xgb_learning_rate'],
@@ -319,20 +318,37 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
         gamma=0.3, reg_alpha=0.05, reg_lambda=1.0, min_child_weight=3,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
-        max_bin=vram_saver_bin,
-        early_stopping_rounds=cfg['xgb_early_stopping'],
+        max_bin=256,
+        early_stopping_rounds=60 if preset == 'full' else cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
+    # Fallback bertingkat: GPU 256 -> GPU 128 -> GPU 64 -> CPU
+    _m1_fitted = False
     try:
         xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
+        _m1_fitted = True
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM tidak cukup, XGBoost (M1) beralih ke CPU. Harap tunggu, proses ini akan memakan waktu lebih lama...')
-            xgb_model.set_params(device='cpu', n_jobs=-1)
-            xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
+            cb('VRAM penuh (max_bin=256), coba max_bin=128...')
+            xgb_model.set_params(max_bin=128)
+            try:
+                xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
+                _m1_fitted = True
+            except Exception:
+                cb('VRAM masih penuh (max_bin=128), coba max_bin=64...')
+                xgb_model.set_params(max_bin=64)
+                try:
+                    xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
+                    _m1_fitted = True
+                except Exception:
+                    pass
         else:
             raise e
+    if not _m1_fitted:
+        cb('GPU tetap tidak cukup, XGBoost (M1) terpaksa beralih ke CPU...')
+        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=256)
+        xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
 
     xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
     thresh_xgb, _ = find_best_threshold(xgb_val_proba, y_val)
@@ -432,8 +448,8 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
     X_test_text  = df_test_final['Text'].apply(preprocess)
     y_test       = df_test_final['Label'].values.astype(np.int32)
 
-    X_train_extra = np.array([extra_features(t) for t in df_combined['Text']],   dtype=np.float32)
-    X_test_extra  = np.array([extra_features(t) for t in df_test_final['Text']], dtype=np.float32)
+    X_train_extra = np.array([extra_features_m2(t) for t in df_combined['Text']],   dtype=np.float32)
+    X_test_extra  = np.array([extra_features_m2(t) for t in df_test_final['Text']], dtype=np.float32)
 
     # ---- TF-IDF ----
     cb('Metode 2 — TF-IDF vectorization...')
@@ -482,7 +498,6 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
 
     # ---- XGB ----
     cb(f'Metode 2 — melatih XGBoost ({XGB_DEVICE.upper()})...')
-    vram_saver_bin = 128 if X_tr.shape[0] > 10000 else 256
     xgb_model = XGBClassifier(
         n_estimators      = cfg['xgb_n_estimators'],
         learning_rate     = cfg['xgb_learning_rate'],
@@ -493,22 +508,41 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
         gamma=0.5, reg_alpha=0.1, reg_lambda=2.0, min_child_weight=5,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
-        max_bin=vram_saver_bin,
+        max_bin=256,
         early_stopping_rounds=cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
+    # Fallback bertingkat: GPU 256 -> GPU 128 -> GPU 64 -> CPU
+    _m2_fitted = False
     try:
         xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
                       eval_set=[(X_val, y_val)], verbose=False)
+        _m2_fitted = True
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM tidak cukup, XGBoost (M2) beralih ke CPU. Harap tunggu, proses ini akan memakan waktu lebih lama...')
-            xgb_model.set_params(device='cpu', n_jobs=-1)
-            xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
-                          eval_set=[(X_val, y_val)], verbose=False)
+            cb('VRAM penuh (max_bin=256), coba max_bin=128...')
+            xgb_model.set_params(max_bin=128)
+            try:
+                xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
+                              eval_set=[(X_val, y_val)], verbose=False)
+                _m2_fitted = True
+            except Exception:
+                cb('VRAM masih penuh (max_bin=128), coba max_bin=64...')
+                xgb_model.set_params(max_bin=64)
+                try:
+                    xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
+                                  eval_set=[(X_val, y_val)], verbose=False)
+                    _m2_fitted = True
+                except Exception:
+                    pass
         else:
             raise e
+    if not _m2_fitted:
+        cb('GPU tetap tidak cukup, XGBoost (M2) terpaksa beralih ke CPU...')
+        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=256)
+        xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
+                      eval_set=[(X_val, y_val)], verbose=False)
 
     xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
     thresh_xgb, _ = find_best_threshold(xgb_val_proba, y_val)
@@ -564,7 +598,10 @@ def predict_single_from_job(email_text: str, job_models: dict) -> dict:
     import math
 
     clean_text = preprocess(email_text)
-    extra_feat = np.array([extra_features(email_text)], dtype=np.float32)
+    if job_models.get('metode') == 'metode2':
+        extra_feat = np.array([extra_features_m2(email_text)], dtype=np.float32)
+    else:
+        extra_feat = np.array([extra_features_m1(email_text)], dtype=np.float32)
 
     word_vec = job_models['tfidf_word'].transform([clean_text])
     char_vec = job_models['tfidf_char'].transform([clean_text])

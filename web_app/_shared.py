@@ -6,7 +6,19 @@ from sklearn.metrics import f1_score
 # KONSTANTA BERSAMA
 # ==========================================
 
-SPAM_KW = [
+SPAM_KW_M1 = [
+    'free','click','unsubscribe','offer','winner','won',
+    'urgent','immediately','guarantee','bonus','prize','cash',
+    'congratulations','selected','limited','exclusive','deal',
+    'discount','save','earn','income','money','profit',
+    'investment','million','percent','verify','account',
+    'password','security','bank','credit','loan',
+    'pharmacy','pills','medication','weight','diet',
+    'buy now','order now','act now','click here',
+    'this is not spam','you have been selected',
+]
+
+SPAM_KW_M2 = [
     'free','click','unsubscribe','offer','winner','won',
     'urgent','immediately','guarantee','bonus','prize','cash',
     'congratulations','selected','limited','exclusive','deal',
@@ -16,7 +28,7 @@ SPAM_KW = [
     'pharmacy','pills','medication','weight','diet',
 ]
 
-UI_SPAM_KW = SPAM_KW + [
+UI_SPAM_KW = SPAM_KW_M1 + [
     'reward', 'redeem', 'expires', 'action-packed', 'tickets', 
     'bonuses', 'collaboration', 'secure', 'premium', 'worth', 'celebrate'
 ]
@@ -44,8 +56,8 @@ def preprocess(text: str) -> str:
     return ' '.join(w for w in text.split() if len(w) > 1)
 
 
-def extra_features(raw_text: str) -> list:
-    """Ekstraksi fitur heuristik kustom (struktural dan kata kunci biner)."""
+def extra_features_m1(raw_text: str) -> list:
+    """Ekstraksi 57 fitur untuk Metode 1."""
     text    = str(raw_text)
     lower   = text.lower()
     length  = max(len(text), 1)
@@ -72,10 +84,45 @@ def extra_features(raw_text: str) -> list:
         int(excl_count > 3),
         int(upper_count / length > 0.3),
         min(n_words / 500, 1.0),
-        int(any(re.search(r'\b' + re.escape(p) + r'\b', lower) for p in HAM_PLATFORMS)),
+        int(any(p in lower for p in HAM_PLATFORMS)),
     ]
-    for kw in SPAM_KW:
-        feats.append(int(bool(re.search(r'\b' + re.escape(kw) + r'\b', lower))))
+    for kw in SPAM_KW_M1:
+        feats.append(int(kw in lower))
+    return feats
+
+
+def extra_features_m2(raw_text: str) -> list:
+    """Ekstraksi 51 fitur untuk Metode 2."""
+    text    = str(raw_text)
+    lower   = text.lower()
+    length  = max(len(text), 1)
+    words   = text.split()
+    n_words = max(len(words), 1)
+
+    upper_count    = sum(1 for c in text if c.isupper())
+    all_caps_words = sum(1 for w in words if w.isupper() and len(w) > 1)
+    html_tags      = len(re.findall(r'<[^>]+>', text))
+    excl_count     = text.count('!')
+    url_count      = len(re.findall(r'http\S+|www\S+', lower))
+    email_count    = len(re.findall(r'\S+@\S+', lower))
+
+    feats = [
+        min(length / 3000, 1.0),
+        excl_count / length,
+        text.count('$') / length,
+        text.count('?') / length,
+        upper_count / length,
+        all_caps_words / n_words,
+        min(url_count / 5, 1.0),
+        email_count / n_words,
+        min(html_tags / 20, 1.0),
+        int(excl_count > 3),
+        int(upper_count / length > 0.3),
+        min(n_words / 500, 1.0),
+        int(any(p in lower for p in HAM_PLATFORMS)),
+    ]
+    for kw in SPAM_KW_M2:
+        feats.append(int(kw in lower))
     return feats
 
 

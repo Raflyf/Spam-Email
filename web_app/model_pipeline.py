@@ -34,8 +34,8 @@ THRESHOLD_PATH      = os.path.join(MODEL_DIR, 'thresholds.joblib')
 
 
 from _shared import (
-    SPAM_KW, UI_SPAM_KW, HAM_PLATFORMS,
-    preprocess, extra_features, find_best_threshold
+    SPAM_KW_M2, UI_SPAM_KW, HAM_PLATFORMS,
+    preprocess, extra_features_m2, find_best_threshold
 )
 
 def check_gpu():
@@ -170,7 +170,7 @@ class SpamPipeline:
         X_train_text  = df_train_combined['Text'].apply(preprocess)
         y_train        = df_train_combined['Spam/Ham'].values.astype(np.int32)
 
-        X_train_extra = np.array([extra_features(t) for t in df_train_combined['Text']], dtype=np.float32)
+        X_train_extra = np.array([extra_features_m2(t) for t in df_train_combined['Text']], dtype=np.float32)
 
         # --- TF-IDF ---
         print("  [4/5] TF-IDF Vectorization...")
@@ -252,7 +252,7 @@ class SpamPipeline:
 
         # Preprocessing
         clean_text   = preprocess(email_text)
-        extra_feat   = np.array([extra_features(email_text)], dtype=np.float32)
+        extra_feat   = np.array([extra_features_m2(email_text)], dtype=np.float32)
 
         # TF-IDF
         word_vec = self.tfidf_word.transform([clean_text])
