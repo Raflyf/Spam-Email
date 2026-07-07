@@ -767,8 +767,9 @@ body.dark .progress-log {
 th {
   position: sticky;
   top: 0;
-  background: inherit;
+  background: var(--card-bg) !important;
   z-index: 10;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 th:hover {
   z-index: 20;
@@ -1921,13 +1922,13 @@ table.history-table tr:last-child td,
   border-bottom: none !important;
 }
 .cm-table th, .per-class-table th, table.history-table th {
-  background: rgba(0,0,0,0.02) !important;
+  background: var(--card-bg) !important;
   font-weight: 600;
   color: var(--gray-400);
   font-size: 14px;
 }
 body.dark .cm-table th, body.dark .per-class-table th, body.dark table.history-table th {
-  background: rgba(255,255,255,0.02) !important;
+  background: var(--card-bg) !important;
 }
 .cm-table td, .per-class-table td, table.history-table td {
   font-size: 14px;
