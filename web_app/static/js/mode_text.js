@@ -99,6 +99,10 @@ async function analyzeText() {
     
     renderTextResult(data, text);
     
+    // Hapus sisa inline style dari proses fade-out sebelumnya agar tidak bentrok dengan CSS animation
+    resultsEl.style.transition = '';
+    resultsEl.style.opacity = '';
+    
     // Panggil observer HANYA jika sebelumnya tersembunyi
     if (resultsEl.style.display === 'none' && typeof window.observeScrollReveal === 'function') {
       window.observeScrollReveal(resultsEl);
