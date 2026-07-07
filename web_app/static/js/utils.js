@@ -215,8 +215,8 @@ function setLoading(id, active, display = 'block') {
 document.addEventListener('DOMContentLoaded', () => {
   const revealOptions = {
     root: null,
-    rootMargin: '0px 0px -40px 0px',
-    threshold: 0.09
+    rootMargin: '0px 0px -15px 0px',
+    threshold: 0.05
   };
 
   window.revealObserver = new IntersectionObserver((entries) => {
