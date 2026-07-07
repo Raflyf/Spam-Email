@@ -395,15 +395,15 @@ async function analyzeBatch() {
       const d = await res.json();
       if (!res.ok) throw new Error(d.error);
       const rek = d.rekomendasi || d.consensus;
-      const isSpam = rek?.is_spam ?? false;
+      const isSpam = rek ? rek.is_spam : false;
       if (isSpam) spam++; else nonspam++;
       _batchData.push({
         _num: i + 1,
         email: emails[i], isSpam,
-        nb_prob: d.naive_bayes?.probability,
-        xgb_prob: d.xgboost?.probability,
-        nb_label: d.naive_bayes?.label,
-        xgb_label: d.xgboost?.label,
+        nb_prob: d.naive_bayes ? d.naive_bayes.probability : null,
+        xgb_prob: d.xgboost ? d.xgboost.probability : null,
+        nb_label: d.naive_bayes ? d.naive_bayes.label : null,
+        xgb_label: d.xgboost ? d.xgboost.label : null,
       });
     } catch (e) {
       _batchData.push({

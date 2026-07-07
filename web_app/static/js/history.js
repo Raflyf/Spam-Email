@@ -112,9 +112,9 @@ function renderRealtimeResult(d, metode) {
   const metodeLabel = metode === 'metode1'
     ? 'Metode 1 (Tanpa Domain Adaptation)' : 'Metode 2 (Domain Adaptation)';
 
-  const spamTags = (rek?.indikator_spam || []).map(r =>
+  const spamTags = (rek && rek.indikator_spam ? rek.indikator_spam : []).map(r =>
     `<span class="indicator-spam"><i data-lucide="flag" style="width:11px;height:11px;vertical-align:text-bottom;margin-right:3px;"></i>${r}</span>`).join('');
-  const hamTags = (rek?.indikator_ham || []).map(r =>
+  const hamTags = (rek && rek.indikator_ham ? rek.indikator_ham : []).map(r =>
     `<span class="indicator-ham"><i data-lucide="check" style="width:11px;height:11px;vertical-align:text-bottom;margin-right:3px;"></i>${r}</span>`).join('');
 
   el.innerHTML = `
@@ -245,7 +245,7 @@ function showCompareModal(runs) {
   const rowsHtml = ['metode1', 'metode2'].map(mk => {
     const mLabel = mk === 'metode1' ? 'Metode 1 (Tanpa Adaptasi)' : 'Metode 2 (Domain Adaptasi)';
     const cells = metrics.map(({ key }) => {
-      const vals = runs.map(r => r[mk]?.[key] ?? null);
+      const vals = runs.map(r => (r[mk] && r[mk][key] !== undefined) ? r[mk][key] : null);
       const max = Math.max(...vals.filter(v => v != null));
       return vals.map(v => {
         const isMax = v === max && max != null;
@@ -259,7 +259,7 @@ function showCompareModal(runs) {
     <div style="padding:10px;background:var(--gray-100);border-radius:8px;border-left:3px solid ${colors[i % colors.length]};">
       <b style="color:${colors[i % colors.length]};">Eks ${i + 1}${r.label_name ? ' — ' + r.label_name : ''}</b><br>
       <span style="font-size:13px;color:var(--gray-600);">${r.timestamp}</span><br>
-      Adapt: ${Math.round((r.adapt_frac ?? 0) * 100)}% | Test: ${r.n_nonspam ?? 'all'}/${r.n_spam ?? 'all'} | ${r.preset?.toUpperCase()}
+      Adapt: ${Math.round((r.adapt_frac !== undefined ? r.adapt_frac : 0) * 100)}% | Test: ${r.n_nonspam !== undefined ? r.n_nonspam : 'all'}/${r.n_spam !== undefined ? r.n_spam : 'all'} | ${r.preset ? r.preset.toUpperCase() : ''}
       ${r.note ? `<br><i style="color:var(--gray-400);font-size:13px;">"${r.note}"</i>` : ''}
     </div>`).join('');
 
@@ -267,13 +267,13 @@ function showCompareModal(runs) {
   const chartLabels = ['NB Akurasi', 'XGB Akurasi', 'NB F1', 'XGB F1'];
   const chartDatasets = runs.map((r, i) => ({
     label: (r.label_name || ('Eks ' + (i + 1))) + ' M1',
-    data: ['nb_acc', 'xgb_acc', 'nb_f1', 'xgb_f1'].map(k => r.metode1?.[k] ?? null),
+    data: ['nb_acc', 'xgb_acc', 'nb_f1', 'xgb_f1'].map(k => (r.metode1 && r.metode1[k] !== undefined) ? r.metode1[k] : null),
     backgroundColor: colors[i % colors.length] + 'bb',
     borderColor: colors[i % colors.length],
     borderWidth: 1
   })).concat(runs.map((r, i) => ({
     label: (r.label_name || ('Eks ' + (i + 1))) + ' M2',
-    data: ['nb_acc', 'xgb_acc', 'nb_f1', 'xgb_f1'].map(k => r.metode2?.[k] ?? null),
+    data: ['nb_acc', 'xgb_acc', 'nb_f1', 'xgb_f1'].map(k => (r.metode2 && r.metode2[k] !== undefined) ? r.metode2[k] : null),
     backgroundColor: colors[(i + Math.ceil(runs.length / 2)) % colors.length] + 'bb',
     borderColor: colors[(i + Math.ceil(runs.length / 2)) % colors.length],
     borderWidth: 1,
@@ -387,7 +387,8 @@ function showCompareModal(runs) {
 
   // Draw chart after element exists in DOM
   setTimeout(() => {
-    const ctx = document.getElementById(chartId)?.getContext('2d');
+    const chartCanvas = document.getElementById(chartId);
+  const ctx = chartCanvas ? chartCanvas.getContext('2d') : null;
     if (!ctx || typeof Chart === 'undefined') return;
     new Chart(ctx, {
       type: 'bar',
@@ -396,7 +397,7 @@ function showCompareModal(runs) {
         responsive: true,
         plugins: {
           legend: { position: 'top', labels: { font: { size: 10 } } },
-          tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + (c.raw ?? '—') + '%' } }
+          tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + (c.raw !== null && c.raw !== undefined ? c.raw : '—') + '%' } }
         },
         scales: {
           y: { min: 0, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: 'rgba(128,128,128,0.15)' } },
@@ -609,7 +610,8 @@ function renderHistory() {
 
   // Assign nomor urut (1 = terlama, n = terbaru) sebelum sort
   // _historyData sudah urut terbaru di atas dari /history endpoint
-  let q = document.getElementById('historySearch')?.value.toLowerCase() || '';
+  const searchEl = document.getElementById('historySearch');
+  let q = searchEl ? (searchEl.value.toLowerCase() || '') : '';
   let dataToRender = _historyData;
   if (q) dataToRender = _historyData.filter(h => JSON.stringify(h).toLowerCase().includes(q));
   const withNo = [...dataToRender].reverse().map((h, i) => ({ ...h, _no: i + 1 }));
@@ -621,12 +623,12 @@ function renderHistory() {
       case 'no': va = a._no; vb = b._no; break;
       case 'time': va = a.timestamp; vb = b.timestamp; break;
       case 'preset': va = a.preset; vb = b.preset; break;
-      case 'adapt': va = a.adapt_frac ?? 0; vb = b.adapt_frac ?? 0; break;
-      case 'nb_m1': va = a.metode1?.nb_acc ?? -1; vb = b.metode1?.nb_acc ?? -1; break;
-      case 'xgb_m1': va = a.metode1?.xgb_acc ?? -1; vb = b.metode1?.xgb_acc ?? -1; break;
-      case 'nb_m2': va = a.metode2?.nb_acc ?? -1; vb = b.metode2?.nb_acc ?? -1; break;
-      case 'xgb_m2': va = a.metode2?.xgb_acc ?? -1; vb = b.metode2?.xgb_acc ?? -1; break;
-      case 'elapsed': va = a.elapsed_s ?? 0; vb = b.elapsed_s ?? 0; break;
+      case 'adapt': va = a.adapt_frac !== undefined ? a.adapt_frac : 0; vb = b.adapt_frac !== undefined ? b.adapt_frac : 0; break;
+      case 'nb_m1': va = (a.metode1 && a.metode1.nb_acc !== undefined) ? a.metode1.nb_acc : -1; vb = (b.metode1 && b.metode1.nb_acc !== undefined) ? b.metode1.nb_acc : -1; break;
+      case 'xgb_m1': va = (a.metode1 && a.metode1.xgb_acc !== undefined) ? a.metode1.xgb_acc : -1; vb = (b.metode1 && b.metode1.xgb_acc !== undefined) ? b.metode1.xgb_acc : -1; break;
+      case 'nb_m2': va = (a.metode2 && a.metode2.nb_acc !== undefined) ? a.metode2.nb_acc : -1; vb = (b.metode2 && b.metode2.nb_acc !== undefined) ? b.metode2.nb_acc : -1; break;
+      case 'xgb_m2': va = (a.metode2 && a.metode2.xgb_acc !== undefined) ? a.metode2.xgb_acc : -1; vb = (b.metode2 && b.metode2.xgb_acc !== undefined) ? b.metode2.xgb_acc : -1; break;
+      case 'elapsed': va = a.elapsed_s !== undefined ? a.elapsed_s : 0; vb = b.elapsed_s !== undefined ? b.elapsed_s : 0; break;
       default: va = a._no; vb = b._no;
     }
     if (va < vb) return _sortAsc ? -1 : 1;
@@ -717,17 +719,18 @@ function renderHistory() {
 }
 
 function renderHistoryChart() {
-  const metric = document.getElementById('chartMetric')?.value || 'acc';
+  const chartMetricEl = document.getElementById('chartMetric');
+  const metric = chartMetricEl ? (chartMetricEl.value || 'acc') : 'acc';
   const key = metric === 'acc' ? 'acc' : 'f1';
   const chronData = [..._historyData].reverse();   // urut lama→baru
   const labels = chronData.map((h, i) => ['Eks #' + (i + 1), h.timestamp.slice(5, 16)]);
 
   // Pakai bar chart — lebih jelas untuk data sedikit
   const barData = [
-    { label: 'NB M1', data: chronData.map(h => h.metode1?.[`nb_${key}`] ?? null), backgroundColor: '#818cf8' },
-    { label: 'XGB M1', data: chronData.map(h => h.metode1?.[`xgb_${key}`] ?? null), backgroundColor: '#4f46e5' },
-    { label: 'NB M2', data: chronData.map(h => h.metode2?.[`nb_${key}`] ?? null), backgroundColor: '#38bdf8' },
-    { label: 'XGB M2', data: chronData.map(h => h.metode2?.[`xgb_${key}`] ?? null), backgroundColor: '#0284c7' },
+    { label: 'NB M1', data: chronData.map(h => (h.metode1 && h.metode1[`nb_${key}`] !== undefined) ? h.metode1[`nb_${key}`] : null), backgroundColor: '#818cf8' },
+    { label: 'XGB M1', data: chronData.map(h => (h.metode1 && h.metode1[`xgb_${key}`] !== undefined) ? h.metode1[`xgb_${key}`] : null), backgroundColor: '#4f46e5' },
+    { label: 'NB M2', data: chronData.map(h => (h.metode2 && h.metode2[`nb_${key}`] !== undefined) ? h.metode2[`nb_${key}`] : null), backgroundColor: '#38bdf8' },
+    { label: 'XGB M2', data: chronData.map(h => (h.metode2 && h.metode2[`xgb_${key}`] !== undefined) ? h.metode2[`xgb_${key}`] : null), backgroundColor: '#0284c7' },
   ];
 
   const ctx = document.getElementById('historyChart').getContext('2d');
@@ -742,7 +745,7 @@ function renderHistoryChart() {
         legend: { position: 'top', labels: { font: { size: 11 } } },
         tooltip: {
           callbacks: {
-            label: c => ' ' + c.dataset.label + ': ' + (c.raw ?? '—') + '%',
+            label: c => ' ' + c.dataset.label + ': ' + (c.raw !== null && c.raw !== undefined ? c.raw : '—') + '%',
           }
         },
         datalabels: false,
@@ -773,8 +776,8 @@ function exportHistoryCSV() {
     h.n_nonspam, h.n_spam,
     h.adapt_frac != null ? Math.round(h.adapt_frac * 100) + '%' : '-',
     h.adapt_weight != null ? h.adapt_weight + '×' : '-',
-    m1.nb_acc ?? '', m1.xgb_acc ?? '', m2.nb_acc ?? '', m2.xgb_acc ?? '',
-    m1.nb_f1 ?? '', m1.xgb_f1 ?? '', m2.nb_f1 ?? '', m2.xgb_f1 ?? '',
+    (m1.nb_acc !== undefined ? m1.nb_acc : ''), (m1.xgb_acc !== undefined ? m1.xgb_acc : ''), (m2.nb_acc !== undefined ? m2.nb_acc : ''), (m2.xgb_acc !== undefined ? m2.xgb_acc : ''),
+    (m1.nb_f1 !== undefined ? m1.nb_f1 : ''), (m1.xgb_f1 !== undefined ? m1.xgb_f1 : ''), (m2.nb_f1 !== undefined ? m2.nb_f1 : ''), (m2.xgb_f1 !== undefined ? m2.xgb_f1 : ''),
     h.elapsed_s, h.status]);
   });
   const csv = rows.map(r => r.join(',')).join('\n');
@@ -848,7 +851,8 @@ async function startEval() {
   fd.append('preset', preset);
   fd.append('n_train_nonspam', parseInt(document.getElementById('nTrainNonSpam').value) || 0);
   fd.append('n_train_spam', parseInt(document.getElementById('nTrainSpam').value) || 0);
-  const labelName = document.getElementById('evalLabel')?.value.trim() || '';
+  const evalLabelEl = document.getElementById('evalLabel');
+  const labelName = evalLabelEl ? (evalLabelEl.value.trim() || '') : '';
   if (labelName) fd.append('label_name', labelName);
 
   const evalBtn = document.getElementById('evalBtn');

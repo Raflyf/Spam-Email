@@ -197,6 +197,14 @@ function resetCsv() {
 
 
 
+// Helper: reset teks tombol evaluasi
+function _resetEvalBtn() {
+  const btn = document.getElementById('evalBtn');
+  btn.disabled = false;
+  btn.innerHTML = '<i data-lucide="play" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Mulai Evaluasi';
+  lucide.createIcons();
+}
+
 function pollJob(jobId) {
   const logEl = document.getElementById('progressLog');
   let elapsed = 0;
@@ -211,7 +219,7 @@ function pollJob(jobId) {
       const cancelBtn = document.getElementById('cancelJobBtn');
       if (cancelBtn) cancelBtn.style.display = 'none';
       setLoading('csvLoading', false);
-      document.getElementById('evalBtn').disabled = false;
+      _resetEvalBtn();
       setProgressBar(0, '');
       showError('csvError', '⏱ Training timeout (melebihi 30 menit). Coba gunakan mode Fast atau dataset lebih kecil.');
       return;
@@ -235,7 +243,7 @@ function pollJob(jobId) {
           const cancelBtn = document.getElementById('cancelJobBtn');
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
-          document.getElementById('evalBtn').disabled = false;
+          _resetEvalBtn();
           enableCsvInputs(); // Enable CSV inputs saat job selesai
           setProgressBar(100, 'Selesai');
           try {
@@ -256,7 +264,7 @@ function pollJob(jobId) {
           const cancelBtn = document.getElementById('cancelJobBtn');
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
-          document.getElementById('evalBtn').disabled = false;
+          _resetEvalBtn();
           enableCsvInputs(); // Enable CSV inputs saat job error
           setProgressBar(0, '');
           showError('csvError', data.error || 'Terjadi kesalahan saat evaluasi.');
@@ -266,7 +274,7 @@ function pollJob(jobId) {
           const cancelBtn = document.getElementById('cancelJobBtn');
           if (cancelBtn) cancelBtn.style.display = 'none';
           setLoading('csvLoading', false);
-          document.getElementById('evalBtn').disabled = false;
+          _resetEvalBtn();
           enableCsvInputs(); // Enable CSV inputs saat job dibatalkan
           setProgressBar(0, '');
           // Pesan cancel yang bersih — bukan error merah
@@ -311,7 +319,7 @@ function _showCancelBtn(jobId) {
 
 async function cancelCurrentJob() {
   const btn = document.getElementById('cancelJobBtn');
-  const jobId = btn?._jobId || sessionStorage.getItem('lastRunningJobId');
+  const jobId = (btn ? btn._jobId : null) || sessionStorage.getItem('lastRunningJobId');
   if (!jobId) return;
   if (!confirm('Batalkan proses training yang sedang berjalan?')) return;
   try {
@@ -319,7 +327,7 @@ async function cancelCurrentJob() {
   } catch (e) { }
   if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
   setLoading('csvLoading', false);
-  document.getElementById('evalBtn').disabled = false;
+  _resetEvalBtn();
   enableCsvInputs();
   if (btn) btn.style.display = 'none';
   sessionStorage.removeItem('lastRunningJobId');
@@ -459,7 +467,7 @@ function buildMethodCard(r, key) {
         <div class="result-section chi-square-section" style="margin-top:24px; padding-top:18px; border-top:1px dashed var(--gray-200);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <h3 style="margin:0; font-size:14px; color:#6366f1;"><i data-lucide="bar-chart-2" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:4px;"></i>Top 20 Fitur Chi-Square</h3>
-            <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${r.metode?.replace(/\\s/g, '_')}.png')"
+            <button onclick="exportChi2AsPNG('chi2_${key}','chi2_${(r.metode || '').replace(/\\s/g, '_')}.png')"
                     class="btn-secondary" style="font-size:12px;padding:4px 8px;">
               <i data-lucide="image" style="width:13px;height:13px;vertical-align:text-bottom;margin-right:4px;"></i>Simpan PNG
             </button>
