@@ -319,11 +319,11 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
         deterministic_histogram=True,
-        max_bin=128,
+        max_bin=256,
         early_stopping_rounds=60 if preset == 'full' else cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
-    # Fallback bertingkat: GPU 128 -> GPU 64 -> CPU
+    # Fallback bertingkat: GPU 256 -> GPU 128 -> CPU
     _m1_fitted = False
     try:
         xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
@@ -331,8 +331,8 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM penuh (max_bin=128), coba max_bin=64...')
-            xgb_model.set_params(max_bin=64)
+            cb('VRAM penuh (max_bin=256), coba max_bin=128...')
+            xgb_model.set_params(max_bin=128)
             try:
                 xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
                 _m1_fitted = True
@@ -342,7 +342,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
             raise e
     if not _m1_fitted:
         cb('GPU tetap tidak cukup, XGBoost (M1) terpaksa beralih ke CPU...')
-        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=128)
+        xgb_model.set_params(device='cpu', n_jobs=-1, max_bin=256)
         xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
 
     xgb_val_proba = xgb_model.predict_proba(X_val)[:, 1]
@@ -504,11 +504,11 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
         deterministic_histogram=True,
-        max_bin=128,
+        max_bin=256,
         early_stopping_rounds=cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
-    # Fallback bertingkat: GPU 128 -> GPU 64 -> CPU
+    # Fallback bertingkat: GPU 256 -> GPU 128 -> CPU
     _m2_fitted = False
     try:
         xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
