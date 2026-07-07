@@ -318,11 +318,11 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
         gamma=0.3, reg_alpha=0.05, reg_lambda=1.0, min_child_weight=3,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
-        max_bin=256,
+        max_bin=128,
         early_stopping_rounds=60 if preset == 'full' else cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
-    # Fallback bertingkat: GPU 256 -> GPU 128 -> GPU 64 -> CPU
+    # Fallback bertingkat: GPU 128 -> GPU 64 -> CPU
     _m1_fitted = False
     try:
         xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
@@ -330,19 +330,13 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM penuh (max_bin=256), coba max_bin=128...')
-            xgb_model.set_params(max_bin=128)
+            cb('VRAM penuh (max_bin=128), coba max_bin=64...')
+            xgb_model.set_params(max_bin=64)
             try:
                 xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
                 _m1_fitted = True
             except Exception:
-                cb('VRAM masih penuh (max_bin=128), coba max_bin=64...')
-                xgb_model.set_params(max_bin=64)
-                try:
-                    xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
-                    _m1_fitted = True
-                except Exception:
-                    pass
+                pass
         else:
             raise e
     if not _m1_fitted:
@@ -508,11 +502,11 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
         gamma=0.5, reg_alpha=0.1, reg_lambda=2.0, min_child_weight=5,
         random_state=42, eval_metric='logloss',
         tree_method='hist', device=XGB_DEVICE,
-        max_bin=256,
+        max_bin=128,
         early_stopping_rounds=cfg['xgb_early_stopping'],
         n_jobs=-1 if XGB_DEVICE == 'cpu' else 1,
     )
-    # Fallback bertingkat: GPU 256 -> GPU 128 -> GPU 64 -> CPU
+    # Fallback bertingkat: GPU 128 -> GPU 64 -> CPU
     _m2_fitted = False
     try:
         xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
@@ -521,21 +515,14 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
     except Exception as e:
         err_str = str(e).lower()
         if 'memory' in err_str or 'alloc' in err_str or 'cuda' in err_str:
-            cb('VRAM penuh (max_bin=256), coba max_bin=128...')
-            xgb_model.set_params(max_bin=128)
+            cb('VRAM penuh (max_bin=128), coba max_bin=64...')
+            xgb_model.set_params(max_bin=64)
             try:
                 xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
                               eval_set=[(X_val, y_val)], verbose=False)
                 _m2_fitted = True
             except Exception:
-                cb('VRAM masih penuh (max_bin=128), coba max_bin=64...')
-                xgb_model.set_params(max_bin=64)
-                try:
-                    xgb_model.fit(X_tr, y_tr, sample_weight=sw_tr,
-                                  eval_set=[(X_val, y_val)], verbose=False)
-                    _m2_fitted = True
-                except Exception:
-                    pass
+                pass
         else:
             raise e
     if not _m2_fitted:
