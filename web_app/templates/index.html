@@ -82,9 +82,9 @@
           style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:8px;">
           <span style="font-size:14px;color:var(--gray-400)" id="charCount">0 karakter</span>
           <div class="btn-row" style="margin:0; display:flex; justify-content:flex-end; gap:8px; flex:1;">
-            <button class="btn-primary" id="analyzeBtn" onclick="analyzeText()"><i data-lucide="search" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Analisis</button>
-            <button class="btn-secondary" id="batchBtnHtml" title="Prediksi banyak email (satu per baris)" onclick="analyzeBatch()"><i data-lucide="layers" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Batch</button>
-            <button class="btn-secondary" onclick="clearText()">Hapus</button>
+            <button class="btn-primary" id="analyzeBtn" onclick="analyzeText()" aria-label="Analisis teks email tunggal"><i data-lucide="search" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Analisis</button>
+            <button class="btn-secondary" id="batchBtnHtml" title="Prediksi banyak email (satu per baris)" onclick="analyzeBatch()" aria-label="Analisis batch teks email"><i data-lucide="layers" style="width:15px;height:15px;vertical-align:text-bottom;margin-right:5px;"></i>Batch</button>
+            <button class="btn-secondary btn-danger" onclick="clearText()" aria-label="Bersihkan form teks">Hapus</button>
           </div>
         </div>
         <div class="error-box" id="textError"></div>
@@ -311,8 +311,8 @@
             onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--gray-200)'">
         </div>
         <div class="btn-row" style="margin-top:14px;">
-          <button class="btn-secondary" onclick="resetCsv()">Reset</button>
-          <button class="btn-primary" id="evalBtn" onclick="startEval()" disabled><i data-lucide="play" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Mulai Evaluasi</button>
+          <button class="btn-secondary btn-danger" onclick="resetCsv()" aria-label="Reset input dataset CSV">Reset</button>
+          <button class="btn-primary" id="evalBtn" onclick="startEval()" disabled aria-label="Mulai proses evaluasi model"><i data-lucide="play" style="width:14px;height:14px;vertical-align:text-bottom;margin-right:5px;"></i>Mulai Evaluasi</button>
         </div>
         <div class="error-box" id="csvError"></div>
       </div>
@@ -392,7 +392,7 @@
             <div class="examples example-pills"></div>
           </div>
           <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;">
-            <button class="btn-secondary" onclick="clearRealtime()">Hapus</button>
+            <button class="btn-secondary btn-danger" onclick="clearRealtime()">Hapus</button>
             <button class="btn-primary" id="realtimeBtn" onclick="analyzeRealtime()">
               <i data-lucide="zap"></i> Analisis dengan Model Ini
             </button>
@@ -423,7 +423,7 @@
             <button class="btn-secondary btn-sm" onclick="toggleSelectMode()" id="toggleSelectModeBtn" aria-label="Pilih data untuk dibandingkan">
               Pilih Data
             </button>
-            <button class="btn-secondary btn-sm" onclick="deleteSelectedHistory()" id="deleteSelectedBtn"
+            <button class="btn-secondary btn-danger btn-sm" onclick="deleteSelectedHistory()" id="deleteSelectedBtn"
               style="display:none;align-items:center;">
               <i data-lucide="trash-2"></i> Hapus Terpilih
             </button>
@@ -431,14 +431,18 @@
               style="color:#0284c7;display:none;">
               <i data-lucide="git-compare"></i> Bandingkan
             </button>
-            <button class="btn-secondary btn-sm" onclick="clearHistory()" id="clearHistBtn" aria-label="Hapus semua riwayat eksperimen"
-              style="color:var(--danger);display:none;">
+            <button class="btn-secondary btn-danger btn-sm" onclick="clearHistory()" id="clearHistBtn" aria-label="Hapus semua riwayat eksperimen"
+              style="display:none;">
               <i data-lucide="trash"></i> Hapus Semua
             </button>
           </div>
         </div>
-        <div id="historyEmpty" style="text-align:center;padding:32px;color:var(--gray-400);">
-          Belum ada eksperimen. Jalankan Mode CSV terlebih dahulu.
+        <div id="historyEmpty" style="text-align:center;padding:48px 24px;color:var(--gray-400);display:flex;flex-direction:column;align-items:center;gap:12px;">
+          <div style="background:var(--gray-100);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gray-400);">
+            <i data-lucide="inbox" style="width:32px;height:32px;"></i>
+          </div>
+          <div style="font-size:16px;font-weight:500;color:var(--gray-500);">Belum Ada Riwayat Eksperimen</div>
+          <div style="font-size:14px;">Jalankan evaluasi di Mode CSV untuk melihat hasilnya di sini.</div>
         </div>
         <!-- WRAPPER TABEL HISTORY (OPSI B: Tanpa max-height agar bisa dipengaruhi smooth scroll Lenis) -->
         <div id="historyTableWrap" style="display:none; overflow-x:auto;">

@@ -2058,8 +2058,9 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid oklch(65% 0.2 250) !important;
+  outline: 2px solid var(--primary) !important;
   outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.2) !important;
 }
 input[type="checkbox"]:focus-visible {
   outline-offset: 0px !important;
@@ -2234,4 +2235,30 @@ html.lenis, html.lenis body {
   transform: translateY(0);
   /* Animasi saat muncul (scroll down): Durasi ekstra ekstra lambat (2s) */
   transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1), transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Accessibility: High contrast placeholders */
+::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  opacity: 1; /* Firefox reset */
+}
+body:not(.dark) ::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* Destructive buttons (Impeccable style) */
+.btn-danger {
+  color: var(--danger);
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+  border-color: #ef4444 !important;
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-2px, 0, 0); }
+  40%, 60% { transform: translate3d(2px, 0, 0); }
 }

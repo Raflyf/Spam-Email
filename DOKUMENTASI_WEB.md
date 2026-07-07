@@ -792,3 +792,17 @@ Code_Spam_Email/
 | 4 | **Pencegahan Overflow Tombol Aksi** | index.html | Menerapkan lex-wrap: wrap; pada kontainer tombol-tombol riwayat agar tombol otomatis menyusun ke baris bawah apabila ruang layar ponsel sudah tidak cukup, menjaga UI tetap rapi tanpa ada yang terpotong. |
 | 5 | **Manual Scroll Restoration** | utils.js | Memaksa perilaku history.scrollRestoration = 'manual' dan window.scrollTo(0,0) pada inisialisasi awal. Mencegah peramban otomatis melanjutkan posisi _scroll_ yang terputus di tengah halaman saat tab dimuat ulang (_refresh_). |
 | 6 | **Bust Cache Agresif (v=50)** | index.html | Menaikkan tag versi cache-buster CSS dan JS menjadi ?v=50 untuk memaksa ponsel pintar menghapus singgahan (cache) memori peramban dan langsung mengunduh perbaikan antarmuka terbaru. |
+
+## ✦ Recent Updates (07 Juli 2026) — A11y, Keyboard UX & Polish
+
+### Penyempurnaan Aksesibilitas & UI/UX
+
+| #   | Fitur | Lokasi | Keterangan |
+| --- | --- | --- | --- |
+| 1 | **Standar Aksesibilitas (WCAG)** | index.html | Menambahkan atribut `aria-label` ke hampir semua tombol krusial (Analisis, Batch, Reset, Hapus, Export, dll) agar dapat didikte dengan jelas oleh aplikasi pembaca layar (_Screen Reader_). |
+| 2 | **Indikator Keyboard Cerdas** | style.css | Menerapkan `box-shadow` dengan pendaran cahaya (glow) berwarna biru khusus saat pengguna menavigasi web menggunakan tombol keyboard (`:focus-visible`), sehingga sangat jelas terlihat. |
+| 3 | **Ilustrasi State Kosong (Empty States)** | index.html | Halaman riwayat dan area tanpa data kini diisi dengan ikon _Lucide Inbox_ besar yang dibalut palet abu-abu elegan, menggantikan desain lama yang hanya berupa teks kecil. |
+| 4 | **Animasi Peringatan Destruktif** | style.css | Menambahkan animasi `@keyframes shake` pada tombol merah (_danger_) seperti Hapus dan Reset, yang akan bergetar kecil saat disorot kursor (hover) untuk menegaskan bahwa ini adalah aksi destruktif. |
+| 5 | **Kontras Placeholder Input** | style.css | Menaikkan kontras (opacity) pada teks penanda (`::placeholder`) agar jauh lebih jelas dibaca baik di mode terang maupun mode gelap. |
+| 6 | **Perbaikan Tab Scroll Reveal** | utils.js | Memperbaiki bug di mana elemen di dalam tab Mode Teks atau Riwayat gagal memudar masuk jika diakses tanpa _refresh_. Fungsi `observeScrollReveal` kini dipanggil manual setiap kali perpindahan tab. |
+| 7 | **Penyatuan Struktur Agen AI** | Proyek Root | Memindahkan direktori kustom AI (`.claude`, `.codex`, `.kiro`, dll) ke dalam wadah tunggal `.agents` untuk menjaga direktori utama proyek skripsi tetap bersih. |

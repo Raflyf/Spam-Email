@@ -39,7 +39,21 @@ function switchTab(t) {
   }
   // Simpan state ke URL hash
   window.location.hash = t;
+  
+  // Perbaiki posisi scroll (bug di Mode CSV tertahan tengah layar)
+  if (t === 'csv') {
+    setTimeout(() => window.scrollTo(0, 0), 50);
+  }
+  
+  // Re-trigger animasi scroll-reveal untuk tab yang aktif
+  const activePane = document.getElementById(`pane-${t}`);
+  if (activePane && typeof window.observeScrollReveal === 'function') {
+    activePane.querySelectorAll('.scroll-reveal').forEach(el => {
+      window.observeScrollReveal(el);
+    });
+  }
 }
+
 
 // Restore tab state saat halaman dimuat
 window.addEventListener('hashchange', () => {
