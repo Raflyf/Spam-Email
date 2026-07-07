@@ -23,7 +23,7 @@ from xgboost import XGBClassifier
 
 
 from _shared import (
-    SPAM_KW_M1, SPAM_KW_M2, HAM_PLATFORMS, preprocess, 
+    SPAM_KW_M1, SPAM_KW_M2, UI_SPAM_KW, HAM_PLATFORMS, preprocess, 
     extra_features_m1, extra_features_m2, find_best_threshold
 )
 
@@ -625,7 +625,7 @@ def predict_single_from_job(email_text: str, job_models: dict) -> dict:
 
     # Indikator
     lower = email_text.lower()
-    found_spam_kw = [kw for kw in SPAM_KW if kw in lower]
+    found_spam_kw = [kw for kw in UI_SPAM_KW if kw in lower]
     found_ham_plt = [p  for p  in HAM_PLATFORMS if p in lower]
     url_count   = len(re.findall(r'http\S+|www\S+', lower))
     excl_count  = email_text.count('!')
