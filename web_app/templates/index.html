@@ -40,15 +40,16 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=53">
   <!-- CSS Animations -->
   <style>
-    @keyframes fadeInSlideUp {
-      0% { opacity: 0; transform: translateY(15px) scale(0.9); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
     .scroll-reveal {
       opacity: 0;
+      transform: translateY(15px) scale(0.9);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      will-change: opacity, transform;
     }
     .scroll-reveal.active {
-      animation: fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   </style>
   <meta id="theme-color-meta" name="theme-color" content="#0a0a0a" />
@@ -540,10 +541,10 @@
   <script src="https://unpkg.com/lucide@latest" defer></script>
   <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js" defer></script>
 
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=6" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=6" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=6" defer></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=6" defer></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=7" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=7" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=7" defer></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=7" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Initialize Lucide Icons
