@@ -487,7 +487,26 @@ Cukup instal [Obsidian](https://obsidian.md/), lalu pilih _"Open folder as vault
 
 ## Riwayat Update (Changelog)
 
-## ✦ Recent Updates (05 Juli 2026) — Final Architecture & Performance Optimization
+## ◉ Recent Updates (07 Juli 2026) — UI/UX Polish & Model Determinism
+
+1. **Penyempurnaan UI/UX & Interaksi**
+   - Animasi **Scroll-Reveal Dua Arah**: Kartu-karu utama kini juga mengecil dan memudar (*ease-out*) jika halam di-scroll ke bawah hingga elemen keluar dari viewport, tidak hanya saat muncul (*ease-in*).
+   - **Fix Bug Tab Aktif**: Mencegah menghilangnya elemen (tampilan kosong) saat pengguna men-double click atau menekan kembali tombol tab mode yang sedang aktif dengan cara mem-bypass re-trigger animasi.
+   - Force re-observe intersection sensor untuk mengatasi kasus di mana elemen tertahan tersembunyi karena scroll state.
+2. **Kestabilan Model ML (Deterministic)**
+   - **XGBoost GPU Determinism**: Menambahkan parameter `deterministic_histogram=True` pada konfigurasi XGBoost (Device `cuda`, `tree_method='hist'`) untuk mengunci urutan penjumlahan bilangan *floating-point* (atomic adds) sehingga akurasi *output* benar-benar 100% konsisten tanpa fluktuasi sedikitpun antar pengujian.
+3. **Penyelarasan max_bin Dinamis (Akurasi Original)**
+   - Algoritma Evaluator kini tidak lagi menggunakan `max_bin` statis. Modul `evaluator.py` akan menghitung ukuran dataset gabungan secara pintar:
+     - Jika observasi gabungan `> 10.000` (rawan OOM VRAM), maka dibatasi di `max_bin=128`.
+     - Jika `<= 10.000` (seperti dataset eksperimen), akan melepaskan batasan penuh ke `max_bin=256` agar hasilnya **100% identik mutlak** dengan eksekusi script Python murni (default XGBoost).
+   - *Fallback protection* untuk *OOM* dipertahankan: Jika *VRAM* tidak muat di `256`, maka otomatis dialihkan ke `128` -> `64` -> `CPU`.
+4. **Fix Bug Riwayat Zombie (Storage Cleanup)**
+   - **Masalah:** Fungsi penghapusan *history* dari tampilan UI sebelumnya tidak menghapus folder pengerjaan sementara (`JOBS_TEMP_DIR`). Hal ini memicu fitur `RECOVERY ABANDONED JOBS` salah mengartikan folder sisa tersebut sebagai tugas terbengkalai, sehingga me-*restore* (membangkitkan) kembali riwayat yang sudah dihapus usai server restart.
+   - **Solusi:** Terintegrasi dengan modul `shutil.rmtree()`, aksi penghapusan maupun *clear history* kini akan membumihanguskan folder *job* fisik di memori secara permanen (anti-zombie).
+
+---
+
+## 🛠 Recent Updates (05 Juli 2026) — Final Architecture & Performance Optimization
 
 **Tujuan:** Menerapkan standar industri untuk produksi web (*production-grade*) dan mengatasi *bottleneck* memori, serta mengatasi hutang teknis (DRY).
 
