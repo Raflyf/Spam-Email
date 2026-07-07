@@ -445,7 +445,7 @@
           <div style="font-size:14px;">Jalankan evaluasi di Mode CSV untuk melihat hasilnya di sini.</div>
         </div>
         <!-- WRAPPER TABEL HISTORY -->
-        <div id="historyTableWrap" style="display:none; max-height:420px; overflow-y:auto; overflow-x:auto;">
+        <div id="historyTableWrap" style="display:none; max-height:420px !important; overflow-y:auto !important; overflow-x:auto !important;">
           <table class="cm-table" id="historyTable" style="font-size:14px;min-width:700px; position: relative;">
             <thead>
               <tr>
@@ -527,10 +527,10 @@
   <script src="https://unpkg.com/lucide@latest" defer></script>
   <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js" defer></script>
 
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=29" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=37" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=34" defer></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=36" defer></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=2" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=2" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=2" defer></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=2" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Initialize Lucide Icons
