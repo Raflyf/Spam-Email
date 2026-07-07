@@ -732,6 +732,13 @@ def get_history():
 @app.route('/history/clear', methods=['POST'])
 def clear_history():
     with history_lock:
+        import shutil
+        for h in experiment_history:
+            jid = h.get('job_id')
+            if jid:
+                jd = os.path.join(JOBS_TEMP_DIR, jid)
+                if os.path.exists(jd):
+                    shutil.rmtree(jd, ignore_errors=True)
         experiment_history.clear()
         _save_history()
     return jsonify({'ok': True})
@@ -743,6 +750,13 @@ def delete_history_items():
     ids  = set(data.get('job_ids', []))
     if not ids:
         return jsonify({'error': 'Tidak ada job_id yang dipilih.'}), 400
+        
+    import shutil
+    for jid in ids:
+        jd = os.path.join(JOBS_TEMP_DIR, jid)
+        if os.path.exists(jd):
+            shutil.rmtree(jd, ignore_errors=True)
+            
     with history_lock:
         before = len(experiment_history)
         experiment_history[:] = [h for h in experiment_history if h.get('job_id') not in ids]
