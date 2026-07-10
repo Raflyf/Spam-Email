@@ -681,9 +681,9 @@
     "label_name": ""
   },
   {
-    "job_id": "e3eb0dd3-e3a2-43dd-aa04-ede01afcb326",
-    "timestamp": "2026-07-07 16:28:47",
-    "elapsed_s": 288.4,
+    "job_id": "c319a193-f34c-4afe-b50b-42929fcdb41d",
+    "timestamp": "2026-07-07 21:20:43",
+    "elapsed_s": 273.0,
     "preset": "full",
     "test_dataset_name": "data_test_berlabel_awal.csv",
     "train_dataset_name": "emails.csv (bawaan)",
@@ -816,13 +816,308 @@
     },
     "status": "done",
     "note": "",
-    "label_name": "",
-    "is_pinned": true
+    "label_name": ""
   },
   {
-    "job_id": "c319a193-f34c-4afe-b50b-42929fcdb41d",
-    "timestamp": "2026-07-07 21:20:43",
-    "elapsed_s": 273.0,
+    "job_id": "e03e85b1-11b5-4ccc-9e4e-ace2df816378",
+    "timestamp": "2026-07-07 22:48:52",
+    "elapsed_s": 432.2,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "Phishing_Email.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": null,
+    "metode2": null,
+    "status": "cancelled",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "fcc10e05-b8ac-4b5f-916f-5885c8365fce",
+    "timestamp": "2026-07-07 23:09:32",
+    "elapsed_s": 1185.1,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "Phishing_Email.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 45.0,
+      "xgb_acc": 39.6,
+      "nb_f1": 39.56,
+      "xgb_f1": 38.28,
+      "nb_cm": {
+        "tn": 75,
+        "fp": 425,
+        "fn": 125,
+        "tp": 375
+      },
+      "xgb_cm": {
+        "tn": 125,
+        "fp": 375,
+        "fn": 229,
+        "tp": 271
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 170.44
+        },
+        {
+          "feature": "enron",
+          "score": 126.98
+        },
+        {
+          "feature": "http",
+          "score": 93.29
+        },
+        {
+          "feature": "save",
+          "score": 84.96
+        },
+        {
+          "feature": "online",
+          "score": 79.93
+        },
+        {
+          "feature": "money",
+          "score": 79.62
+        },
+        {
+          "feature": "ect",
+          "score": 79.27
+        },
+        {
+          "feature": "viagra",
+          "score": 78.17
+        },
+        {
+          "feature": "free",
+          "score": 75.97
+        },
+        {
+          "feature": "remove",
+          "score": 71.04
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 75.0,
+      "xgb_acc": 90.43,
+      "nb_f1": 74.23,
+      "xgb_f1": 90.42,
+      "nb_cm": {
+        "tn": 202,
+        "fp": 148,
+        "fn": 27,
+        "tp": 323
+      },
+      "xgb_cm": {
+        "tn": 309,
+        "fp": 41,
+        "fn": 26,
+        "tp": 324
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 171.45
+        },
+        {
+          "feature": "enron",
+          "score": 128.68
+        },
+        {
+          "feature": "http",
+          "score": 92.41
+        },
+        {
+          "feature": "save",
+          "score": 85.9
+        },
+        {
+          "feature": "ect",
+          "score": 79.95
+        },
+        {
+          "feature": "money",
+          "score": 78.99
+        },
+        {
+          "feature": "viagra",
+          "score": 78.43
+        },
+        {
+          "feature": "online",
+          "score": 78.0
+        },
+        {
+          "feature": "free",
+          "score": 77.36
+        },
+        {
+          "feature": "removed",
+          "score": 69.07
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "61a2dbec-9436-4ab4-890f-67e3a9bc7cfc",
+    "timestamp": "2026-07-07 23:16:59",
+    "elapsed_s": 331.1,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "enron_spam_data.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": {
+      "nb_acc": 49.9,
+      "xgb_acc": 50.0,
+      "nb_f1": 33.29,
+      "xgb_f1": 33.33,
+      "nb_cm": {
+        "tn": 499,
+        "fp": 1,
+        "fn": 500,
+        "tp": 0
+      },
+      "xgb_cm": {
+        "tn": 500,
+        "fp": 0,
+        "fn": 500,
+        "tp": 0
+      },
+      "top10_chi2": [
+        {
+          "feature": "ivanhoe",
+          "score": 786.92
+        },
+        {
+          "feature": "fred",
+          "score": 635.46
+        },
+        {
+          "feature": "cost",
+          "score": 608.53
+        },
+        {
+          "feature": "subject ivanhoe",
+          "score": 591.84
+        },
+        {
+          "feature": "jordan",
+          "score": 565.0
+        },
+        {
+          "feature": "type",
+          "score": 552.68
+        },
+        {
+          "feature": "trans",
+          "score": 509.68
+        },
+        {
+          "feature": "point",
+          "score": 487.77
+        },
+        {
+          "feature": "jordan et",
+          "score": 477.4
+        },
+        {
+          "feature": "fred jordan",
+          "score": 477.4
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 50.29,
+      "xgb_acc": 92.14,
+      "nb_f1": 34.21,
+      "xgb_f1": 92.14,
+      "nb_cm": {
+        "tn": 349,
+        "fp": 1,
+        "fn": 347,
+        "tp": 3
+      },
+      "xgb_cm": {
+        "tn": 325,
+        "fp": 25,
+        "fn": 30,
+        "tp": 320
+      },
+      "top10_chi2": [
+        {
+          "feature": "ivanhoe",
+          "score": 787.67
+        },
+        {
+          "feature": "fred",
+          "score": 636.29
+        },
+        {
+          "feature": "cost",
+          "score": 609.1
+        },
+        {
+          "feature": "subject ivanhoe",
+          "score": 592.43
+        },
+        {
+          "feature": "jordan",
+          "score": 566.0
+        },
+        {
+          "feature": "type",
+          "score": 555.2
+        },
+        {
+          "feature": "trans",
+          "score": 512.99
+        },
+        {
+          "feature": "point",
+          "score": 488.59
+        },
+        {
+          "feature": "jordan et",
+          "score": 477.85
+        },
+        {
+          "feature": "fred jordan",
+          "score": 477.85
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "ecdc2636-44a3-4b63-b7ac-4dec1e3bc827",
+    "timestamp": "2026-07-07 23:30:18",
+    "elapsed_s": 274.9,
     "preset": "full",
     "test_dataset_name": "data_test_berlabel_awal.csv",
     "train_dataset_name": "emails.csv (bawaan)",

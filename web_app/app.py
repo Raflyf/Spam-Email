@@ -290,229 +290,229 @@ def _monitor_job(job_id: str):
     lines_seen    = 0
 
     try:
-      while True:
-        import time as _time
+        while True:
+            import time as _time
 
-        # ── Cek Heartbeat Timeout (jika browser di close) ──
-        with jobs_lock:
-            last_ping = jobs[job_id].get('last_ping', _time.time())
-            status = jobs[job_id].get('status')
-            
-        if status == 'running' and _time.time() - last_ping > 10:
+            # ── Cek Heartbeat Timeout (jika browser di close) ──
             with jobs_lock:
-                jobs[job_id]['cancelled'] = True
-            try:
-                proc.kill()
-            except Exception:
-                pass
-            with jobs_lock:
-                jobs[job_id]['status'] = 'cancelled'
-                jobs[job_id]['error']  = 'Dibatalkan otomatis (browser ditutup/koneksi terputus).'
-            break
+                last_ping = jobs[job_id].get('last_ping', _time.time())
+                status = jobs[job_id].get('status')
+                
+            if status == 'running' and _time.time() - last_ping > 10:
+                with jobs_lock:
+                    jobs[job_id]['cancelled'] = True
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+                with jobs_lock:
+                    jobs[job_id]['status'] = 'cancelled'
+                    jobs[job_id]['error']  = 'Dibatalkan otomatis (browser ditutup/koneksi terputus).'
+                break
 
-        # ── Baca baris progress baru ──
-        try:
-            if os.path.exists(progress_path):
-                with open(progress_path, 'r', encoding='utf-8') as f:
-                    all_lines = f.readlines()
-                new_lines = all_lines[lines_seen:]
-                if new_lines:
-                    msgs = []
-                    for ln in new_lines:
-                        ln = ln.strip()
-                        if ln:
-                            try:
-                                msgs.append(json.loads(ln)['msg'])
-                            except Exception:
-                                pass
-                    if msgs:
-                        with jobs_lock:
-                            jobs[job_id]['progress'].extend(msgs)
-                    lines_seen = len(all_lines)
-        except Exception:
-            pass
-
-        # ── Cek apakah subprocess sudah selesai ──
-        ret = proc.poll()
-        if ret is not None:
-            try:
-                proc.wait(timeout=1)
-            except Exception:
-                pass
-            # Tunggu sebentar agar result.json sempat ditulis
-            _time.sleep(0.5)
-
-            # Baca sisa progress terakhir
+            # ── Baca baris progress baru ──
             try:
                 if os.path.exists(progress_path):
                     with open(progress_path, 'r', encoding='utf-8') as f:
                         all_lines = f.readlines()
-                    msgs = []
-                    for ln in all_lines[lines_seen:]:
-                        ln = ln.strip()
-                        if ln:
-                            try:
-                                msgs.append(json.loads(ln)['msg'])
-                            except Exception:
-                                pass
-                    if msgs:
-                        with jobs_lock:
-                            jobs[job_id]['progress'].extend(msgs)
+                    new_lines = all_lines[lines_seen:]
+                    if new_lines:
+                        msgs = []
+                        for ln in new_lines:
+                            ln = ln.strip()
+                            if ln:
+                                try:
+                                    msgs.append(json.loads(ln)['msg'])
+                                except Exception:
+                                    pass
+                        if msgs:
+                            with jobs_lock:
+                                jobs[job_id]['progress'].extend(msgs)
+                        lines_seen = len(all_lines)
             except Exception:
                 pass
 
-            # Baca result.json
-            if os.path.exists(result_path):
-                # Retry beberapa kali — file mungkin masih ditulis
-                result_data = None
-                for attempt in range(5):
-                    try:
-                        with open(result_path, 'r', encoding='utf-8') as f:
-                            result_data = json.load(f)
-                        break
-                    except Exception:
-                        import time as _t2; _t2.sleep(0.3)
+            # ── Cek apakah subprocess sudah selesai ──
+            ret = proc.poll()
+            if ret is not None:
+                try:
+                    proc.wait(timeout=1)
+                except Exception:
+                    pass
+                # Tunggu sebentar agar result.json sempat ditulis
+                _time.sleep(0.5)
 
-                if result_data:
-                    with jobs_lock:
-                        jobs[job_id]['status'] = result_data.get('status', 'error')
-                        jobs[job_id]['result'] = result_data.get('result')
-                        jobs[job_id]['error']  = result_data.get('error')
+                # Baca sisa progress terakhir
+                try:
+                    if os.path.exists(progress_path):
+                        with open(progress_path, 'r', encoding='utf-8') as f:
+                            all_lines = f.readlines()
+                        msgs = []
+                        for ln in all_lines[lines_seen:]:
+                            ln = ln.strip()
+                            if ln:
+                                try:
+                                    msgs.append(json.loads(ln)['msg'])
+                                except Exception:
+                                    pass
+                        if msgs:
+                            with jobs_lock:
+                                jobs[job_id]['progress'].extend(msgs)
+                except Exception:
+                    pass
 
-                    # Simpan hasil terakhir ke disk agar tidak hilang saat server restart
-                    if result_data.get('status') == 'done' and result_data.get('result'):
+                # Baca result.json
+                if os.path.exists(result_path):
+                    # Retry beberapa kali — file mungkin masih ditulis
+                    result_data = None
+                    for attempt in range(5):
                         try:
-                            
-                            def _sanitize(obj):
-                                if isinstance(obj, float):
-                                    return None if (math.isnan(obj) or math.isinf(obj)) else obj
-                                if isinstance(obj, dict): return {k: _sanitize(v) for k,v in obj.items()}
-                                if isinstance(obj, list): return [_sanitize(i) for i in obj]
-                                return obj
-                            with open(LASTreSULT_FILE, 'w', encoding='utf-8') as _f:
-                                json.dump(_sanitize(result_data.get('result')), _f,
-                                          ensure_ascii=False, indent=2)
+                            with open(result_path, 'r', encoding='utf-8') as f:
+                                result_data = json.load(f)
+                            break
                         except Exception:
-                            pass
-                else:
-                    # Baca raw dan coba strip NaN
-                    try:
-                        
-                        raw = open(result_path, 'r', encoding='utf-8').read()
-                        raw = re.sub(r':\s*NaN', ': null', raw)
-                        raw = re.sub(r':\s*Infinity', ': null', raw)
-                        result_data = json.loads(raw)
+                            import time as _t2; _t2.sleep(0.3)
+
+                    if result_data:
                         with jobs_lock:
                             jobs[job_id]['status'] = result_data.get('status', 'error')
                             jobs[job_id]['result'] = result_data.get('result')
                             jobs[job_id]['error']  = result_data.get('error')
-                    except Exception as e:
+
+                        # Simpan hasil terakhir ke disk agar tidak hilang saat server restart
+                        if result_data.get('status') == 'done' and result_data.get('result'):
+                            try:
+                                
+                                def _sanitize(obj):
+                                    if isinstance(obj, float):
+                                        return None if (math.isnan(obj) or math.isinf(obj)) else obj
+                                    if isinstance(obj, dict): return {k: _sanitize(v) for k,v in obj.items()}
+                                    if isinstance(obj, list): return [_sanitize(i) for i in obj]
+                                    return obj
+                                with open(LASTreSULT_FILE, 'w', encoding='utf-8') as _f:
+                                    json.dump(_sanitize(result_data.get('result')), _f,
+                                              ensure_ascii=False, indent=2)
+                            except Exception:
+                                pass
+                    else:
+                        # Baca raw dan coba strip NaN
+                        try:
+                            
+                            raw = open(result_path, 'r', encoding='utf-8').read()
+                            raw = re.sub(r':\s*NaN', ': null', raw)
+                            raw = re.sub(r':\s*Infinity', ': null', raw)
+                            result_data = json.loads(raw)
+                            with jobs_lock:
+                                jobs[job_id]['status'] = result_data.get('status', 'error')
+                                jobs[job_id]['result'] = result_data.get('result')
+                                jobs[job_id]['error']  = result_data.get('error')
+                        except Exception as e:
+                            with jobs_lock:
+                                jobs[job_id]['status'] = 'error'
+                                jobs[job_id]['error']  = f'Gagal parse result: {e}'
+                else:
+                    # result.json belum ada — coba baca stderr
+                    stderr_out = ''
+                    try:
+                        stderr_bytes = proc.stderr.read()
+                        stderr_out   = stderr_bytes.decode('utf-8', errors='replace')[:500] if stderr_bytes else ''
+                    except Exception:
+                        pass
+
+                    # Cek apakah memang sengaja di-cancel
+                    with jobs_lock:
+                        was_cancelled = jobs[job_id].get('cancelled', False)
+
+                    if was_cancelled:
+                        with jobs_lock:
+                            jobs[job_id]['status'] = 'cancelled'
+                            jobs[job_id]['error']  = 'Training dibatalkan oleh pengguna.'
+                    else:
                         with jobs_lock:
                             jobs[job_id]['status'] = 'error'
-                            jobs[job_id]['error']  = f'Gagal parse result: {e}'
-            else:
-                # result.json belum ada — coba baca stderr
-                stderr_out = ''
-                try:
-                    stderr_bytes = proc.stderr.read()
-                    stderr_out   = stderr_bytes.decode('utf-8', errors='replace')[:500] if stderr_bytes else ''
-                except Exception:
-                    pass
+                            jobs[job_id]['error']  = (
+                                f'Worker berhenti (exit={ret}) tanpa hasil. '
+                                + (stderr_out or 'Tidak ada output error.')
+                            )
 
-                # Cek apakah memang sengaja di-cancel
+                    # --- ZOMBIE AVOIDANCE FIX ---
+                    # Tulis result.json paksa agar status sinkron dengan disk saat di-fallback
+                    try:
+                        with jobs_lock:
+                            final_st = jobs[job_id].get('status', 'error')
+                            final_er = jobs[job_id].get('error', 'Unknown error')
+                        with open(result_path, 'w', encoding='utf-8') as f:
+                            json.dump({
+                                'status': final_st,
+                                'error': final_er,
+                                'result': None
+                            }, f)
+                    except Exception:
+                        pass
+
+                # Cleanup temp dir — TIDAK DIHAPUS, semua file disimpan permanen untuk audit/riwayat
+                # (result.json, progress.jsonl, models_*.joblib semuanya disimpan)
+
+                # ── Simpan ke history ──
                 with jobs_lock:
-                    was_cancelled = jobs[job_id].get('cancelled', False)
+                    j = jobs.get(job_id, {})
+                    result_data = j.get('result', {}) or {}
+                    elapsed = round(_time_mod.time() - j.get('start_time', _time_mod.time()), 1)
+                    inp_path = os.path.join(job_dir, 'input.json')
+                    inp_data = {}
+                    try:
+                        with open(inp_path, 'r') as f:
+                            inp_data = json.load(f)
+                    except Exception:
+                        pass
 
-                if was_cancelled:
-                    with jobs_lock:
-                        jobs[job_id]['status'] = 'cancelled'
-                        jobs[job_id]['error']  = 'Training dibatalkan oleh pengguna.'
-                else:
-                    with jobs_lock:
-                        jobs[job_id]['status'] = 'error'
-                        jobs[job_id]['error']  = (
-                            f'Worker berhenti (exit={ret}) tanpa hasil. '
-                            + (stderr_out or 'Tidak ada output error.')
-                        )
+                summary = {
+                    'job_id'       : job_id,
+                    'timestamp'    : _time_mod.strftime('%Y-%m-%d %H:%M:%S'),
+                    'elapsed_s'    : elapsed,
+                    'preset'       : inp_data.get('preset', '-'),
+                    'test_dataset_name' : inp_data.get('test_dataset_name', ''),
+                    'train_dataset_name': inp_data.get('train_dataset_name', ''),
+                    'n_nonspam'    : inp_data.get('n_nonspam', 0),
+                    'n_spam'       : inp_data.get('n_spam', 0),
+                    'n_train_nonspam': inp_data.get('n_train_nonspam', 0),
+                    'n_train_spam' : inp_data.get('n_train_spam', 0),
+                    'adapt_frac'   : inp_data.get('adapt_frac', 0.3),
+                    'adapt_weight' : inp_data.get('adapt_weight', 8.0),
+                    'custom_train' : inp_data.get('train_csv_path') is not None,
+                    'metode1'      : None,
+                    'metode2'      : None,
+                    'status'       : j.get('status', 'unknown'),
+                    'note'         : '',
+                    'label_name'   : inp_data.get('label_name', ''),
+                }
+                for mk in ['metode1', 'metode2']:
+                    r = result_data.get(mk)
+                    if r:
+                        summary[mk] = {
+                            'nb_acc' : r.get('naive_bayes', {}).get('accuracy'),
+                            'xgb_acc': r.get('xgboost',     {}).get('accuracy'),
+                            'nb_f1'  : r.get('naive_bayes', {}).get('f1'),
+                            'xgb_f1' : r.get('xgboost',     {}).get('f1'),
+                            'nb_cm'  : r.get('naive_bayes', {}).get('cm'),
+                            'xgb_cm' : r.get('xgboost',     {}).get('cm'),
+                            'top10_chi2': r.get('top20_chi2', [])[:10],
+                        }
+                with history_lock:
+                    experiment_history.append(summary)
+                    if len(experiment_history) > 50:
+                        experiment_history.pop(0)
+                    _save_history()
 
-                # --- ZOMBIE AVOIDANCE FIX ---
-                # Tulis result.json paksa agar status sinkron dengan disk saat di-fallback
-                try:
-                    with jobs_lock:
-                        final_st = jobs[job_id].get('status', 'error')
-                        final_er = jobs[job_id].get('error', 'Unknown error')
-                    with open(result_path, 'w', encoding='utf-8') as f:
-                        json.dump({
-                            'status': final_st,
-                            'error': final_er,
-                            'result': None
-                        }, f)
-                except Exception:
-                    pass
+                # --- MEMORY LEAK FIX ---
+                # Hapus referensi memory, data sudah persisten di disk (result.json / history)
+                with jobs_lock:
+                    if job_id in jobs:
+                        del jobs[job_id]
 
-            # Cleanup temp dir — TIDAK DIHAPUS, semua file disimpan permanen untuk audit/riwayat
-            # (result.json, progress.jsonl, models_*.joblib semuanya disimpan)
+                break
 
-            # ── Simpan ke history ──
-            with jobs_lock:
-                j = jobs.get(job_id, {})
-                result_data = j.get('result', {}) or {}
-                elapsed = round(_time_mod.time() - j.get('start_time', _time_mod.time()), 1)
-                inp_path = os.path.join(job_dir, 'input.json')
-                inp_data = {}
-                try:
-                    with open(inp_path, 'r') as f:
-                        inp_data = json.load(f)
-                except Exception:
-                    pass
-
-            summary = {
-                'job_id'       : job_id,
-                'timestamp'    : _time_mod.strftime('%Y-%m-%d %H:%M:%S'),
-                'elapsed_s'    : elapsed,
-                'preset'       : inp_data.get('preset', '-'),
-                'test_dataset_name' : inp_data.get('test_dataset_name', ''),
-                'train_dataset_name': inp_data.get('train_dataset_name', ''),
-                'n_nonspam'    : inp_data.get('n_nonspam', 0),
-                'n_spam'       : inp_data.get('n_spam', 0),
-                'n_train_nonspam': inp_data.get('n_train_nonspam', 0),
-                'n_train_spam' : inp_data.get('n_train_spam', 0),
-                'adapt_frac'   : inp_data.get('adapt_frac', 0.3),
-                'adapt_weight' : inp_data.get('adapt_weight', 8.0),
-                'custom_train' : inp_data.get('train_csv_path') is not None,
-                'metode1'      : None,
-                'metode2'      : None,
-                'status'       : j.get('status', 'unknown'),
-                'note'         : '',
-                'label_name'   : inp_data.get('label_name', ''),
-            }
-            for mk in ['metode1', 'metode2']:
-                r = result_data.get(mk)
-                if r:
-                    summary[mk] = {
-                        'nb_acc' : r.get('naive_bayes', {}).get('accuracy'),
-                        'xgb_acc': r.get('xgboost',     {}).get('accuracy'),
-                        'nb_f1'  : r.get('naive_bayes', {}).get('f1'),
-                        'xgb_f1' : r.get('xgboost',     {}).get('f1'),
-                        'nb_cm'  : r.get('naive_bayes', {}).get('cm'),
-                        'xgb_cm' : r.get('xgboost',     {}).get('cm'),
-                        'top10_chi2': r.get('top20_chi2', [])[:10],
-                    }
-            with history_lock:
-                experiment_history.append(summary)
-                if len(experiment_history) > 50:
-                    experiment_history.pop(0)
-                _save_history()
-
-            # --- MEMORY LEAK FIX ---
-            # Hapus referensi memory, data sudah persisten di disk (result.json / history)
-            with jobs_lock:
-                if job_id in jobs:
-                    del jobs[job_id]
-
-            break
-
-        _time.sleep(0.5)
+            _time.sleep(0.5)
     except Exception as e:
         import sys as _sys
         print(f"[_monitor_job] Exception for {job_id}: {e}", file=_sys.stderr)
