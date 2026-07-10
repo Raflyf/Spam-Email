@@ -23,6 +23,13 @@ from werkzeug.utils import secure_filename
 from flask_compress import Compress
 from waitress import serve
 
+def is_valid_uuid(val):
+    try:
+        uuid.UUID(str(val))
+        return True
+    except ValueError:
+        return False
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -282,7 +289,8 @@ def _monitor_job(job_id: str):
     result_path   = os.path.join(job_dir, 'result.json')
     lines_seen    = 0
 
-    while True:
+    try:
+      while True:
         import time as _time
 
         # ── Cek Heartbeat Timeout (jika browser di close) ──
@@ -327,6 +335,10 @@ def _monitor_job(job_id: str):
         # ── Cek apakah subprocess sudah selesai ──
         ret = proc.poll()
         if ret is not None:
+            try:
+                proc.wait(timeout=1)
+            except Exception:
+                pass
             # Tunggu sebentar agar result.json sempat ditulis
             _time.sleep(0.5)
 
@@ -501,6 +513,17 @@ def _monitor_job(job_id: str):
             break
 
         _time.sleep(0.5)
+    except Exception as e:
+        import sys as _sys
+        print(f"[_monitor_job] Exception for {job_id}: {e}", file=_sys.stderr)
+    finally:
+        # Guaranteed subprocess cleanup — prevent zombie processes
+        if proc and proc.poll() is None:
+            try:
+                proc.terminate()
+                proc.wait(timeout=5)
+            except Exception:
+                pass
 
 
 # ──────────────────────────────────────────
@@ -675,6 +698,8 @@ def predict_job():
 
     if not job_id:
         return jsonify({'error': 'job_id tidak ditemukan.'}), 400
+    if not is_valid_uuid(job_id):
+        return jsonify({'error': 'job_id tidak valid.'}), 400
     if not email_text:
         return jsonify({'error': 'Teks email tidak boleh kosong.'}), 400
 
@@ -712,6 +737,8 @@ def predict_job():
 # ---- Cek model apa saja yang tersedia untuk job ----
 @app.route('/job_models/<job_id>')
 def job_models_status(job_id):
+    if not is_valid_uuid(job_id):
+        return jsonify({'error': 'job_id tidak valid.'}), 400
     job_dir = os.path.join(JOBS_TEMP_DIR, job_id)
     # Cek di job_dir dulu, lalu fallback ke saved_models
     def model_exists(name):
@@ -821,6 +848,8 @@ def dataset_preview():
     f = request.files.get('file')
     if not f:
         return jsonify({'error': 'File tidak ditemukan.'}), 400
+    if not f.filename.lower().endswith('.csv'):
+        return jsonify({'error': 'Hanya file CSV yang didukung.'}), 400
     try:
         from evaluator import detect_columns, normalize_labels
         import pandas as pd
@@ -869,6 +898,8 @@ def active_job():
 
 @app.route('/job/<job_id>/cancel', methods=['POST'])
 def cancel_job(job_id):
+    if not is_valid_uuid(job_id):
+        return jsonify({'error': 'job_id tidak valid.'}), 400
     with jobs_lock:
         job = jobs.get(job_id)
         if job:
@@ -889,6 +920,8 @@ def cancel_job(job_id):
 
 @app.route('/job/<job_id>')
 def job_status(job_id):
+    if not is_valid_uuid(job_id):
+        return jsonify({'error': 'job_id tidak valid.'}), 400
     with jobs_lock:
         job = jobs.get(job_id)
         if job:

@@ -828,3 +828,12 @@ Code_Spam_Email/
 | 8 | **Isolasi Proses Evaluasi (Worker)** | run_eval_worker.py | Menjalankan *training* XGBoost pada proses (subprocess) terpisah untuk mencegah *Memory Leak* dan *Zombie Process* (kehabisan RAM) saat tab browser ditutup. Overhead waktu ekstra sekitar ~20 detik wajar karena untuk *booting* library dan kompresi (dumping) model ke disk. |
 | 9 | **Pemisahan Independen Fitur (M1 & M2)** | _shared.py, evaluator.py | Secara tegas memisahkan kembali ekstraksi fitur untuk Metode 1 (57 fitur heuristik, 44 kata kunci, 10.000 max_features) dan Metode 2 (51 fitur heuristik, 38 kata kunci, 8.000 max_features). **DILARANG KERAS** menyatukan fungsi ekstraksi dari M1 dan M2 karena hal itu akan merusak hasil angka skripsi! |
 | 10 | **Kompatibilitas HP (ES5 Syntax)** | `*.js`, `index.html` | Mengganti seluruh sintaks modern JavaScript ES2020 (`?.` dan `??`) dengan sintaks ES5 standar (`&&` dan `||`) agar UI web app (mode teks, riwayat, realtime) tidak *crash* atau *blank* saat dibuka melalui browser bawaan di HP (Mobile) versi lama. |
+## ◉ Recent Updates (11 Juli 2026) — Security & Stability Fixes
+
+### Peningkatan Keamanan Dasar & Pencegahan Crash
+
+| #   | Fitur | Lokasi | Keterangan |
+| --- | --- | --- | --- |
+| 1 | **Pencegahan Path Traversal** | pp.py | Menambahkan validasi ketat is_valid_uuid() pada semua *endpoint* yang menerima parameter job_id. Ini mencegah celah keamanan eksploitasi direktori sistem lokal. |
+| 2 | **Pembersihan Zombie Subprocess** | pp.py | Menambahkan proc.wait(timeout=1) pada *thread* pemantau evaluasi. Ini memastikan RAM dikembalikan penuh dan mencegah penumpukan *Zombie Process* jika evaluasi dibatalkan/error. |
+| 3 | **Validasi Ekstensi File Dinamis** | pp.py | Menambahkan pengecekan *backend* .endswith('.csv') pada *endpoint* pratinjau dataset. Ini melindungi server dari *crash* 500 Internal Server Error akibat unggahan file tidak didukung. |
