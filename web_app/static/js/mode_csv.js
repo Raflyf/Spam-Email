@@ -462,7 +462,7 @@ function buildMethodCard(r, key) {
 
     <div class="model-row model-row-grid">
       <div class="nb-wrap">
-        ${buildModelSection(nb, 'Naive Bayes', '#6366f1')}
+        ${buildModelSection(nb, 'Complement Naive Bayes', '#6366f1')}
         
         <div class="result-section chi-square-section" style="margin-top:24px; padding-top:18px; border-top:1px dashed var(--gray-200);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
@@ -476,7 +476,7 @@ function buildMethodCard(r, key) {
         </div>
       </div>
 
-      <div class="xgb-wrap">
+      <div class="xgb-wrap" style="margin-top: 48px; padding-top: 32px; border-top: 2px dashed var(--gray-300);">
         ${buildModelSection(xgb, 'XGBoost', '#0284c7')}
       </div>
     </div>`;
@@ -488,7 +488,10 @@ function buildModelSection(m, name, color) {
   const cm = m.cm;
   return `
     <div>
-      <div style="font-size:14px;font-weight:700;color:${color};margin-bottom:10px;">${name}</div>
+      <div style="background: ${color}12; border: 1px solid ${color}30; border-left: 4px solid ${color}; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <i data-lucide="${name === 'Complement Naive Bayes' ? 'brain-circuit' : 'zap'}" style="width:18px;height:18px;margin-right:10px;color:${color};"></i>
+        <span style="font-size:15px;font-weight:700;color:${color};letter-spacing: 0.5px;text-transform:uppercase;">Model ${name}</span>
+      </div>
       <div class="metric-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:12px;">
         ${metricBox(m.accuracy, 'Akurasi', color)}
         ${metricBox(m.f1, 'F1-Score', color)}
@@ -577,7 +580,7 @@ function buildComparison(r1, r2) {
   wrap.style.borderTop = '4px solid #16a34a';
 
   const models = ['naive_bayes', 'xgboost'];
-  const mNames = ['Naive Bayes', 'XGBoost'];
+  const mNames = ['Complement Naive Bayes', 'XGBoost'];
   const metrics = [
     { key: 'accuracy', label: 'Akurasi' },
     { key: 'precision', label: 'Presisi' },

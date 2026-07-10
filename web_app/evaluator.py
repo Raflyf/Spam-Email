@@ -288,7 +288,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
     X_val_word = X_val[:, :n_word]
 
     # ---- NB ----
-    cb('Metode 1 — melatih Naive Bayes...')
+    cb('Metode 1 — melatih Complement Naive Bayes...')
     selector      = SelectKBest(chi2, k=min(cfg['nb_k'], X_tr_word.shape[1]))
     X_tr_nb_sel   = selector.fit_transform(X_tr_word, y_tr)
     X_val_nb_sel  = selector.transform(X_val_word)
@@ -375,7 +375,7 @@ def run_metode1(df_train_kaggle: pd.DataFrame,
         'n_test' : int(len(y_test)),
         'gpu'    : USE_GPU,
         'preset' : preset,
-        'naive_bayes': _metrics_dict(y_test, nb_pred,  thresh_nb,  'Naive Bayes'),
+        'naive_bayes': _metrics_dict(y_test, nb_pred,  thresh_nb,  'Complement Naive Bayes'),
         'xgboost'    : _metrics_dict(y_test, xgb_pred, thresh_xgb, 'XGBoost'),
         'top20_chi2' : top20_features,
         'xgb_best_iter': int(xgb_model.best_iteration),
@@ -480,7 +480,7 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
     X_val_word = X_val[:, :n_word]
 
     # ---- NB ----
-    cb('Metode 2 — melatih Naive Bayes...')
+    cb('Metode 2 — melatih Complement Naive Bayes...')
     selector      = SelectKBest(chi2, k=min(cfg['nb_k'], X_tr_word.shape[1]))
     X_tr_nb       = selector.fit_transform(X_tr_word, y_tr)
     X_val_nb      = selector.transform(X_val_word)
@@ -568,7 +568,7 @@ def run_metode2(df_train_kaggle: pd.DataFrame,
         'adapt_weight': adapt_weight,
         'gpu'         : USE_GPU,
         'preset'      : preset,
-        'naive_bayes' : _metrics_dict(y_test, nb_pred,  thresh_nb,  'Naive Bayes'),
+        'naive_bayes' : _metrics_dict(y_test, nb_pred,  thresh_nb,  'Complement Naive Bayes'),
         'xgboost'     : _metrics_dict(y_test, xgb_pred, thresh_xgb, 'XGBoost'),
         'top20_chi2'  : top20_features,
         'xgb_best_iter': int(xgb_model.best_iteration),

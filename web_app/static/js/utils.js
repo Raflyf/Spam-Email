@@ -138,7 +138,7 @@ const _progressStagesM1 = [
   { key: 'Metode 1', pct: 25 },
   { key: 'preprocessing', pct: 30 },
   { key: 'TF-IDF', pct: 45 },
-  { key: 'Naive Bayes', pct: 60 },
+  { key: 'Complement Naive Bayes', pct: 60 },
   { key: 'XGBoost', pct: 75 },
   { key: 'selesai', pct: 100 },
 ];
@@ -150,7 +150,7 @@ const _progressStagesM2 = [
   { key: 'Metode 2', pct: 78 },
   { key: 'preprocessing', pct: 82 },
   { key: 'TF-IDF', pct: 85 },
-  { key: 'Naive Bayes', pct: 90 },
+  { key: 'Complement Naive Bayes', pct: 90 },
   { key: 'XGBoost', pct: 95 },
   { key: 'selesai', pct: 100 },
 ];

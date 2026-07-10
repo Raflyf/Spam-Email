@@ -837,3 +837,7 @@ Code_Spam_Email/
 | 1 | **Pencegahan Path Traversal** | pp.py | Menambahkan validasi ketat is_valid_uuid() pada semua *endpoint* yang menerima parameter job_id. Ini mencegah celah keamanan eksploitasi direktori sistem lokal. |
 | 2 | **Pembersihan Zombie Subprocess** | pp.py | Menambahkan proc.wait(timeout=1) pada *thread* pemantau evaluasi. Ini memastikan RAM dikembalikan penuh dan mencegah penumpukan *Zombie Process* jika evaluasi dibatalkan/error. |
 | 3 | **Validasi Ekstensi File Dinamis** | pp.py | Menambahkan pengecekan *backend* .endswith('.csv') pada *endpoint* pratinjau dataset. Ini melindungi server dari *crash* 500 Internal Server Error akibat unggahan file tidak didukung. |
+
+### Pembaruan UI & Penamaan Model (11 Juli 2026)
+- **Pembaruan Label UI**: Mengganti semua teks referensi *Naive Bayes* menjadi **Complement Naive Bayes** di antarmuka web (termasuk subtitle web, label visualisasi Chi-Square, baris riwayat evaluasi, mode teks tunggal, dan nama *grid block*) agar sesuai dengan implementasi model Python sebenarnya.
+- **Penyesuaian Tata Letak (Layouting)**: Memberikan jarak vertikal (*margin-top*) dan garis putus-putus pemisah antara blok visualisasi *Complement Naive Bayes* dan *XGBoost* pada mode CSV untuk menghindari informasi yang menumpuk dan meningkatkan hierarki visual.

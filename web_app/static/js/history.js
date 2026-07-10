@@ -155,7 +155,7 @@ function renderRealtimeResult(d, metode) {
 
       <!-- Model cards -->
       <div class="model-row">
-        ${[{ name: 'Naive Bayes', m: nb, note: 'Probabilistik' }, { name: 'XGBoost', m: xgb, note: 'Ensemble ★' }]
+        ${[{ name: 'Complement Naive Bayes', m: nb, note: 'Probabilistik' }, { name: 'XGBoost', m: xgb, note: 'Ensemble ★' }]
       .map(({ name, m, note }) => `
           <div class="compare-card">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
@@ -318,7 +318,7 @@ function showCompareModal(runs) {
       if (top10 && top10.length > 0) {
         grids += `
           <div style="flex: 1 1 0; min-width: 170px; max-width: 250px;">
-            <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1 (Pure)' : 'M2 (Adapt)'} - Chi-Square (Naive Bayes)</div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:var(--gray-600)">${mk === 'metode1' ? 'M1 (Pure)' : 'M2 (Adapt)'} - Chi-Square (Complement Naive Bayes)</div>
             <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:6px;">
               ${buildTop10(top10)}
             </div>

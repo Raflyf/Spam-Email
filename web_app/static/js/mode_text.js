@@ -225,7 +225,7 @@ function renderTextResult(d, rawText) {
   // Model cards
   const cards = document.getElementById('modelCards');
   cards.innerHTML = [
-    { name: 'Naive Bayes', m: nb, note: 'Akurasi 77% — lebih sensitif terhadap kata kunci' },
+    { name: 'Complement Naive Bayes', m: nb, note: 'Akurasi 77% — lebih sensitif terhadap kata kunci' },
     { name: 'XGBoost', m: xgb, note: 'Akurasi 93% — lebih handal untuk email modern' },
   ].map(({ name, m, note }, i) => `
     <div style="${i === 0 ? 'border-right: 1px dashed var(--border); padding-right: 20px;' : 'padding-left: 20px;'}">
@@ -260,7 +260,7 @@ function copyResultToClipboard() {
   const lines = [
     '=== Hasil Klasifikasi Spam Email ===',
     'Hasil: ' + label,
-    'Naive Bayes: ' + nb.label + ' (' + nb.probability + '%)',
+    'Complement Naive Bayes: ' + nb.label + ' (' + nb.probability + '%)',
     'XGBoost: ' + xgb.label + ' (' + xgb.probability + '%)',
     rek ? 'Rekomendasi: ' + rek.label + ' — ' + rek.alasan : '',
     '',

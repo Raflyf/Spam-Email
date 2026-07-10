@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=53">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=56">
   <!-- CSS Animations -->
   <style>
     .scroll-reveal {
@@ -73,7 +73,7 @@
         Spam Email Classifier
       </h1>
       <div style="text-align:center; margin-top:6px; color:var(--gray-600); font-size:15px;">
-        <div style="margin-bottom: 12px;">Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</div>
+        <div style="margin-bottom: 12px;">Complement Naive Bayes &amp; XGBoost | Metode 1 (Pure) vs Metode 2 (Domain Adaptation)</div>
         <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="Ganti Tema" aria-label="Toggle dark/light mode" style="display:inline-flex;align-items:center;gap:6px;justify-content:center;">
           <span class="theme-icon-wrapper"><i data-lucide="moon" style="width:16px;height:16px;"></i></span> <span class="theme-text">Dark Mode</span>
         </button>
@@ -480,9 +480,9 @@
                 <th title="Jumlah data Non-Spam / Spam pada test">Test (NS/Sp)</th>
                 <th onclick="sortHistory('adapt')" style="cursor:pointer;white-space:nowrap;" title="Persentase data target test yang disuntikkan ke dalam data training untuk proses Domain Adaptation.">Adapt % <span id="sort_adapt"></span></th>
                 <th style="white-space:nowrap;" title="Faktor perkalian bobot (Sample Weight) untuk data adaptasi agar model lebih fokus mempelajarinya.">Weight ×</th>
-                <th onclick="sortHistory('nb_m1')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model Naive Bayes (M1 = Tanpa Adaptasi / Baseline)">NB M1 <span id="sort_nb_m1"></span></th>
+                <th onclick="sortHistory('nb_m1')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model Complement Naive Bayes (M1 = Tanpa Adaptasi / Baseline)">NB M1 <span id="sort_nb_m1"></span></th>
                 <th onclick="sortHistory('xgb_m1')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model XGBoost (M1 = Tanpa Adaptasi / Baseline)">XGB M1 <span id="sort_xgb_m1"></span></th>
-                <th onclick="sortHistory('nb_m2')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model Naive Bayes (M2 = Menggunakan Domain Adaptation)">NB M2 <span id="sort_nb_m2"></span></th>
+                <th onclick="sortHistory('nb_m2')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model Complement Naive Bayes (M2 = Menggunakan Domain Adaptation)">NB M2 <span id="sort_nb_m2"></span></th>
                 <th onclick="sortHistory('xgb_m2')" style="cursor:pointer;white-space:nowrap;" title="Akurasi model XGBoost (M2 = Menggunakan Domain Adaptation)">XGB M2 <span id="sort_xgb_m2"></span></th>
                 <th onclick="sortHistory('elapsed')" style="cursor:pointer;white-space:nowrap;"
                   title="Total waktu eksekusi evaluasi (detik)">Waktu (s) <span id="sort_elapsed"></span></th>
@@ -541,11 +541,11 @@
   <script src="https://unpkg.com/lucide@latest" defer></script>
   <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js" defer></script>
 
-  <script src="{{ url_for('static', filename='js/utils.js') }}?v=11" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=11" defer></script>
-  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=11" defer></script>
-  <script src="{{ url_for('static', filename='js/history.js') }}?v=11" defer></script>
-  <script src="{{ url_for('static', filename='js/main.js') }}?v=11" defer></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}?v=14" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_text.js') }}?v=14" defer></script>
+  <script src="{{ url_for('static', filename='js/mode_csv.js') }}?v=14" defer></script>
+  <script src="{{ url_for('static', filename='js/history.js') }}?v=14" defer></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}?v=14" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Initialize Lucide Icons
