@@ -876,6 +876,13 @@ async function startEval() {
 
   try {
     const res = await fetch('/evaluate', { method: 'POST', body: fd });
+    
+    if (res.status === 429) {
+      const data = await res.json();
+      showToast('error', data.error || 'Terlalu banyak request. Tunggu sebentar.');
+      throw new Error(data.error || 'Rate limit tercapai.');
+    }
+    
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Upload gagal');
     sessionStorage.setItem('lastRunningJobId', data.job_id);

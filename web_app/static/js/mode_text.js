@@ -94,6 +94,13 @@ async function analyzeText() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text })
     });
+    
+    if (res.status === 429) {
+      const data = await res.json();
+      showToast('error', data.error || 'Terlalu banyak request. Tunggu sebentar.');
+      throw new Error(data.error || 'Rate limit tercapai.');
+    }
+    
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Server error');
     

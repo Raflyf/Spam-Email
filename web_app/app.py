@@ -33,10 +33,35 @@ def is_valid_uuid(val):
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 app = Flask(__name__, static_folder='static')
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024   # 100 MB
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000     # 1 Tahun cache static file
 Compress(app)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["500 per day", "100 per hour"],
+    storage_uri="memory://"
+)
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return jsonify({
+        "ok": False,
+        "error": f"Terlalu banyak permintaan. Silakan tunggu beberapa saat. ({e.description})"
+    }), 429
+
+@app.errorhandler(500)
+def internal_error(e):
+    return jsonify({
+        "ok": False,
+        "error": "Terjadi kesalahan internal pada server."
+    }), 500
+
 
 @app.after_request
 def add_security_headers(response):
@@ -537,11 +562,18 @@ def index():
 
 # ---- Mode Teks: prediksi satu email ----
 @app.route('/predict', methods=['POST'])
+@limiter.limit("30 per minute")
 def predict():
     data = request.get_json()
     if not data or 'text' not in data:
         return jsonify({'error': 'Teks email tidak ditemukan.'}), 400
+        
     email_text = data['text'].strip()
+    
+    # ECC Validation: Mencegah payload super besar
+    if len(email_text) > 150000:
+        return jsonify({'error': 'Teks melebihi batas maksimal (150.000 karakter).'}), 400
+        
     if not email_text:
         return jsonify({'error': 'Teks email tidak boleh kosong.'}), 400
     try:
@@ -574,6 +606,7 @@ def status():
 
 # ---- Mode CSV: upload & mulai evaluasi (subprocess) ----
 @app.route('/evaluate', methods=['POST'])
+@limiter.limit("10 per minute")
 def evaluate():
     f_test  = request.files.get('file_test') or request.files.get('file')
     f_train = request.files.get('file_train')

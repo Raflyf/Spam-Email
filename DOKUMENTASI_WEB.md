@@ -48,12 +48,14 @@ Stop: `Ctrl+C` di terminal.
 
 ### UI / UX / Tema
 
-- **Tema Dark Mode (VS Code / Linear Style)** — palet abu-abu/slate gelap yang modern dan nyaman di mata. Dilengkapi dengan dua tombol toggle (atas & bawah) yang ter-sinkronisasi. Seluruh komponen, termasuk _info-chip_ keterangan model, memiliki kontras gelap/terang yang disesuaikan secara khusus.
-- **Standar Confusion Matrix** — Tabel CM sudah menggunakan warna _Best Practice_ global (Hijau/Success untuk Prediksi Benar (TP/TN) dan Merah/Danger untuk Prediksi Salah (FP/FN)) beserta animasi transisi dan efek _hover_ interaktif.
-- **Efisiensi Ruang (Layout)** — Tabel Top 20 Fitur Chi-Square dibagi menjadi dua kolom berdampingan secara responsif agar tidak memakan terlalu banyak ruang vertikal ke bawah.
-- **Micro-interactions & Animasi** — Terdapat animasi *scroll-reveal* (memudar masuk/keluar) pada kartu-kartu hasil analisis (Teks Biasa, Batch, Mode CSV, Grafik Histori) sehingga UI terasa lebih organik, sinematik, dan reaktif terhadap posisi scroll (Intersection Observer).
-- **Keterbacaan** — Banner _consensus_ spam disesuaikan warnanya agar tidak "sakit mata" saat berada di _Dark Mode_. Background log terminal bersifat statis (pekat gelap) di semua mode.
-- **Code Refactoring & Clean Architecture** — File Antarmuka Pengguna telah dipisah secara rapi menggunakan pendekatan modern `index.html` (kerangka), `style.css` (gaya & layout UI), dan `script.js` (logika _client-side_).
+- **Tema Dark Mode (VS Code / Linear Style)** — palet abu-abu/slate gelap yang modern dan nyaman di mata. Dilengkapi dengan dua tombol toggle (atas & bawah) yang ter-sinkronisasi.
+- **Ultra-Premium 3D Glassmorphism** — Elemen card menggunakan efek kaca tembus pandang (Frost Glass 15% opacity) yang bereaksi terhadap pendaran cahaya (*glowing orbs*) dinamis dari latar belakang *body* web.
+- **Skeleton Shimmer Loader** — Animasi *loading* teks digantikan dengan struktur rangka (*skeleton bar*) yang berkedip elegan layaknya antarmuka iOS/Modern Startup.
+- **Aksesibilitas (WCAG)** — Implementasi ring fokus khusus (untuk navigasi *keyboard*) dan tautan "Skip to Content" sembunyi bagi *screen reader*, serta penggantian warna ganda & *icon-based warning* untuk buta warna.
+- **SEO & Metadata** — Injeksi HTML5 Semantic dan Meta Tags *OpenGraph / Twitter Cards* untuk tampilan pratinjau _link_ (*thumbnail*) kelas profesional di media sosial.
+- **Standar Confusion Matrix** — Tabel CM sudah menggunakan warna _Best Practice_ global (Hijau/Success untuk TP/TN dan Merah/Danger untuk FP/FN).
+- **Keamanan Anti-Spam API (Rate Limit)** — Perlindungan bawaan server (menggunakan `Flask-Limiter`) yang membatasi pengiriman `30 request/menit` per pengguna demi mencegah kelumpuhan web dari serangan bot (DDoS). Evaluasi CSV dibatasi `10 request/menit`. Dilengkapi fitur perlindungan memori tambahan pada teks (Max 150.000 karakter).
+- **Code Refactoring & Clean Architecture** — File Antarmuka Pengguna telah dipisah secara rapi menggunakan pendekatan modern `index.html` (kerangka), `style.css` (gaya & layout UI), dan skrip modular per komponen JS.
 
 **Statistik dataset** — setelah upload CSV, langsung tampil chip: total, Non-Spam, Spam, kolom terdeteksi, rata-rata panjang teks
 
