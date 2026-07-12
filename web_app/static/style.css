@@ -2520,3 +2520,36 @@ body:not(.dark) .shimmer {
 }
 
 
+
+/* --- MICRO-INTERACTIONS (TRANSITIONS-DEV & IMPECCABLE) --- */
+button, .btn-primary, .btn-secondary, .theme-toggle-btn {
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              background-color var(--duration-quick) var(--ease-out),
+              box-shadow var(--duration-quick) var(--ease-out),
+              color var(--duration-quick) var(--ease-out) !important;
+}
+button:active, .btn-primary:active, .btn-secondary:active, .theme-toggle-btn:active {
+  transform: scale(var(--scale-small)) !important;
+}
+.tab-btn {
+  transition: transform var(--duration-fast) var(--ease-bounce), 
+              background-color var(--duration-quick) var(--ease-out),
+              color var(--duration-quick) var(--ease-out) !important;
+}
+.tab-btn:active {
+  transform: scale(0.96) !important;
+}
+
+/* Enhanced Tab Transition (Override) */
+@keyframes fadeInPane {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
