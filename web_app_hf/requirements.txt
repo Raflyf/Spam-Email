@@ -1,0 +1,11 @@
+flask>=3.0.0
+scikit-learn>=1.5.0
+xgboost>=2.0.0
+scipy>=1.14.0
+pandas>=2.2.0
+numpy>=1.26.0
+joblib>=1.4.0
+waitress>=3.0.0
+markitdown==0.1.6
+Flask-Compress>=1.14
+Flask-Limiter>=3.5.0

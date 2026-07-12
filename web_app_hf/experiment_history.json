@@ -1,0 +1,841 @@
+[
+  {
+    "job_id": "77144d68-b8e5-4423-b72e-f43c25199e87",
+    "timestamp": "2026-06-26 22:23:07",
+    "elapsed_s": 255.6,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.1,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 78.11,
+      "xgb_acc": 83.0,
+      "nb_f1": 77.77,
+      "xgb_f1": 82.95,
+      "nb_cm": {
+        "tn": 296,
+        "fp": 154,
+        "fn": 43,
+        "tp": 407
+      },
+      "xgb_cm": {
+        "tn": 350,
+        "fp": 100,
+        "fn": 53,
+        "tp": 397
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 53.15
+        },
+        {
+          "feature": "click",
+          "score": 49.28
+        },
+        {
+          "feature": "money",
+          "score": 47.65
+        },
+        {
+          "feature": "viagra",
+          "score": 46.75
+        },
+        {
+          "feature": "vince",
+          "score": 39.25
+        },
+        {
+          "feature": "life",
+          "score": 38.88
+        },
+        {
+          "feature": "enron",
+          "score": 37.83
+        },
+        {
+          "feature": "software",
+          "score": 37.81
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.54
+        },
+        {
+          "feature": "ect",
+          "score": 34.3
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "22cd43c5-7d6c-4ea0-81fa-ee4f5f4b0a61",
+    "timestamp": "2026-06-26 22:28:46",
+    "elapsed_s": 265.5,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.2,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 76.38,
+      "xgb_acc": 91.38,
+      "nb_f1": 75.55,
+      "xgb_f1": 91.37,
+      "nb_cm": {
+        "tn": 232,
+        "fp": 168,
+        "fn": 21,
+        "tp": 379
+      },
+      "xgb_cm": {
+        "tn": 375,
+        "fp": 25,
+        "fn": 44,
+        "tp": 356
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 51.17
+        },
+        {
+          "feature": "save",
+          "score": 48.01
+        },
+        {
+          "feature": "money",
+          "score": 46.85
+        },
+        {
+          "feature": "viagra",
+          "score": 43.75
+        },
+        {
+          "feature": "vince",
+          "score": 40.67
+        },
+        {
+          "feature": "enron",
+          "score": 39.29
+        },
+        {
+          "feature": "life",
+          "score": 38.03
+        },
+        {
+          "feature": "software",
+          "score": 36.78
+        },
+        {
+          "feature": "ect",
+          "score": 35.42
+        },
+        {
+          "feature": "online",
+          "score": 34.11
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "0bbdcb98-7a8d-411a-9856-3d293ee79d03",
+    "timestamp": "2026-06-26 22:33:44",
+    "elapsed_s": 267.0,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 77.0,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.17,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 204,
+        "fp": 146,
+        "fn": 15,
+        "tp": 335
+      },
+      "xgb_cm": {
+        "tn": 333,
+        "fp": 17,
+        "fn": 32,
+        "tp": 318
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 48.6
+        },
+        {
+          "feature": "save",
+          "score": 47.08
+        },
+        {
+          "feature": "money",
+          "score": 45.45
+        },
+        {
+          "feature": "viagra",
+          "score": 43.14
+        },
+        {
+          "feature": "vince",
+          "score": 41.93
+        },
+        {
+          "feature": "enron",
+          "score": 40.3
+        },
+        {
+          "feature": "life",
+          "score": 39.63
+        },
+        {
+          "feature": "software",
+          "score": 37.42
+        },
+        {
+          "feature": "ect",
+          "score": 36.61
+        },
+        {
+          "feature": "online",
+          "score": 36.0
+        }
+      ]
+    },
+    "status": "done",
+    "note": "Main",
+    "label_name": "",
+    "is_pinned": true
+  },
+  {
+    "job_id": "bb94f87c-abe2-422d-afdd-a0d9f67b8954",
+    "timestamp": "2026-06-26 22:40:40",
+    "elapsed_s": 279.5,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.4,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 76.33,
+      "xgb_acc": 93.5,
+      "nb_f1": 75.31,
+      "xgb_f1": 93.5,
+      "nb_cm": {
+        "tn": 168,
+        "fp": 132,
+        "fn": 10,
+        "tp": 290
+      },
+      "xgb_cm": {
+        "tn": 280,
+        "fp": 20,
+        "fn": 19,
+        "tp": 281
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 47.84
+        },
+        {
+          "feature": "save",
+          "score": 46.13
+        },
+        {
+          "feature": "vince",
+          "score": 43.32
+        },
+        {
+          "feature": "money",
+          "score": 43.2
+        },
+        {
+          "feature": "enron",
+          "score": 41.72
+        },
+        {
+          "feature": "life",
+          "score": 40.65
+        },
+        {
+          "feature": "viagra",
+          "score": 40.53
+        },
+        {
+          "feature": "ect",
+          "score": 37.49
+        },
+        {
+          "feature": "software",
+          "score": 34.8
+        },
+        {
+          "feature": "online",
+          "score": 34.12
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "5454f7bb-3238-4201-b97b-e9bb0eafe5dd",
+    "timestamp": "2026-06-26 22:45:35",
+    "elapsed_s": 241.3,
+    "preset": "full",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.5,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.52,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 184,
+        "fp": 316,
+        "fn": 202,
+        "tp": 298
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 77.6,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.82,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 148,
+        "fp": 102,
+        "fn": 10,
+        "tp": 240
+      },
+      "xgb_cm": {
+        "tn": 232,
+        "fp": 18,
+        "fn": 17,
+        "tp": 233
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 48.0
+        },
+        {
+          "feature": "save",
+          "score": 46.07
+        },
+        {
+          "feature": "money",
+          "score": 45.02
+        },
+        {
+          "feature": "vince",
+          "score": 44.62
+        },
+        {
+          "feature": "enron",
+          "score": 42.92
+        },
+        {
+          "feature": "viagra",
+          "score": 41.69
+        },
+        {
+          "feature": "life",
+          "score": 39.85
+        },
+        {
+          "feature": "ect",
+          "score": 38.68
+        },
+        {
+          "feature": "unsubscribe",
+          "score": 35.65
+        },
+        {
+          "feature": "online",
+          "score": 34.35
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "e03e85b1-11b5-4ccc-9e4e-ace2df816378",
+    "timestamp": "2026-07-07 22:48:52",
+    "elapsed_s": 432.2,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "Phishing_Email.csv",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": true,
+    "metode1": null,
+    "metode2": null,
+    "status": "cancelled",
+    "note": "",
+    "label_name": ""
+  },
+  {
+    "job_id": "338ae545-c675-4c89-a132-9deebcb77aa0",
+    "timestamp": "2026-07-11 11:21:28",
+    "elapsed_s": 279.5,
+    "preset": "full",
+    "test_dataset_name": "data_test_berlabel_awal.csv",
+    "train_dataset_name": "emails.csv (bawaan)",
+    "n_nonspam": 500,
+    "n_spam": 500,
+    "n_train_nonspam": 0,
+    "n_train_spam": 0,
+    "adapt_frac": 0.3,
+    "adapt_weight": 8.0,
+    "custom_train": false,
+    "metode1": {
+      "nb_acc": 51.5,
+      "xgb_acc": 48.2,
+      "nb_f1": 43.26,
+      "xgb_f1": 47.87,
+      "nb_cm": {
+        "tn": 67,
+        "fp": 433,
+        "fn": 52,
+        "tp": 448
+      },
+      "xgb_cm": {
+        "tn": 201,
+        "fp": 299,
+        "fn": 219,
+        "tp": 281
+      },
+      "top10_chi2": [
+        {
+          "feature": "save",
+          "score": 54.17
+        },
+        {
+          "feature": "click",
+          "score": 51.89
+        },
+        {
+          "feature": "viagra",
+          "score": 49.6
+        },
+        {
+          "feature": "money",
+          "score": 48.56
+        },
+        {
+          "feature": "life",
+          "score": 41.16
+        },
+        {
+          "feature": "vince",
+          "score": 37.86
+        },
+        {
+          "feature": "software",
+          "score": 36.92
+        },
+        {
+          "feature": "enron",
+          "score": 36.49
+        },
+        {
+          "feature": "online",
+          "score": 35.3
+        },
+        {
+          "feature": "andmanyother",
+          "score": 34.25
+        }
+      ]
+    },
+    "metode2": {
+      "nb_acc": 77.0,
+      "xgb_acc": 93.0,
+      "nb_f1": 76.17,
+      "xgb_f1": 93.0,
+      "nb_cm": {
+        "tn": 204,
+        "fp": 146,
+        "fn": 15,
+        "tp": 335
+      },
+      "xgb_cm": {
+        "tn": 333,
+        "fp": 17,
+        "fn": 32,
+        "tp": 318
+      },
+      "top10_chi2": [
+        {
+          "feature": "click",
+          "score": 48.6
+        },
+        {
+          "feature": "save",
+          "score": 47.08
+        },
+        {
+          "feature": "money",
+          "score": 45.45
+        },
+        {
+          "feature": "viagra",
+          "score": 43.14
+        },
+        {
+          "feature": "vince",
+          "score": 41.93
+        },
+        {
+          "feature": "enron",
+          "score": 40.3
+        },
+        {
+          "feature": "life",
+          "score": 39.63
+        },
+        {
+          "feature": "software",
+          "score": 37.42
+        },
+        {
+          "feature": "ect",
+          "score": 36.61
+        },
+        {
+          "feature": "online",
+          "score": 36.0
+        }
+      ]
+    },
+    "status": "done",
+    "note": "",
+    "label_name": ""
+  }
+]
