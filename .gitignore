@@ -35,4 +35,4 @@ ngrok.exe
 # File status dinamis (dibuat otomatis oleh server, tidak perlu dilacak Git)
 web_app/last_csvresult.json
 web_app/experiment_history.json
-plagiarism_checker/
+
