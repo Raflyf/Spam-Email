@@ -36,3 +36,6 @@ ngrok.exe
 web_app/last_csvresult.json
 web_app/experiment_history.json
 
+# Abaikan submodule/folder plagiarism_checker dari repo skripsi utama
+plagiarism_checker/
+
